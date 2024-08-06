@@ -1,0 +1,668 @@
+/* 게시판 상세보기 */
+.post-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    gap: 5px;
+    isolation: isolate;
+    position: relative;
+    width: 720px;
+    min-width: 360px;
+    max-width: 720px;
+    background: #ffffff;
+}
+
+/* header 공간 */
+.header-space {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    gap: 65px;
+    width: 720px;
+    height: 50px;
+    background: #ffffff;
+    position: fixed;
+    top: 0;
+    z-index: 2;
+}
+
+.back-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    gap: 10px;
+    width: 50px;
+    height: 50px;
+    background: #ffffff;
+}
+
+.back-button img {
+    width: 50px;
+    height: 50px;
+}
+
+.header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5px;
+    gap: 5px;
+    width: 290px;
+    height: 50px;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0;
+    width: 142px;
+    height: 22px;
+}
+
+.board-type {
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 22px;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.button-frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0;
+    width: 90px;
+    height: 50px;
+    background: #ffffff;
+}
+
+.notification {
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+
+.notification img {
+    position: absolute;
+    width: 27.18px;
+    height: 30px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.search-button {
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+
+.search-button img {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    left: 13px;
+    top: 13px;
+}
+
+/* 게시판 상세보기 프레임 */
+.post-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    gap: 5px;
+    width: 720px;
+    min-width: 360px;
+    max-width: 720px;
+    background: #ffffff;
+    z-index: 1;
+    margin-top: 50px;
+}
+
+/* 게시글 정보 프레임 */
+.post-info-frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+    gap: 5px;
+    width: 720px;
+    height: 60px;
+    background: #ffffff;
+}
+
+.profile-nickname {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 5px;
+    gap: 5px;
+    width: 260px;
+    height: 60px;
+    background: #ffffff;
+}
+
+.profile-picture {
+    width: 50px;
+    height: 50px;
+    background: #02ccfe;
+    border-radius: 50px;
+}
+
+.nickname {
+    width: 195px;
+    height: 28px;
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 28px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+
+.post-meta {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 5px 0;
+    gap: 10px;
+    width: 131px;
+    height: 30px;
+    background: #ffffff;
+}
+
+.post-date {
+    width: 70px;
+    height: 14px;
+    font-family: 'Noto Sans KR';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+
+.view-frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 5px;
+    gap: 5px;
+    width: 51px;
+    height: 20px;
+    background: #ffffff;
+}
+
+.view-icon {
+    width: 20px;
+    height: 20px;
+    background: #ffffff;
+}
+
+.view-icon img {
+    width: 20px;
+    height: 20px;
+}
+
+.view-count {
+    width: 16px;
+    height: 18px;
+    font-family: 'Noto Sans KR';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    color: #000000;
+}
+
+/* 글 제목 프레임 */
+.post-title-frame {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    width: 282px;
+    height: 24px;
+    background: #ffffff;
+}
+
+.post-title {
+    width: 282px;
+    height: 24px;
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+
+/* 글 본문 프레임 */
+.post-content-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    gap: 10px;
+    width: 720px;
+    background: #ffffff;
+}
+
+.post-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5px;
+    gap: 10px;
+    width: 720px;
+    height: 224px;
+    background: #ffffff;
+}
+
+.post-content p {
+    width: 710px;
+    height: 224px;
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+/* 글 이미지 프레임 */
+.post-images {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 10px;
+    gap: 10px;
+    width: 340px;
+    height: 340px;
+    background: #e4faff;
+}
+
+.image-frame {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 10px;
+    gap: 10px;
+    width: 340px;
+    height: 340px;
+    background: #e4faff;
+}
+
+/* 좋아요 프레임 */
+.like-frame {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 7.5px 0;
+    gap: 5px;
+    width: 100px;
+    height: 100px;
+    background: #e4faff;
+    border-radius: 50px;
+    position: relative;
+}
+
+.like-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.like-icon img {
+    width: 50px;
+    height: 50px;
+}
+
+.like-count {
+    width: 67px;
+    height: 30px;
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 20px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.comments-frame {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 0;
+    gap: 15px;
+    width: 720px;
+    background: #ffffff;
+}
+
+/* 댓글 프레임 */
+.comment-frame {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 0;
+    gap: 5px;
+    width: 720px;
+    background: #ffffff;
+}
+
+.comment-header-frame {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px;
+    width: 720px;
+    height: 40px;
+    border-width: 2px 2px 0 2px;
+    border-style: solid;
+    border-color: #02ccfe;
+}
+
+.comment-nickname-frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    gap: 5px;
+    width: 100px;
+    height: 40px;
+}
+
+.comment-profile-picture {
+    width: 30px;
+    height: 30px;
+    background: #02ccfe;
+    border-radius: 50px;
+}
+
+.comment-nickname {
+    width: 55px;
+    height: 14px;
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+.comment-date-frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 5px 0 0;
+    width: 67px;
+    height: 12px;
+}
+
+.comment-date {
+    width: 62px;
+    height: 12px;
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 12px;
+    display: flex;
+    align-items: center;
+    text-align: right;
+    color: #000000;
+}
+
+.comment-content-frame {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 5px;
+    width: 720px;
+    height: 90px;
+    background: #ffffff;
+    border: 2px solid #02ccfe;
+}
+
+.comment-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 0;
+    width: 286px;
+    height: 80px;
+}
+
+.comment-content p {
+    width: 286px;
+    height: 70px;
+    font-family: 'Noto Sans KR';
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+.button-frame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    gap: 5px;
+    width: 57px;
+    height: 14px;
+    background: #ffffff;
+}
+
+.edit-button,
+.delete-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 1px 2px;
+    gap: 10px;
+    height: 14px;
+    background: #e4faff;
+    border-radius: 10px;
+}
+
+.edit-button {
+    width: 27px;
+}
+
+.delete-button {
+    width: 25px;
+}
+
+.edit-button span,
+.delete-button span {
+    width: 23px;
+    height: 12px;
+    font-family: 'Noto Sans KR';
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    display: flex;
+    align-items: center;
+    color: #02ccfe;
+}
+
+/* navi */
+.navi {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 35px;
+    position: absolute;
+    width: 430px;
+    min-width: 360px;
+    max-width: 760px;
+    height: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    top: 0;
+    z-index: 3;
+}
+
+.home-button,
+.hamburger-button,
+.message-button,
+.login-button {
+    width: 90px;
+    height: 40px;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home-button img,
+.hamburger-button img,
+.message-button img,
+.login-button img {
+    width: 40px;
+    height: 40px;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    width: 720px;
+    height: 118px;
+    background: #e4faff;
+    z-index: 4;
+}
+
+.footer-part1 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    gap: 10px;
+    width: 240px;
+    height: 50px;
+    background: #e4faff;
+}
+
+.logo-frame {
+    width: 50px;
+    height: 50px;
+    background: #e4faff;
+}
+
+.logo-frame img {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    left: -0.5px;
+    top: 0;
+}
+
+.frame-15 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    width: 180px;
+    height: 50px;
+    background: #e4faff;
+}
+
+.footer-title {
+    width: 180px;
+    height: 14px;
+    font-family: 'Noto Sans KR';
+    font-weight: 350;
+    font-size: 14px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+
+.footer-subtitle {
+    width: 180px;
+    height: 36px;
+    font-family: 'Noto Sans KR';
+    font-weight: 350;
+    font-size: 20px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+
+.privacy-policy {
+    width: 99px;
+    height: 24px;
+    font-family: 'Noto Sans KR';
+    font-weight: 350;
+    font-size: 13px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #828282;
+}
+
+.terms-of-service {
+    width: 48px;
+    height: 24px;
+    font-family: 'Noto Sans KR';
+    font-weight: 350;
+    font-size: 13px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #828282;
+}

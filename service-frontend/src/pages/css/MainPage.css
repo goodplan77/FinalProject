@@ -1,57 +1,7 @@
-.main-header {
-    display: flex;
-    align-items: center;
-    min-width: 360px;
-    max-width: 720px;
-    height: 50px;
-    background: #FFFFFF;
+.main-content {
+    margin-top: 0px;
+    margin-bottom: 5px;
 }
-
-.project-name {
-    display: flex;
-    align-items: center;
-    margin-left: 100px;
-}
-
-.project-name .project-title p {
-    margin: 0px;
-    font-weight: bolder;
-    font-size: 18px;
-}
-
-.header-buttons {
-    display: flex;
-    gap: 5px;
-    margin-left: 40px;
-}
-
-.back {
-    width: 50px;
-    height: 50px;
-}
-
-.logo {
-    width: 40px;
-    height: 40px;
-}
-
-.aram {
-    width: 40px;
-    height: 40px;
-}
-
-.search {
-    width: 40px;
-    height: 40px;
-}
-
-.project-title p {
-    width: 100px;
-}
-
-
-
-
 
 .main-big {
     height: 430px;
@@ -246,38 +196,4 @@
 .used-content .content-down .content-like {
     margin-left: 70px;
     margin-top: 10px;
-}
-
-
-
-
-.main-navi {
-    display: flex;
-    align-items: center;
-    min-width: 360px;
-    max-width: 720px;
-    height: 50px;
-    background: #FFFFFF;
-    gap: 70px;
-    margin-left: 30px;
-}
-
-.home {
-    width: 40px;
-    height: 40px;
-}
-
-.ham {
-    width: 40px;
-    height: 40px;
-}
-
-.chat {
-    width: 40px;
-    height: 40px;
-}
-
-.my {
-    width: 40px;
-    height: 40px;
 }

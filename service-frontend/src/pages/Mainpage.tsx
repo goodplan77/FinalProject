@@ -7,27 +7,7 @@ export default function MainPage() {
 
     return (
         <>
-            <div className='main-header'>
-                <div className='back-button'>
-                    <img className='back' src={`${process.env.PUBLIC_URL}/images/back.png`} alt="back" />
-                </div>
-                <div className='project-name'>
-                    <div className='project-logo'>
-                        <img className='logo' src={`${process.env.PUBLIC_URL}/images/logo.png`} alt="logo" />
-                    </div>
-                    <div className='project-title'> {/* 'project-tilte'에서 'project-title'로 수정 */}
-                        <p>반주한상</p>
-                    </div>
-                </div>
-                <div className='header-buttons'>
-                    <div className='aram'>
-                        <img className='aram' src={`${process.env.PUBLIC_URL}/images/bell.png`} alt="aram" />
-                    </div>
-                    <div className='search'>
-                        <img className='search' src={`${process.env.PUBLIC_URL}/images/search.png`} alt="search" />
-                    </div>
-                </div>
-            </div>
+
 
 
 
@@ -39,7 +19,7 @@ export default function MainPage() {
 
                 <div className='content-buttons'>
                     <div className='buttons-row'>
-                        <div className='buttons'>
+                        <div className='buttons' onClick={() => navi('/boardList/detail')}>
                             <img className='search' src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>일반 게시판</p>
                         </div>
@@ -290,21 +270,8 @@ export default function MainPage() {
 
 
 
-            {/* 콘텐츠 아래 하단네비바 영역입니다 */}
-            <div className='main-navi'>
-                <div className='navi-home'>
-                    <img className='home' src={`${process.env.PUBLIC_URL}/images/home.png`} alt="back" />
-                </div>
-                <div className='navi-ham'>
-                    <img className='ham' src={`${process.env.PUBLIC_URL}/images/ham.png`} alt="back" />
-                </div>
-                <div className='navi-chat'>
-                    <img className='chat' src={`${process.env.PUBLIC_URL}/images/message.png`} alt="back" />
-                </div>
-                <div className='navi-my' onClick={() => navi('/mypage')}>
-                    <img className='my' src={`${process.env.PUBLIC_URL}/images/myPage.png`} alt="back" />
-                </div>
-            </div>
+
+
         </>
     )
 }
