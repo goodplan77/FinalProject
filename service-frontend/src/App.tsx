@@ -1,13 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import Login from './pages/Login';
+import Mypage from './pages/Mypage';
 import './App.css';
+import Mainpage from './pages/Mainpage';
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch();
+  const navi = useNavigate();
+
   return (
-    <div className="App">
-      <h1>살려줘</h1>
+    <div className="app-container">
+
+
+      <Routes>
+        <Route path='/' element={<Mainpage />} />
+        <Route path='/mypage' element={<Mypage />} />
+        <Route path='/login' element={<Login />} />
+      </Routes>
     </div>
   );
-}
+};
 
 export default App;

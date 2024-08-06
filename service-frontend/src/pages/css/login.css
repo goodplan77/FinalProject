@@ -1,0 +1,305 @@
+.login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0px;
+    gap: 15px;
+    isolation: isolate;
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    height: 100vh;
+    background: #FFFFFF;
+}
+
+.close-button-frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 0px;
+    width: 100%;
+    height: 48px;
+}
+
+.close-icon {
+    width: 30px;
+    height: 30px;
+    background: url('../../../public/images/close.png') no-repeat center center;
+    background-size: contain;
+    padding-right: 10px;
+}
+
+.biglogo-frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    width: 100%;
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+.biglogo {
+    width: 100px;
+    height: 100px;
+    background: url('../../../public/images/biglogo.png') no-repeat center center;
+    background-size: contain;
+}
+
+.name-frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    gap: 10px;
+    width: 100%;
+    height: 44px;
+}
+
+.home-link {
+    justify-content: center;
+    width: 180px;
+    height: 44px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 44px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.87);
+    border: 2px dashed #000000;
+    backdrop-filter: blur(2px);
+}
+
+.login-input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 25px;
+    gap: 15px;
+    width: 100%;
+    max-width: 430px;
+    background: #FFFFFF;
+}
+
+.email-input,
+.password-input {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 10px;
+    width: 100%;
+    max-width: 380px;
+    height: 40px;
+    border: 2px solid #02CCFE;
+}
+
+.email-placeholder,
+.password-placeholder {
+    width: 100%;
+    height: 18px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    color: #B1B1B1;
+}
+
+.login-signup-button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 20px;
+    gap: 15px;
+    width: 100%;
+    max-width: 430px;
+    background: #FFFFFF;
+}
+
+.login-button,
+.signup-button {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 10px;
+    width: 100%;
+    max-width: 270px;
+    height: 60px;
+    border: 5px solid #02CCFE;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.login-text,
+.signup-text {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+.id-password-recovery {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 270px;
+    height: 50px;
+}
+
+.id-recovery,
+.password-recovery {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 3px 1px;
+    gap: 10px;
+}
+
+.id-recovery-text,
+.password-recovery-text {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+.vertical-divider {
+    width: 1px;
+    height: 24px;
+    background-color: #CAC4D0;
+}
+
+.kakao-login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0px 30px;
+    gap: 10px;
+    width: 100%;
+    max-width: 430px;
+    background: #FFFFFF;
+}
+
+.easy-login-signup {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 36px;
+    gap: 10px;
+    width: 100%;
+    height: 18px;
+}
+
+.easy-login-signup-text {
+    justify-content: center;
+    width: 100%;
+    max-width: 250px;
+    height: 30px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+
+.kakao-login-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    gap: 10px;
+    width: 300px;
+    height: 45px;
+    background: #FFEB00;
+    /* 노란색 배경 */
+    border-radius: 5px;
+    /* 둥근 모서리 */
+    background-image: url('../../../public/images/kakao_login.png');
+    background-size: cover;
+    /* 이미지 크기를 키움 */
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.navi {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 35px;
+    position: absolute;
+    width: 100%;
+    max-width: 430px;
+    height: 50px;
+    bottom: 0;
+    background: #FFFFFF;
+}
+
+.home-button,
+.hamburger-button,
+.message-button,
+.login-button-my {
+    margin: 0 auto;
+    width: 90px;
+    height: 40px;
+    background: #FFFFFF;
+}
+
+.home-icon,
+.hamburger-icon,
+.message-icon,
+.login-icon {
+    width: 36px;
+    /* 기본 아이콘 크기 */
+    height: 36px;
+    /* 기본 아이콘 크기 */
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+}
+
+.home-icon {
+    background-image: url('../../../public/images/home.png');
+}
+
+.hamburger-icon {
+    background-image: url('../../../public/images/ham.png');
+}
+
+.message-icon {
+    background-image: url('../../../public/images/message.png');
+}
+
+.login-icon {
+    background-image: url('../../../public/images/mypage.png');
+}

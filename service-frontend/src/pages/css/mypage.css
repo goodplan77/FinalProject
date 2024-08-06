@@ -1,0 +1,518 @@
+.mypage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    padding: 0px 5px;
+    gap: 10px;
+    isolation: isolate;
+    position: relative;
+    width: 430px;
+    min-width: 360px;
+    max-width: 720px;
+    height: 932px;
+    background: #FFFFFF;
+}
+
+.back-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 10px;
+    width: 50px;
+    height: 50px;
+    background: #FFFFFF;
+}
+
+.back-icon {
+    width: 50px;
+    height: 50px;
+    background: url('../../../public/images/back.png') no-repeat center center;
+    background-size: contain;
+}
+
+.logo-frame {
+    width: 50px;
+    height: 50px;
+    background: #FFFFFF;
+    position: relative;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    background: url('../../../public/images/logo.png') no-repeat center center;
+    background-size: contain;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0px;
+    width: 92px;
+    height: 22px;
+}
+
+.page-title {
+    width: 92px;
+    height: 22px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.87);
+}
+
+.button-frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0px;
+    width: 90px;
+    height: 50px;
+    background: #FFFFFF;
+}
+
+.alert {
+    width: 40px;
+    height: 40px;
+    background: #FFFFFF;
+    position: relative;
+}
+
+.alert-icon {
+    width: 27.18px;
+    height: 30px;
+    background: url('../../../public/images/bell.png') no-repeat center center;
+    background-size: contain;
+}
+
+.my-info {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    width: 420px;
+    height: 92px;
+    background: #FFFFFF;
+    border-bottom: 1px solid #B1B1B1;
+    position: absolute;
+    left: 5px;
+    top: 60px;
+    z-index: 1;
+}
+
+.profile-frame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 10px;
+    width: 206px;
+    height: 72px;
+    background: #FFFFFF;
+}
+
+.profile-setting-frame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    width: 102px;
+    height: 72px;
+    background: #FFFFFF;
+}
+
+.profile-picture-frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    width: 72px;
+    height: 72px;
+    background: #FFFFFF;
+    border-radius: 45px;
+}
+
+.profile-picture {
+    box-sizing: border-box;
+    width: 72px;
+    height: 72px;
+    background: url('../../../public/images/icon.png') no-repeat center center;
+    background-size: cover;
+    border: 1px solid #000000;
+    border-radius: 1000px;
+}
+
+.nickname-frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    gap: 10px;
+    width: 94px;
+    height: 26px;
+    background: #FFFFFF;
+}
+
+.nickname {
+    width: 94px;
+    height: 26px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000000;
+}
+
+.points-frame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    width: 186px;
+    height: 26px;
+    background: #FFFFFF;
+}
+
+.points-text-frame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    width: 106px;
+    height: 26px;
+    background: #FFFFFF;
+}
+
+.points-text {
+    width: 106px;
+    height: 26px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+.points-value-frame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    width: 80px;
+    height: 26px;
+    background: #FFFFFF;
+}
+
+.points-value {
+    width: 80px;
+    height: 26px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+.additional-info {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    position: absolute;
+    width: 420px;
+    height: 92px;
+    left: 5px;
+    top: 162px;
+    background: #FFFFFF;
+    border-bottom: 1px solid rgba(177, 177, 177, 0.733333);
+}
+
+.additional-profile-frame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 10px;
+    width: 256px;
+    height: 72px;
+    background: #FFFFFF;
+}
+
+.additional-profile-setting-frame {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0px;
+    width: 102px;
+    height: 72px;
+    background: #FFFFFF;
+}
+
+.additional-profile-frame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 10px;
+    width: 256px;
+    height: 72px;
+    background: #FFFFFF;
+}
+
+.additional-profile-setting-frame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* flex-start에서 center로 변경 */
+    padding: 0px;
+    width: 102px;
+    height: 72px;
+    background: #FFFFFF;
+}
+
+.additional-profile-picture-frame {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    width: 72px;
+    height: 72px;
+    background: #FFFFFF;
+    border-radius: 45px;
+}
+
+.additional-profile-picture {
+    box-sizing: border-box;
+    width: 72px;
+    height: 72px;
+    background: url('../../../public/images/icon.png') no-repeat center center;
+    background-size: cover;
+    border: 1px solid #000000;
+    border-radius: 1000px;
+}
+
+.additional-nickname-frame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* 텍스트를 이미지의 가운데 옆으로 정렬 */
+    padding: 0px;
+    gap: 10px;
+    width: 144px;
+    height: 26px;
+    background: #FFFFFF;
+}
+
+.additional-nickname {
+    width: 144px;
+    height: 26px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+
+.pet-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    width: 142px;
+    height: 71px;
+    background: #E4FAFF;
+    border-radius: 45px;
+}
+
+.pet-button-text {
+    width: 142px;
+    height: 71px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+    justify-content: center;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    position: absolute;
+    gap: 10px;
+    width: 420px;
+    height: 100px;
+    left: 5px;
+    top: 264px;
+    background: #FFFFFF;
+}
+
+.button-frame1,
+.button-frame2,
+.button-frame3 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 120px;
+    height: 80px;
+    background: #E4FAFF;
+    border-radius: 30px;
+}
+
+.button-text1,
+.button-text2,
+.button-text3 {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+
+.list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    gap: 10px;
+    position: absolute;
+    width: 420px;
+    height: 323px;
+    left: 5px;
+    top: 374px;
+    background: #FFFFFF;
+}
+
+.list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    gap: 10px;
+    width: 400px;
+    height: 60px;
+}
+
+.list-item-text {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+.horizontal-divider {
+    width: 400px;
+    height: 1px;
+    background: #F0F0F0;
+}
+
+.button-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    position: absolute;
+    width: 420px;
+    height: 66px;
+    left: 5px;
+    top: 707px;
+    background: #FFFFFF;
+}
+
+.button-edit,
+.button-logout,
+.button-login {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    border-radius: 30px;
+}
+
+.button-edit {
+    width: 158px;
+    height: 46px;
+    background: #02CCFE;
+}
+
+.button-edit-text,
+.button-logout-text,
+.button-login-text {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.button-logout {
+    width: 114px;
+    height: 46px;
+    background: #FF0000;
+}
+
+.button-login {
+    width: 114px;
+    height: 46px;
+    background: #56488a;
+}
