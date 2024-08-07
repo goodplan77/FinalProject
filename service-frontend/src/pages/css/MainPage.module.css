@@ -48,10 +48,6 @@
   height: 40px;
 }
 
-.mainContent {
-  margin-bottom: 55px;
-}
-
 .mainContent .mainBig {
   height: 430px;
   width: 430px;
@@ -239,24 +235,4 @@
 .usedContent .contentDown .contentLike {
   margin-left: 70px;
   margin-top: 10px;
-}
-
-.mainNavi {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  height: 50px;
-  background: #FFFFFF;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-}
-
-.home,
-.ham,
-.chat,
-.my {
-  width: 40px;
-  height: 40px;
 }
