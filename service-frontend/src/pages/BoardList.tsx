@@ -1,75 +1,72 @@
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import './css/boardList.css';
+import { useNavigate } from 'react-router-dom';
+import styles from './css/BoardList.module.css';
 
 export default function BoardList() {
-
     const navi = useNavigate();
 
     return (
         <>
-            <div className='main-header'>
-                <div className='back-button'>
-                    <img className='back' src={`${process.env.PUBLIC_URL}/images/back.png`} alt="back" onClick={() => navi('/')} />
+            <div className={styles.mainHeader}>
+                <div className={styles.backButton} onClick={() => navi('/')}>
+                    <img className={styles.back} src={`${process.env.PUBLIC_URL}/images/back.png`} alt="back" />
                 </div>
-                <div className='project-name'>
-                    <div className='board-title'> {/* 'project-tilte'에서 'project-title'로 수정 */}
+                <div className={styles.projectName}>
+                    <div className={styles.boardTitle}>
                         <p>게시판</p>
                     </div>
                 </div>
-                <div className='header-buttons'>
-                    <div className='boardList-search'>
-                        <img className='search' src={`${process.env.PUBLIC_URL}/images/search.png`} alt="search" />
+                <div className={styles.headerButtons}>
+                    <div className={styles.boardListSearch}>
+                        <img className={styles.search} src={`${process.env.PUBLIC_URL}/images/search.png`} alt="search" />
                     </div>
                 </div>
             </div>
 
-            <div className="categorys">
-                <div className="cate-classic">
+            <div className={styles.categorys}>
+                <div className={styles.cateClassic}>
                     <p>일반</p>
                 </div>
-                <div className="cate-used">
+                <div className={styles.cateUsed}>
                     <p>중고</p>
                 </div>
-                <div className="cate-buy">
+                <div className={styles.cateBuy}>
                     <p>입양</p>
                 </div>
-                <div className="cate-lost">
+                <div className={styles.cateLost}>
                     <p>실종</p>
                 </div>
-                <div className="cate-line">
+                <div className={styles.cateLine}>
                     <p>... </p>
                 </div>
             </div>
 
-            <div className='classic'>
-                <div className='classic-title'>
-                    <div className='classic-contents'>
-
-                        <div className='classic-content'>
-                            <div className='img'></div>
-                            <div className='upAndDown'>
-                                <div className='content-up'>
-                                    <div className='content-title'>
+            <div className={styles.classic}>
+                <div className={styles.classicTitle}>
+                    <div className={styles.classicContents}>
+                        <div className={styles.classicContent}>
+                            <div className={styles.img}></div>
+                            <div className={styles.upAndDown}>
+                                <div className={styles.contentUp}>
+                                    <div className={styles.contentTitle}>
                                         <p>글제목글제목</p>
                                     </div>
-                                    <div className='up-right'>
-                                        <div className='content-info'>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
-                                            <p className='view-no'>20</p>
+                                    <div className={styles.upRight}>
+                                        <div className={styles.contentInfo}>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
+                                            <p className={styles.viewNo}>20</p>
                                         </div>
-                                        <p className='content-date'>2024-01-01</p>
+                                        <p className={styles.contentDate}>2024-01-01</p>
                                     </div>
                                 </div>
 
-                                <div className='content-down'>
-                                    <p className='down-nick'>닉네임닉네임</p>
-                                    <div className='down-right'>
-                                        <div className='empty-place'></div>
-                                        <div className='content-like'>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
+                                <div className={styles.contentDown}>
+                                    <p className={styles.downNick}>닉네임닉네임</p>
+                                    <div className={styles.downRight}>
+                                        <div className={styles.emptyPlace}></div>
+                                        <div className={styles.contentLike}>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
                                             <p>20</p>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
                                             <p>18</p>
                                         </div>
                                     </div>
@@ -77,59 +74,30 @@ export default function BoardList() {
                             </div>
                         </div>
 
-                        <div className='classic-content'>
-                            <div className='img'></div>
-                            <div className='upAndDown'>
-                                <div className='content-up'>
-                                    <div className='content-title'>
+                        <div className={styles.classicContent}>
+                            <div className={styles.img}></div>
+                            <div className={styles.upAndDown}>
+                                <div className={styles.contentUp}>
+                                    <div className={styles.contentTitle}>
                                         <p>글제목글제목</p>
                                     </div>
-                                    <div className='up-right'>
-                                        <div className='content-info'>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
-                                            <p className='view-no'>20</p>
+                                    <div className={styles.upRight}>
+                                        <div className={styles.contentInfo}>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
+                                            <p className={styles.viewNo}>20</p>
                                         </div>
-                                        <p className='content-date'>2024-01-01</p>
+                                        <p className={styles.contentDate}>2024-01-01</p>
                                     </div>
                                 </div>
 
-                                <div className='content-down'>
-                                    <p className='down-nick'>닉네임닉네임</p>
-                                    <div className='down-right'>
-                                        <div className='empty-place'></div>
-                                        <div className='content-like'>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
+                                <div className={styles.contentDown}>
+                                    <p className={styles.downNick}>닉네임닉네임</p>
+                                    <div className={styles.downRight}>
+                                        <div className={styles.emptyPlace}></div>
+                                        <div className={styles.contentLike}>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
                                             <p>20</p>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
-                                            <p>18</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='classic-content'>
-                            <div className='upAndDown'>
-                                <div className='content-up'>
-                                    <div className='content-title' style={{marginLeft:"10px"}}>
-                                        <p>글제목글제목</p>
-                                    </div>
-                                    <div className='up-right' style={{marginLeft:"80px"}}>
-                                        <div className='content-info'>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
-                                            <p className='view-no'>20</p>
-                                        </div>
-                                        <p className='content-date'>2024-01-01</p>
-                                    </div>
-                                </div>
-
-                                <div className='content-down'  style={{marginLeft:"10px"}}>
-                                    <p className='down-nick'>닉네임닉네임</p>
-                                    <div className='down-right'  style={{marginLeft:"180px"}}>
-                                        <div className='empty-place'></div>
-                                        <div className='content-like'>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
-                                            <p>20</p>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
                                             <p>18</p>
                                         </div>
                                     </div>
@@ -137,119 +105,29 @@ export default function BoardList() {
                             </div>
                         </div>
 
-                        <div className='classic-content'>
-                            <div className='img'></div>
-                            <div className='upAndDown'>
-                                <div className='content-up'>
-                                    <div className='content-title'>
+                        <div className={styles.classicContent}>
+                            <div className={styles.upAndDown}>
+                                <div className={styles.contentUp}>
+                                    <div className={`${styles.contentTitle} ${styles.marginLeft}`}>
                                         <p>글제목글제목</p>
                                     </div>
-                                    <div className='up-right'>
-                                        <div className='content-info'>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
-                                            <p className='view-no'>20</p>
+                                    <div className={`${styles.upRight} ${styles.marginLeft80}`}>
+                                        <div className={styles.contentInfo}>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
+                                            <p className={styles.viewNo}>20</p>
                                         </div>
-                                        <p className='content-date'>2024-01-01</p>
+                                        <p className={styles.contentDate}>2024-01-01</p>
                                     </div>
                                 </div>
 
-                                <div className='content-down'>
-                                    <p className='down-nick'>닉네임닉네임</p>
-                                    <div className='down-right'>
-                                        <div className='empty-place'></div>
-                                        <div className='content-like'>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
+                                <div className={styles.contentDown}>
+                                    <p className={styles.downNick}>닉네임닉네임</p>
+                                    <div className={styles.downRight}>
+                                        <div className={styles.emptyPlace}></div>
+                                        <div className={styles.contentLike}>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
                                             <p>20</p>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
-                                            <p>18</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='classic-content'>
-                            <div className='upAndDown'>
-                                <div className='content-up'>
-                                    <div className='content-title' style={{marginLeft:"10px"}}>
-                                        <p>글제목글제목</p>
-                                    </div>
-                                    <div className='up-right' style={{marginLeft:"80px"}}>
-                                        <div className='content-info'>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
-                                            <p className='view-no'>20</p>
-                                        </div>
-                                        <p className='content-date'>2024-01-01</p>
-                                    </div>
-                                </div>
-
-                                <div className='content-down'  style={{marginLeft:"10px"}}>
-                                    <p className='down-nick'>닉네임닉네임</p>
-                                    <div className='down-right'  style={{marginLeft:"180px"}}>
-                                        <div className='empty-place'></div>
-                                        <div className='content-like'>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
-                                            <p>20</p>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
-                                            <p>18</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='classic-content'>
-                            <div className='img'></div>
-                            <div className='upAndDown'>
-                                <div className='content-up'>
-                                    <div className='content-title'>
-                                        <p>글제목글제목</p>
-                                    </div>
-                                    <div className='up-right'>
-                                        <div className='content-info'>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
-                                            <p className='view-no'>20</p>
-                                        </div>
-                                        <p className='content-date'>2024-01-01</p>
-                                    </div>
-                                </div>
-
-                                <div className='content-down'>
-                                    <p className='down-nick'>닉네임닉네임</p>
-                                    <div className='down-right'>
-                                        <div className='empty-place'></div>
-                                        <div className='content-like'>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
-                                            <p>20</p>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
-                                            <p>18</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='classic-content'>
-                            <div className='img'></div>
-                            <div className='upAndDown'>
-                                <div className='content-up'>
-                                    <div className='content-title'>
-                                        <p>글제목글제목</p>
-                                    </div>
-                                    <div className='up-right'>
-                                        <div className='content-info'>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
-                                            <p className='view-no'>20</p>
-                                        </div>
-                                        <p className='content-date'>2024-01-01</p>
-                                    </div>
-                                </div>
-
-                                <div className='content-down'>
-                                    <p className='down-nick'>닉네임닉네임</p>
-                                    <div className='down-right'>
-                                        <div className='empty-place'></div>
-                                        <div className='content-like'>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
-                                            <p>20</p>
-                                            <img className='view' src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
                                             <p>18</p>
                                         </div>
                                     </div>
@@ -257,27 +135,146 @@ export default function BoardList() {
                             </div>
                         </div>
 
+                        <div className={styles.classicContent}>
+                            <div className={styles.img}></div>
+                            <div className={styles.upAndDown}>
+                                <div className={styles.contentUp}>
+                                    <div className={styles.contentTitle}>
+                                        <p>글제목글제목</p>
+                                    </div>
+                                    <div className={styles.upRight}>
+                                        <div className={styles.contentInfo}>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
+                                            <p className={styles.viewNo}>20</p>
+                                        </div>
+                                        <p className={styles.contentDate}>2024-01-01</p>
+                                    </div>
+                                </div>
+
+                                <div className={styles.contentDown}>
+                                    <p className={styles.downNick}>닉네임닉네임</p>
+                                    <div className={styles.downRight}>
+                                        <div className={styles.emptyPlace}></div>
+                                        <div className={styles.contentLike}>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
+                                            <p>20</p>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
+                                            <p>18</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className={styles.classicContent}>
+                            <div className={styles.upAndDown}>
+                                <div className={styles.contentUp}>
+                                    <div className={`${styles.contentTitle} ${styles.marginLeft}`}>
+                                        <p>글제목글제목</p>
+                                    </div>
+                                    <div className={`${styles.upRight} ${styles.marginLeft80}`}>
+                                        <div className={styles.contentInfo}>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
+                                            <p className={styles.viewNo}>20</p>
+                                        </div>
+                                        <p className={styles.contentDate}>2024-01-01</p>
+                                    </div>
+                                </div>
+
+                                <div className={styles.contentDown}>
+                                    <p className={styles.downNick}>닉네임닉네임</p>
+                                    <div className={styles.downRight}>
+                                        <div className={styles.emptyPlace}></div>
+                                        <div className={styles.contentLike}>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
+                                            <p>20</p>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
+                                            <p>18</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className={styles.classicContent}>
+                            <div className={styles.img}></div>
+                            <div className={styles.upAndDown}>
+                                <div className={styles.contentUp}>
+                                    <div className={styles.contentTitle}>
+                                        <p>글제목글제목</p>
+                                    </div>
+                                    <div className={styles.upRight}>
+                                        <div className={styles.contentInfo}>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
+                                            <p className={styles.viewNo}>20</p>
+                                        </div>
+                                        <p className={styles.contentDate}>2024-01-01</p>
+                                    </div>
+                                </div>
+
+                                <div className={styles.contentDown}>
+                                    <p className={styles.downNick}>닉네임닉네임</p>
+                                    <div className={styles.downRight}>
+                                        <div className={styles.emptyPlace}></div>
+                                        <div className={styles.contentLike}>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
+                                            <p>20</p>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
+                                            <p>18</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className={styles.classicContent}>
+                            <div className={styles.img}></div>
+                            <div className={styles.upAndDown}>
+                                <div className={styles.contentUp}>
+                                    <div className={styles.contentTitle}>
+                                        <p>글제목글제목</p>
+                                    </div>
+                                    <div className={styles.upRight}>
+                                        <div className={styles.contentInfo}>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
+                                            <p className={styles.viewNo}>20</p>
+                                        </div>
+                                        <p className={styles.contentDate}>2024-01-01</p>
+                                    </div>
+                                </div>
+
+                                <div className={styles.contentDown}>
+                                    <p className={styles.downNick}>닉네임닉네임</p>
+                                    <div className={styles.downRight}>
+                                        <div className={styles.emptyPlace}></div>
+                                        <div className={styles.contentLike}>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
+                                            <p>20</p>
+                                            <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
+                                            <p>18</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* 콘텐츠 아래 하단네비바 영역입니다 */}
-            <div className='main-navi'>
-                <div className='navi-home'>
-                    <img className='home' src={`${process.env.PUBLIC_URL}/images/home.png`} alt="back" />
+            <div className={styles.mainNavi}>
+                <div className={styles.naviHome}>
+                    <img className={styles.home} src={`${process.env.PUBLIC_URL}/images/home.png`} alt="back" />
                 </div>
-                <div className='navi-ham'>
-                    <img className='ham' src={`${process.env.PUBLIC_URL}/images/ham.png`} alt="back" />
+                <div className={styles.naviHam}>
+                    <img className={styles.ham} src={`${process.env.PUBLIC_URL}/images/ham.png`} alt="back" />
                 </div>
-                <div className='navi-chat'>
-                    <img className='chat' src={`${process.env.PUBLIC_URL}/images/message.png`} alt="back" />
+                <div className={styles.naviChat}>
+                    <img className={styles.chat} src={`${process.env.PUBLIC_URL}/images/message.png`} alt="back" />
                 </div>
-                <div className='navi-my' onClick={() => navi('/mypage')}>
-                    <img className='my' src={`${process.env.PUBLIC_URL}/images/myPage.png`} alt="back" />
+                <div className={styles.naviMy} onClick={() => navi('/mypage')}>
+                    <img className={styles.my} src={`${process.env.PUBLIC_URL}/images/myPage.png`} alt="back" />
                 </div>
             </div>
-
-
         </>
-    )
+    );
 }

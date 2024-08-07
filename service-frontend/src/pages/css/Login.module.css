@@ -1,4 +1,4 @@
-.login-page {
+.loginPage {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -12,7 +12,7 @@
     background: #FFFFFF;
 }
 
-.close-button-frame {
+.closeButtonFrame {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -22,7 +22,7 @@
     height: 48px;
 }
 
-.close-icon {
+.closeIcon {
     width: 30px;
     height: 30px;
     background: url('../../../public/images/close.png') no-repeat center center;
@@ -30,7 +30,7 @@
     padding-right: 10px;
 }
 
-.biglogo-frame {
+.biglogoFrame {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -48,7 +48,7 @@
     background-size: contain;
 }
 
-.name-frame {
+.nameFrame {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -59,7 +59,7 @@
     height: 44px;
 }
 
-.home-link {
+.homeLink {
     justify-content: center;
     width: 180px;
     height: 44px;
@@ -76,7 +76,7 @@
     backdrop-filter: blur(2px);
 }
 
-.login-input-container {
+.loginInputContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -88,8 +88,8 @@
     background: #FFFFFF;
 }
 
-.email-input,
-.password-input {
+.emailInput,
+.passwordInput {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
@@ -101,8 +101,8 @@
     border: 2px solid #02CCFE;
 }
 
-.email-placeholder,
-.password-placeholder {
+.emailPlaceholder,
+.passwordPlaceholder {
     width: 100%;
     height: 18px;
     font-family: 'Noto Sans KR';
@@ -115,7 +115,7 @@
     color: #B1B1B1;
 }
 
-.login-signup-button-container {
+.loginSignupButtonContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -127,8 +127,8 @@
     background: #FFFFFF;
 }
 
-.login-button,
-.signup-button {
+.loginButton,
+.signupButton {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
@@ -142,8 +142,8 @@
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
-.login-text,
-.signup-text {
+.loginText,
+.signupText {
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
@@ -154,7 +154,7 @@
     color: #000000;
 }
 
-.id-password-recovery {
+.idPasswordRecovery {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -165,8 +165,8 @@
     height: 50px;
 }
 
-.id-recovery,
-.password-recovery {
+.idRecovery,
+.passwordRecovery {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -175,8 +175,8 @@
     gap: 10px;
 }
 
-.id-recovery-text,
-.password-recovery-text {
+.idRecoveryText,
+.passwordRecoveryText {
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
@@ -187,13 +187,13 @@
     color: #000000;
 }
 
-.vertical-divider {
+.verticalDivider {
     width: 1px;
     height: 24px;
     background-color: #CAC4D0;
 }
 
-.kakao-login-container {
+.kakaoLoginContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -204,7 +204,7 @@
     background: #FFFFFF;
 }
 
-.easy-login-signup {
+.easyLoginSignup {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -215,7 +215,7 @@
     height: 18px;
 }
 
-.easy-login-signup-text {
+.easyLoginSignupText {
     justify-content: center;
     width: 100%;
     max-width: 250px;
@@ -231,7 +231,7 @@
     color: #000000;
 }
 
-.kakao-login-button {
+.kakaoLoginButton {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -241,65 +241,9 @@
     width: 300px;
     height: 45px;
     background: #FFEB00;
-    /* 노란색 배경 */
     border-radius: 5px;
-    /* 둥근 모서리 */
     background-image: url('../../../public/images/kakao_login.png');
     background-size: cover;
-    /* 이미지 크기를 키움 */
     background-repeat: no-repeat;
     background-position: center;
-}
-
-.navi {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 5px 35px;
-    position: absolute;
-    width: 100%;
-    max-width: 430px;
-    height: 50px;
-    bottom: 0;
-    background: #FFFFFF;
-}
-
-.home-button,
-.hamburger-button,
-.message-button,
-.login-button-my {
-    margin: 0 auto;
-    width: 90px;
-    height: 40px;
-    background: #FFFFFF;
-}
-
-.home-icon,
-.hamburger-icon,
-.message-icon,
-.login-icon {
-    width: 36px;
-    /* 기본 아이콘 크기 */
-    height: 36px;
-    /* 기본 아이콘 크기 */
-    background-size: contain;
-    background-repeat: no-repeat;
-    margin: 0 auto;
-}
-
-.home-icon {
-    background-image: url('../../../public/images/home.png');
-}
-
-.hamburger-icon {
-    background-image: url('../../../public/images/ham.png');
-}
-
-.message-icon {
-    background-image: url('../../../public/images/message.png');
-}
-
-.login-icon {
-    background-image: url('../../../public/images/mypage.png');
 }
