@@ -1,0 +1,60 @@
+.boardList-search{
+    margin-left: 86px;
+    margin-top: 3px;
+}
+
+.board-title{
+    margin-left: 45px;
+}
+.board-title p{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.categorys{
+    display: flex;
+    gap: 10px;
+    margin-left: 10px;
+}
+.categorys .cate-used,.cate-buy,.cate-lost{
+    width: 80px;
+    height: 40px;
+    background-color: #E4FAFF;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cate-line{
+    width: 50px;
+    height: 40px;
+    background-color: #E4FAFF;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.categorys .cate-used,.cate-buy,.cate-lost,.cate-line p{
+    font-weight: bold;
+    color: #02CCFE;
+    font-size: 19px;
+}
+.cate-line p{
+    margin-top: 5px;
+}
+.cate-classic{
+    width: 80px;
+    height: 40px;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #02CCFE;
+}
+
+.cate-classic p{
+    font-weight: bold;
+    color: #E4FAFF;
+    font-size: 19px;
+}
+

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import '../App.css';
+import './css/MainPage.css';
 
 export default function MainPage() {
 
@@ -39,7 +39,7 @@ export default function MainPage() {
 
                 <div className='content-buttons'>
                     <div className='buttons-row'>
-                        <div className='buttons'>
+                        <div className='buttons' onClick={() => navi('/boardList')}>
                             <img className='search' src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>일반 게시판</p>
                         </div>
