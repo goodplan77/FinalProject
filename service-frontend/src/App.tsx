@@ -3,9 +3,10 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Login from './pages/Login';
 import Mypage from './pages/Mypage';
-import './App.css';
+import BoardList from './pages/BoardList';
 import Mainpage from './pages/Mainpage';
 import Signup from './pages/Signup';
+
 
 const App = () => {
   const dispatch = useDispatch();
@@ -14,11 +15,11 @@ const App = () => {
   return (
     <div className="app-container">
 
-
       <Routes>
         <Route path='/' element={<Mainpage />} />
         <Route path='/mypage' element={<Mypage />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/boardList' element={<BoardList />} />
         <Route path='/signup' element={<Signup />} />
       </Routes>
     </div>
