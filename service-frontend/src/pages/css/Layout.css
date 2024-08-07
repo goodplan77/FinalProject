@@ -32,6 +32,7 @@
     align-items: center;
     width: 100%;
     background: #FFFFFF;
+    background-color: #FFFFFF;
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
     position: fixed;
     bottom: 0;
