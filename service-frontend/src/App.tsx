@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Mypage from './pages/Mypage';
 import BoardList from './pages/BoardList';
 import Mainpage from './pages/Mainpage';
+import Signup from './pages/Signup';
 
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
         <Route path='/mypage' element={<Mypage />} />
         <Route path='/login' element={<Login />} />
         <Route path='/boardList' element={<BoardList />} />
+        <Route path='/signup' element={<Signup />} />
       </Routes>
     </div>
   );
