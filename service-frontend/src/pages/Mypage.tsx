@@ -1,5 +1,5 @@
 import React from 'react';
-import './css/mypage.css';
+import './css/Mypage.css';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 

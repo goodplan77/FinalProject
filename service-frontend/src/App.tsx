@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Mypage from './pages/Mypage';
 import './App.css';
 import Mainpage from './pages/Mainpage';
+import Signup from './pages/Signup';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const App = () => {
         <Route path='/' element={<Mainpage />} />
         <Route path='/mypage' element={<Mypage />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
       </Routes>
     </div>
   );
