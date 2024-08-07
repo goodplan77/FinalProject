@@ -1,0 +1,262 @@
+.mainHeader {
+  display: flex;
+  align-items: center;
+  min-width: 360px;
+  max-width: 720px;
+  height: 50px;
+  background-color: white;
+  position: fixed;
+  width: 100%;
+}
+
+.backButton .back {
+  width: 50px;
+  height: 50px;
+}
+
+.projectName {
+  display: flex;
+  align-items: center;
+  margin-left: 100px;
+}
+
+.projectLogo .logo {
+  width: 40px;
+  height: 40px;
+}
+
+.projectTitle {
+  margin: 0;
+}
+
+.projectTitleText {
+  margin: 0px;
+  font-weight: bolder;
+  font-size: 18px;
+  width: 100px;
+}
+
+.headerButtons {
+  display: flex;
+  gap: 5px;
+  margin-left: 40px;
+}
+
+.aram .aramImg,
+.search .searchImg {
+  width: 40px;
+  height: 40px;
+}
+
+.mainContent {
+  margin-bottom: 55px;
+}
+
+.mainContent .mainBig {
+  height: 430px;
+  width: 430px;
+  background-color: black;
+}
+
+.contentButtons .buttonsRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 5px 0px;
+  gap: 10px;
+}
+
+.buttonsRow .buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 10px;
+}
+
+.buttonsRow .buttons img {
+  width: 60px;
+  height: 60px;
+}
+
+.buttonsRow .buttons p {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+}
+
+.boardType {
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 5px;
+  margin-bottom: 10px;
+}
+
+.classic .classicTitle .classicContents .classicContent {
+  background-color: #FFFFFF;
+  border-radius: 10px;
+  border: 5px solid #E4FAFF;
+  margin: 10px;
+  display: flex;
+}
+
+.classic .classicTitle .classicContents .classicContent .img {
+  width: 80px;
+  height: 90px;
+  background-color: #90EAFF;
+  border-radius: 10px;
+  margin: 5px;
+}
+
+.contentUp {
+  display: flex;
+}
+
+.contentUp .contentTitle {
+  width: 250px;
+}
+
+.contentUp .contentTitle p {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.upRight {
+  width: 60px;
+}
+
+.upRight img {
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+}
+
+.contentInfo {
+  display: flex;
+  margin-top: 10px;
+}
+
+.contentInfo .viewNo {
+  margin: 0;
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.upRight .contentDate {
+  font-size: 10px;
+  margin-top: 2px;
+}
+
+.contentDown {
+  display: flex;
+}
+
+.contentDown .contentLike {
+  display: flex;
+}
+
+.contentDown .downNick {
+  margin: 0px;
+  margin-top: 15px;
+}
+
+.emptyPlace {
+  height: 20px;
+  width: 100%;
+}
+
+.downRight {
+  margin-left: 100px;
+}
+
+.downRight .view {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+}
+
+.downRight p {
+  margin: 0px;
+  margin-left: 5px;
+}
+
+.usedContent {
+  width: 410px;
+  height: 400px;
+  background-color: #E4FAFF;
+  margin-left: 10px;
+  border-radius: 10px;
+  padding-top: 10px;
+}
+
+.usedContent .usedImg {
+  width: 390px;
+  height: 290px;
+  margin-left: 10px;
+  background-color: #90EAFF;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.usedContent .upAndDown {
+  background-color: #FFFFFF;
+  width: 390px;
+  height: 90px;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+
+.usedContent .contentUp {
+  display: flex;
+}
+
+.usedContent .contentUp p {
+  margin-left: 10px;
+}
+
+.usedContent .contentUp .upRight {
+  width: 60px;
+  margin-left: 80px;
+}
+
+.usedContent .contentUp .upRight .viewNo {
+  margin-left: 10px;
+}
+
+.usedContent .contentUp .upRight p {
+  margin-left: 0px;
+}
+
+.usedContent .contentDown .downNick {
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.usedContent .contentDown .contentLike {
+  margin-left: 70px;
+  margin-top: 10px;
+}
+
+.mainNavi {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  background: #FFFFFF;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.home,
+.ham,
+.chat,
+.my {
+  width: 40px;
+  height: 40px;
+}
