@@ -38,7 +38,7 @@ export default function MainPage() {
                             <img className={styles.icon} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>일반 게시판</p>
                         </div>
-                        <div className={styles.buttons}>
+                        <div className={styles.buttons} onClick={() => navi('/usedList')}>
                             <img className={styles.icon} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>중고 게시판</p>
                         </div>

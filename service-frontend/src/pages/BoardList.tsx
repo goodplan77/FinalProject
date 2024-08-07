@@ -26,7 +26,7 @@ export default function BoardList() {
                 <div className={styles.cateClassic}>
                     <p>일반</p>
                 </div>
-                <div className={styles.cateUsed}>
+                <div className={styles.cateUsed} onClick={() => navi('/usedList')}>
                     <p>중고</p>
                 </div>
                 <div className={styles.cateBuy}>
@@ -108,10 +108,10 @@ export default function BoardList() {
                         <div className={styles.classicContent}>
                             <div className={styles.upAndDown}>
                                 <div className={styles.contentUp}>
-                                    <div className={`${styles.contentTitle} ${styles.marginLeft}`}>
+                                    <div className={`${styles.contentTitle}`} style={{marginLeft:"5px"}}>
                                         <p>글제목글제목</p>
                                     </div>
-                                    <div className={`${styles.upRight} ${styles.marginLeft80}`}>
+                                    <div className={`${styles.upRight}`} style={{marginLeft:"100px"}}>
                                         <div className={styles.contentInfo}>
                                             <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
                                             <p className={styles.viewNo}>20</p>
@@ -121,10 +121,10 @@ export default function BoardList() {
                                 </div>
 
                                 <div className={styles.contentDown}>
-                                    <p className={styles.downNick}>닉네임닉네임</p>
+                                    <p className={styles.downNick} style={{marginLeft:"5px"}}>닉네임닉네임</p>
                                     <div className={styles.downRight}>
                                         <div className={styles.emptyPlace}></div>
-                                        <div className={styles.contentLike}>
+                                        <div className={styles.contentLike} style={{marginLeft:"90px"}}>
                                             <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
                                             <p>20</p>
                                             <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
@@ -169,10 +169,10 @@ export default function BoardList() {
                         <div className={styles.classicContent}>
                             <div className={styles.upAndDown}>
                                 <div className={styles.contentUp}>
-                                    <div className={`${styles.contentTitle} ${styles.marginLeft}`}>
+                                    <div className={`${styles.contentTitle}`} style={{marginLeft:"5px"}}>
                                         <p>글제목글제목</p>
                                     </div>
-                                    <div className={`${styles.upRight} ${styles.marginLeft80}`}>
+                                    <div className={`${styles.upRight}`} style={{marginLeft:"100px"}}>
                                         <div className={styles.contentInfo}>
                                             <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
                                             <p className={styles.viewNo}>20</p>
@@ -182,10 +182,10 @@ export default function BoardList() {
                                 </div>
 
                                 <div className={styles.contentDown}>
-                                    <p className={styles.downNick}>닉네임닉네임</p>
+                                    <p className={styles.downNick} style={{marginLeft:"5px"}}>닉네임닉네임</p>
                                     <div className={styles.downRight}>
                                         <div className={styles.emptyPlace}></div>
-                                        <div className={styles.contentLike}>
+                                        <div className={styles.contentLike} style={{marginLeft:"90px"}}>
                                             <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
                                             <p>20</p>
                                             <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
