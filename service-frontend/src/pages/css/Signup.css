@@ -1,0 +1,173 @@
+/* 공통 스타일 */
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    position: relative;
+    width: 430px;
+    height: 932px;
+    background: #FFFFFF;
+    margin: 0 auto;
+}
+
+/* 헤더 */
+.header {
+    width: 430px;
+    height: 50px;
+    background: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.button {
+    width: 24px;
+    height: 24px;
+    background: #FFFFFF;
+    border: none;
+    background-size: cover;
+}
+
+.back-button {
+    background: url('/public/images/back.png') no-repeat center;
+    background-size: 20px 20px;
+    border: 0px;
+}
+
+/* 폼 */
+.form {
+    position: relative;
+    top: 70px;
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group-inline {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: 400;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.input-inline {
+    display: flex;
+    align-items: center;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: calc(100% - 72px);
+    height: 40px;
+    padding: 0 10px;
+    border: 3px solid #E4FAFF;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-container input {
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    border: 3px solid #E4FAFF;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    /* 입력 필드의 크기를 고정 */
+}
+
+input[type="text"] {
+    width: 100%;
+    height: 40px;
+    padding: 0 10px;
+    border: 3px solid #E4FAFF;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.inline-button {
+    width: 50px;
+    height: 40px;
+    background: #D9D9D9;
+    border-radius: 35px;
+    border: none;
+    font-size: 13px;
+    font-weight: 300;
+    color: #000000;
+    margin-left: 12px;
+}
+
+.hint {
+    font-size: 11px;
+    color: #C4C0C0;
+    margin-top: 5px;
+}
+
+.error {
+    font-size: 10px;
+    color: #F70707;
+    margin-top: 5px;
+}
+
+/* 표시/숨김 버튼 */
+.toggle-button {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 10px;
+    color: #000000;
+}
+
+/* 회원가입 버튼 */
+.submit-button {
+    width: 130px;
+    height: 40px;
+    background: #D9D9D9;
+    border-radius: 35px;
+    border: none;
+    font-size: 15px;
+    font-weight: 700;
+    color: #000000;
+    margin: 20px auto 0;
+    display: block;
+    text-align: center;
+}
+
+/* 캘린더 아이콘 */
+.calendar-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background: url('/public/images/calendar.png') no-repeat center;
+    background-size: 20px 20px;
+    /* 이미지 크기 조정 */
+}
