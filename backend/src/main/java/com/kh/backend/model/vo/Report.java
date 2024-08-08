@@ -14,9 +14,6 @@ public class Report {
 	private String category;
 	private String content;
 	private String reportDate; // 일단 String
-	private char reportType; // C - 댓글(COMMENT) R - 대댓글(REPLY) B - 게시글(BOARD)
-	private int boardNo;
-	private int chatRoomNo;
-	private int commentNo;
-	private int replyNo;
+	private char typeCode; // B, C, L, M, R, P
+	private int refNo;
 }

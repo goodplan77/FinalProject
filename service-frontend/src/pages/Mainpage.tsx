@@ -1,11 +1,22 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './css/MainPage.module.css';
+import { useEffect } from 'react';
 
 export default function MainPage() {
     const navi = useNavigate();
 
+    const ScrollToTop = () => {
+        const { pathname } = useLocation();
+      
+        useEffect(() => {
+          window.scrollTo(0, 0);
+        }, [pathname]);
+      
+        return null;
+      };
     return (
         <>
+            <ScrollToTop />
             <div className={styles.mainHeader}>
                 <div className={styles.backButton}>
                     <img className={styles.back} src={`${process.env.PUBLIC_URL}/images/back.png`} alt="back" />
@@ -30,23 +41,22 @@ export default function MainPage() {
 
             {/* 헤더 아래 콘텐츠 영역입니다 */}
             <div className={styles.mainContent}>
-                <div className={styles.mainBig}></div>
-
+                <img className={styles.mainBig} src={`${process.env.PUBLIC_URL}/images/lostDog.png`} alt="dog"  onClick={() => navi('/missingList')} />
                 <div className={styles.contentButtons}>
                     <div className={styles.buttonsRow}>
                         <div className={styles.buttons} onClick={() => navi('/boardList')}>
                             <img className={styles.icon} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>일반 게시판</p>
                         </div>
-                        <div className={styles.buttons}>
+                        <div className={styles.buttons} onClick={() => navi('/usedList')}>
                             <img className={styles.icon} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>중고 게시판</p>
                         </div>
-                        <div className={styles.buttons}>
+                        <div className={styles.buttons} onClick={() => navi('/adoptList')}>
                             <img className={styles.icon} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>입양 게시판</p>
                         </div>
-                        <div className={styles.buttons}>
+                        <div className={styles.buttons} onClick={() => navi('/missingList')}>
                             <img className={styles.icon} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>실종 게시판</p>
                         </div>
@@ -73,7 +83,7 @@ export default function MainPage() {
 
                 <div className={styles.classic}>
                     <div className={styles.classicTitle}>
-                        <p className={styles.boardType}>일반 게시판</p>
+                        <p className={styles.boardType} onClick={() => navi('/boardList')}>일반 게시판</p>
                         <div className={styles.classicContents}>
                             <div className={styles.classicContent}>
                                 <div className={styles.img}></div>
@@ -169,7 +179,7 @@ export default function MainPage() {
                 </div>
 
                 <div className={styles.used}>
-                    <p className={styles.boardType}>중고거래 게시판</p>
+                    <p className={styles.boardType} onClick={() => navi('/usedList')}>중고거래 게시판</p>
                     <div className={styles.usedContent}>
                         <div className={styles.usedImg}></div>
                         <div className={styles.upAndDown}>
@@ -201,7 +211,7 @@ export default function MainPage() {
                 </div>
 
                 <div className={styles.used}>
-                    <p className={styles.boardType}>입양 게시판</p>
+                    <p className={styles.boardType} onClick={() => navi('/adoptList')}>입양 게시판</p>
                     <div className={styles.usedContent}>
                         <div className={styles.usedImg}></div>
                         <div className={styles.upAndDown}>
@@ -233,7 +243,7 @@ export default function MainPage() {
                 </div>
 
                 <div className={styles.used}>
-                    <p className={styles.boardType}>실종 게시판</p>
+                    <p className={styles.boardType} onClick={() => navi('/missingList')}>실종 게시판</p>
                     <div className={styles.usedContent}>
                         <div className={styles.usedImg}></div>
                         <div className={styles.upAndDown}>
@@ -264,8 +274,21 @@ export default function MainPage() {
                     </div>
                 </div>
             </div>
-
-
+            {/* 콘텐츠 아래 하단네비바 영역입니다 */}
+            <div className={styles.mainNavi}>
+                <div className={styles.naviHome} onClick={() => navi('/')}>
+                    <img className={styles.home} src={`${process.env.PUBLIC_URL}/images/home.png`} alt="home" />
+                </div>
+                <div className={styles.naviHam}>
+                    <img className={styles.ham} src={`${process.env.PUBLIC_URL}/images/ham.png`} alt="ham" />
+                </div>
+                <div className={styles.naviChat}>
+                    <img className={styles.chat} src={`${process.env.PUBLIC_URL}/images/message.png`} alt="chat" />
+                </div>
+                <div className={styles.naviMy} onClick={() => navi('/mypage')}>
+                    <img className={styles.my} src={`${process.env.PUBLIC_URL}/images/myPage.png`} alt="myPage" />
+                </div>
+            </div>
         </>
     );
 }
