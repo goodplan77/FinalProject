@@ -4,7 +4,7 @@
     align-items: center;
     min-height: 100vh;
     font-family: Arial, sans-serif;
-    padding: 0px 5px;
+    padding: 0px;
     gap: 10px;
     isolation: isolate;
     position: relative;
@@ -15,88 +15,7 @@
     background: #FFFFFF;
 }
 
-.back-button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0px;
-    gap: 10px;
-    width: 50px;
-    height: 50px;
-    background: #FFFFFF;
-}
-
-.back-icon {
-    width: 50px;
-    height: 50px;
-    background: url('../../../public/images/back.png') no-repeat center center;
-    background-size: contain;
-}
-
-.logo-frame {
-    width: 50px;
-    height: 50px;
-    background: #FFFFFF;
-    position: relative;
-}
-
-.logo {
-    width: 50px;
-    height: 50px;
-    background: url('../../../public/images/logo.png') no-repeat center center;
-    background-size: contain;
-}
-
-.text-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 0px;
-    width: 92px;
-    height: 22px;
-}
-
-.page-title {
-    width: 92px;
-    height: 22px;
-    font-family: 'Noto Sans KR';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 22px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: rgba(0, 0, 0, 0.87);
-}
-
-.button-frame {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 0px;
-    width: 90px;
-    height: 50px;
-    background: #FFFFFF;
-}
-
-.alert {
-    width: 40px;
-    height: 40px;
-    background: #FFFFFF;
-    position: relative;
-}
-
-.alert-icon {
-    width: 27.18px;
-    height: 30px;
-    background: url('../../../public/images/bell.png') no-repeat center center;
-    background-size: contain;
-}
-
-.my-info {
+.myInfo {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
@@ -114,7 +33,7 @@
     z-index: 1;
 }
 
-.profile-frame {
+.profileFrame {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -125,7 +44,7 @@
     background: #FFFFFF;
 }
 
-.profile-setting-frame {
+.profileSettingFrame {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -135,7 +54,7 @@
     background: #FFFFFF;
 }
 
-.profile-picture-frame {
+.profilePictureFrame {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -147,7 +66,7 @@
     border-radius: 45px;
 }
 
-.profile-picture {
+.profilePicture {
     box-sizing: border-box;
     width: 72px;
     height: 72px;
@@ -157,7 +76,7 @@
     border-radius: 1000px;
 }
 
-.nickname-frame {
+.nicknameFrame {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -183,7 +102,7 @@
     color: #000000;
 }
 
-.points-frame {
+.pointsFrame {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -193,7 +112,7 @@
     background: #FFFFFF;
 }
 
-.points-text-frame {
+.pointsTextFrame {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -203,7 +122,7 @@
     background: #FFFFFF;
 }
 
-.points-text {
+.pointsText {
     width: 106px;
     height: 26px;
     font-family: 'Noto Sans KR';
@@ -216,7 +135,7 @@
     color: #000000;
 }
 
-.points-value-frame {
+.pointsValueFrame {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -226,7 +145,7 @@
     background: #FFFFFF;
 }
 
-.points-value {
+.pointsValue {
     width: 80px;
     height: 26px;
     font-family: 'Noto Sans KR';
@@ -239,7 +158,7 @@
     color: #000000;
 }
 
-.additional-info {
+.additionalInfo {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
@@ -256,7 +175,7 @@
     border-bottom: 1px solid rgba(177, 177, 177, 0.733333);
 }
 
-.additional-profile-frame {
+.additionalProfileFrame {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -267,39 +186,17 @@
     background: #FFFFFF;
 }
 
-.additional-profile-setting-frame {
+.additionalProfileSettingFrame {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     padding: 0px;
     width: 102px;
     height: 72px;
     background: #FFFFFF;
 }
 
-.additional-profile-frame {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: 0px;
-    gap: 10px;
-    width: 256px;
-    height: 72px;
-    background: #FFFFFF;
-}
-
-.additional-profile-setting-frame {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    /* flex-start에서 center로 변경 */
-    padding: 0px;
-    width: 102px;
-    height: 72px;
-    background: #FFFFFF;
-}
-
-.additional-profile-picture-frame {
+.additionalProfilePictureFrame {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -311,7 +208,7 @@
     border-radius: 45px;
 }
 
-.additional-profile-picture {
+.additionalProfilePicture {
     box-sizing: border-box;
     width: 72px;
     height: 72px;
@@ -321,11 +218,10 @@
     border-radius: 1000px;
 }
 
-.additional-nickname-frame {
+.additionalNicknameFrame {
     display: flex;
     flex-direction: row;
     align-items: center;
-    /* 텍스트를 이미지의 가운데 옆으로 정렬 */
     padding: 0px;
     gap: 10px;
     width: 144px;
@@ -333,7 +229,7 @@
     background: #FFFFFF;
 }
 
-.additional-nickname {
+.additionalNickname {
     width: 144px;
     height: 26px;
     font-family: 'Noto Sans KR';
@@ -346,8 +242,7 @@
     color: #000000;
 }
 
-
-.pet-button {
+.petButton {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -358,7 +253,7 @@
     border-radius: 45px;
 }
 
-.pet-button-text {
+.petButtonText {
     width: 142px;
     height: 71px;
     font-family: 'Noto Sans KR';
@@ -373,7 +268,7 @@
     justify-content: center;
 }
 
-.button-container {
+.buttonContainer {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -388,9 +283,9 @@
     background: #FFFFFF;
 }
 
-.button-frame1,
-.button-frame2,
-.button-frame3 {
+.buttonFrame1,
+.buttonFrame2,
+.buttonFrame3 {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -402,9 +297,9 @@
     border-radius: 30px;
 }
 
-.button-text1,
-.button-text2,
-.button-text3 {
+.buttonText1,
+.buttonText2,
+.buttonText3 {
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
@@ -416,7 +311,7 @@
     color: #000000;
 }
 
-.list-container {
+.listContainer {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -430,7 +325,7 @@
     background: #FFFFFF;
 }
 
-.list-item {
+.listItem {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -441,7 +336,7 @@
     height: 60px;
 }
 
-.list-item-text {
+.listItemText {
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
@@ -452,13 +347,13 @@
     color: #000000;
 }
 
-.horizontal-divider {
+.horizontalDivider {
     width: 400px;
     height: 1px;
     background: #F0F0F0;
 }
 
-.button-footer {
+.buttonFooter {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -473,9 +368,9 @@
     background: #FFFFFF;
 }
 
-.button-edit,
-.button-logout,
-.button-login {
+.buttonEdit,
+.buttonLogout,
+.buttonLogin {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -485,15 +380,15 @@
     border-radius: 30px;
 }
 
-.button-edit {
+.buttonEdit {
     width: 158px;
     height: 46px;
     background: #02CCFE;
 }
 
-.button-edit-text,
-.button-logout-text,
-.button-login-text {
+.buttonEditText,
+.buttonLogoutText,
+.buttonLoginText {
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 700;
@@ -505,14 +400,139 @@
     color: #FFFFFF;
 }
 
-.button-logout {
+.buttonLogout {
     width: 114px;
     height: 46px;
     background: #FF0000;
 }
 
-.button-login {
+.buttonLogin {
     width: 114px;
     height: 46px;
     background: #56488a;
+}
+
+.mypage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    padding: 0px 5px;
+    gap: 10px;
+    isolation: isolate;
+    position: relative;
+    width: 430px;
+    min-width: 360px;
+    max-width: 720px;
+    height: 932px;
+    background: #FFFFFF;
+}
+
+.myHeader {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    min-width: 360px;
+    max-width: 720px;
+    height: 50px;
+    background: #FFFFFF;
+    z-index: 1000;
+}
+
+.backButton {
+    display: flex;
+    align-items: center;
+    padding: 0px;
+    width: 50px;
+    height: 50px;
+}
+
+.back {
+    width: 50px;
+    height: 50px;
+}
+
+.projectName {
+    display: flex;
+    align-items: center;
+    margin-left: 100px;
+}
+
+.projectLogo {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
+}
+
+.projectTitle {
+    margin-left: 10px;
+}
+
+.projectTitleText {
+    margin: 0px;
+    font-weight: bolder;
+    font-size: 18px;
+    width: 100px;
+}
+
+.headerButtons {
+    display: flex;
+    gap: 5px;
+    margin-left: 40px;
+}
+
+.aram {
+    display: flex;
+    align-items: center;
+}
+
+.aramImg {
+    width: 40px;
+    height: 40px;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+}
+
+.searchImg {
+    width: 40px;
+    height: 40px;
+}
+
+.mainNavi {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    background: #FFFFFF;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.naviHome,
+.naviHam,
+.naviChat,
+.naviMy {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.home,
+.ham,
+.chat,
+.my {
+    width: 40px;
+    height: 40px;
 }

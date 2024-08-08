@@ -1,98 +1,124 @@
 import React from 'react';
-import './css/Mypage.css';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import styles from './css/MyPage.module.css';
 
 const MyPage = () => {
     const dispatch = useDispatch();
     const navi = useNavigate();
 
     return (
-        <div className="mypage">
-
-            <div className="my-info">
-                <div className="profile-frame">
-                    <div className="profile-setting-frame">
-                        <div className="profile-picture-frame">
-                            <div className="profile-picture" />
+        <>
+            <div className={styles.mypage}>
+                <div className={styles.myHeader}>
+                    <div className={styles.backButton}>
+                        <img className={styles.back} src={`${process.env.PUBLIC_URL}/images/back.png`} alt="back" onClick={() => navi('/')} />
+                    </div>
+                    <div className={styles.projectName}>
+                        <div className={styles.projectLogo}>
+                            <img className={styles.logo} src={`${process.env.PUBLIC_URL}/images/logo.png`} alt="logo" />
                         </div>
-                        <div className="nickname-frame">
-                            <div className="nickname">내 닉네임</div>
+                        <div className={styles.projectTitle}>
+                            <p className={styles.projectTitleText}>반주한상</p>
                         </div>
                     </div>
-                </div>
-                <div className="points-frame">
-                    <div className="points-text-frame">
-                        <div className="points-text">내 포인트 :</div>
-                    </div>
-                    <div className="points-value-frame">
-                        <div className="points-value">1500 P</div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="additional-info">
-                <div className="additional-profile-frame">
-                    <div className="additional-profile-setting-frame">
-                        <div className="additional-profile-picture-frame">
-                            <div className="additional-profile-picture" />
+                    <div className={styles.headerButtons}>
+                        <div className={styles.aram}>
+                            <img className={styles.aramImg} src={`${process.env.PUBLIC_URL}/images/bell.png`} alt="aram" />
                         </div>
-                        <div className="additional-nickname-frame">
-                            <div className="additional-nickname">내 반려견 이름</div>
+                        <div className={styles.search}>
+                            <img className={styles.searchImg} src={`${process.env.PUBLIC_URL}/images/search.png`} alt="search" />
                         </div>
                     </div>
                 </div>
-                <div className="pet-button">
-                    <div className="pet-button-text">나의 반려견</div>
-                </div>
-            </div>
 
-            <div className="button-container">
-                <div className="button-frame1">
-                    <div className="button-text1">캘린더</div>
+                <div className={styles.myInfo}>
+                    <div className={styles.profileFrame}>
+                        <div className={styles.profileSettingFrame}>
+                            <div className={styles.profilePictureFrame}>
+                                <div className={styles.profilePicture} />
+                            </div>
+                            <div className={styles.nicknameFrame}>
+                                <div className={styles.nickname}>내 닉네임</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.pointsFrame}>
+                        <div className={styles.pointsTextFrame}>
+                            <div className={styles.pointsText}>내 포인트 :</div>
+                        </div>
+                        <div className={styles.pointsValueFrame}>
+                            <div className={styles.pointsValue}>1500 P</div>
+                        </div>
+                    </div>
                 </div>
-                <div className="button-frame2">
-                    <div className="button-text2">내가 쓴 글 목록</div>
-                </div>
-                <div className="button-frame3">
-                    <div className="button-text3">좋아요 목록</div>
-                </div>
-            </div>
 
-            <div className="list-container">
-                <div className="list-item">
-                    <div className="list-item-text">문의하기</div>
-                    <div className="back-icon" />
+                <div className={styles.additionalInfo}>
+                    <div className={styles.additionalProfileFrame}>
+                        <div className={styles.additionalProfileSettingFrame}>
+                            <div className={styles.additionalProfilePictureFrame}>
+                                <div className={styles.additionalProfilePicture} />
+                            </div>
+                            <div className={styles.additionalNicknameFrame}>
+                                <div className={styles.additionalNickname}>내 반려견 이름</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className={styles.petButton}>
+                        <div className={styles.petButtonText}>나의 반려견</div>
+                    </div>
                 </div>
-                <div className="horizontal-divider" />
-                <div className="list-item">
-                    <div className="list-item-text">공지사항</div>
-                    <div className="back-icon" />
-                </div>
-                <div className="horizontal-divider" />
-                <div className="list-item">
-                    <div className="list-item-text">Q&A</div>
-                    <div className="back-icon" />
-                </div>
-                <div className="horizontal-divider" />
-                <div className="list-item">
-                    <div className="list-item-text">이용약관</div>
-                    <div className="back-icon" />
-                </div>
-            </div>
 
-            <div className="button-footer">
-                <div className="button-edit" onClick={() => navi('/edit')}>
-                    <div className="button-edit-text">개인정보 수정</div>
+                <div className={styles.buttonContainer}>
+                    <div className={styles.buttonFrame1}>
+                        <div className={styles.buttonText1}>캘린더</div>
+                    </div>
+                    <div className={styles.buttonFrame2}>
+                        <div className={styles.buttonText2}>내가 쓴 글 목록</div>
+                    </div>
+                    <div className={styles.buttonFrame3}>
+                        <div className={styles.buttonText3}>좋아요 목록</div>
+                    </div>
                 </div>
-                <div className="button-logout" onClick={() => navi('/')}>
-                    <div className="button-logout-text">로그아웃</div>
+
+                <div className={styles.listContainer}>
+                    <div className={styles.listItem}>
+                        <div className={styles.listItemText}>문의하기</div>
+                        <div className={styles.backIcon} />
+                    </div>
+                    <div className={styles.horizontalDivider} />
+                    <div className={styles.listItem}>
+                        <div className={styles.listItemText}>공지사항</div>
+                        <div className={styles.backIcon} />
+                    </div>
+                    <div className={styles.horizontalDivider} />
+                    <div className={styles.listItem}>
+                        <div className={styles.listItemText}>Q&A</div>
+                        <div className={styles.backIcon} />
+                    </div>
+                    <div className={styles.horizontalDivider} />
+                    <div className={styles.listItem}>
+                        <div className={styles.listItemText}>이용약관</div>
+                        <div className={styles.backIcon} />
+                    </div>
                 </div>
-                <div className="button-login" onClick={() => navi('/login')}>
-                    <div className="button-login-text">로그인</div>
+
+                <div className={styles.buttonFooter}>
+                    <div className={styles.buttonEdit} onClick={() => navi('/edit')}>
+                        <div className={styles.buttonEditText}>개인정보 수정</div>
+                    </div>
+                    <div className={styles.buttonLogout} onClick={() => navi('/')}>
+                        <div className={styles.buttonLogoutText}>로그아웃</div>
+                    </div>
+                    <div className={styles.buttonLogin} onClick={() => navi('/login')}>
+                        <div className={styles.buttonLoginText}>로그인</div>
+                    </div>
                 </div>
+
+
             </div>
-        </div>
+        </>
+
     );
 };
 

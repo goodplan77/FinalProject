@@ -274,7 +274,6 @@ export default function MainPage() {
                     </div>
                 </div>
             </div>
-
             {/* 콘텐츠 아래 하단네비바 영역입니다 */}
             <div className={styles.mainNavi}>
                 <div className={styles.naviHome} onClick={() => navi('/')}>

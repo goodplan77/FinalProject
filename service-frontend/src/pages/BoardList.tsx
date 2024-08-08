@@ -290,7 +290,7 @@ export default function BoardList() {
                     </div>
                 </div>
             </div>
-
+        
             <div className={styles.mainNavi}>
                 <div className={styles.naviHome} onClick={() => navi('/')}>
                     <img className={styles.home} src={`${process.env.PUBLIC_URL}/images/home.png`} alt="back" />

@@ -17,7 +17,6 @@ const App = () => {
 
   return (
     <div className="app-container">
-
       <Routes>
         <Route path='/' element={<Mainpage />} />
         <Route path='/mypage' element={<Mypage />} />
