@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import styles from './css/PetPlace.module.css';
 import useGeolocation from '../hook/useGeolocation';
 
-
 declare global {
     interface Window {
       kakao: any;
