@@ -7,10 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Like {
+public class BoardType {
 
-	private int likeNo;
-	private int userNo;
-	private char typeCode; // B, P
-	private int refNo; // 게시글, 상품
+	private char boardCode; // C, S, A, M, I, E,  N
+	private String boardName; // 일반, 중고, 입양, 실종, 정보, 이벤, 공지
 }
