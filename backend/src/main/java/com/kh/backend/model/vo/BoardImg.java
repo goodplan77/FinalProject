@@ -12,5 +12,5 @@ public class BoardImg {
 	private int imgNo;
 	private int boardNo;
 	private String originName;
-	private String chagneName;
+	private String changeName;
 }
