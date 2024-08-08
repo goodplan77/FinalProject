@@ -17,9 +17,56 @@ export default function InsertBoard() {
                 </div>
             </div>
 
-            <div className="{styles.insert-board}">
-                
+
+
+            <div className={styles.insertBoard}>
+                <div className={styles.boardCate}>
+                    <p>게시글 카테고리</p>
+                </div>
+                <div className={styles.cates}>
+                    <div className={styles.cate}>
+                        <p>일반</p>
+                    </div>
+                    <div className={styles.cate}>
+                        <p>중고</p>
+                    </div>
+                    <div className={styles.cate}>
+                        <p>입양</p>
+                    </div>
+                    <div className={styles.cate}>
+                        <p>실종</p>
+                    </div>
+                </div>
+
+                <div className={styles.titleStroke}>
+                    <div className={styles.titleBox}>
+                        <input className={styles.title} type="text" placeholder="제목을 입력해주세요" />
+                    </div>
+                </div>
+                <div className={styles.contentStroke}>
+                    <div className={styles.contentBox}>
+                        <textarea className={styles.content} placeholder="내용을 입력하세요" />
+                    </div>
+                </div>
+
+                <div className={styles.picture}>
+                    <p>+</p>
+                </div>
+
+                <div className={styles.choicies}>
+                    <div className={styles.choice}>
+                        <p>취소하기</p>
+                    </div>
+                    <div className={styles.choice}>
+                        <p>게시하기</p>
+                    </div>
+                </div>
+
+
+
             </div>
+
+
 
             <div className={styles.mainNavi}>
                 <div className={styles.naviHome} onClick={() => navi('/')}>

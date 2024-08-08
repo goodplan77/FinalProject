@@ -17,7 +17,7 @@
 .projectName {
   display: flex;
   align-items: center;
-  margin-left: 100px;
+  margin-left: 150px;
 }
 
 .projectLogo .logo {
@@ -58,6 +58,8 @@
   height: 430px;
   width: 430px;
 }
+
+
 
 .contentButtons .buttonsRow {
   display: flex;
