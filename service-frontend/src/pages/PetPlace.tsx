@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styles from './css/PetPlace.module.css';
@@ -13,6 +13,8 @@ declare global {
 export default function PetPlace (){
 
     const location = useGeolocation();
+    const {kakao} = window;
+    const [map, setMap] = useState();
 
     // 컴포넌트 마운트시 실행
     useEffect(() => {
@@ -21,27 +23,31 @@ export default function PetPlace (){
         script.async = true;
         
         const kakaoMapApiKey = process.env.REACT_APP_KAKAO_MAP_KEY as string;
-        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapApiKey}&autoload=false&`;
+        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapApiKey}&autoload=false&libraries=services`;
         document.head.appendChild(script);
 
         // 스크립트 로드시 맵 불러오기
         script.onload = () => {
             // 카카오 맵 로드 성공시
-            if(window.kakao && window.kakao.maps){
-                window.kakao.maps.load(() => {
+            
+            if(kakao && kakao.maps){
+                kakao.maps.load(() => {
                     if (location.loaded && location.coordinates){
                         const container = document.getElementById("map");    
                         const options = {
-                        center: new window.kakao.maps.LatLng(location.coordinates.lat , location.coordinates.lng), // 초기 중심 좌표 (위도, 경도)
+                        center: new kakao.maps.LatLng(location.coordinates.lat , location.coordinates.lng), // 초기 중심 좌표 (위도, 경도)
                         level: 2, // 지도 확대 레벨
                         };
                         
-                        let markerPosition  = new window.kakao.maps.LatLng(location.coordinates.lat , location.coordinates.lng);
-                        let marker = new window.kakao.maps.Marker({
+                        let markerPosition  = new kakao.maps.LatLng(location.coordinates.lat , location.coordinates.lng);
+                        let marker = new kakao.maps.Marker({
                             position:markerPosition
                         });
-                        
-                        marker.setMap(new window.kakao.maps.Map(container, options));
+
+                        const mapInstance = new kakao.maps.Map(container, options);
+                        setMap(mapInstance);
+
+                        marker.setMap(mapInstance);
                     }
                 });
             }
@@ -49,13 +55,16 @@ export default function PetPlace (){
 
       }, [location]);
 
-      
-
     const navi = useNavigate();
+
+    const serarchHospital = () => {
+        const places = new kakao.maps.services.Places(map);
+    }
 
     return (
         <>
             <div id="map" style={{width : "100%" , height : "800px"}}></div>
+            <div className = {styles.serarchButton} onClick={serarchHospital}></div>
 
             <div className={styles.mainNavi}>
                 <div className={styles.naviHome} onClick={() => navi('/')}>
