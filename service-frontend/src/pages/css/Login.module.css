@@ -44,7 +44,7 @@
 .biglogo {
     width: 100px;
     height: 100px;
-    background: url('../../../public/images/biglogo.png') no-repeat center center;
+    background: url('../../../public/images/logo.png') no-repeat center center;
     background-size: contain;
 }
 
