@@ -256,16 +256,15 @@ export default function BoardList() {
                         </div>
 
                         <div className='plus' style={{
-                            backgroundColor:"#02CCFE",
-                            width:"70px",
-                            height:"70px",
-                            borderRadius:"35px",
-                            opacity:"50%",
-                            position:"fixed",
-                            bottom: "55px",
-                            right:"5px",
-                            
-                        }}  onClick={() => navi('/adoptList')}>
+                            backgroundColor: "#02CCFE",
+                            width: "70px",
+                            height: "70px",
+                            borderRadius: "35px",
+                            opacity: "50%",
+                            position: "fixed",
+                            bottom: "70px",
+                            right: "10px",
+                        }} onClick={() => navi('/insertBoard')}>
                             <img className='plus-pen' src={`${process.env.PUBLIC_URL}/images/pen.png`} alt="글쓰기" style={{
                                 marginTop:"9px",
                                 marginLeft:"9px",
