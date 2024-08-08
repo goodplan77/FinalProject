@@ -11,6 +11,7 @@ import AdoptList from './pages/AdoptList';
 import MissingList from './pages/MissingList';
 import Navibar from './components/Navibar';
 import './App.css';
+import Headerbar from './components/Headerbar';
 
 
 const App = () => {
@@ -19,6 +20,8 @@ const App = () => {
 
   return (
     <div className='container'>
+
+      <Headerbar/>
 
       <div className="app-container">
         <Routes>
