@@ -7,6 +7,8 @@ import BoardList from './pages/BoardList';
 import Mainpage from './pages/Mainpage';
 import Signup from './pages/Signup';
 import UsedList from './pages/UsedList';
+import AdoptList from './pages/AdoptList';
+import MissingList from './pages/MissingList';
 
 
 const App = () => {
@@ -22,6 +24,8 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/boardList' element={<BoardList />} />
         <Route path='/usedList' element={<UsedList />} />
+        <Route path='/adoptList' element={<AdoptList />} />
+        <Route path='/missingList' element={<MissingList />} />
         <Route path='/signup' element={<Signup />} />
       </Routes>
     </div>

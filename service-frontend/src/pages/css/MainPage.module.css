@@ -40,6 +40,7 @@
   display: flex;
   gap: 5px;
   margin-left: 40px;
+  margin-top: 4px;
 }
 
 .aram .aramImg,
@@ -49,13 +50,13 @@
 }
 
 .mainContent {
+  padding-top: 50px;
   margin-bottom: 55px;
 }
 
 .mainContent .mainBig {
   height: 430px;
   width: 430px;
-  background-color: black;
 }
 
 .contentButtons .buttonsRow {
@@ -184,6 +185,7 @@
   margin-left: 5px;
 }
 
+
 .usedContent {
   width: 410px;
   height: 400px;
@@ -240,6 +242,7 @@
   margin-left: 70px;
   margin-top: 10px;
 }
+
 
 .mainNavi {
   display: flex;

@@ -1,8 +1,8 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import styles from './css/UsedList.module.css';
-import { useEffect } from 'react';
+import { useLocation, useNavigate } from "react-router-dom";
+import styles from './css/AdoptList.module.css';
+import { useEffect } from "react";
 
-export default function UsedList() {
+export default function AdoptList() {
     const navi = useNavigate();
 
     const ScrollToTop = () => {
@@ -61,7 +61,7 @@ export default function UsedList() {
                     <div className={styles.upAndDown}>
                         <div className={styles.contentUp}>
                             <div className={styles.contentTitle}>
-                                <p>개사료 4kg 급처합니다</p>
+                                <p>새끼강아지 입양</p>
                             </div>
                             <div className={styles.upRight}>
                                 <div className={styles.contentInfo}>
@@ -89,7 +89,7 @@ export default function UsedList() {
                     <div className={styles.upAndDown}>
                         <div className={styles.contentUp}>
                             <div className={styles.contentTitle}>
-                                <p>개간식 1박스 팝니다</p>
+                                <p>유기견 뽀삐 입양</p>
                             </div>
                             <div className={styles.upRight}>
                                 <div className={styles.contentInfo}>
@@ -117,7 +117,7 @@ export default function UsedList() {
                     <div className={styles.upAndDown}>
                         <div className={styles.contentUp}>
                             <div className={styles.contentTitle}>
-                                <p>강아지 장난감 팔아요</p>
+                                <p>시베리안 말티즈 입양</p>
                             </div>
                             <div className={styles.upRight}>
                                 <div className={styles.contentInfo}>
@@ -145,7 +145,7 @@ export default function UsedList() {
                     <div className={styles.upAndDown}>
                         <div className={styles.contentUp}>
                             <div className={styles.contentTitle}>
-                                <p>뽀삐 응가 팔아욧~!!</p>
+                                <p>고양이 입양</p>
                             </div>
                             <div className={styles.upRight}>
                                 <div className={styles.contentInfo}>
@@ -175,8 +175,8 @@ export default function UsedList() {
                     borderRadius: "35px",
                     opacity: "50%",
                     position: "fixed",
-                    bottom: "70px",
-                    right: "10px",
+                    bottom: "55px",
+                    right: "5px",
 
                 }} onClick={() => navi('/adoptList')}>
                     <img className='plus-pen' src={`${process.env.PUBLIC_URL}/images/pen.png`} alt="글쓰기" style={{
@@ -213,5 +213,4 @@ export default function UsedList() {
             </div>
         </>
     )
-
 }
