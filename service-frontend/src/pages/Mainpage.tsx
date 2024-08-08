@@ -18,29 +18,7 @@ export default function MainPage() {
     return (
         <>
             <ScrollToTop />
-            <div className={styles.mainHeader}>
-                <div className={styles.backButton}>
-                    <img className={styles.back} src={`${process.env.PUBLIC_URL}/images/back.png`} alt="back" />
-                </div>
-                <div className={styles.projectName}>
-                    <div className={styles.projectLogo}>
-                        <img className={styles.logo} src={`${process.env.PUBLIC_URL}/images/logo.png`} alt="logo" />
-                    </div>
-                    <div className={styles.projectTitle}>
-                        <p className={styles.projectTitleText}>반주한상</p>
-                    </div>
-                </div>
-                <div className={styles.headerButtons}>
-                    <div className={styles.aram}>
-                        <img className={styles.aramImg} src={`${process.env.PUBLIC_URL}/images/bell.png`} alt="aram" />
-                    </div>
-                    <div className={styles.search}>
-                        <img className={styles.searchImg} src={`${process.env.PUBLIC_URL}/images/search.png`} alt="search" />
-                    </div>
-                </div>
-            </div>
-
-            {/* 헤더 아래 콘텐츠 영역입니다 */}
+            
             <div className={styles.mainContent}>
                 <img className={styles.mainBig} src={`${process.env.PUBLIC_URL}/images/lostDog.png`} alt="dog"  onClick={() => navi('/missingList')} />
                 <div className={styles.contentButtons}>
@@ -275,21 +253,7 @@ export default function MainPage() {
                     </div>
                 </div>
             </div>
-            {/* 콘텐츠 아래 하단네비바 영역입니다 */}
-            <div className={styles.mainNavi}>
-                <div className={styles.naviHome} onClick={() => navi('/')}>
-                    <img className={styles.home} src={`${process.env.PUBLIC_URL}/images/home.png`} alt="home" />
-                </div>
-                <div className={styles.naviHam}>
-                    <img className={styles.ham} src={`${process.env.PUBLIC_URL}/images/ham.png`} alt="ham" />
-                </div>
-                <div className={styles.naviChat}>
-                    <img className={styles.chat} src={`${process.env.PUBLIC_URL}/images/message.png`} alt="chat" />
-                </div>
-                <div className={styles.naviMy} onClick={() => navi('/mypage')}>
-                    <img className={styles.my} src={`${process.env.PUBLIC_URL}/images/myPage.png`} alt="myPage" />
-                </div>
-            </div>
+            
         </>
     );
 }

@@ -10,7 +10,8 @@ import UsedList from './pages/UsedList';
 import AdoptList from './pages/AdoptList';
 import MissingList from './pages/MissingList';
 import PetPlace from './pages/PetPlace';
-
+import Navibar from './components/Navibar';
+import './App.css';
 
 const App = () => {
   const dispatch = useDispatch();
