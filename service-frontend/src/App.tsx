@@ -9,6 +9,7 @@ import Signup from './pages/Signup';
 import UsedList from './pages/UsedList';
 import AdoptList from './pages/AdoptList';
 import MissingList from './pages/MissingList';
+import PetPlace from './pages/PetPlace';
 
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
         <Route path='/adoptList' element={<AdoptList />} />
         <Route path='/missingList' element={<MissingList />} />
         <Route path='/signup' element={<Signup />} />
+        <Route path='/petPlace' element={<PetPlace />} />
       </Routes>
     </div>
   );
