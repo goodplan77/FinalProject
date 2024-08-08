@@ -9,9 +9,14 @@ import Signup from './pages/Signup';
 import UsedList from './pages/UsedList';
 import AdoptList from './pages/AdoptList';
 import MissingList from './pages/MissingList';
+
 import InsertBoard from './pages/InsertBoard';
 import ChatList from './pages/ChatList';
 import ChatRoom from './pages/ChatRoom';
+
+import PetPlace from './pages/PetPlace';
+import Navibar from './components/Navibar';
+import './App.css';
 
 
 const App = () => {
@@ -20,7 +25,6 @@ const App = () => {
 
   return (
     <div className="app-container">
-
       <Routes>
         <Route path='/' element={<Mainpage />} />
         <Route path='/mypage' element={<Mypage />} />
@@ -33,6 +37,7 @@ const App = () => {
         <Route path='/chatlist' element={<ChatList />} />
         <Route path='/chatRoom' element={<ChatRoom />} />
         <Route path='/signup' element={<Signup />} />
+        <Route path='/petPlace' element={<PetPlace />} />
       </Routes>
     </div>
   );

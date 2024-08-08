@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './css/MainPage.module.css';
+
 import { useEffect, useState } from 'react';
+
 
 export default function MainPage() {
     const navi = useNavigate();
@@ -35,6 +37,7 @@ export default function MainPage() {
 
     return (
         <>
+
             <div className={styles.mainHeader}>
                 <div className={styles.projectName}>
                     <div className={styles.projectLogo}>
@@ -55,6 +58,7 @@ export default function MainPage() {
             </div>
 
             {/* 헤더 아래 콘텐츠 영역입니다 */}
+
             <div className={styles.mainContent}>
                 <img
                     className={styles.mainBig}
@@ -90,7 +94,7 @@ export default function MainPage() {
                             <img className={styles.icon} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>날씨</p>
                         </div>
-                        <div className={styles.buttons}>
+                        <div className={styles.buttons} onClick={() => navi('/petPlace')}>
                             <img className={styles.icon} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>펫플레이스</p>
                         </div>
@@ -310,6 +314,7 @@ export default function MainPage() {
                     <img className={styles.my} src={`${process.env.PUBLIC_URL}/images/myPage.png`} alt="myPage" />
                 </div>
             </div>
+
         </>
     );
 }

@@ -17,21 +17,7 @@ export default function MissingList() {
     return (
         <>
             <ScrollToTop />
-            <div className={styles.mainHeader}>
-                <div className={styles.backButton} onClick={() => navi('/')}>
-                    <img className={styles.back} src={`${process.env.PUBLIC_URL}/images/back.png`} alt="back" />
-                </div>
-                <div className={styles.projectName}>
-                    <div className={styles.boardTitle}>
-                        <p>게시판</p>
-                    </div>
-                </div>
-                <div className={styles.headerButtons}>
-                    <div className={styles.boardListSearch}>
-                        <img className={styles.search} src={`${process.env.PUBLIC_URL}/images/search.png`} alt="search" />
-                    </div>
-                </div>
-            </div>
+            
 
 
 
@@ -188,28 +174,6 @@ export default function MissingList() {
             </div>
 
 
-
-
-
-
-
-
-
-
-            <div className={styles.mainNavi}>
-                <div className={styles.naviHome} onClick={() => navi('/')}>
-                    <img className={styles.home} src={`${process.env.PUBLIC_URL}/images/home.png`} alt="back" />
-                </div>
-                <div className={styles.naviHam}>
-                    <img className={styles.ham} src={`${process.env.PUBLIC_URL}/images/ham.png`} alt="back" />
-                </div>
-                <div className={styles.naviChat}>
-                    <img className={styles.chat} src={`${process.env.PUBLIC_URL}/images/message.png`} alt="back" />
-                </div>
-                <div className={styles.naviMy} onClick={() => navi('/mypage')}>
-                    <img className={styles.my} src={`${process.env.PUBLIC_URL}/images/myPage.png`} alt="back" />
-                </div>
-            </div>
         </>
     )
 }
