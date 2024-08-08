@@ -177,8 +177,7 @@ export default function UsedList() {
                     position: "fixed",
                     bottom: "70px",
                     right: "10px",
-
-                }} onClick={() => navi('/adoptList')}>
+                }} onClick={() => navi('/insertBoard')}>
                     <img className='plus-pen' src={`${process.env.PUBLIC_URL}/images/pen.png`} alt="글쓰기" style={{
                         marginTop: "9px",
                         marginLeft: "9px",

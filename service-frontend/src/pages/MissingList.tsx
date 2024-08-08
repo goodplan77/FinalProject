@@ -175,10 +175,9 @@ export default function MissingList() {
                     borderRadius: "35px",
                     opacity: "50%",
                     position: "fixed",
-                    bottom: "55px",
-                    right: "5px",
-
-                }} onClick={() => navi('/adoptList')}>
+                    bottom: "70px",
+                    right: "10px",
+                }} onClick={() => navi('/insertBoard')}>
                     <img className='plus-pen' src={`${process.env.PUBLIC_URL}/images/pen.png`} alt="글쓰기" style={{
                         marginTop: "9px",
                         marginLeft: "9px",

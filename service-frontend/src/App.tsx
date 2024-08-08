@@ -9,6 +9,7 @@ import Signup from './pages/Signup';
 import UsedList from './pages/UsedList';
 import AdoptList from './pages/AdoptList';
 import MissingList from './pages/MissingList';
+import InsertBoard from './pages/InsertBoard';
 
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
         <Route path='/usedList' element={<UsedList />} />
         <Route path='/adoptList' element={<AdoptList />} />
         <Route path='/missingList' element={<MissingList />} />
+        <Route path='/insertBoard' element={<InsertBoard />} />
         <Route path='/signup' element={<Signup />} />
       </Routes>
     </div>
