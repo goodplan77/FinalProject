@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './css/MainPage.module.css';
 import { useEffect } from 'react';
+import MainHeader from '../components/MainHeader';
 
 export default function MainPage() {
     const navi = useNavigate();
@@ -48,7 +49,7 @@ export default function MainPage() {
                             <img className={styles.icon} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>날씨</p>
                         </div>
-                        <div className={styles.buttons}>
+                        <div className={styles.buttons} onClick={() => navi('/petPlace')}>
                             <img className={styles.icon} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>펫플레이스</p>
                         </div>
