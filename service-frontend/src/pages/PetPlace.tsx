@@ -1,85 +1,128 @@
-import {useEffect, useState} from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './css/PetPlace.module.css';
 import useGeolocation from '../hook/useGeolocation';
 
 declare global {
     interface Window {
-      kakao: any;
+        kakao: any;
     }
 }
 
-export default function PetPlace (){
-
+export default function PetPlace() {
     const location = useGeolocation();
-    const {kakao} = window;
-    const [map, setMap] = useState();
+    const [map, setMap] = useState<any>(null);
+    const [markers , setMarkers] = useState<any[]>([]);
+    const [keywordInput , setKeywordInput] = useState('');
+    const navi = useNavigate();
 
-    // 컴포넌트 마운트시 실행
     useEffect(() => {
-        // js 헤더에 초기 카카오 맵 설정 요청
-        const script = document.createElement("script");
-        script.async = true;
-        
         const kakaoMapApiKey = process.env.REACT_APP_KAKAO_MAP_KEY as string;
+
+        const script = document.createElement("script");
         script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapApiKey}&autoload=false&libraries=services`;
+        script.async = true;
+        script.defer = true;
         document.head.appendChild(script);
 
-        // 스크립트 로드시 맵 불러오기
         script.onload = () => {
-            // 카카오 맵 로드 성공시
-            
-            if(kakao && kakao.maps){
-                kakao.maps.load(() => {
-                    if (location.loaded && location.coordinates){
-                        const container = document.getElementById("map");    
+            if (window.kakao && window.kakao.maps) {
+                window.kakao.maps.load(() => {
+                    if (location.loaded && location.coordinates) {
+                        const container = document.getElementById("map");
                         const options = {
-                        center: new kakao.maps.LatLng(location.coordinates.lat , location.coordinates.lng), // 초기 중심 좌표 (위도, 경도)
-                        level: 2, // 지도 확대 레벨
+                            center: new window.kakao.maps.LatLng(location.coordinates.lat, location.coordinates.lng),
+                            level: 3,
                         };
-                        
-                        let markerPosition  = new kakao.maps.LatLng(location.coordinates.lat , location.coordinates.lng);
-                        let marker = new kakao.maps.Marker({
-                            position:markerPosition
-                        });
-
-                        const mapInstance = new kakao.maps.Map(container, options);
-                        setMap(mapInstance);
-
-                        marker.setMap(mapInstance);
+                        setMap(new window.kakao.maps.Map(container, options));
                     }
                 });
             }
-        }
+        };
 
-      }, [location]);
+        script.onerror = () => {
+            console.error("Kakao Maps script failed to load.");
+        };
 
-    const navi = useNavigate();
+        // Clean up script if needed
+        return () => {
+            document.head.removeChild(script);
+        };
+    }, [location]);
 
     const serarchHospital = () => {
-        const places = new kakao.maps.services.Places(map);
+        if (map) {
+            const places = new window.kakao.maps.services.Places(map);
+            places.categorySearch('HP8', placesSearchCB, { useMapBounds: true });
+        } 
+    };
+
+    const serarchCafe = () => {
+        if (map) {
+            const places = new window.kakao.maps.services.Places(map);
+            places.categorySearch('CE7', placesSearchCB, { useMapBounds: true });
+        } 
+    };
+
+    const serarchFood = () => {
+        if (map) {
+            const places = new window.kakao.maps.services.Places(map);
+            places.categorySearch('FD6', placesSearchCB, { useMapBounds: true });
+        } 
+    };
+
+    const placesSearchCB = (data: any, status: string) => {
+        if (status === window.kakao.maps.services.Status.OK) {
+            clearMarkers();  // 기존 마커 제거
+            const newMarkers = data.map((place: any) => {
+                const markerPosition = new window.kakao.maps.LatLng(place.y, place.x);
+                const marker = new window.kakao.maps.Marker({
+                    map : map,
+                    position: markerPosition,
+                });
+
+                var infowindow = new window.kakao.maps.InfoWindow({
+                    position: new window.kakao.maps.LatLng(place.y, place.x),
+                    content: `<div>${place.place_name}</div>`
+                });
+
+                infowindow.open(map,marker);
+                return {marker,infowindow};
+            });
+            setMarkers(newMarkers);
+        }
+    };
+
+    function clearMarkers() {
+            markers.forEach((marker) => {
+                marker.marker.setMap(null);
+                marker.infowindow.close();
+            });
+            setMarkers([]);
     }
+
+    const serarchKeyword = () => {
+        if (map) {
+            const places = new window.kakao.maps.services.Places(map);
+            places.keywordSearch(keywordInput, placesSearchCB, { useMapBounds: true });
+            setKeywordInput('');
+        } 
+    };
 
     return (
         <>
-            <div id="map" style={{width : "100%" , height : "800px"}}></div>
-            <div className = {styles.serarchButton} onClick={serarchHospital}></div>
-
-            <div className={styles.mainNavi}>
-                <div className={styles.naviHome} onClick={() => navi('/')}>
-                    <img className={styles.home} src={`${process.env.PUBLIC_URL}/images/home.png`} alt="back" />
+            <div id="map" style={{ width: "100vh", height: "100vh" }}></div>
+            <div className={styles.searchArea}>
+                <div className={styles.searchInput}>
+                    <input type="text" value={keywordInput} onChange={(e) =>
+                        {setKeywordInput(e.target.value)}
+                        }></input>
                 </div>
-                <div className={styles.naviHam}>
-                    <img className={styles.ham} src={`${process.env.PUBLIC_URL}/images/ham.png`} alt="back" />
-                </div>
-                <div className={styles.naviChat}>
-                    <img className={styles.chat} src={`${process.env.PUBLIC_URL}/images/message.png`} alt="back" />
-                </div>
-                <div className={styles.naviMy} onClick={() => navi('/mypage')}>
-                    <img className={styles.my} src={`${process.env.PUBLIC_URL}/images/myPage.png`} alt="back" />
-                </div>
+                <div className={styles.searchButton} onClick={serarchKeyword}></div>
             </div>
+            <div className={styles.serarchButton1} onClick={serarchHospital}>병</div>
+            <div className={styles.serarchButton2} onClick={serarchCafe}>카</div>
+            <div className={styles.serarchButton3} onClick={serarchFood}>음</div>
         </>
-    )
+    );
 }
