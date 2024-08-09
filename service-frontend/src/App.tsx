@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Router, Routes, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Login from './pages/Login';
 import Mypage from './pages/Mypage';
@@ -9,11 +9,9 @@ import Signup from './pages/Signup';
 import UsedList from './pages/UsedList';
 import AdoptList from './pages/AdoptList';
 import MissingList from './pages/MissingList';
-
 import InsertBoard from './pages/InsertBoard';
 import ChatList from './pages/ChatList';
 import ChatRoom from './pages/ChatRoom';
-
 import PetPlace from './pages/PetPlace';
 import Navibar from './components/Navibar';
 import './App.css';
