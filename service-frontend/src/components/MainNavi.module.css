@@ -1,0 +1,19 @@
+.mainNavi {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    background: #FFFFFF;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.home,
+.ham,
+.chat,
+.my {
+    width: 40px;
+    height: 40px;
+}

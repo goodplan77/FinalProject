@@ -1,0 +1,249 @@
+.loginPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0px;
+    gap: 15px;
+    isolation: isolate;
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    height: 100vh;
+    background: #FFFFFF;
+}
+
+.closeButtonFrame {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 0px;
+    width: 100%;
+    height: 48px;
+}
+
+.closeIcon {
+    width: 30px;
+    height: 30px;
+    background: url('../../../public/images/close.png') no-repeat center center;
+    background-size: contain;
+    padding-right: 10px;
+}
+
+.biglogoFrame {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    width: 100%;
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+.biglogo {
+    width: 100px;
+    height: 100px;
+    background: url('../../../public/images/logo.png') no-repeat center center;
+    background-size: contain;
+}
+
+.nameFrame {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    gap: 10px;
+    width: 100%;
+    height: 44px;
+}
+
+.homeLink {
+    justify-content: center;
+    width: 180px;
+    height: 44px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 44px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.87);
+    border: 2px dashed #000000;
+    backdrop-filter: blur(2px);
+}
+
+.loginInputContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 25px;
+    gap: 15px;
+    width: 100%;
+    max-width: 430px;
+    background: #FFFFFF;
+}
+
+.emailInput,
+.passwordInput {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 10px;
+    width: 100%;
+    max-width: 380px;
+    height: 40px;
+    border: 2px solid #02CCFE;
+}
+
+.emailPlaceholder,
+.passwordPlaceholder {
+    width: 100%;
+    height: 18px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    color: #B1B1B1;
+}
+
+.loginSignupButtonContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 20px;
+    gap: 15px;
+    width: 100%;
+    max-width: 430px;
+    background: #FFFFFF;
+}
+
+.loginButton,
+.signupButton {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 10px;
+    width: 100%;
+    max-width: 270px;
+    height: 60px;
+    border: 5px solid #02CCFE;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.loginText,
+.signupText {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+.idPasswordRecovery {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 270px;
+    height: 50px;
+}
+
+.idRecovery,
+.passwordRecovery {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 3px 1px;
+    gap: 10px;
+}
+
+.idRecoveryText,
+.passwordRecoveryText {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+.verticalDivider {
+    width: 1px;
+    height: 24px;
+    background-color: #CAC4D0;
+}
+
+.kakaoLoginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 0px 30px;
+    gap: 10px;
+    width: 100%;
+    max-width: 430px;
+    background: #FFFFFF;
+}
+
+.easyLoginSignup {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 36px;
+    gap: 10px;
+    width: 100%;
+    height: 18px;
+}
+
+.easyLoginSignupText {
+    justify-content: center;
+    width: 100%;
+    max-width: 250px;
+    height: 30px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+
+.kakaoLoginButton {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    gap: 10px;
+    width: 300px;
+    height: 45px;
+    background: #FFEB00;
+    border-radius: 5px;
+    background-image: url('../../../public/images/kakao_login.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
