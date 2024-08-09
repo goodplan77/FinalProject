@@ -34,11 +34,16 @@
     margin-right: 2%;
 }
 
-.search{
+.button{
     display: flex;
 
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+
+    flex-basis: 10%;
+}
+.alarmImg{
+    height: 30px;
 }
 .searchImg{
     height: 30px;
@@ -47,8 +52,9 @@
 .back{
     display: flex;
 
-    justify-content: center;
     align-items: center;
+
+    flex-basis: 5%;
 }
 .backImg{
     height: 30px;
