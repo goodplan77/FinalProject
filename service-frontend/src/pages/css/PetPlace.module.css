@@ -1,29 +1,50 @@
-.mainNavi {
+.app-container {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    height: 50px;
-    background: #FFFFFF;
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    justify-items: center;
 }
 
-.home,
-.ham,
-.chat,
-.my {
-    width: 40px;
-    height: 40px;
-}
-
-.serarchButton {
+.serarchButton1 {
     position: fixed;
     width: 40px;
     height: 40px;
-    bottom: 55px;
+    bottom: 100px;
     right: 5px;
     z-index: 1000;
     background-color: red;
+}
+
+.serarchButton2 {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    bottom: 100px;
+    right: 65px;
+    z-index: 1000;
+    background-color: green;
+}
+
+.serarchButton3 {
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    bottom: 100px;
+    right: 125px;
+    z-index: 1000;
+    background-color: blue;
+}
+
+.searchArea{
+    display: flex;
+    width: 80%;
+    height: 40px;
+    z-index: 1000;
+    background-color: white;
+}
+.searchInput{
+    width: 92%;
+    background-color: red;
+}
+.searchButton{
+    width: 8%;
+    background-color: blue;
 }
