@@ -13,6 +13,7 @@ import InsertBoard from './pages/InsertBoard';
 import ChatList from './pages/ChatList';
 import ChatRoom from './pages/ChatRoom';
 import PetPlace from './pages/PetPlace';
+import Weather from './pages/Weather';
 import Navibar from './components/Navibar';
 import './App.css';
 import Headerbar from './components/Headerbar';
@@ -42,6 +43,7 @@ const App = () => {
           <Route path='/chatRoom' element={<ChatRoom />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/petPlace' element={<PetPlace />} />
+          <Route path='/weather' element={<Weather />} />
         </Routes>
       </div>
 
