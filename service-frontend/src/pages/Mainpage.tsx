@@ -90,7 +90,7 @@ export default function MainPage() {
                             <img className={styles.icon} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>강아지 정보</p>
                         </div>
-                        <div className={styles.buttons}>
+                        <div className={styles.buttons} onClick={() => navi('/weather')}>
                             <img className={styles.icon} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>날씨</p>
                         </div>
