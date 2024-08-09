@@ -13,7 +13,7 @@ public class Board {
 	private int userNo;
 	private String title;
 	private String content;
-	private char boardCode; // C, S, A, M, I, E,  N
+	private char boardCode; // C 일반, S 중고, A 입양, M 실종, I 정보, E 이벤트,  N 공지
 	private String enrollDate; // 일단 String
 	private String modifyDate; // 일단 String
 	private int views;

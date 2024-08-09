@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './css/UsedList.module.css';
 import { useEffect } from 'react';
+import axios from 'axios';
 
 export default function UsedList() {
     const navi = useNavigate();
@@ -14,6 +15,13 @@ export default function UsedList() {
 
         return null;
     };
+
+    useEffect(()=>{
+        axios.get("http://localhost:8013/banju/board/usedList")
+        .then((response) =>{
+            console.log(response);
+        })
+      },[])
     return (
         <>
             <ScrollToTop />

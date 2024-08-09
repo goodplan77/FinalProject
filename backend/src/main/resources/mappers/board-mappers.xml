@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+	<!-- 일반 게시판 -->
+	<select id="selectBoards" resultType="Board">
+		SELECT *
+		FROM BOARD
+		WHERE BOARD_CODE = 'C'
+		ORDER BY ENROLL_DATE DESC
+	</select>
+	
+	<!-- 중고 게시판 -->
+	<select id="usedList" resultType="Board">
+		SELECT *
+		FROM BOARD
+		WHERE BOARD_CODE = 'S'
+		ORDER BY ENROLL_DATE DESC
+	</select>
+	
+	<!-- 입양 게시판 -->
+	<select id="adoptList" resultType="Board">
+		SELECT *
+		FROM BOARD
+		WHERE BOARD_CODE = 'A'
+		ORDER BY ENROLL_DATE DESC
+	</select>
+	
+	<!-- 실종 게시판 -->
+	<select id="missingList" resultType="Board">
+		SELECT *
+		FROM BOARD
+		WHERE BOARD_CODE = 'M'
+		ORDER BY ENROLL_DATE DESC
+	</select>
+	
+	
+</mapper>

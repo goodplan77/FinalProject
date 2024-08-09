@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from './css/MissingList.module.css';
 import { useEffect } from "react";
+import axios from "axios";
 
 export default function MissingList() {
     const navi = useNavigate();
@@ -14,6 +15,13 @@ export default function MissingList() {
 
         return null;
     };
+
+    useEffect(()=>{
+        axios.get("http://localhost:8013/banju/board/missingList")
+        .then((response) =>{
+            console.log(response);
+        })
+      },[])
     return (
         <>
             <ScrollToTop />
