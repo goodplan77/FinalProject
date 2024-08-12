@@ -53,11 +53,8 @@ export default function Weather() {
 
                     try {
                         await loadKakaoMapScript();
-                        console.log('Kakao Maps API 로드 후 확인:', window.kakao);
-
+                        
                         if (window.kakao && window.kakao.maps && window.kakao.maps.services) {
-                            console.log('Kakao Maps API의 Geocoder 사용 가능:', window.kakao.maps.services.Geocoder);
-
                             const geocoder = new window.kakao.maps.services.Geocoder();
                             const coords = new window.kakao.maps.LatLng(latitude, longitude);
 
@@ -72,9 +69,6 @@ export default function Weather() {
                             });
                         } else {
                             console.error('Kakao Maps API가 올바르게 로드되지 않았습니다. services 또는 Geocoder를 찾을 수 없습니다.');
-                            console.log(window.kakao);
-                            console.log(window.kakao.maps);
-                            console.log(window.kakao.maps.services);
                         }
                     } catch (error) {
                         console.error('Kakao Maps API 로드 중 오류 발생:', error);
