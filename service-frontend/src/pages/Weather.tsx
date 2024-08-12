@@ -5,6 +5,7 @@ import styles from './css/Weather.module.css';
 
 export default function Weather() {
     const [location, setLocation] = useState<{ lat: number, lon: number } | null>(null);
+    const [locationName, setLocationName] = useState('');
     const [temperature, setTemperature] = useState<number | null>(null);
     const [rainfall, setRainfall] = useState<number | null>(null);
     const [humidity, setHumidity] = useState<number | null>(null);
@@ -14,20 +15,80 @@ export default function Weather() {
     const [skyText, setSkyText] = useState<string>('');
     const [weatherImage, setWeatherImage] = useState<string>('unknown');
     const serviceKey = process.env.REACT_APP_Weather_API_ServiceKey;
+    const kakaoMapApiKey = process.env.REACT_APP_KAKAO_MAP_KEY as string;
 
     useEffect(() => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                setLocation({ lat: latitude, lon: longitude });
-            }, (error) => {
-                console.error("Error getting location: ", error);
+        const loadKakaoMapScript = () => {
+            return new Promise<void>((resolve, reject) => {
+                if (window.kakao && window.kakao.maps) {
+                    console.log('Kakao Maps API가 이미 로드되어 있습니다.');
+                    resolve();
+                } else {
+                    console.log('Kakao Maps API를 로드 중입니다...');
+                    const script = document.createElement('script');
+                    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapApiKey}&autoload=false&libraries=services`;
+                    script.onload = () => {
+                        console.log('Kakao Maps API 스크립트 로드 완료');
+                        // Kakao Maps API가 로드된 후, kakao.maps.load를 호출하여 콜백 실행
+                        window.kakao.maps.load(() => {
+                            console.log('Kakao Maps API가 성공적으로 로드되었습니다.');
+                            resolve();
+                        });
+                    };
+                    script.onerror = () => {
+                        console.error('Kakao Maps API 스크립트 로드 중 오류 발생');
+                        reject(new Error('Kakao Maps API 스크립트 로드 실패'));
+                    };
+                    document.head.appendChild(script);
+                }
             });
-        } else {
-            console.error("Geolocation is not supported by this browser.");
-        }
-    }, []);
+        };
+
+        const getLocation = async () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    setLocation({ lat: latitude, lon: longitude });
+
+                    try {
+                        await loadKakaoMapScript();
+                        console.log('Kakao Maps API 로드 후 확인:', window.kakao);
+
+                        if (window.kakao && window.kakao.maps && window.kakao.maps.services) {
+                            console.log('Kakao Maps API의 Geocoder 사용 가능:', window.kakao.maps.services.Geocoder);
+
+                            const geocoder = new window.kakao.maps.services.Geocoder();
+                            const coords = new window.kakao.maps.LatLng(latitude, longitude);
+
+                            geocoder.coord2RegionCode(longitude, latitude, (result: any, status: any) => {
+                                if (status === window.kakao.maps.services.Status.OK) {
+                                    if (result[0]) {
+                                        setLocationName(result[0].address_name);
+                                    }
+                                } else {
+                                    console.error('지역명을 가져오지 못했습니다.');
+                                }
+                            });
+                        } else {
+                            console.error('Kakao Maps API가 올바르게 로드되지 않았습니다. services 또는 Geocoder를 찾을 수 없습니다.');
+                            console.log(window.kakao);
+                            console.log(window.kakao.maps);
+                            console.log(window.kakao.maps.services);
+                        }
+                    } catch (error) {
+                        console.error('Kakao Maps API 로드 중 오류 발생:', error);
+                    }
+                }, (error) => {
+                    console.error('Geolocation 오류:', error);
+                });
+            } else {
+                console.error('Geolocation을 지원하지 않는 브라우저입니다.');
+            }
+        };
+
+        getLocation();
+    }, [kakaoMapApiKey]);
 
     useEffect(() => {
         if (location) {
@@ -63,7 +124,7 @@ export default function Weather() {
                     let currentPrecipitationType = '';
 
                     items.forEach((item: any) => {
-                        const value = parseFloat(item.obsrValue);  // 문자열을 숫자로 변환
+                        const value = parseFloat(item.obsrValue);
 
                         switch (item.category) {
                             case "T1H":
@@ -215,7 +276,7 @@ export default function Weather() {
             </div>
             <div>
                 <div>
-                    <span>{location?.lat}, {location?.lon}</span>
+                    <span>{locationName}</span>
                 </div>
             </div>
         </div>
