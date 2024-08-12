@@ -52,7 +52,7 @@ export default function FindUserPassword() {
                 </div>
 
                 <div className={styles.button}>
-                    <span className={styles.buttonText} onClick={() => navi('/chagePassword')}>다 음</span>
+                    <span className={styles.buttonText} onClick={() => navi('/changePassword')}>다 음</span>
                 </div>
             </div>
         </>
