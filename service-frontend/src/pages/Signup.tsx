@@ -2,7 +2,12 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import DaumPostcode from "react-daum-postcode";
+import Modal from "react-modal";
 import styles from './css/Signup.module.css';
+
+
+Modal.setAppElement('#root'); // 모달의 접근성 설정
 
 const SignUpPage: React.FC = () => {
     const [form, setForm] = useState({
@@ -16,10 +21,12 @@ const SignUpPage: React.FC = () => {
         birthDate: '',
         address: '',
         addressDetail: '',
+        postalCode: '', // 우편번호를 저장하기 위한 필드 추가
     });
 
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const datepickerRef = useRef<DatePicker>(null);
 
@@ -47,6 +54,38 @@ const SignUpPage: React.FC = () => {
 
     const navi = useNavigate();
 
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleAddressSelect = (data: any) => {
+        const fullAddress = data.address;
+        let extraAddress = '';
+        console.log(fullAddress);
+
+        if (data.addressType === 'R') {
+            if (data.bname !== '') {
+                extraAddress += data.bname;
+            }
+            if (data.buildingName !== '') {
+                extraAddress += (extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName);
+            }
+        }
+
+        setForm({
+            ...form,
+            address: fullAddress, // 기본 주소 필드에 검색된 주소 저장
+            addressDetail: extraAddress ? `(${extraAddress})` : '', // 참고 항목을 상세 주소 필드에 저장
+            postalCode: data.zonecode, // 우편번호 필드에 검색된 우편번호 저장
+        });
+
+        closeModal();
+    };
+
     return (
         <>
             <div className={styles.container}>
@@ -69,7 +108,7 @@ const SignUpPage: React.FC = () => {
                             placeholder="반주한상"
                             className={styles.input}
                         />
-                        <div className={styles.error}>* 이름을 입력해주세요.</div>
+                        <div className={styles.error} style={{ textAlign: 'left' }}>* 이름을 입력해주세요.</div>
                     </div>
                     <div className={styles.formGroup}>
                         <label htmlFor="nickname" className={styles.label}>닉네임</label>
@@ -87,7 +126,7 @@ const SignUpPage: React.FC = () => {
                                 중복 확인
                             </button>
                         </div>
-                        <div className={styles.error}>* 닉네임을 입력해주세요.</div>
+                        <div className={styles.error} style={{ textAlign: 'left' }}>* 닉네임을 입력해주세요.</div>
                     </div>
                     <div className={styles.formGroup}>
                         <label htmlFor="email" className={styles.label}>이메일</label>
@@ -193,44 +232,66 @@ const SignUpPage: React.FC = () => {
                         </div>
                     </div>
                     <div className={styles.formGroup}>
-                        <label htmlFor="address" className={styles.label}>주소</label>
-                        <div className={styles.inputContainer}>
+                        <label htmlFor="postalCode" className={styles.label}>우편번호</label>
+                        <div style={{ alignItems: 'center', display: 'flex' }}>
                             <input
                                 type="text"
-                                id="address"
-                                name="address"
-                                value={form.address}
+                                id="postalCode"
+                                name="postalCode"
+                                value={form.postalCode}
                                 onChange={handleChange}
                                 placeholder="우편번호"
-                                className={styles.inputInline}
+                                className={styles.input}
+                                style={{ width: '318px' }}
                             />
-                            <button type="button" className={styles.inlineButton}>
-                                우편번호
+                            <button type="button" className={styles.inlineButton} onClick={openModal} style={{ width: '55px', fontSize: '10px' }}>
+                                우편번호 찾기
                             </button>
                         </div>
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="address" className={styles.label} />
                         <input
                             type="text"
-                            name="addressDetail"
-                            value={form.addressDetail}
+                            id="address"
+                            name="address"
+                            value={form.address}
                             onChange={handleChange}
                             placeholder="기본주소"
                             className={styles.input}
-                            style={{ marginTop: '10px' }}
                         />
+                    </div>
+                    <div className={styles.formGroup}>
+                        <label htmlFor="addressDetail" className={styles.label} />
                         <input
                             type="text"
+                            id="addressDetail"
                             name="addressDetail"
                             value={form.addressDetail}
                             onChange={handleChange}
                             placeholder="상세주소"
                             className={styles.input}
-                            style={{ marginTop: '10px' }}
                         />
                     </div>
                     <button type="submit" className={styles.submitButton}>
                         회원 가입
                     </button>
                 </form>
+
+                <Modal
+                    isOpen={isModalOpen}
+                    onRequestClose={closeModal}
+                    className={styles.modal}
+                    overlayClassName={styles.overlay}
+                >
+                    <div className={styles.modalHeader}>
+                        <h2>주소 찾기</h2>
+                        <button onClick={closeModal} className={styles.closeButton}>닫기</button>
+                    </div>
+                    <div className={styles.modalContent}>
+                        <DaumPostcode onComplete={handleAddressSelect} />
+                    </div>
+                </Modal>
             </div>
         </>
     );

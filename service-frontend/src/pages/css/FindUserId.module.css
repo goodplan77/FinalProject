@@ -1,0 +1,97 @@
+.container {
+    position: relative;
+    width: 430px;
+    height: 932px;
+    background: #FFFFFF;
+    margin-top: 55px;
+}
+
+.rectangle {
+    box-sizing: border-box;
+    width: 337px;
+    height: 44px;
+    margin: 16px auto;
+    background: #FFFFFF;
+    border: 3px solid #00BFFF;
+    /* 테두리 색상 변경 */
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    color: #C4B7B7;
+}
+
+.inputPlaceholder {
+    width: 98%;
+    height: 95%;
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 22px;
+    border: none;
+    outline: none;
+}
+
+.label {
+    font-family: 'Noto Sans KR';
+    font-size: 15px;
+    line-height: 26px;
+    color: #000000;
+    margin-left: 43px;
+    display: flex;
+    align-items: center;
+}
+
+.required {
+    color: #00BFFF;
+    /* 이름 옆의 필수 표시 */
+    margin-left: 4px;
+}
+
+.inputInstruction {
+    font-family: 'Noto Sans KR';
+    font-size: 12px;
+    line-height: 26px;
+    color: #ACACAC;
+    margin: 8px 0;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.radioGroup {
+    margin: 16px 43px;
+}
+
+.radioLabel {
+    font-family: 'Noto Sans KR';
+    font-size: 15px;
+    line-height: 26px;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.radioLabel input {
+    margin-right: 10px;
+}
+
+.button {
+    background: #FFFFFF;
+    /* 배경색 흰색 */
+    border: 3px solid #00BFFF;
+    /* 테두리 색상 */
+    width: 337px;
+    height: 44px;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirmText {
+    font-family: 'Noto Sans KR';
+    font-size: 20px;
+    line-height: 26px;
+    color: #000000;
+    /* 텍스트 색상 검정 */
+}

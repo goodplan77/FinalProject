@@ -17,6 +17,10 @@ import Weather from './pages/Weather';
 import Navibar from './components/Navibar';
 import './App.css';
 import Headerbar from './components/Headerbar';
+import FindUserId from './pages/FindUserId';
+import FindUserPassword from './pages/FindUserPassword';
+import SuccessUserId from './pages/SuccessUserId';
+import ChagePassword from './pages/ChangePassword';
 
 
 const App = () => {
