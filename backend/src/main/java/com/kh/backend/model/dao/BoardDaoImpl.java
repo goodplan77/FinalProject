@@ -34,5 +34,10 @@ public class BoardDaoImpl implements BoardDao{
 	public List<Board> missingList() {
 		return session.selectList("board.missingList");
 	}
-	
+
+	@Override
+	public int insertBoard(Board board) {
+		return session.insert("board.insertBoard", board);
+	}
+
 }

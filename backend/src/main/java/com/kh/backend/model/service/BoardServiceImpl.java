@@ -35,4 +35,9 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.missingList();
 	}
 
+	@Override
+	public int insertBoard(Board board) {
+		return boardDao.insertBoard(board);
+	}
+
 }

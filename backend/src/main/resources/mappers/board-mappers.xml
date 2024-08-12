@@ -34,5 +34,23 @@
 		ORDER BY ENROLL_DATE DESC
 	</select>
 	
+	<!-- 게시글 등록 -->
+	<insert id="insertBoard">
+		INSERT INTO BOARD
+		VALUES(
+			SEQ_BOARD.NEXTVAL,
+			1,
+			#{title},
+			#{content},
+			#{boardCode},
+			SYSDATE,
+			SYSDATE,
+			0,
+			'Y',
+			'P',
+			0
+		)
+	</insert>
+	
 	
 </mapper>

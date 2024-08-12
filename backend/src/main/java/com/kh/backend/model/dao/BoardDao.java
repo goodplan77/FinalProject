@@ -14,4 +14,6 @@ public interface BoardDao {
 
 	List<Board> missingList();
 
+	int insertBoard(Board board);
+
 }

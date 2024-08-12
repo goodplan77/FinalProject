@@ -1,8 +1,28 @@
 import { useNavigate } from "react-router-dom";
 import styles from './css/InsertBoard.module.css';
+import { FormEvent, useRef, useState } from "react";
+import axios from "axios";
+import { Board, initialBoard } from "../type/board";
+import useInput from "../hook/useInput";
 
 export default function InsertBoard() {
     const navi = useNavigate();
+
+    const [newBoard, handleInputChange] = useInput<Board>(initialBoard);
+
+    const insertBoard = (e: FormEvent) => {
+        e.preventDefault(); // 제출되면 새로고침 되니까 새로고침을 막으려고하는 것이다.
+        console.log(newBoard);
+        axios
+            .post('http://localhost:8013/banju/board/insertBoard', newBoard)
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
 
     return (
         <>
@@ -23,44 +43,48 @@ export default function InsertBoard() {
                 <div className={styles.boardCate}>
                     <p>게시글 카테고리</p>
                 </div>
-                <div className={styles.cates}>
-                    <div className={styles.cate}>
-                        <p>일반</p>
+                <form id="boardEnrollForm" onSubmit={insertBoard}>
+                    <div className={styles.cates}>
+                        <div className={styles.cate}>
+                            <input type="radio" className={styles.select} name="boardCode" value="C" id="btn1" onChange={handleInputChange} defaultChecked/>
+                            <label htmlFor="btn1">일반</label>
+                        </div>
+                        <div className={styles.cate}>
+                            <input type="radio" className={styles.select} name="boardCode" value="S" id="btn2" onChange={handleInputChange}/>
+                            <label htmlFor="btn2">중고</label>
+                        </div>
+                        <div className={styles.cate}>
+                            <input type="radio" className={styles.select} name="boardCode" value="A" id="btn3" onChange={handleInputChange}/>
+                            <label htmlFor="btn3">입양</label>
+                        </div>
+                        <div className={styles.cate}>
+                            <input type="radio" className={styles.select} name="boardCode" value="M" id="btn4" onChange={handleInputChange}/>
+                            <label htmlFor="btn4">실종</label>
+                        </div>
                     </div>
-                    <div className={styles.cate}>
-                        <p>중고</p>
-                    </div>
-                    <div className={styles.cate}>
-                        <p>입양</p>
-                    </div>
-                    <div className={styles.cate}>
-                        <p>실종</p>
-                    </div>
-                </div>
 
-                <div className={styles.titleStroke}>
-                    <div className={styles.titleBox}>
-                        <input className={styles.title} type="text" placeholder="제목을 입력해주세요" />
+                    <div className={styles.titleStroke}>
+                        <div className={styles.titleBox}>
+                            <input className={styles.title} type="text" name="title" placeholder="제목을 입력해주세요" onChange={handleInputChange}/>
+                        </div>
                     </div>
-                </div>
-                <div className={styles.contentStroke}>
-                    <div className={styles.contentBox}>
-                        <textarea className={styles.content} placeholder="내용을 입력하세요" />
+                    <div className={styles.contentStroke}>
+                        <div className={styles.contentBox}>
+                            <textarea className={styles.content} name="content" placeholder="내용을 입력하세요" onChange={handleInputChange}/>
+                        </div>
                     </div>
-                </div>
 
-                <div className={styles.picture}>
-                    <p>+</p>
-                </div>
+                    <div className={styles.picture}>
+                        <p>+</p>
+                    </div>
 
-                <div className={styles.choicies}>
-                    <div className={styles.choice}>
-                        <p>취소하기</p>
+                    <div className={styles.choicies}>
+                        <div className={styles.choice} onClick={() => navi(-1)}>
+                            <p>취소하기</p>
+                        </div>
+                        <input type="submit" className={styles.choice} value="게시하기" onClick={() => navi(-1)} />
                     </div>
-                    <div className={styles.choice}>
-                        <p>게시하기</p>
-                    </div>
-                </div>
+                </form>
 
 
 

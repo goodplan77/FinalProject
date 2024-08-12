@@ -14,4 +14,6 @@ public interface BoardService {
 
 	List<Board> missingList();
 
+	int insertBoard(Board board);
+
 }

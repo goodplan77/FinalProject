@@ -2,9 +2,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styles from './css/MissingList.module.css';
 import { useEffect } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { selectAllBoard } from "../features/boardSlice";
 
 export default function MissingList() {
     const navi = useNavigate();
+
+    const dispatch = useDispatch();
+
+    const missings = useSelector((state: RootState) => state.boards);
 
     const ScrollToTop = () => {
         const { pathname } = useLocation();
@@ -16,16 +24,19 @@ export default function MissingList() {
         return null;
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         axios.get("http://localhost:8013/banju/board/missingList")
-        .then((response) =>{
-            console.log(response);
-        })
-      },[])
+            .then((response) => {
+                console.log(response);
+                dispatch(selectAllBoard(response.data));
+            }).catch((response) => {
+                console.log(response);
+            })
+    }, [])
     return (
         <>
             <ScrollToTop />
-            
+
 
 
 
@@ -46,140 +57,64 @@ export default function MissingList() {
                     <p>... </p>
                 </div>
             </div>
+            {
+                missings.map((board) => {
+                    return (
+                        <div>
+                            <div className={styles.used}>
+                                <div className={styles.usedContent} key={board.boardNo}>
+                                    <div className={styles.usedImg}></div>
+                                    <div className={styles.upAndDown}>
+                                        <div className={styles.contentUp}>
+                                            <div className={styles.contentTitle}>
+                                                <p>{board.title}</p>
+                                            </div>
+                                            <div className={styles.upRight}>
+                                                <div className={styles.contentInfo}>
+                                                    <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
+                                                    <p className={styles.viewNo}>{board.views}</p>
+                                                </div>
+                                                <p className={styles.contentDate}>{board.enrollDate}</p>
+                                            </div>
+                                        </div>
+                                        <div className={styles.contentDown}>
+                                            <p className={styles.downNick}>닉네임닉네임</p>
+                                            <div className={styles.downRight}>
+                                                <div className={styles.contentLike}>
+                                                    <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
+                                                    <p>20</p>
+                                                    <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
+                                                    <p>18</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                })
+            }
 
 
-
-            <div className={styles.used}>
-                <div className={styles.usedContent}>
-                    <div className={styles.usedImg}></div>
-                    <div className={styles.upAndDown}>
-                        <div className={styles.contentUp}>
-                            <div className={styles.contentTitle}>
-                                <p>우리 까미 찾아주세요</p>
-                            </div>
-                            <div className={styles.upRight}>
-                                <div className={styles.contentInfo}>
-                                    <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
-                                    <p className={styles.viewNo}>20</p>
-                                </div>
-                                <p className={styles.contentDate}>2024-01-01</p>
-                            </div>
-                        </div>
-                        <div className={styles.contentDown}>
-                            <p className={styles.downNick}>닉네임닉네임</p>
-                            <div className={styles.downRight}>
-                                <div className={styles.contentLike}>
-                                    <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
-                                    <p>20</p>
-                                    <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
-                                    <p>18</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.usedContent}>
-                    <div className={styles.usedImg}></div>
-                    <div className={styles.upAndDown}>
-                        <div className={styles.contentUp}>
-                            <div className={styles.contentTitle}>
-                                <p>우리 초코 찾아주세요</p>
-                            </div>
-                            <div className={styles.upRight}>
-                                <div className={styles.contentInfo}>
-                                    <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
-                                    <p className={styles.viewNo}>20</p>
-                                </div>
-                                <p className={styles.contentDate}>2024-01-01</p>
-                            </div>
-                        </div>
-                        <div className={styles.contentDown}>
-                            <p className={styles.downNick}>닉네임닉네임</p>
-                            <div className={styles.downRight}>
-                                <div className={styles.contentLike}>
-                                    <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
-                                    <p>20</p>
-                                    <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
-                                    <p>18</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.usedContent}>
-                    <div className={styles.usedImg}></div>
-                    <div className={styles.upAndDown}>
-                        <div className={styles.contentUp}>
-                            <div className={styles.contentTitle}>
-                                <p>우리 코코 찾아주세요</p>
-                            </div>
-                            <div className={styles.upRight}>
-                                <div className={styles.contentInfo}>
-                                    <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
-                                    <p className={styles.viewNo}>20</p>
-                                </div>
-                                <p className={styles.contentDate}>2024-01-01</p>
-                            </div>
-                        </div>
-                        <div className={styles.contentDown}>
-                            <p className={styles.downNick}>닉네임닉네임</p>
-                            <div className={styles.downRight}>
-                                <div className={styles.contentLike}>
-                                    <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
-                                    <p>20</p>
-                                    <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
-                                    <p>18</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.usedContent}>
-                    <div className={styles.usedImg}></div>
-                    <div className={styles.upAndDown}>
-                        <div className={styles.contentUp}>
-                            <div className={styles.contentTitle}>
-                                <p>우리 멍멍이 찾아주세요</p>
-                            </div>
-                            <div className={styles.upRight}>
-                                <div className={styles.contentInfo}>
-                                    <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
-                                    <p className={styles.viewNo}>20</p>
-                                </div>
-                                <p className={styles.contentDate}>2024-01-01</p>
-                            </div>
-                        </div>
-                        <div className={styles.contentDown}>
-                            <p className={styles.downNick}>닉네임닉네임</p>
-                            <div className={styles.downRight}>
-                                <div className={styles.contentLike}>
-                                    <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="like" />
-                                    <p>20</p>
-                                    <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/comment.png`} alt="comment" />
-                                    <p>18</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className='plus' style={{
-                    backgroundColor: "#02CCFE",
-                    width: "70px",
-                    height: "70px",
-                    borderRadius: "35px",
-                    opacity: "50%",
-                    position: "fixed",
-                    bottom: "70px",
-                    right: "10px",
-                }} onClick={() => navi('/insertBoard')}>
-                    <img className='plus-pen' src={`${process.env.PUBLIC_URL}/images/pen.png`} alt="글쓰기" style={{
-                        marginTop: "9px",
-                        marginLeft: "9px",
-                        width: "50px",
-                        height: "50px",
-                    }} />
-                </div>
+            <div className='plus' style={{
+                backgroundColor: "#02CCFE",
+                width: "70px",
+                height: "70px",
+                borderRadius: "35px",
+                opacity: "50%",
+                position: "fixed",
+                bottom: "70px",
+                right: "10px",
+            }} onClick={() => navi('/insertBoard')}>
+                <img className='plus-pen' src={`${process.env.PUBLIC_URL}/images/pen.png`} alt="글쓰기" style={{
+                    marginTop: "9px",
+                    marginLeft: "2px",
+                    width: "50px",
+                    height: "50px",
+                }} />
             </div>
+
 
 
         </>
