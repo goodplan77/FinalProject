@@ -20,7 +20,7 @@ import Headerbar from './components/Headerbar';
 import FindUserId from './pages/FindUserId';
 import FindUserPassword from './pages/FindUserPassword';
 import SuccessUserId from './pages/SuccessUserId';
-import ChagePassword from './pages/ChangePassword';
+import ChangePassword from './pages/ChangePassword';
 
 
 const App = () => {
@@ -31,7 +31,7 @@ const App = () => {
 
     <div className='container'>
 
-      <Headerbar/>
+      <Headerbar />
 
       <div className="app-container">
         <Routes>
@@ -48,10 +48,14 @@ const App = () => {
           <Route path='/signup' element={<Signup />} />
           <Route path='/petPlace' element={<PetPlace />} />
           <Route path='/weather' element={<Weather />} />
+          <Route path='findUserId' element={<FindUserId />} />
+          <Route path='findUserPassword' element={<FindUserPassword />} />
+          <Route path='successUserId' element={<SuccessUserId />} />
+          <Route path='changePassword' element={<ChangePassword />} />
         </Routes>
       </div>
 
-      <Navibar/>
+      <Navibar />
 
     </div>
   );

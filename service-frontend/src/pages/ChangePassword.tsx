@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './css/ChangePassword.module.css';
 
-export default function ChagePassword() {
+export default function ChangePassword() {
 
     const navi = useNavigate();
 
