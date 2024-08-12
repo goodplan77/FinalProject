@@ -280,9 +280,10 @@ const SignUpPage: React.FC = () => {
 
                 <Modal
                     isOpen={isModalOpen}
-                    onRequestClose={closeModal}
+                    onRequestClose={closeModal} // 모달 외부 클릭 시 닫기
                     className={styles.modal}
                     overlayClassName={styles.overlay}
+                    shouldCloseOnOverlayClick={true} // 오버레이 클릭 시 모달 닫기
                 >
                     <div className={styles.modalHeader}>
                         <h2>주소 찾기</h2>
