@@ -36,11 +36,11 @@ const LoginPage = () => {
                 </div>
                 <div className={styles.idPasswordRecovery}>
                     <div className={styles.idRecovery}>
-                        <div className={styles.idRecoveryText}>아이디 찾기</div>
+                        <div className={styles.idRecoveryText} onClick={() => navi('/findUserId')}>아이디 찾기</div>
                     </div>
                     <div className={styles.verticalDivider}></div>
                     <div className={styles.passwordRecovery}>
-                        <div className={styles.passwordRecoveryText}>비밀번호 찾기</div>
+                        <div className={styles.passwordRecoveryText} onClick={() => navi('/findUserPassword')}>비밀번호 찾기</div>
                     </div>
                 </div>
                 <div className={styles.kakaoLoginContainer}>
