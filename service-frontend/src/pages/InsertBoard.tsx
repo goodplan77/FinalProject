@@ -17,6 +17,7 @@ export default function InsertBoard() {
             .post('http://localhost:8013/banju/board/insertBoard', newBoard)
             .then((response) => {
                 console.log(response);
+                navi(-1); // 바로 이동하면 안된다. 여기에 작성을 해야한다.
             })
             .catch((error) => {
                 console.log(error);
@@ -65,12 +66,12 @@ export default function InsertBoard() {
 
                     <div className={styles.titleStroke}>
                         <div className={styles.titleBox}>
-                            <input className={styles.title} type="text" name="title" placeholder="제목을 입력해주세요" onChange={handleInputChange}/>
+                            <input className={styles.title} type="text" name="title" placeholder="제목을 입력해주세요" onChange={handleInputChange} required/>
                         </div>
                     </div>
                     <div className={styles.contentStroke}>
                         <div className={styles.contentBox}>
-                            <textarea className={styles.content} name="content" placeholder="내용을 입력하세요" onChange={handleInputChange}/>
+                            <textarea className={styles.content} name="content" placeholder="내용을 입력하세요" onChange={handleInputChange} required/>
                         </div>
                     </div>
 
@@ -82,7 +83,7 @@ export default function InsertBoard() {
                         <div className={styles.choice} onClick={() => navi(-1)}>
                             <p>취소하기</p>
                         </div>
-                        <input type="submit" className={styles.choice} value="게시하기" onClick={() => navi(-1)} />
+                        <input type="submit" className={styles.choice} value="게시하기" />
                     </div>
                 </form>
 
