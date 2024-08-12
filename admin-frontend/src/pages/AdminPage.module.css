@@ -1,0 +1,10 @@
+.adminMain {
+    width: 100%;
+    background-color: gray;
+}
+
+.pageArea{
+    position: relative;
+    left: 200px;
+    height: inherit;
+}
