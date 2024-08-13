@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom"
-import AlarmList from "../components/AlarmList"
 import SideBar from "../components/SideBar"
 import styles from "./AdminPage.module.css"
 import InitPage from "./adminPages/InitPage"
@@ -38,7 +37,6 @@ export default function AdminPage () {
                     <Route path='inquiryManagePage' element={<InquiryManagePage />} />
                 </Routes>
             </div>
-            <AlarmList/>
             <SideBar/>
         </div>
     )

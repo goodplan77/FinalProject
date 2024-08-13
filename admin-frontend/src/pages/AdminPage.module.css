@@ -4,7 +4,10 @@
 }
 
 .pageArea{
-    position: relative;
+    display: flex;
+    position: fixed;
     left: 200px;
-    height: inherit;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
