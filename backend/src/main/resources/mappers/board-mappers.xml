@@ -43,12 +43,22 @@
 			#{title},
 			#{content},
 			#{boardCode},
-			SYSDATE,
-			SYSDATE,
+			DEFAULT,
+			DEFAULT,
 			0,
 			'Y',
 			'P',
 			0
+		)
+	</insert>
+	
+	<insert id="insertImage">
+		INSERT INTO BOARD_IMG
+		VALUS(
+			SEQ_BOARD_IMG,
+			BOARD_NO,
+			#{originName},
+			NULL
 		)
 	</insert>
 	

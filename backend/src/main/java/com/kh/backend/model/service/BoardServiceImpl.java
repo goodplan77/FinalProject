@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.backend.model.dao.BoardDao;
 import com.kh.backend.model.vo.Board;
+import com.kh.backend.model.vo.BoardImg;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,6 +39,11 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public int insertBoard(Board board) {
 		return boardDao.insertBoard(board);
+	}
+
+	@Override
+	public int insertImage(BoardImg boardImg) {
+		return boardDao.insertImage(boardImg);
 	}
 
 }

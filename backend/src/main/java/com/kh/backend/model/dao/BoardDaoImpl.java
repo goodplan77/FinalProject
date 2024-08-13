@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.backend.model.vo.Board;
+import com.kh.backend.model.vo.BoardImg;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,5 +40,12 @@ public class BoardDaoImpl implements BoardDao{
 	public int insertBoard(Board board) {
 		return session.insert("board.insertBoard", board);
 	}
+
+	@Override
+	public int insertImage(BoardImg boardImg) {
+		return session.insert("board.insertImage", boardImg);
+	}
+
+
 
 }

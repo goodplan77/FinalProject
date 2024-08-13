@@ -7,10 +7,12 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.backend.model.service.BoardService;
 import com.kh.backend.model.vo.Board;
 
@@ -64,14 +66,23 @@ public class BoardController {
 	}
 
 	@PostMapping("/insertBoard")
-	public Map<String, Object> insertBoard(@RequestBody Board board) {
-		log.debug("board = {}", board);
+	public Map<String, Object> insertBoard(
+			@RequestParam("board") String boardJson,
+			@RequestParam("file1") MultipartFile file1
+			) throws Exception {
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+        Board board = objectMapper.readValue(boardJson, Board.class);
+		
+        log.debug("board = {}", board);
 		
 		Map<String, Object> map = new HashMap<>();
 		
-		int result = boardService.insertBoard(board);
+		int result1 = boardService.insertBoard(board);
 		
-		if(result > 0) {
+		// int result2 = boardService.insertImage(boardImg);
+		
+		if(result1 > 0) {
 			map.put("msg", "게시글을 등록하였습니다.");
 		}else {
 			map.put("msg", "게시글 등록에 실패하였습니다.");

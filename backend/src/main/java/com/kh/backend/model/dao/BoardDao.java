@@ -3,6 +3,7 @@ package com.kh.backend.model.dao;
 import java.util.List;
 
 import com.kh.backend.model.vo.Board;
+import com.kh.backend.model.vo.BoardImg;
 
 public interface BoardDao {
 
@@ -15,5 +16,7 @@ public interface BoardDao {
 	List<Board> missingList();
 
 	int insertBoard(Board board);
+
+	int insertImage(BoardImg boardImg);
 
 }

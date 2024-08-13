@@ -178,17 +178,60 @@ input[type="radio"]:checked+label {
     margin-top: 20px;
     width: 100px;
     height: 100px;
+    align-items: center;
+}
+
+.picture .insertP {
+    display: none;
+}
+
+.customFileButton {
     background-color: #E4FAFF;
+    color: #02CCFE;
+    border: none;
+    border-radius: 10px;
+    padding: 0px 35px;
+    margin-right: 20px;
+}
+
+.customFileButton .plus{
+    margin-top: 14px;
+    margin-bottom: 0px;
+    font-size: 50px;
+}
+
+.customFileButton p{
+    font-size: 13px;
+    margin-top: 0px;
+}
+
+    
+.previewContainer{
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.previewContainer img{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.surely{
+    margin-top: 25px;
+    width: 350px;
+    height: 50px;
+    background-color: #E4FAFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 10px;
 }
 
-.picture p {
-    font-size: 50px;
-    margin: 0px;
+.surely p{
+    font-size: 16px;
     color: #02CCFE;
     font-weight: bold;
-    margin-left: 5px;
-    padding-top: 10px;
 }
 
 
@@ -201,7 +244,7 @@ input[type="radio"]:checked+label {
     width: 160px;
     height: 50px;
     background-color: #E4FAFF;
-    margin-top: 20px;
+    margin-top: 25px;
     border-radius: 10px;
     display: flex;
     justify-content: center;
