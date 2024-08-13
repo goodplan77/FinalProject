@@ -14,3 +14,11 @@
 
     background-color: white;
 }
+
+.app-container{
+    box-sizing: border-box;
+    width: 100%;
+    background: #FFFFFF;
+    text-align: left;
+    padding: 1% 2% 1% 2%;
+}
