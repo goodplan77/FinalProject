@@ -3,7 +3,7 @@
     background-color: gray;
 }
 
-.pageArea{
+.pageArea {
     display: flex;
     position: fixed;
     left: 200px;
