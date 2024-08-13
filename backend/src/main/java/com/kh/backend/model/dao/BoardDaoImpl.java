@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.backend.model.vo.Board;
 import com.kh.backend.model.vo.BoardImg;
@@ -45,6 +46,7 @@ public class BoardDaoImpl implements BoardDao{
 	public int insertImage(BoardImg boardImg) {
 		return session.insert("board.insertImage", boardImg);
 	}
+
 
 
 

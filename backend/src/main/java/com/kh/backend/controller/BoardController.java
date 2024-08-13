@@ -7,14 +7,17 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.backend.model.service.BoardService;
 import com.kh.backend.model.vo.Board;
+import com.kh.backend.model.vo.BoardImg;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -68,26 +71,25 @@ public class BoardController {
 	@PostMapping("/insertBoard")
 	public Map<String, Object> insertBoard(
 			@RequestParam("board") String boardJson,
-			@RequestParam("file1") MultipartFile file1
-			) throws Exception {
-		
+			@RequestParam(value = "files" , required = false) List<MultipartFile> files) throws Exception {
+
 		ObjectMapper objectMapper = new ObjectMapper();
-        Board board = objectMapper.readValue(boardJson, Board.class);
-		
-        log.debug("board = {}", board);
-		
+		Board board = objectMapper.readValue(boardJson, Board.class);
+
 		Map<String, Object> map = new HashMap<>();
-		
-		int result1 = boardService.insertBoard(board);
-		
-		// int result2 = boardService.insertImage(boardImg);
-		
-		if(result1 > 0) {
-			map.put("msg", "게시글을 등록하였습니다.");
-		}else {
-			map.put("msg", "게시글 등록에 실패하였습니다.");
+
+		int result = boardService.insertBoard(board);
+
+		if (result > 0 && files!=null) {
+			for (int i = 0; i < files.size(); i++) {
+				BoardImg boardImg = new BoardImg();
+				boardImg.setBoardNo(board.getBoardNo());
+				boardImg.setOriginName(files.get(i).getOriginalFilename());
+				boardService.insertImage(boardImg);
+			}
 		}
-		
+
+		map.put("board", board);
 		return map;
 	}
 

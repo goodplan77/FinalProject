@@ -32,8 +32,8 @@ export default function InsertBoard() {
         formData.append("board",JSON.stringify(newBoard));
 
         // 선택된 파일들을 FormData에 추가
-        selectedFiles.forEach((file, index) => {
-            formData.append(`file${index}`, file);
+        selectedFiles.forEach((file) => {
+            formData.append(`files`, file);
         });
 
         console.log(formData);
@@ -140,7 +140,7 @@ export default function InsertBoard() {
                             </div>
                         </>
                     )}
-
+                    
                     {currentBoardCode !== 'M' && (
                         <>
                             <div className={styles.contentStroke}>

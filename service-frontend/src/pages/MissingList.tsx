@@ -63,7 +63,7 @@ export default function MissingList() {
                         <div key={board.boardNo}>
                             <div className={styles.used}>
                                 <div className={styles.usedContent}>
-                                    <div className={styles.usedImg}></div>
+                                    <img className={styles.usedImg} src="" alt="이미지" />
                                     <div className={styles.upAndDown}>
                                         <div className={styles.contentUp}>
                                             <div className={styles.contentTitle}>

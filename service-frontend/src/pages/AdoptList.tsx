@@ -60,10 +60,10 @@ export default function AdoptList() {
             {
                 adopts.map((board) => {
                     return (
-                        <div>
+                        <div key={board.boardNo}>
 
                             <div className={styles.used}>
-                                <div className={styles.usedContent} key={board.boardNo}>
+                                <div className={styles.usedContent}>
                                     <div className={styles.usedImg}></div>
                                     <div className={styles.upAndDown}>
                                         <div className={styles.contentUp}>

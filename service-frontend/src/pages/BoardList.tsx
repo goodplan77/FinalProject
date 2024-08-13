@@ -58,10 +58,10 @@ export default function BoardList() {
             {
                 boards.map((board) => {
                     return (
-                        <div>
+                        <div key={board.boardNo}>
                             {/* 보드 카테고리바 아래에 보드 리스트입니다. */}
                             <div className={styles.classic}>
-                                <div className={styles.classicContent} key={board.boardNo}>
+                                <div className={styles.classicContent}>
                                     <div className={styles.img}></div>
                                     <div className={styles.upAndDown}>
                                         <div className={styles.contentUp}>
