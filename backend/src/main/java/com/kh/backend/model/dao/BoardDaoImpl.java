@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.backend.model.vo.Board;
+import com.kh.backend.model.vo.BoardImg;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,5 +36,18 @@ public class BoardDaoImpl implements BoardDao{
 	public List<Board> missingList() {
 		return session.selectList("board.missingList");
 	}
-	
+
+	@Override
+	public int insertBoard(Board board) {
+		return session.insert("board.insertBoard", board);
+	}
+
+	@Override
+	public int insertImage(BoardImg boardImg) {
+		return session.insert("board.insertImage", boardImg);
+	}
+
+
+
+
 }

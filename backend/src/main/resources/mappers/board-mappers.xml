@@ -7,32 +7,68 @@
 		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
 		FROM BOARD
 		WHERE BOARD_CODE = 'C'
-		ORDER BY ENROLL_DATE DESC
+		ORDER BY BOARD_NO DESC
 	</select>
 	
 	<!-- 중고 게시판 -->
 	<select id="usedList" resultType="Board">
-		SELECT *
+		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
 		FROM BOARD
 		WHERE BOARD_CODE = 'S'
-		ORDER BY ENROLL_DATE DESC
+		ORDER BY BOARD_NO DESC
 	</select>
 	
 	<!-- 입양 게시판 -->
 	<select id="adoptList" resultType="Board">
-		SELECT *
+		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
 		FROM BOARD
 		WHERE BOARD_CODE = 'A'
-		ORDER BY ENROLL_DATE DESC
+		ORDER BY BOARD_NO DESC
 	</select>
 	
 	<!-- 실종 게시판 -->
 	<select id="missingList" resultType="Board">
-		SELECT *
+		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
 		FROM BOARD
 		WHERE BOARD_CODE = 'M'
-		ORDER BY ENROLL_DATE DESC
+		ORDER BY BOARD_NO DESC
 	</select>
+	
+	<!-- 게시글 등록 -->
+	<insert id="insertBoard" useGeneratedKeys="true">
+	
+	<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+		SELECT SEQ_BOARD.NEXTVAL
+		FROM DUAL
+	</selectKey>
+	
+		INSERT INTO BOARD
+		VALUES(
+			#{boardNo},
+			1,
+			#{title},
+			#{content},
+			#{boardCode},
+			DEFAULT,
+			DEFAULT,
+			0,
+			'Y',
+			'P',
+			0
+		)
+		
+		
+		
+	</insert>
+	
+	<insert id="insertImage">
+		INSERT INTO BOARD_IMG (IMG_NO, BOARD_NO, ORIGIN_NAME)
+		VALUES(
+			SEQ_BOARD_IMG.NEXTVAL,
+			#{boardNo},
+			#{originName}
+		)
+	</insert>
 	
 	
 </mapper>

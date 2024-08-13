@@ -3,7 +3,7 @@ import boardSlice from "../features/boardSlice";
 
 const store = configureStore({
     reducer: {
-        boards : boardSlice
+        boards : boardSlice,
     }
 });
 

@@ -3,9 +3,11 @@ package com.kh.backend.model.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.backend.model.dao.BoardDao;
 import com.kh.backend.model.vo.Board;
+import com.kh.backend.model.vo.BoardImg;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,5 +36,18 @@ public class BoardServiceImpl implements BoardService{
 	public List<Board> missingList() {
 		return boardDao.missingList();
 	}
+
+	@Override
+	public int insertBoard(Board board) {
+		return boardDao.insertBoard(board);
+	}
+
+	@Override
+	public int insertImage(BoardImg boardImg) {
+		return boardDao.insertImage(boardImg);
+	}
+
+
+
 
 }
