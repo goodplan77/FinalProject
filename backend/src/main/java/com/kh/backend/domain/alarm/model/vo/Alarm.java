@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:backend/src/main/java/com/kh/backend/domain/alarm/model/vo/Alarm.java
 package com.kh.backend.domain.alarm.model.vo;
-========
-package com.kh.backend.domain.user.model.vo;
->>>>>>>> jayhp:backend/src/main/java/com/kh/backend/domain/user/model/vo/Alarm.java
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

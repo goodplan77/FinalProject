@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:backend/src/main/java/com/kh/backend/domain/commit/model/vo/Comment.java
 package com.kh.backend.domain.commit.model.vo;
-========
-package com.kh.backend.domain.user.model.vo;
->>>>>>>> jayhp:backend/src/main/java/com/kh/backend/domain/user/model/vo/Comment.java
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

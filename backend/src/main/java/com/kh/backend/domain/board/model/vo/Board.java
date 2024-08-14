@@ -1,12 +1,8 @@
-<<<<<<<< HEAD:backend/src/main/java/com/kh/backend/domain/board/model/vo/Board.java
 package com.kh.backend.domain.board.model.vo;
 
 import java.util.List;
 
 import com.kh.backend.domain.user.model.vo.User;
-========
-package com.kh.backend.domain.user.model.vo;
->>>>>>>> jayhp:backend/src/main/java/com/kh/backend/domain/user/model/vo/Board.java
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

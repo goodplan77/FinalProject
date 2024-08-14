@@ -1,10 +1,6 @@
-<<<<<<<< HEAD:backend/src/main/java/com/kh/backend/domain/ask/model/vo/Ask.java
 package com.kh.backend.domain.ask.model.vo;
 
 import com.kh.backend.domain.user.model.vo.User;
-========
-package com.kh.backend.domain.user.model.vo;
->>>>>>>> jayhp:backend/src/main/java/com/kh/backend/domain/user/model/vo/Ask.java
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
