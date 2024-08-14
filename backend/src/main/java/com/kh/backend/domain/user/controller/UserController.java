@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ public class UserController {
 	
 	private final JavaMailSenderImpl mailSender;
 	private final UserService service;
+	private final BCryptPasswordEncoder encoder;
 
 	@PostMapping("/sendEmail")
 	public ResponseEntity<HashMap<String, Object>> sendEmail(
@@ -117,8 +119,16 @@ public class UserController {
 	public ResponseEntity<HashMap<String, Object>> insertUser(
 			@RequestBody User user
 			){
-		
 		System.err.println(user);
+		
+		// 비밀번호 암호화
+		String encodedPwd = encoder.encode(user.getPwd());
+		user.setPwd(encodedPwd);
+		
+		// 포인트 500
+		user.setPoints(500);
+		
+		int result = service.insertUser(user);
 		
 		return null;
 	}

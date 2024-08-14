@@ -7,6 +7,39 @@
 		FROM "USER"
 		WHERE NICK_NAME = #{nickName}
 	</select>	
+	
+	<insert id="insertUser" useGeneratedKeys="true">
+	
+	<selectKey order="BEFORE" keyProperty="userNo">
+		SELECT SEQ_USER FROM DUAL
+	</selectKey>
+		INSERT INTO "USER"(
+			USER_NO,
+			GRADE,
+			EMAIL,
+			PWD,
+			USER_NAME,
+			NICK_NAME,
+			PHONE,
+			ADDRESS,
+			STATUS,
+			POINTS,
+			ENROLL_DATE
+		)
+		VALUES(
+			#{userNo},
+			DEFAULT,
+			#{email},
+			#{pwd},
+			#{userName},
+			#{nickName},
+			#{phone},
+			#{address},
+			DEFAULT,
+			#{points},
+			DEFAULT
+		)
+	</insert>
 
 
 </mapper>
