@@ -21,6 +21,7 @@ import FindUserId from './pages/FindUserId';
 import FindUserPassword from './pages/FindUserPassword';
 import SuccessUserId from './pages/SuccessUserId';
 import ChangePassword from './pages/ChangePassword';
+import BoardDetail from './pages/BoardDetail';
 
 
 const App = () => {
@@ -52,6 +53,7 @@ const App = () => {
           <Route path='findUserPassword' element={<FindUserPassword />} />
           <Route path='successUserId' element={<SuccessUserId />} />
           <Route path='changePassword' element={<ChangePassword />} />
+          <Route path='/boardDetail/:boardNo' element={<BoardDetail />} />
         </Routes>
       </div>
 

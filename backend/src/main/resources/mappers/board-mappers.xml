@@ -69,7 +69,13 @@
 		)
 	</insert>
 	
+	<select id="boardDetail" resultType="board">
+		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY.MM.DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
+		FROM BOARD
+		JOIN BOARD_IMG USING (BOARD_NO)
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+
 	<!--관리자용 -->
-	
 	
 </mapper>
