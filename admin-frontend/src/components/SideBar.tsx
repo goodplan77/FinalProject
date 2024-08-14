@@ -35,7 +35,7 @@ export default function SideBar() {
                 <div className={styles.features}><Link to="infoBoardManage">정보 게시글 관리</Link></div>
                 <div className={styles.features}><Link to="productBoardManagePage">상품 등록 관리</Link></div>
                 <div className={styles.features}><Link to="reportManagePage">신고 관리</Link></div>
-                <div className={styles.features}><Link to="inquiryManagePage">문의 관리</Link></div>
+                <div className={styles.features}><Link to="askManagePage">문의 관리</Link></div>
             </div>
             <div className={styles.alarmList}>
                 <div className={styles.alarmHeader}>
