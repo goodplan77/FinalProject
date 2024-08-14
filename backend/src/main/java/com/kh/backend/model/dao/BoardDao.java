@@ -21,5 +21,8 @@ public interface BoardDao {
 
 	int insertImage(BoardImg boardImg);
 
+	Board boardDetail(int boardNo);
+
+
 
 }

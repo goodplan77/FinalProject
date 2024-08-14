@@ -47,6 +47,12 @@ public class BoardDaoImpl implements BoardDao{
 		return session.insert("board.insertImage", boardImg);
 	}
 
+	@Override
+	public Board boardDetail(int boardNo) {
+		return session.selectOne("board.boardDetail", boardNo);
+	}
+
+
 
 
 
