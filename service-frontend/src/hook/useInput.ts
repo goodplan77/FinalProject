@@ -1,7 +1,6 @@
 import { ChangeEvent, useState } from "react";
 
 const useInput = <T>(init:any) => {
-
     let [obj, setObj] = useState<T>(init);
 
     const onInputChange = (e:ChangeEvent) => {
