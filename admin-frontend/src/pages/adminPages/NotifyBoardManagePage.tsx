@@ -45,19 +45,7 @@ export default function NotifyBoardManagePage() {
                     <span>수정날짜</span>
                     <span>활성화</span>
                 </div>
-                {Array.from({ length: 10 }).map((_, index) => (
-                    <div key={index} className={styles.memberRow}>
-                        <input type="checkbox" className={styles.checkbox} />
-                        <span>00001</span>
-                        <span>반주사항에 오신 여러분들 환영 합니다!!!!</span>
-                        <span>전체</span>
-                        <span>2024.01.11</span>
-                        <span>2024.01.12</span>
-                        <div className={styles.toggleContainer}>
-                            <div className={styles.toggle}></div>
-                        </div>
-                    </div>
-                ))}
+                
             </div>
             <div className={styles.pagination}>
                 <span className={styles.page}>1</span>

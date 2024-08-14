@@ -28,7 +28,7 @@ export default function BoardManagePage() {
     const boards = useSelector((state: RootState) => state.boards);
 
     useEffect(() => {
-        axios.get("http://localhost:8013/banju/admin/board/boardList")
+        axios.get("http://localhost:8013/banju/admin/board/UserboardList")
             .then((response) => {
                 console.log(response);
                 dispatch(selectAllBoard(response.data));

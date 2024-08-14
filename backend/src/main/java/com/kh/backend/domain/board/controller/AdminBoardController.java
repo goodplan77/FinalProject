@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.backend.domain.board.model.service.AdminBoardService;
 import com.kh.backend.domain.board.model.service.BoardService;
 import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.user.model.vo.User;
@@ -24,12 +25,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 @CrossOrigin(origins = { "http://localhost:3014" })
 public class AdminBoardController {
 	
-	private final BoardService boardService;
+	private final AdminBoardService boardService;
 
-	@GetMapping("/boardList")
-	public List<Board> boardList(HttpServletResponse response) {
+	@GetMapping("/UserboardList")
+	public List<Board> userBoardList() {
 
-		List<Board> list = boardService.selectBoards();
+		List<Board> list = boardService.selectUserBoards();
+		return list;
+	}
+	
+	@GetMapping("/NofityboardList")
+	public List<Board> notifyBoardList(HttpServletResponse response) {
+
+		List<Board> list = boardService.selectNotifyBoards();
+		return list;
+	}
+	
+	@GetMapping("/EventboardList")
+	public List<Board> EventBoardList(HttpServletResponse response) {
+
+		List<Board> list = boardService.selectEventBoards();
+		return list;
+	}
+	
+	@GetMapping("/InfoboardList")
+	public List<Board> infoBoardList(HttpServletResponse response) {
+
+		List<Board> list = boardService.selectInfoBoards();
 		return list;
 	}
 	
