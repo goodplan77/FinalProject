@@ -21,6 +21,6 @@ public interface BoardService {
 
 	int insertImage(BoardImg boardImg);
 
-
+	Board boardDetail(int boardNo);
 
 }

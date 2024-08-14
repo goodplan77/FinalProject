@@ -24,6 +24,10 @@ export default function UsedList() {
         return null;
     };
 
+    const handleClick = (boardNo: number) => {
+        navi(`/boardDetail/${boardNo}`);
+      };
+
     useEffect(() => {
         axios.get("http://localhost:8013/banju/board/usedList")
             .then((response) => {
@@ -61,7 +65,7 @@ export default function UsedList() {
                         <div key={board.boardNo}>
 
                             <div className={styles.used}>
-                                <div className={styles.usedContent}>
+                                <div className={styles.usedContent} onClick={() => handleClick(board.boardNo)}>
                                     <div className={styles.usedImg}></div>
                                     <div className={styles.upAndDown}>
                                         <div className={styles.contentUp}>

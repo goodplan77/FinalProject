@@ -47,6 +47,12 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.insertImage(boardImg);
 	}
 
+	@Override
+	public Board boardDetail(int boardNo) {
+		return boardDao.boardDetail(boardNo);
+	}
+
+
 
 
 
