@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/board")
-@CrossOrigin(origins = { "http://localhost:3013" , "http://localhost:3014"})
+@CrossOrigin(origins = { "http://localhost:3013" })
 public class BoardController {
 
 	private final BoardService boardService;
