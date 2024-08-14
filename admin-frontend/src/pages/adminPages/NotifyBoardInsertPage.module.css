@@ -1,0 +1,122 @@
+.container {
+    padding: 20px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    width: 1700px;
+    height: 900px;
+    box-sizing: border-box;
+    margin: 35px auto;
+    position: relative;
+}
+
+.title {
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 600;
+    font-size: 40px;
+    color: #000000;
+    margin-bottom: 20px;
+    position: absolute;
+    top: 29px;
+    left: 51px;
+}
+
+.formContainer {
+    position: absolute;
+    width: 1500px;
+    height: 700px;
+    left: 48px;
+    top: 124px;
+    background: #F0F0F0;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.inputField {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputLabel {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #1E1E1E;
+    margin-bottom: 8px;
+}
+
+.textInput {
+    width: 1450px;
+    height: 35px;
+    padding: 12px 16px;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    color: #1E1E1E;
+    background: #FFFFFF;
+    outline: none;
+}
+
+.selectInput {
+    width: 1485px;
+    height: 50px;
+    padding: 12px 16px;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    color: #1E1E1E;
+    background: #FFFFFF;
+    outline: none;
+}
+
+.textArea {
+    width: 1450px;
+    height: 354px;
+    padding: 12px 16px;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    color: #1E1E1E;
+    background: #FFFFFF;
+    outline: none;
+    resize: none;
+}
+
+.buttonGroup {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    position: absolute;
+    top: 632px;
+    right: 48px;
+}
+
+.cancelButton,
+.submitButton {
+    width: 54px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #2C2C2C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 50px;
+}
+
+.cancelButton {
+    background: rgba(44, 44, 44, 0.8);
+    color: rgba(245, 245, 245, 0.8);
+}
+
+.submitButton {
+    background: #2C2C2C;
+    color: #F5F5F5;
+}

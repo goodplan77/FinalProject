@@ -1,9 +1,9 @@
 import styles from './EventBoardInsertPage.module.css';
 
-export default function InfoBoardInsertPage() {
+export default function InfoBoardUpdatePage() {
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>정보글 등록</h1>
+            <h1 className={styles.title}>정보글 수정</h1>
             <div className={styles.formContent}>
                 <div className={styles.leftSection}>
                     <div className={styles.formContainer}>

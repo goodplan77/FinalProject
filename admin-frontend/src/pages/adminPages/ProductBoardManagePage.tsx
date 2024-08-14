@@ -1,6 +1,9 @@
+import { useNavigate } from 'react-router-dom';
 import styles from './ProductBoardManagePage.module.css';
 
 export default function ProductBoardManagePage() {
+    const navi = useNavigate();
+
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>포인트 상품 관리</h1>
@@ -11,7 +14,7 @@ export default function ProductBoardManagePage() {
                     className={styles.searchInput}
                 />
             </div>
-            <div className={styles.addProductButton}>
+            <div className={styles.addProductButton} onClick={() => navi('/adminPage/productBoardInsertPage')}>
                 <button className={styles.addButton}>포인트 상품 추가</button>
             </div>
             <div className={styles.productGrid}>

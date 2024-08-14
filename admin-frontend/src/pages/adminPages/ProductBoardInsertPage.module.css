@@ -1,0 +1,214 @@
+/* 전체 페이지의 컨테이너 설정 */
+.container {
+    padding: 20px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+    width: 1700px;
+    height: 875px;
+    box-sizing: border-box;
+    margin: 35px auto;
+    position: relative;
+}
+
+/* 페이지 제목의 스타일 */
+.title {
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: 600;
+    font-size: 40px;
+    color: #000000;
+    margin-bottom: 20px;
+    position: absolute;
+    top: 29px;
+    left: 51px;
+}
+
+/* 양쪽 섹션을 포함하는 회색 배경 영역 */
+.formContent {
+    display: flex;
+    justify-content: space-between;
+    width: 1600px;
+    height: 700px;
+    padding: 20px;
+    background: #F0F0F0;
+    border-radius: 12px;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 왼쪽 섹션 스타일 */
+.leftSection {
+    flex: 1;
+    margin-right: 20px;
+}
+
+/* 오른쪽 섹션 스타일 */
+.rightSection {
+    flex: 0 0 300px;
+}
+
+/* 입력 필드를 포함하는 컨테이너 */
+.inputField {
+    margin-bottom: 20px;
+    /* 상단과 하단의 여백을 줄여 공간 확보 */
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 입력 필드의 라벨 스타일 */
+.inputLabel {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #1E1E1E;
+    margin-bottom: 8px;
+}
+
+/* 텍스트 입력 필드 스타일 */
+.textInput {
+    width: 100%;
+    height: 32px;
+    /* 높이를 줄여 전체 컨테이너에 잘 맞도록 조정 */
+    padding: 8px 12px;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    font-size: 14px;
+    /* 텍스트 크기를 줄여 공간 확보 */
+    font-family: 'Inter', sans-serif;
+    color: #1E1E1E;
+    background: #FFFFFF;
+    outline: none;
+}
+
+/* 텍스트 영역 스타일 */
+.textArea {
+    width: 100%;
+    height: 250px;
+    /* 높이를 줄여 전체 컨테이너에 잘 맞도록 조정 */
+    padding: 8px 12px;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    font-size: 14px;
+    /* 텍스트 크기를 줄여 공간 확보 */
+    font-family: 'Inter', sans-serif;
+    color: #1E1E1E;
+    background: #FFFFFF;
+    outline: none;
+    resize: none;
+}
+
+/* 이미지 업로드 섹션 스타일 */
+.uploadSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #FFFFFF;
+    border-radius: 12px;
+    width: 255px;
+    height: 255px;
+    margin-bottom: 40px;
+}
+
+/* 업로드 텍스트 스타일 */
+.uploadText {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #1E1E1E;
+    margin-top: 10px;
+}
+
+/* 토글 스위치 그룹 스타일 */
+.toggleGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 180px;
+    /* 상단 여백 조정 */
+    margin-bottom: 20px;
+    /* 하단 여백 조정 */
+}
+
+/* 토글 스위치 필드 스타일 */
+.toggleField {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 36px;
+    /* 높이를 줄여 컨테이너에 맞게 조정 */
+}
+
+/* 토글 라벨 스타일 */
+.toggleLabel {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    /* 텍스트 크기를 줄여 공간 확보 */
+    color: #000000;
+}
+
+/* 토글 스위치 스타일 */
+.toggleSwitch {
+    width: 46px;
+    height: 26px;
+    /* 높이를 줄여 공간 확보 */
+    background: #34C759;
+    border-radius: 100px;
+    position: relative;
+    cursor: pointer;
+}
+
+/* 토글 스위치의 동그란 버튼 스타일 */
+.knob {
+    width: 22px;
+    height: 22px;
+    /* 크기 조정 */
+    background: #FFFFFF;
+    border-radius: 100%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.04), 0px 3px 8px rgba(0, 0, 0, 0.15), 0px 3px 1px rgba(0, 0, 0, 0.06);
+}
+
+/* 버튼 그룹 스타일 */
+.buttonGroup {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+/* 취소 및 작성 버튼 스타일 */
+.cancelButton,
+.submitButton {
+    width: 54px;
+    height: 32px;
+    /* 높이 조정 */
+    border-radius: 8px;
+    border: 1px solid #2C2C2C;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    /* 텍스트 크기를 줄여 공간 확보 */
+    cursor: pointer;
+}
+
+/* 취소 버튼 색상 스타일 */
+.cancelButton {
+    background: rgba(44, 44, 44, 0.8);
+    color: rgba(245, 245, 245, 0.8);
+}
+
+/* 작성 버튼 색상 스타일 */
+.submitButton {
+    background: #2C2C2C;
+    color: #F5F5F5;
+}
