@@ -1,6 +1,10 @@
+import { useNavigate } from 'react-router-dom';
 import styles from './InfoBoardManagePage.module.css';
 
 export default function InfoBoardManagePage() {
+
+    const navi = useNavigate();
+
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>정보 게시글 관리 페이지</h1>
@@ -52,7 +56,7 @@ export default function InfoBoardManagePage() {
                 <span className={styles.page}>67</span>
                 <span className={styles.page}>68</span>
             </div>
-            <button className={styles.addButton}>추가</button>
+            <button className={styles.addButton} onClick={() => navi('/adminPage/infoBoardInsert')}>추가</button>
         </div>
     )
 }

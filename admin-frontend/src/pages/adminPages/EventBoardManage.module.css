@@ -212,3 +212,15 @@
     background: #EC221F;
     color: #FEE9E7;
 }
+
+.addButton {
+    display: flex;
+    background-color: #2C2C2C;
+    color: #FFF;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-top: 20px;
+}

@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import styles from './EventBoardManage.module.css'
+import { useNavigate } from 'react-router-dom';
 
 export default function EventBoardManagePage() {
+
+    const navi = useNavigate();
 
     return (
         <div className={styles.container}>
@@ -37,6 +40,7 @@ export default function EventBoardManagePage() {
                     </div>
                 ))}
             </div>
+            <button className={styles.addButton} onClick={() => navi('/adminPage/eventBoardInsert')}>추가</button>
             <div className={styles.pagination}>
                 <span className={styles.page}>1</span>
                 <span className={styles.page}>2</span>
@@ -47,7 +51,7 @@ export default function EventBoardManagePage() {
             </div>
 
             {/* 모달 */}
-            <div className={styles.modalBackground}>
+            {/* <div className={styles.modalBackground}>
                 <div className={styles.modalContainer}>
                     <div className={styles.modalHeader}>
                         <h2 className={styles.modalTitle}>게시글 삭제 알림</h2>
@@ -63,7 +67,7 @@ export default function EventBoardManagePage() {
                         <button className={styles.confirmButton}>삭제</button>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 };

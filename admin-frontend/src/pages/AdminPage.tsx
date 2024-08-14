@@ -13,10 +13,13 @@ import EventBoardManagePage from "./adminPages/EventBoardManagePage"
 import EventBoardInsertPage from "./adminPages/EventBoardInsertPage"
 import ProductBoardManagePage from "./adminPages/ProductBoardManagePage"
 import ProductBoardInsertPage from "./adminPages/ProductBoardInsertPage"
-import InquiryManagePage from "./adminPages/InquiryManagePage"
+import AskManagePage from "./adminPages/AskManagePage"
 import ReportManagePage from "./adminPages/ReportManagePage"
+import NotifyBoardUpdatePage from "./adminPages/NotifyBoardUpdatePage"
+import InfoBoardUpdatePage from "./adminPages/InfoBoardUpdatePage"
+import ProductBoardUpdatePage from "./adminPages/ProductBoardUpdatePage"
 
-export default function AdminPage () {
+export default function AdminPage() {
     return (
         <div className={styles.adminMain}>
             <div className={styles.pageArea}>
@@ -29,15 +32,18 @@ export default function AdminPage () {
                     <Route path='notifyBoardInsert' element={<NotifyBoardInsertPage />} />
                     <Route path='infoBoardManage' element={<InfoBoardManagePage />} />
                     <Route path='infoBoardInsert' element={<InfoBoardInsertPage />} />
+                    <Route path='infoBoardUpdate' element={<InfoBoardUpdatePage />} />
+                    <Route path='notifyBoardUpdatePage' element={<NotifyBoardUpdatePage />} />
                     <Route path='eventBoardManage' element={<EventBoardManagePage />} />
                     <Route path='eventBoardInsert' element={<EventBoardInsertPage />} />
                     <Route path='productBoardManagePage' element={<ProductBoardManagePage />} />
                     <Route path='productBoardInsertPage' element={<ProductBoardInsertPage />} />
+                    <Route path='productBoardUpdatePage' element={<ProductBoardUpdatePage />} />
                     <Route path='reportManagePage' element={<ReportManagePage />} />
-                    <Route path='inquiryManagePage' element={<InquiryManagePage />} />
+                    <Route path='askManagePage' element={<AskManagePage />} />
                 </Routes>
             </div>
-            <SideBar/>
+            <SideBar />
         </div>
     )
 }

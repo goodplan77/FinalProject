@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import styles from './NotifyBoardManagePage.module.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function NotifyBoardManagePage() {
+    const navi = useNavigate();
     const [activeCategory, setActiveCategory] = useState<string>('전체');
 
     const categories = ['전체', '일반', '중고', '분양', '실종'];
@@ -65,7 +67,7 @@ export default function NotifyBoardManagePage() {
                 <span className={styles.page}>67</span>
                 <span className={styles.page}>68</span>
             </div>
-            <div className={styles.addButton}>+</div>
+            <div className={styles.addButton} onClick={() => navi('/adminPage/notifyBoardInsert')}>+</div>
         </div>
     )
 }

@@ -1,5 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './BoardManagePage.module.css';
+import { RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
+import { selectAllBoard, selectCategoryBoard } from '../../features/boardSlice';
 
 export default function BoardManagePage() {
     const [activeCategory, setActiveCategory] = useState('전체');
@@ -7,7 +11,31 @@ export default function BoardManagePage() {
     const handleCategoryClick = (category: any) => {
         setActiveCategory(category);
         // 카테고리 변경에 따른 로직을 추가할 수 있습니다.
+        dispatch(selectCategoryBoard(category));
     };
+
+    const categoryConvert = (type:string) =>{ 
+        switch(type){
+            case 'C': return '일반';
+            case 'S': return '중고';
+            case 'M': return '분양';
+            case 'A': return '실종';
+        }
+    };
+
+    const dispatch = useDispatch();
+
+    const boards = useSelector((state: RootState) => state.boards);
+
+    useEffect(() => {
+        axios.get("http://localhost:8013/banju/admin/board/boardList")
+            .then((response) => {
+                console.log(response);
+                dispatch(selectAllBoard(response.data));
+            }).catch((response) => {
+                console.log(response);
+            })
+    }, [])
 
     return (
         <div className={styles.container}>
@@ -66,23 +94,24 @@ export default function BoardManagePage() {
                     <span className={styles.headerItem}>신고</span>
                     <span className={styles.headerItem}>활성화</span>
                 </div>
-                {Array.from({ length: 10 }).map((_, index) => (
+                
+                {boards.filteredBoards.map((board,index) => {return (
                     <div key={index} className={styles.postRow}>
                         <input type="checkbox" className={styles.checkbox} />
-                        <span className={styles.postId}>UID0001</span>
-                        <span className={styles.postTitle}>강아지 잡담 글 1</span>
-                        <span className={styles.postCategory}>일반</span>
-                        <span className={styles.postAuthor}>멍집사</span>
-                        <span className={styles.postCreatedDate}>2024.06.15</span>
-                        <span className={styles.postModifiedDate}>2024.06.17</span>
-                        <span className={styles.postViews}>15</span>
-                        <span className={styles.postLikes}>3</span>
+                        <span className={styles.postId}>{board.boardNo}</span>
+                        <span className={styles.postTitle}>{board.title}</span>
+                        <span className={styles.postCategory}>{categoryConvert(`${board.boardCode}`)}</span>
+                        <span className={styles.postAuthor}>{board.userNo}</span>
+                        <span className={styles.postCreatedDate}>{board.enrollDate}</span>
+                        <span className={styles.postModifiedDate}>{board.modifyDate}</span>
+                        <span className={styles.postViews}>{board.views}</span>
+                        <span className={styles.postLikes}>{board.likes}</span>
                         <span className={styles.postReports}>0</span>
                         <div className={styles.toggleContainer}>
-                            <div className={styles.toggle}></div>
-                        </div>
+                        <div className={styles.toggle}></div>
                     </div>
-                ))}
+                </div>
+                )})}
             </div>
             <div className={styles.pagination}>
                 <span className={styles.page}>1</span>
