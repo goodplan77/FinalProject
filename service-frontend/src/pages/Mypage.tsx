@@ -71,7 +71,7 @@ const MyPage = () => {
 
                 <div className={styles.buttonContainer}>
                     <div className={styles.buttonFrame1}>
-                        <div className={styles.buttonText1}>캘린더</div>
+                        <div className={styles.buttonText1} onClick={() => navi('/calendarPage')}>캘린더</div>
                     </div>
                     <div className={styles.buttonFrame2}>
                         <div className={styles.buttonText2}>내가 쓴 글 목록</div>
