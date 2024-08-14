@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
 
+	<!--일반 회원용 -->
+
 	<!-- 일반 게시판 -->
 	<select id="selectBoards" resultType="Board">
 		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
@@ -56,9 +58,6 @@
 			'P',
 			0
 		)
-		
-		
-		
 	</insert>
 	
 	<insert id="insertImage">
@@ -70,5 +69,13 @@
 		)
 	</insert>
 	
+	<select id="boardDetail" resultType="board">
+		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY.MM.DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
+		FROM BOARD
+		JOIN BOARD_IMG USING (BOARD_NO)
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+
+	<!--관리자용 -->
 	
 </mapper>

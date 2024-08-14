@@ -63,7 +63,7 @@ export default function AdoptList() {
                         <div key={board.boardNo}>
 
                             <div className={styles.used}>
-                                <div className={styles.usedContent}>
+                                <div className={styles.usedContent} onClick={() => navi('/BoardDetail/' + board.boardNo)}>
                                     <div className={styles.usedImg}></div>
                                     <div className={styles.upAndDown}>
                                         <div className={styles.contentUp}>

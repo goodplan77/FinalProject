@@ -1,6 +1,24 @@
+import { useEffect } from 'react';
 import styles from './UserManagePage.module.css';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
 
 export default function UserManagePage() {
+
+    const dispatch = useDispatch();
+
+    const Users = useSelector((state: RootState) => state.boards);
+
+    useEffect (() => {
+        axios.get("http://localhost:8013/banju/admin/UserList")
+        .then((response) => {
+            console.log(response);
+        }).catch((response) => {
+            console.log(response);
+        })
+    },[])
+
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>회원 관리 페이지</h1>
