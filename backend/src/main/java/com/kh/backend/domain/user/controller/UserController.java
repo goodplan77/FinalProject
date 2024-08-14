@@ -1,4 +1,4 @@
-package com.kh.backend.signup;
+package com.kh.backend.domain.user.controller;
 
 import java.util.HashMap;
 
@@ -6,9 +6,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.kh.backend.domain.user.model.service.UserService;
+import com.kh.backend.domain.user.model.vo.User;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -18,11 +24,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-public class EmailController {
+@RequestMapping("/signup")
+@CrossOrigin(origins = {"http://localhost:3013"})
+public class UserController {
 	
 	private final JavaMailSenderImpl mailSender;
+	private final UserService service;
 
-	@CrossOrigin(origins = {"http://localhost:3013"})
 	@PostMapping("/sendEmail")
 	public ResponseEntity<HashMap<String, Object>> sendEmail(
 			@RequestBody HashMap<String, String> param
@@ -45,17 +53,26 @@ public class EmailController {
 								  .append("\n위 인증 번호를 인증번호 확인란에 입력해주세요.")
 								  .toString();
 		
-		// 이메일 발송 메서드
-		sendCode(email, title, content);
-		
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("code", verificationCode);
 		
-		return ResponseEntity.ok(map);
+		// 이메일 발송 메서드
+		int result = sendCode(email, title, content);
+		
+		if(result > 0) {
+			map.put("verificationCode", verificationCode);
+			
+			return ResponseEntity.ok(map);
+		}else {
+			
+			return ResponseEntity.badRequest().build();
+		}
+		
 	}
 	
 	// 이메일 발송 메서드
-	void sendCode(String email, String title, String content) {
+	int sendCode(String email, String title, String content) {
+		
+		int result = 0;
 		
 		MimeMessage mime = mailSender.createMimeMessage();
 		
@@ -66,11 +83,44 @@ public class EmailController {
 			helper.setSubject(title);
 			helper.setText(content);
 			
+			result = 1;
+			
+			mailSender.send(mime);
+			
+			return result;
+			
 		} catch (MessagingException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			return result;
 		}
+	}
+	
+	// 닉네임 중복 확인 메서드
+	@GetMapping("/checkNickName")
+	public String checkNickName(
+			@RequestParam HashMap<String, String> param
+			) {
+
+		String nickName = param.get("nickName");
 		
-		mailSender.send(mime);
+		int result = service.checkNickName(nickName);
+		
+		if(result>1) {
+			return "이미 사용중인 닉네임입니다.";
+		}else {
+			return "사용 가능한 닉네임입니다.";
+		}
+	}
+	
+	// 회원가입 메서드
+	@PostMapping("/insertUser")
+	public ResponseEntity<HashMap<String, Object>> insertUser(
+			@RequestBody User user
+			){
+		
+		System.err.println(user);
+		
+		return null;
 	}
 	
 	

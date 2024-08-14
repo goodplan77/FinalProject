@@ -1,4 +1,4 @@
-package com.kh.backend.model.vo;
+package com.kh.backend.domain.user.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,4 +22,5 @@ public class User {
 	private String enrollDate; // 일단 String
 	private String modifyDate; // 일단 String
 	private String userSsn; // DB에는 char(14byte)
+	
 }

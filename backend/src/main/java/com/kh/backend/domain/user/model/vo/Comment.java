@@ -1,4 +1,4 @@
-package com.kh.backend.model.vo;
+package com.kh.backend.domain.user.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

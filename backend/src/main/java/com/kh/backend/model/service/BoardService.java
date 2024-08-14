@@ -2,7 +2,7 @@ package com.kh.backend.model.service;
 
 import java.util.List;
 
-import com.kh.backend.model.vo.Board;
+import com.kh.backend.domain.user.model.vo.Board;
 
 public interface BoardService {
 

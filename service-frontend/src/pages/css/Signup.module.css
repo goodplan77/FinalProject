@@ -3,6 +3,8 @@
     display: flex;
 
     flex-direction: column;
+
+    padding-bottom: 10vh;
 }
 /* 버튼 */
 .button{
@@ -161,15 +163,41 @@
 /* 주소 */
 .address_container{
     display: flex;
-    align-items: center;
+    flex-direction: column;
 }
-.address{
+.postCode_container{
+    display: flex;
+    flex-basis: 33%;
+}
+.postCode{
     flex-basis: 20%;
     height: 3vh;
     border: 3px solid #E4FAFF;
     border-radius: 5px;
 }
-.address:focus{
+.postCode:focus{
+    outline: 2px solid #02CCFE;
+}
+.mainAddress{
+    height: 3vh;
+    border: 3px solid #E4FAFF;
+    border-radius: 5px;
+
+    flex-basis: 33%;
+
+}
+.mainAddress:focus{
+    outline: 2px solid #02CCFE;
+}
+.detailAddress{
+    height: 3vh;
+    border: 3px solid #E4FAFF;
+    border-radius: 5px;
+
+    flex-basis: 33%;
+
+}
+.detailAddress:focus{
     outline: 2px solid #02CCFE;
 }
 

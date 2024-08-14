@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.kh.backend.domain.user.model.vo.Board;
 import com.kh.backend.model.dao.BoardDao;
-import com.kh.backend.model.vo.Board;
 
 import lombok.RequiredArgsConstructor;
 

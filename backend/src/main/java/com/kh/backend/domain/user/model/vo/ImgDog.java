@@ -1,4 +1,4 @@
-package com.kh.backend.model.vo;
+package com.kh.backend.domain.user.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ImgUser {
+public class ImgDog {
 
-	private int userNo;
+	private int dogNo;
 	private String originName;
 	private String changeName;
 }

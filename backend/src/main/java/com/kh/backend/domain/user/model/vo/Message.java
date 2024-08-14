@@ -1,4 +1,4 @@
-package com.kh.backend.model.vo;
+package com.kh.backend.domain.user.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Memo {
+public class Message {
 
-	private int memoNo;
+	private int messageNo;
+	private int chatRoomNo;
 	private int userNo;
 	private String content;
-	private String targetDate; // 일단 String
+	private String messageDate; // 일단 String
 }

@@ -1,22 +1,44 @@
-export interface Signup{
+export interface Address{
+    postCode:string
+    mainAddress: string,
+    detailAddress:string,
+}
+
+export const initAddress:Address = {
+    postCode:'',
+    mainAddress: '',
+    detailAddress:''
+}
+
+export interface Code{
+    verificationCode : string
+}
+
+export const initCode:Code = {
+    verificationCode : ''
+} as const;
+
+export interface User{
     email : string
-    code : number,
     userName : string
     nickName : string
     pwd : string
     phone : string
     address: string
+    birthday : string
 }
 
-export const initialSignup:Signup = {
+export const initUser:User = {
     email : '',
-    code : 0,
     userName : '',
     nickName : '',
     pwd : '',
     phone : '',
-    address: ''
+    address: '',
+    birthday : ''
 } as const;
+
+
 
 export type MenuType = 'kr'|'jp'|'ch';
 export type MenuTaste = 'mild'|'hot';

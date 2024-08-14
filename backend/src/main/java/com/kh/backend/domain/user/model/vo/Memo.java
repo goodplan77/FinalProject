@@ -1,4 +1,4 @@
-package com.kh.backend.model.vo;
+package com.kh.backend.domain.user.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Like {
+public class Memo {
 
-	private int likeNo;
+	private int memoNo;
 	private int userNo;
-	private char typeCode; // B, P
-	private int refNo; // 게시글, 상품
+	private String content;
+	private String targetDate; // 일단 String
 }

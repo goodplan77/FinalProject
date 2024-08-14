@@ -6,38 +6,78 @@ import DaumPostcode from "react-daum-postcode";
 import Modal from "react-modal";
 import styles from './css/Signup.module.css';
 import useInput from '../hook/useInput';
-import { initialSignup, Signup } from '../type/signup';
+import { Address, Code, initAddress, initCode, initUser, User } from '../type/signup';
 import axios from 'axios';
-import { setCookie } from '../utils/Cookie';
-import { Button } from 'react-bootstrap';
+import { getCookie, setCookie } from '../utils/Cookie';
+import { Alert, Button } from 'react-bootstrap';
+import { param } from 'jquery';
 
 
 Modal.setAppElement('#root'); // 모달의 접근성 설정
 
 const SignUpPage: React.FC = () => {
 
-    const [input, setInput] = useInput<Signup>(initialSignup);
+    const [user, setUser] = useState<User>(initUser);
+    const setUserChange = (e:ChangeEvent) => {
+        let {name, value} = e.target as HTMLInputElement;
+        setUser({
+            ...user,
+            [name] : value
+        });
+    }
+
     const [modal, setModal] = useState(false);
+    const [code, setCode] = useInput<Code>(initCode);
+    const [address, setAddress] = useState({
+        postCode : '',
+        mainAddress : '',
+        detailAddress : ''
+    });
+
+    const navi = useNavigate();
 
     const sendEmail = () => {
-        axios.post("http://localhost:8013/banju/sendEmail", {
-            email : input.email
+
+        alert("귀하의 이메일로 인증번호가 발송되었습니다.");
+
+        axios.post("http://localhost:8013/banju/signup/sendEmail", {
+            email : user.email
         })
             .then(res => {
-                console.log(res);
+                // console.log(res);
 
-                const code = res.data.code;
+                const verificationCode = res.data.verificationCode;
 
-                setCookie("verificationCode", code);
+                setCookie("verificationCode", verificationCode);
+            })
+            .catch(error=>{
+                // console.log(error);
+                alert("유효하지 않은 이메일 입니다.");
             })
     }
 
     const checkCode = ()=>{
 
+        const userCode = getCookie("verificationCode");
+
+        if(code.verificationCode == userCode){
+            alert("인증번호가 확인되었습니다.");
+        }else{
+            alert("인증번호가 다릅니다.");
+        }
     }
 
     const checkNickName = ()=>{
-
+        axios({
+            method : 'get',
+            url : "http://localhost:8013/banju/signup/checkNickName",
+            params : {
+                nickName : user.nickName
+            }
+        }).then(res =>{
+            console.log(res);
+            alert(res.data);
+        })
     }
 
     const openModal = ()=>{
@@ -48,16 +88,35 @@ const SignUpPage: React.FC = () => {
         setModal(false);
     };
 
+    const handleAddress = (data: any) => {
+
+        console.log(data);
+        
+        const address = {
+            postCode : data.zonecode,
+            mainAddress:data.address,
+            detailAddress : ''
+        }
+
+        setAddress(address);
+
+        closeModal();
+    };
+
+    const signup = ()=>{
+
+        
+
+        console.log(user);
+        console.log(address);
+
+        axios.post("http://localhost:8013/banju/signup/insertUser", user)
+            .then(res=>{
+                console.log(res);
+            })
+    }
     
-    // const inputChangeHandler = (e:ChangeEvent) =>{
-    //     if(e.target){
-    //         const {name,value} = e.target as HTMLInputElement;
-    //         setInput({
-    //             ...input,
-    //             [name] : value
-    //         })
-    //     }
-    // };
+
     const handleAddressSelect = (data: any) => {
         const fullAddress = data.address;
         let extraAddress = '';
@@ -125,7 +184,7 @@ const SignUpPage: React.FC = () => {
         setShowPasswordConfirm(!showPasswordConfirm);
     };
 
-    const navi = useNavigate();
+    
 
     return (
         <>
@@ -138,8 +197,8 @@ const SignUpPage: React.FC = () => {
                         id='email' 
                         name='email' 
                         placeholder='이메일을 입력해 주세요.'
-                        value={input.email}
-                        onChange={setInput}
+                        value={user.email}
+                        onChange={setUserChange}
                         className={styles.email} 
                     />
                     <button type="button" className={styles.button} onClick={sendEmail}>
@@ -147,14 +206,15 @@ const SignUpPage: React.FC = () => {
                     </button>
                 </div>
 
-                <label htmlFor='code' className={styles.label}>인증번호</label>
+                <label htmlFor='verificationCode' className={styles.label}>인증번호</label>
                 <div className={styles.code_container}>
                     <input 
                         type="number"
-                        id='code'
-                        name='code'
+                        id='verificationCode'
+                        name='verificationCode'
                         placeholder='인증번호'
-                        onChange={setInput}
+                        value={code.verificationCode}
+                        onChange={setCode}
                         max={999999}
                         className={styles.code}
                     />
@@ -169,8 +229,8 @@ const SignUpPage: React.FC = () => {
                         type="text"
                         id="userName"
                         name="userName"
-                        value={input.userName}
-                        onChange={setInput}
+                        value={user.userName}
+                        onChange={setUserChange}
                         placeholder="이름"
                         className={styles.userName}
                     />
@@ -182,8 +242,8 @@ const SignUpPage: React.FC = () => {
                         type="text"
                         id="nickName"
                         name="nickName"
-                        value={input.nickName}
-                        onChange={setInput}
+                        value={user.nickName}
+                        onChange={setUserChange}
                         placeholder="2~10자 이내로 입력해주세요."
                         maxLength={10}
                         className={styles.nickName}
@@ -199,8 +259,8 @@ const SignUpPage: React.FC = () => {
                         type="password"
                         id="pwd"
                         name="pwd"
-                        value={input.pwd}
-                        onChange={setInput}
+                        value={user.pwd}
+                        onChange={setUserChange}
                         placeholder="영문/숫자/특수문자 혼합 8~20자"
                         className={styles.pwd}
                     />
@@ -212,7 +272,9 @@ const SignUpPage: React.FC = () => {
                         type="password"
                         id="pwdCheck"
                         name="pwdCheck"
-                        onChange={setInput}
+                        // onChange={(e) => {
+                        //     let {value} = e.target as HTMLInputElement;
+                        // }}
                         placeholder="비밀번호를 한번 더 입력해주세요."
                         className={styles.pwdCheck}
                     />
@@ -224,41 +286,127 @@ const SignUpPage: React.FC = () => {
                         type="text"
                         id="phone"
                         name="phone"
-                        value={input.phone}
-                        onChange={setInput}
+                        value={user.phone}
+                        onChange={setUserChange}
                         placeholder=" - 제외 숫자만 입력"
                         className={styles.phone}
                     />
                 </div>
 
-                <label htmlFor='birthday' className={styles.label}>생년월일</label>
+                {/* <label htmlFor='birthday' className={styles.label}>생년월일</label>
                 <div className={styles.birthday_container}>
                     <input
                         type='date'
                         id='birthday'
                         name='birthday'
-                        onChange={setInput}
+                        value={user.birthday}
+                        onChange={setUser}
                         className={styles.birthday}
                     />
-                </div>
+                </div> */}
 
                 <label htmlFor='address' className={styles.label}>주소</label>
+
+                
                 <div className={styles.address_container}>
+                    <div className={styles.postCode_container}>
+                        <input 
+                            type="text"
+                            id='postCode'
+                            name='postCode'
+                            value={address.postCode}
+                            placeholder='우편번호'
+                            className={styles.postCode}
+                        />
+                        <button type="button" className={styles.button} onClick={openModal}>
+                            검색
+                        </button>
+                    </div>
                     <input 
                         type="text"
-                        id='address'
-                        name='address'
-                        onChange={setInput}
-                        placeholder='우편번호'
-                        className={styles.address}
+                        id='mainAddress'
+                        name='mainAddress'
+                        value={address.mainAddress}                    
+                        placeholder='기본 주소'
+                        className={styles.mainAddress}
                     />
-                    <button type="button" className={styles.button} onClick={openModal}>
-                        검색
-                    </button>
+                    <input 
+                        type="text"
+                        id='detailAddress'
+                        name='detailAddress'
+                        value={address.detailAddress}
+                        onChange={(e) => {
+                            let {value} = e.target as HTMLInputElement;
+                            setAddress({
+                                ...address,
+                                detailAddress : value
+                            })
+                            
+                            const totalAddress = `(${address.postCode}) ${address.mainAddress} ${address.detailAddress}`;
+
+                            setUser(prev => {
+                                return {...prev, address : totalAddress}
+                            })
+                        }}
+                        placeholder='상세 주소'
+                        className={styles.detailAddress}
+                    />
                 </div>
 
-                <div className={styles.formGroup}>
-                        <label htmlFor="postalCode" className={styles.label}>우편번호</label>
+                <button 
+                    type='button' 
+                    className={styles.button}
+                    style={{
+                        width : '50%',
+                        alignSelf : 'center',
+                        marginTop : '50px'
+                    }}
+                    onClick={signup}
+                >회원가입</button>
+
+                <Modal 
+                    isOpen={modal}
+                    className={styles.modal_container}
+                    onRequestClose={closeModal} // 모달 외부 클릭 시 닫기
+                    overlayClassName={styles.overlay}
+                >
+                    <div className={styles.modal_header}>
+                        <h3 style={{margin : 5, paddingTop : '10px'}}>우편번호 찾기</h3>
+                        <button onClick={closeModal} className={styles.closeButton}>&times;</button>
+                    </div>
+                    <div className={styles.modal_content}>
+                        <DaumPostcode 
+                            onComplete={handleAddress}
+                        />
+                    </div>
+                </Modal>
+                        
+            </div>
+
+
+
+                
+
+                {/* <Modal
+                    isOpen={isModalOpen}
+                    onRequestClose={closeModal} // 모달 외부 클릭 시 닫기
+                    className={styles.modal}
+                    overlayClassName={styles.overlay}
+                    shouldCloseOnOverlayClick={true} // 오버레이 클릭 시 모달 닫기
+                >
+                    <div className={styles.modalHeader}>
+                        <h2>주소 찾기</h2>
+                        <button onClick={closeModal} className={styles.closeButton}>닫기</button>
+                    </div>
+                    <div className={styles.modalContent}>
+                        <DaumPostcode onComplete={handleAddressSelect} />
+                    </div>
+                </Modal> */}
+
+                {/* <div className={styles.formGroup}>
+
+                    <label htmlFor="postalCode" className={styles.label}>우편번호</label>
+
                         <div style={{ alignItems: 'center', display: 'flex' }}>
                             <input
                                 type="text"
@@ -274,7 +422,9 @@ const SignUpPage: React.FC = () => {
                                 우편번호 찾기
                             </button>
                         </div>
-                    </div>
+
+                </div>
+
                     <div className={styles.formGroup}>
                         <label htmlFor="address" className={styles.label} />
                         <input
@@ -298,54 +448,16 @@ const SignUpPage: React.FC = () => {
                             placeholder="상세주소"
                             className={styles.input}
                         />
-                    </div>
-
-
-
-                <Modal 
-                    isOpen={modal}
-                    className={styles.modal_container}
-                    onRequestClose={closeModal} // 모달 외부 클릭 시 닫기
-                    overlayClassName={styles.overlay}
-                >
-                    <div className={styles.modal_header}>
-                        <h3 style={{margin : 5, paddingTop : '10px'}}>우편번호 찾기</h3>
-                        <button onClick={closeModal} className={styles.closeButton}>&times;</button>
-                    </div>
-                    <div className={styles.modal_content}>
-                        <DaumPostcode 
-                            onComplete={handleAddressSelect}
-                        />
-                    </div>
-                </Modal>
-
-                {/* <Modal
-                    isOpen={isModalOpen}
-                    onRequestClose={closeModal} // 모달 외부 클릭 시 닫기
-                    className={styles.modal}
-                    overlayClassName={styles.overlay}
-                    shouldCloseOnOverlayClick={true} // 오버레이 클릭 시 모달 닫기
-                >
-                    <div className={styles.modalHeader}>
-                        <h2>주소 찾기</h2>
-                        <button onClick={closeModal} className={styles.closeButton}>닫기</button>
-                    </div>
-                    <div className={styles.modalContent}>
-                        <DaumPostcode onComplete={handleAddressSelect} />
-                    </div>
-                </Modal> */}
+                    </div> */}
 
 
 
 
-            </div>
+            
 
 
 
-                <form className={styles.form}>
-                    
-                    
-                    
+                {/* <form className={styles.form}>
                     <div className={styles.formGroup}>
                         <label htmlFor="password" className={styles.label}>비밀번호</label>
                         <div className={styles.inputContainer}>
@@ -408,7 +520,7 @@ const SignUpPage: React.FC = () => {
                     <button type="submit" className={styles.submitButton}>
                         회원 가입
                     </button>
-                </form>
+                </form> */}
 
                 
         </>
