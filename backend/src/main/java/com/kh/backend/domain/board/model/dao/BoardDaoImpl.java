@@ -6,8 +6,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
+<<<<<<< HEAD:backend/src/main/java/com/kh/backend/domain/board/model/dao/BoardDaoImpl.java
 import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.board.model.vo.BoardImg;
+=======
+import com.kh.backend.domain.user.model.vo.Board;
+>>>>>>> jayhp:backend/src/main/java/com/kh/backend/model/dao/BoardDaoImpl.java
 
 import lombok.RequiredArgsConstructor;
 
