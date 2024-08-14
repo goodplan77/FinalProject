@@ -1,24 +1,42 @@
-import styles from './EventBoardInsertPage.module.css';
+import styles from './ProductBoardInsertPage.module.css';
 
-export default function InfoBoardInsertPage() {
+export default function ProductBoardUpdatePage() {
+
+
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>정보글 등록</h1>
+            <h1 className={styles.title}>포인트 교환 상품 정보 작성</h1>
             <div className={styles.formContent}>
                 <div className={styles.leftSection}>
                     <div className={styles.formContainer}>
                         <div className={styles.inputField}>
-                            <label className={styles.inputLabel}>제목</label>
+                            <label className={styles.inputLabel}>상품 이름</label>
                             <input
                                 type="text"
-                                placeholder="제목을 입력하세요."
+                                placeholder="상품 이름을 입력하세요."
+                                className={styles.textInput}
+                            />
+                        </div>
+                        <div className={styles.inputField}>
+                            <label className={styles.inputLabel}>포인트 설정</label>
+                            <input
+                                type="text"
+                                placeholder="포인트 값을 입력하세요."
+                                className={styles.textInput}
+                            />
+                        </div>
+                        <div className={styles.inputField}>
+                            <label className={styles.inputLabel}>초기 재고수 설정</label>
+                            <input
+                                type="text"
+                                placeholder="0"
                                 className={styles.textInput}
                             />
                         </div>
                         <div className={styles.inputField}>
                             <label className={styles.inputLabel}>내용 작성</label>
                             <textarea
-                                placeholder="내용을 입력하세요."
+                                placeholder="상품에 대한 상세 정보를 입력하세요."
                                 className={styles.textArea}
                             />
                         </div>
@@ -45,10 +63,16 @@ export default function InfoBoardInsertPage() {
                                 <div className={styles.knob}></div>
                             </div>
                         </div>
+                        <div className={styles.toggleField}>
+                            <span className={styles.toggleLabel}>교환 활성화 (노출 활성화)</span>
+                            <div className={styles.toggleSwitch}>
+                                <div className={styles.knob}></div>
+                            </div>
+                        </div>
                     </div>
                     <div className={styles.buttonGroup}>
                         <button className={styles.cancelButton}>취소</button>
-                        <button className={styles.submitButton}>게시</button>
+                        <button className={styles.submitButton}>작성</button>
                     </div>
                 </div>
             </div>

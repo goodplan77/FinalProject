@@ -1,9 +1,9 @@
 import styles from './NotifyBoardInsertPage.module.css';
 
-export default function NotifyBoardInsertPage() {
+export default function NotifyBoardUpdatePage() {
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>공지사항 작성</h1>
+            <h1 className={styles.title}>공지사항 수정</h1>
             <div className={styles.formContainer}>
                 <div className={styles.inputField}>
                     <label className={styles.inputLabel}>제목</label>
