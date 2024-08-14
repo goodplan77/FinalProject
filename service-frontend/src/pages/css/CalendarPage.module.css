@@ -1,0 +1,309 @@
+.pageContainer {
+    position: relative;
+    width: 430px;
+    height: 984px;
+    background: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.calendarHeader {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: #000000;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.calendarContainer {
+    width: 100%;
+    height: auto;
+    background-color: #e1f4f8;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reactCalendarWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.reactCalendar {
+    width: 100%;
+    border: none;
+    background-color: #e1f4f8;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #000000;
+}
+
+.reactCalendar__navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    background-color: #000000;
+    color: #FFFFFF;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+.reactCalendar__navigation button {
+    color: #FFFFFF;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.reactCalendar__navigation__arrow {
+    font-size: 18px;
+}
+
+.reactCalendar__navigation button:enabled:hover,
+.reactCalendar__navigation button:enabled:focus {
+    background-color: #e1f4f8;
+    border-radius: 5px;
+}
+
+/* Calendar Tile Styles */
+.reactCalendar__tile {
+    flex: 0 0 14.2857%;
+    overflow: hidden;
+    margin-inline-end: 0px;
+    background-color: #B2EBF2;
+    /* 버튼 배경색을 수정했습니다. */
+    color: #808080;
+    font-weight: bold;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+}
+
+.reactCalendar__tile--now {
+    background-color: #d9faff;
+    color: #000000;
+    font-weight: bold;
+}
+
+.reactCalendar__tile--active {
+    background-color: #02CCFE;
+    color: #ffffff;
+    border-radius: 5px;
+}
+
+.reactCalendar__tile:enabled:hover,
+.reactCalendar__tile:enabled:focus {
+    background-color: #7BD2F7;
+    color: #000000;
+}
+
+.reactCalendar__month-view__weekdays {
+    text-align: center;
+    background-color: #7BD2F7;
+    font-weight: bold;
+}
+
+.reactCalendar__month-view__weekdays__weekday {
+    color: #808080;
+}
+
+.reactCalendar__month-view__days__day--weekend {
+    color: #FE4242;
+}
+
+.reactCalendar__month-view__weekdays__weekday abbr[title="일요일"] {
+    color: #FE4242;
+}
+
+.reactCalendar__month-view__days__day--neighboringMonth {
+    color: #d3d3d3;
+}
+
+/* Attend Day Highlight */
+.attendDayHighlight {
+    background-color: #4CAF50 !important;
+    color: #FFFFFF !important;
+    border-radius: 5px;
+}
+
+/* Button Styles */
+.styledDate {
+    background-color: #AEE1F5;
+    color: #009DDB;
+    width: 60px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 15px auto;
+    border: none;
+    outline: none;
+    display: block;
+}
+
+/* Memo Container Styles */
+.memoContainer {
+    width: 100%;
+    background-color: #E4FAFF;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.memoList {
+    margin-top: 10px;
+}
+
+.memoItem {
+    position: relative;
+    width: 95%;
+    background-color: #E4FAFF;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #AEE1F5;
+}
+
+.memoTitle {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #000000;
+}
+
+.memoTime {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #000000;
+    margin-top: 5px;
+    align-self: flex-end;
+}
+
+.deleteButton {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #009DDB;
+    cursor: pointer;
+    border: none;
+    background: none;
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    text-decoration: underline;
+}
+
+/* Modal Styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background: #E0F7FA;
+    padding: 20px;
+    border-radius: 15px;
+    width: 300px;
+    text-align: center;
+    z-index: 1001;
+    border: 3px solid #00BCD4;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modalContent h2 {
+    margin-bottom: 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    color: #00BCD4;
+    background-color: #B2EBF2;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.modalContent input[type="text"] {
+    width: 20%;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    border: 1px solid #00BCD4;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #00BCD4;
+    text-align: center;
+    background-color: #E0F7FA;
+}
+
+.modalContent input[type="time"] {
+    width: 93%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #00BCD4;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #00BCD4;
+    background-color: #FFFFFF;
+}
+
+.modalContent textarea {
+    width: 93%;
+    height: 100px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #00BCD4;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #00BCD4;
+    background-color: #FFFFFF;
+}
+
+.modalContent button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    color: #00BCD4;
+    background-color: #B2EBF2;
+    transition: background-color 0.3s ease;
+}
+
+.modalContent button:first-of-type {
+    background-color: #B2EBF2;
+    color: #00BCD4;
+}
+
+.modalContent button:last-of-type {
+    background-color: #FFFFFF;
+    color: #00BCD4;
+}
+
+.modalContent button:hover {
+    background-color: #00BCD4;
+    color: #FFFFFF;
+}
