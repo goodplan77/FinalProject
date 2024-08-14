@@ -13,7 +13,7 @@ import EventBoardManagePage from "./adminPages/EventBoardManagePage"
 import EventBoardInsertPage from "./adminPages/EventBoardInsertPage"
 import ProductBoardManagePage from "./adminPages/ProductBoardManagePage"
 import ProductBoardInsertPage from "./adminPages/ProductBoardInsertPage"
-import InquiryManagePage from "./adminPages/InquiryManagePage"
+import AskManagePage from "./adminPages/AskManagePage"
 import ReportManagePage from "./adminPages/ReportManagePage"
 import NotifyBoardUpdatePage from "./adminPages/NotifyBoardUpdatePage"
 import InfoBoardUpdatePage from "./adminPages/InfoBoardUpdatePage"
@@ -40,7 +40,7 @@ export default function AdminPage() {
                     <Route path='productBoardInsertPage' element={<ProductBoardInsertPage />} />
                     <Route path='productBoardUpdatePage' element={<ProductBoardUpdatePage />} />
                     <Route path='reportManagePage' element={<ReportManagePage />} />
-                    <Route path='inquiryManagePage' element={<InquiryManagePage />} />
+                    <Route path='askManagePage' element={<AskManagePage />} />
                 </Routes>
             </div>
             <SideBar />
