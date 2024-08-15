@@ -1,22 +1,22 @@
-package com.kh.backend.security.jwt;
-
-import java.util.Base64;
-import java.util.Date;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
-
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import jakarta.annotation.PostConstruct;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
-
+//package com.kh.backend.security.jwt;
+//
+//import java.util.Base64;
+//import java.util.Date;
+//
+//import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.stereotype.Component;
+//
+//
+//import io.jsonwebtoken.Claims;
+//import io.jsonwebtoken.Jws;
+//import io.jsonwebtoken.Jwts;
+//import io.jsonwebtoken.SignatureAlgorithm;
+//import jakarta.annotation.PostConstruct;
+//import jakarta.servlet.http.HttpServletRequest;
+//import lombok.RequiredArgsConstructor;
+//
 //@RequiredArgsConstructor
 //@Component
 //public class JwtProvider {
@@ -27,12 +27,13 @@ import lombok.RequiredArgsConstructor;
 //	@Value("${jwt.secret}")
 //	private String secretKey;
 //	
+//	// 가져온 key값을 다시 암호화
 //	@PostConstruct
 //	public void init() {
 //		secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
 //	}
 //	
-//	// 현재 애플리케이션 자체 토큰 생성
+//	// 현재 내가 만든 애플리케이션 자체 토큰 생성
 //	public String createToken(String userPk) {
 //		
 //		Claims claims = Jwts.claims().setSubject(userPk);
@@ -40,9 +41,9 @@ import lombok.RequiredArgsConstructor;
 //		
 //		return Jwts.builder()
 //			.setClaims(claims)
-//			.setIssuedAt(now) // 토큰 발행 시간
+//			.setIssuedAt(now) // 토큰 발행 시간 (현재 시간)
 //			.setExpiration( new Date( now.getTime() + (30*60*1000) )) // 만료 시간 (30분)
-//			.signWith(SignatureAlgorithm.HS256, secretKey)
+//			.signWith(SignatureAlgorithm.HS256, secretKey) // 암호화 시킬 방법, 암호화에 사용할 키
 //			.compact();
 //	}
 //
@@ -54,9 +55,10 @@ import lombok.RequiredArgsConstructor;
 //	public boolean validationToken(String token) {
 //		
 //		try {
+//			// 암호화된 토큰을 복호화
 //			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
 //			
-//			return !claims.getBody().getExpiration().before(new Date());
+//			return !claims.getBody().getExpiration().before(new Date()); // 내부에 데이터가 있으면서 유효시간이 지나지 않은 경우
 //			
 //		}catch(Exception e) {
 //			return false;
@@ -64,11 +66,13 @@ import lombok.RequiredArgsConstructor;
 //		
 //	}
 //
-//	/*	Authentication : 사용자 인증 정보가 담겨있는 객체
-//	 * - Principal : 인증된 사용자 정보
-//	 * - Credentials : 인증에 필요한 비밀번호를 저장하는 객체
+//	/* Authentication : 사용자 인증 정보가 담겨있는 객체
+//	 * 
+//	 * [매개변수들]
+//	 * 	- Principal : 인증된 사용자 정보
+//	 * 	- Credentials : 인증에 필요한 비밀번호를 저장하는 객체
 //	 *				(내부적으로 인증작업시 필요하며 보호되고 있음.)
-//	 * - Authorities : 인증된 사용자가 가진 권한 목록
+//	 * 	- Authorities : 인증된 사용자가 가진 권한 목록
 //	 */
 //	public Authentication getAuthentication(String token) {
 //		
@@ -85,10 +89,10 @@ import lombok.RequiredArgsConstructor;
 //	
 //	
 //}
-
-
-
-
-
-
-
+//
+//
+//
+//
+//
+//
+//
