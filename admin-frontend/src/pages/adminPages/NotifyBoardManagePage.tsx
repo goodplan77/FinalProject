@@ -1,16 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './NotifyBoardManagePage.module.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { initialBoardList } from '../../type/board';
 
 export default function NotifyBoardManagePage() {
     const navi = useNavigate();
-    const [activeCategory, setActiveCategory] = useState<string>('전체');
+    const [boards , setBoards] = useState(initialBoardList);
 
-    const categories = ['전체', '일반', '중고', '분양', '실종'];
-
-    const handleCategoryClick = (category: string) => {
-        setActiveCategory(category);
-    };
+    useEffect(() => {
+        axios.get("http://localhost:8013/banju/admin/board/NofityboardList")
+            .then((response) => {
+                console.log(response);
+                setBoards(response.data);
+            }).catch((response) => {
+                console.log(response);
+            })
+    }, [])
 
     return (
         <div className={styles.container}>
@@ -22,29 +28,30 @@ export default function NotifyBoardManagePage() {
                     className={styles.searchInput}
                 />
             </div>
-            <div className={styles.categoryBar}>
-                {categories.map((category) => (
-                    <button
-                        key={category}
-                        className={`${styles.categoryButton} ${activeCategory === category ? styles.active : ''
-                            }`}
-                        onClick={() => handleCategoryClick(category)}
-                    >
-                        {category}
-                    </button>
-                ))}
-            </div>
+
             <button className={styles.deleteButton}>삭제</button>
             <div className={styles.memberList}>
                 <div className={styles.memberListHeader}>
                     <input type="checkbox" className={styles.checkbox} />
                     <span>UID</span>
                     <span>게시글 제목</span>
-                    <span>분류</span>
                     <span>작성날짜</span>
                     <span>수정날짜</span>
                     <span>활성화</span>
                 </div>
+
+                {boards.map((board,index) => {return (
+                    <div key={index} className={styles.postRow}>
+                        <input type="checkbox" className={styles.checkbox} />
+                        <span className={styles.postId}>{board.boardNo}</span>
+                        <span className={styles.postTitle}>{board.title}</span>
+                        <span className={styles.postCreatedDate}>{board.enrollDate}</span>
+                        <span className={styles.postModifiedDate}>{board.modifyDate}</span>
+                        <div className={styles.toggleContainer}>
+                        <div className={styles.toggle}></div>
+                    </div>
+                </div>
+                )})}
                 
             </div>
             <div className={styles.pagination}>

@@ -34,7 +34,7 @@
 			DETAIL_STATUS,
 			LIKES
 		FROM BOARD
-		WHERE BOARD_CODE = 'I'
+		WHERE BOARD_CODE = 'N'
 		ORDER BY BOARD_NO DESC
 	</select>
 	
@@ -70,7 +70,31 @@
 			DETAIL_STATUS,
 			LIKES
 		FROM BOARD
-		WHERE BOARD_CODE = 'N'
+		WHERE BOARD_CODE = 'I'
 		ORDER BY BOARD_NO DESC
 	</select>
+	
+	<insert id="insertNotifyBoard" useGeneratedKeys="true">
+		INSERT INTO BOARD (
+			BOARD_NO,
+			USER_NO,
+			TITLE,
+			CONTENT,
+			BOARD_CODE,
+			ENROLL_DATE,
+			VIEWS,
+			STATUS,
+			LIKES
+		) VALUES (
+			SEQ_BOARD.NEXTVAL,
+			1,
+			#{title},
+			#{content},
+			#{boardCode},
+			SYSDATE,
+			DEFAULT,
+			DEFAULT,
+			DEFAULT
+		)
+	</insert>
 </mapper>

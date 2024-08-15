@@ -14,4 +14,6 @@ public interface AdminBoardDao {
 
 	List<Board> selectInfoBoards();
 
+	int insertNotifyBoard(Board board);
+
 }

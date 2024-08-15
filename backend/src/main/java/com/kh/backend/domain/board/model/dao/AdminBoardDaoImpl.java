@@ -35,4 +35,9 @@ public class AdminBoardDaoImpl implements AdminBoardDao{
 		return session.selectList("adminBoard.selectInfoBoards");
 	}
 
+	@Override
+	public int insertNotifyBoard(Board board) {
+		return session.insert("adminBoard.insertNotifyBoard" , board);
+	}
+
 }

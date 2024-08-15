@@ -35,4 +35,9 @@ public class AdminBoardServiceImpl implements AdminBoardService{
 		return boardDao.selectInfoBoards();
 	}
 
+	@Override
+	public int insertNotifyBoard(Board board) {
+		return boardDao.insertNotifyBoard(board);
+	}
+
 }
