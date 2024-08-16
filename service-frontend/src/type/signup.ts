@@ -38,32 +38,12 @@ export const initUser:User = {
     birthday : ''
 } as const;
 
-
-
-export type MenuType = 'kr'|'jp'|'ch';
-export type MenuTaste = 'mild'|'hot';
-
-export interface Menu{
-    id : number,
-    restaurant : string,
-    name : string,
-    price : number,
-    type : MenuType,
-    taste : MenuTaste
-};
-
-export const initialMenu:Menu ={
-    id : 0,
-    restaurant : '',
-    name : '',
-    price : 0,
-    type : 'kr',
-    taste : 'mild'
-} as const;
-
-export const initialMenuList:Menu[] = [];
-
-export type SearchKeyword = {
-    type: MenuType |'all'
-    taste : MenuTaste|'all'
+export interface LoginResponse {
+    token_type: string;
+    access_token: string;
+    expires_in: string;
+    refresh_token: string;
+    refresh_token_expires_in: number;
+    scope: string;
 }
+

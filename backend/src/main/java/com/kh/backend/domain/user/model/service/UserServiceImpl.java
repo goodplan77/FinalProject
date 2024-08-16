@@ -1,8 +1,17 @@
 package com.kh.backend.domain.user.model.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.backend.domain.user.model.dao.UserDao;
+import com.kh.backend.domain.user.model.dto.KakaoUserInfoResponse;
 import com.kh.backend.domain.user.model.vo.User;
 
 import lombok.RequiredArgsConstructor;
@@ -11,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 	
+	private final KakaoApi kakaoApi; 
 	private final UserDao dao;
 	
 	@Override
@@ -22,5 +32,72 @@ public class UserServiceImpl implements UserService{
 	public int insertUser(User user) {
 		return dao.insertUser(user);
 	}
+
+	@Override
+	public User loginSocial(HashMap<String, Object> map) {
+		
+		// accessToken, socialType
+		String socialType = (String) map.get("socialType");
+		
+		KakaoUserInfoResponse kakaoInfo = new KakaoUserInfoResponse();
+		String socialId = "";
+		
+		switch(socialType) {
+		case "kakao" : 
+			kakaoInfo = kakaoApi.getUserInfo(map);
+			socialId = kakaoInfo.getId();
+			break;
+		case "google" : break;
+		default : break;
+		}
+		
+		map.put("socialId", socialId);
+		
+		User user = dao.loadUserByUsername(socialId, socialType);
+		
+		int result = 1;
+		
+		if(user == null) {
+			
+			String currentTime = new SimpleDateFormat("yyyyMMddss").format(new Date());
+			int random = (int) (Math.random() * 1000 + 1);
+			String nickName = "";
+			String profile = "";
+			String email = "";
+			
+			switch(socialType) {
+			case "kakao" : 
+				nickName = kakaoInfo.getProperties().getNickname();
+				profile = kakaoInfo.getProperties().getThumbnail_image();
+				email = kakaoInfo.getProperties().getEmail();
+				break;
+			}
+			
+			String tempNickName = currentTime + nickName + random;
+			
+			User u = user.builder()
+						 .nickName(tempNickName)
+						 .email(email)
+						 .socialId(String.valueOf(socialId))
+						 .socialType(socialType) 
+						 .build();
+			
+			result *= dao.insertUser(u);
+			result *= dao.insertUserSocial(u);
+			result *= dao.insertAuthority(u);
+			
+			// selectUser
+			user = selectUser(map);
+		}
+		
+		return user;
+	}
+	
+	@Override
+	public User selectUser(HashMap<String, Object> map) {
+		return dao.selectUser(map);
+	}
+
+	
 
 }

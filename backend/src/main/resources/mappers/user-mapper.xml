@@ -2,6 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="user">
 
+	<resultMap id="userMap" type="user">
+		<id column="USER_NO" property="userNo"/>
+		<collection property="authorities"
+					javaType="list"
+					ofType="simpleGrantedAuthority"
+					select="selectAuthorities"
+					column="USER_NO"
+		 />
+	</resultMap>
+	
+	<resultMap id="authorityMap" type="simpleGrantedAuthority">
+		<constructor>
+			<arg column="authority" javaType="string" />
+		</constructor>
+	</resultMap>
+
+
 	<select id="checkNickName" resultType="int" parameterType="String">
 		SELECT COUNT(*)
 		FROM "USER"
@@ -15,7 +32,6 @@
 	</selectKey>
 		INSERT INTO "USER"(
 			USER_NO,
-			GRADE,
 			EMAIL,
 			PWD,
 			USER_NAME,
@@ -28,7 +44,6 @@
 		)
 		VALUES(
 			#{userNo},
-			DEFAULT,
 			#{email},
 			#{pwd},
 			#{userName},
@@ -40,6 +55,59 @@
 			DEFAULT
 		)
 	</insert>
+	
+	<insert id="insertUserSocial">
+		INSERT INTO "USER_SOCIAL"
+		VALUES(
+			#{socialId},
+			#{userNo},
+			#{socialType}
+		)
+	</insert>
+	
+	<insert id="insertAuthority">
+		INSERT INTO "AUTHORITY"
+		VALUES(
+			#{userNo},
+			'ROLE_USER'
+		)
+	</insert>
+	
+	<insert id="signupPoint">
+		INSERT INTO "HISTORY"
+		VALUES(
+			SEQ_HISTORY.NEXTVAL,
+			#{userNo},
+			#{points},
+			DEFAULT,
+			'회원가입 축하 포인트 지급!'
+		)
+	</insert>
+	
+	<select id="loadUserByUsername" resultMap="userMap">
+		SELECT
+			*
+		FROM "USER"
+		JOIN USER_SOCIAL USING(USER_NO)
+		WHERE
+			SOCIAL_ID = #{socialId} 
+		  AND SOCIAL_TYPE = #{socialType}
+	</select>
+	
+	<select id="selectAuthorities" resultMap="authorityMap">
+		SELECT 
+			*
+		FROM "AUTHORITY"
+		WHERE USER_NO = #{userNo}
+	</select>
+	
+	<select id="selectSocialType">
+		SELECT * FROM "USER_SOCIAL"
+		WHERE SOCIAL_ID = #{socialId}
+	</select>
+	
+	
+	
 
 
 </mapper>

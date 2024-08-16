@@ -1,6 +1,7 @@
 package com.kh.backend.domain.user.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -8,14 +9,21 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.kh.backend.domain.user.model.service.UserService;
 import com.kh.backend.domain.user.model.vo.User;
+import com.kh.backend.security.jwt.JwtProvider;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -25,13 +33,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/signup")
+@RequestMapping("/user")
 @CrossOrigin(origins = {"http://localhost:3013"})
 public class UserController {
 	
 	private final JavaMailSenderImpl mailSender;
 	private final UserService service;
 	private final BCryptPasswordEncoder encoder;
+	private final JwtProvider jwtProvider;
 
 	@PostMapping("/sendEmail")
 	public ResponseEntity<HashMap<String, Object>> sendEmail(
@@ -119,7 +128,6 @@ public class UserController {
 	public ResponseEntity<HashMap<String, Object>> insertUser(
 			@RequestBody User user
 			){
-		System.err.println(user);
 		
 		// 비밀번호 암호화
 		String encodedPwd = encoder.encode(user.getPwd());
@@ -130,7 +138,32 @@ public class UserController {
 		
 		int result = service.insertUser(user);
 		
+		System.err.println(user);
 		return null;
+	}
+	
+	// 소셜로그인 메서드
+	@PostMapping("/login/{socialType}")
+	public ResponseEntity<HashMap<String, Object>> authCheck(
+			@PathVariable String socialType,
+			@RequestBody HashMap<String, String> param
+			){
+		
+		String accessToken = param.get("accessToken");
+		
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("accessToken", accessToken);
+		map.put("socialType", socialType);
+		
+		User user = service.loginSocial(map);
+		
+		String ACCESS_TOKEN = jwtProvider.createToken(user.getUserNo());
+		
+		HashMap<String, Object> resMap = new HashMap<>();
+		resMap.put("jwtToken", ACCESS_TOKEN);
+		resMap.put("user", user);
+		
+		return ResponseEntity.ok(resMap);
 	}
 	
 	

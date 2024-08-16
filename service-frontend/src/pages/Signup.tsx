@@ -40,7 +40,7 @@ const SignUpPage: React.FC = () => {
 
         alert("귀하의 이메일로 인증번호가 발송되었습니다.");
 
-        axios.post("http://localhost:8013/banju/signup/sendEmail", {
+        axios.post("http://localhost:8013/banju/user/sendEmail", {
             email : user.email
         })
             .then(res => {
@@ -70,7 +70,7 @@ const SignUpPage: React.FC = () => {
     const checkNickName = ()=>{
         axios({
             method : 'get',
-            url : "http://localhost:8013/banju/signup/checkNickName",
+            url : "http://localhost:8013/banju/user/checkNickName",
             params : {
                 nickName : user.nickName
             }
@@ -110,7 +110,7 @@ const SignUpPage: React.FC = () => {
         console.log(user);
         console.log(address);
 
-        axios.post("http://localhost:8013/banju/signup/insertUser", user)
+        axios.post("http://localhost:8013/banju/user/insertUser", user)
             .then(res=>{
                 console.log(res);
             })
@@ -189,6 +189,8 @@ const SignUpPage: React.FC = () => {
     return (
         <>
             <div className={styles.elem_container}>
+
+                <button type='button' onClick={()=>navi('/login')}>로그인</button>
 
                 <label htmlFor="email" className={styles.label}>이메일</label>
                 <div className={styles.email_container}>
