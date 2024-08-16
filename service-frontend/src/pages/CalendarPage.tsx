@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import { format } from 'date-fns';
 import styles from './css/CalendarPage.module.css';
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { useDispatch } from "react-redux";
+import { selectedMemo } from "../features/memoSlice";
 
 type Value = Date | null | [Date | null, Date | null];
 
 export default function CalendarPage() {
+    const dispatch = useDispatch();
     const today = new Date();
     const [date, setDate] = useState<Value>(today);
     const [activeStartDate, setActiveStartDate] = useState<Date | null>(new Date());
@@ -15,6 +21,19 @@ export default function CalendarPage() {
     const [memo, setMemo] = useState("");
     const [time, setTime] = useState(""); // 시간 입력을 위한 state 추가
     const attendDay = ["2023-12-03", "2023-12-13"];
+
+    const memos = useSelector((state: RootState) => state.memos);
+
+    useEffect(() => {
+        axios.get("http://localhost:8013/banju/calendarPage/memoList")
+            .then((response) => {
+                console.log(response);
+                dispatch(selectedMemo(response.data));
+            })
+            .catch((response) => {
+                console.log(response);
+            })
+    }, [dispatch]);
 
     const handleDateChange = (newDate: Value) => {
         if (newDate instanceof Date) {
@@ -29,7 +48,9 @@ export default function CalendarPage() {
     };
 
     const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setTime(e.target.value);
+        const inputTime = e.target.value; // "HH:mm" 형식으로 입력
+        const formattedTime = `${inputTime}:00`; // "HH:mm:ss" 형식으로 변환
+        setTime(formattedTime);
     };
 
     const handleMemoChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -37,10 +58,43 @@ export default function CalendarPage() {
     };
 
     const handleMemoSave = () => {
-        console.log(`Memo saved for ${format(selectedDate as Date, 'yyyy/MM/dd')} at ${time}: ${memo}`);
+        if (!selectedDate || !time) {
+            alert("날짜와 시간을 입력하세요.");
+            return;
+        }
+
+        // 날짜와 시간을 결합하여 'yyyy-MM-dd HH:mm:ss' 형식의 문자열 생성
+        const targetDateString = `${format(selectedDate as Date, 'yyyy-MM-dd')} ${time}`;
+
+        const memoData = {
+            targetDate: targetDateString, // 'yyyy-MM-dd HH:mm:ss' 형식의 문자열
+            content: memo,
+            userNo: 1
+        };
+
+        axios.post('http://localhost:8013/banju/calendarPage/insertMemo', memoData, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then((response) => {
+                console.log(response);
+                axios.get("http://localhost:8013/banju/calendarPage/memoList")
+                    .then((response) => {
+                        console.log(response);
+                        dispatch(selectedMemo(response.data));
+                    })
+                    .catch((response) => {
+                        console.log(response);
+                    })
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
         setShowModal(false);
         setMemo("");
-        setTime(""); // 저장 후 시간 초기화
+        setTime("");
     };
 
     const handleCloseModal = () => {
@@ -49,8 +103,35 @@ export default function CalendarPage() {
         setTime(""); // 모달 닫을 때 시간 초기화
     };
 
-    const handleDeleteClick = (item: string) => {
-        console.log(`${item} has been deleted.`);
+    const deleteMemo = (memoNo: number) => {
+        axios.delete('http://localhost:8013/banju/calendarPage/deleteMemo/' + memoNo)
+            .then((response) => {
+                alert(response.data);
+                axios.get("http://localhost:8013/banju/calendarPage/memoList")
+                    .then((response) => {
+                        console.log(response);
+                        dispatch(selectedMemo(response.data));
+                    })
+                    .catch((response) => {
+                        console.log(response);
+                    })
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    };
+
+    const tileContent = ({ date, view }: { date: Date; view: string }) => {
+        if (view === 'month') {
+            const memoForDate = memos.find(memo =>
+                format(new Date(memo.targetDate), 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
+            );
+            if (memoForDate) {
+                return <div className={styles.dot}></div>;
+            }
+        }
+        return null;
     };
 
     return (
@@ -76,18 +157,25 @@ export default function CalendarPage() {
                         tileClassName={({ date, view }) =>
                             view === "month" && attendDay.includes(format(date, 'yyyy-MM-dd')) ? styles.attendDayHighlight : null
                         }
+                        tileContent={tileContent} // 추가된 부분: 메모가 있는 날짜에 노란 점 표시
                     />
                 </div>
             </div>
             <div className={styles.memoContainer}>
                 <div className={styles.memoList}>
-                    <div className={styles.memoItem}>
-                        <div className={styles.memoTitle}>초코 병원 가야하는 날</div>
-                        <div className={styles.memoTime}>2024/09/20 오후 1:00</div>
-                        <button className={styles.deleteButton} onClick={() => handleDeleteClick("초코 병원 가야하는 날")}>
-                            삭제
-                        </button>
-                    </div>
+                    {
+                        memos.map((memo) => {
+                            return (
+                                <div className={styles.memoItem} key={memo.memoNo}>
+                                    <div className={styles.memoTitle}>{memo.content}</div>
+                                    <div className={styles.memoTime}>{format(new Date(memo.targetDate), 'yyyy-MM-dd HH:mm')}</div>
+                                    <button className={styles.deleteButton} onClick={() => deleteMemo(memo.memoNo)}>
+                                        삭제
+                                    </button>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
             {showModal && (

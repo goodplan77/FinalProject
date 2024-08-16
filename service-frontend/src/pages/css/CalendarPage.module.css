@@ -89,7 +89,7 @@
 }
 
 .reactCalendar__tile--now {
-    background-color: #d9faff;
+    background-color: #3464e9;
     color: #000000;
     font-weight: bold;
 }
@@ -306,4 +306,13 @@
 .modalContent button:hover {
     background-color: #00BCD4;
     color: #FFFFFF;
+}
+
+.dot {
+    height: 8px;
+    width: 8px;
+    background-color: rgb(147, 255, 147);
+    border-radius: 50%;
+    display: inline-block;
+    margin-top: 2px;
 }
