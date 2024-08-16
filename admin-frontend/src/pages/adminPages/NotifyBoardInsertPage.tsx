@@ -18,13 +18,10 @@ export default function NotifyBoardInsertPage() {
     }
 
     function notifyBoardInsert() {
-        setBoard({
-            ...board,
-            boardCode : 'N'
-        })
         axios.post("http://localhost:8013/banju/admin/board/insertNofityboard" , board)
             .then((response) => {
                 alert(response.data.msg);
+                navi('../nonifyBoardManage');
             })
             .catch((error) => {
                 console.log(error);
@@ -62,7 +59,6 @@ export default function NotifyBoardInsertPage() {
                         }}>취소</button>
                     <button className={styles.submitButton} onClick={() => {
                         notifyBoardInsert();
-                        navi('../nonifyBoardManage');
                         }}>작성</button>
                 </div>
             </div>

@@ -4,14 +4,18 @@ import { RootState } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { selectAllBoard, selectCategoryBoard } from '../../features/boardSlice';
+import { initialBoard } from '../../type/board';
 
 export default function BoardManagePage() {
     const [activeCategory, setActiveCategory] = useState('전체');
+    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
+    const [itemsPerPage] = useState(10); // 페이지당 항목 수
 
     const handleCategoryClick = (category: any) => {
         setActiveCategory(category);
         // 카테고리 변경에 따른 로직을 추가할 수 있습니다.
         dispatch(selectCategoryBoard(category));
+        setCurrentPage(1);
     };
 
     const categoryConvert = (type:string) =>{ 
@@ -37,13 +41,36 @@ export default function BoardManagePage() {
             })
     }, [])
 
+    const totalItems = boards.filteredBoards.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = Math.max(0, indexOfLastItem - itemsPerPage);
+    const currentItems = boards.filteredBoards.slice(indexOfFirstItem, Math.min(indexOfLastItem, totalItems));
+
+    const renderPageNumbers = () => {
+        const pageNumbers = [];
+        for (let i = 1; i <= totalPages; i++) {
+            pageNumbers.push(
+                <span
+                    key={i}
+                    className={`${styles.page} ${currentPage === i ? styles.activePage : ''}`}
+                    onClick={() => setCurrentPage(i)}
+                >
+                    {i}
+                </span>
+            );
+        }
+        return pageNumbers;
+    };
+
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>게시글 관리 페이지</h1>
             <div className={styles.searchBar}>
                 <input
                     type="text"
-                    placeholder="게시글 정보 검색"
+                    placeholder="게시글 제목 검색"
                     className={styles.searchInput}
                 />
             </div>
@@ -95,7 +122,7 @@ export default function BoardManagePage() {
                     <span className={styles.headerItem}>활성화</span>
                 </div>
                 
-                {boards.filteredBoards.map((board,index) => {return (
+                {currentItems.map((board,index) => {return (
                     <div key={index} className={styles.postRow}>
                         <input type="checkbox" className={styles.checkbox} />
                         <span className={styles.postId}>{board.boardNo}</span>
@@ -114,12 +141,7 @@ export default function BoardManagePage() {
                 )})}
             </div>
             <div className={styles.pagination}>
-                <span className={styles.page}>1</span>
-                <span className={styles.page}>2</span>
-                <span className={styles.page}>3</span>
-                <span className={styles.pageGap}>...</span>
-                <span className={styles.page}>67</span>
-                <span className={styles.page}>68</span>
+                {renderPageNumbers()}
             </div>
         </div>
     )

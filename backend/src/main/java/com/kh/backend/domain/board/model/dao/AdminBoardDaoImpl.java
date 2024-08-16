@@ -6,6 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.backend.domain.board.model.vo.Board;
+import com.kh.backend.domain.board.model.vo.BoardImg;
+import com.kh.backend.domain.board.model.vo.Product;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,10 +36,42 @@ public class AdminBoardDaoImpl implements AdminBoardDao{
 	public List<Board> selectInfoBoards() {
 		return session.selectList("adminBoard.selectInfoBoards");
 	}
+	
+	@Override
+	public List<Product> selectProductBoards() {
+		return session.selectList("adminBoard.selectProductBoards");
+	}
 
 	@Override
 	public int insertNotifyBoard(Board board) {
 		return session.insert("adminBoard.insertNotifyBoard" , board);
 	}
+
+	@Override
+	public int insertEventboard(Board board) {
+		return session.insert("adminBoard.insertEventboard" , board);
+	}
+	
+	
+	@Override
+	public int insertInfoboard(Board board) {
+		return session.insert("adminBoard.insertInfoboard" , board);
+	}
+
+	@Override
+	public int insertBoardImages(BoardImg boardImg) {
+		return session.insert("adminBoard.insertBoardImages" , boardImg);
+	}
+
+	@Override
+	public int insertProductBoard(Product product) {
+		return session.insert("adminBoard.insertProductBoard" , product);
+	}
+
+	@Override
+	public String selectProductImages(int productNo) {
+		return session.selectOne("adminBoard.selectProductImages" , productNo);
+	}
+
 
 }

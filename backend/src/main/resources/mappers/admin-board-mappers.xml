@@ -74,7 +74,25 @@
 		ORDER BY BOARD_NO DESC
 	</select>
 	
+	<select id="selectProductBoards" resultType="Product">
+		SELECT
+			PRODUCT_NO,
+			PRICE,
+			QTY,
+			CONTENT,
+			STATUS,
+			LIKES,
+			IMG
+		FROM PRODUCT
+		ORDER BY PRODUCT_NO DESC
+	</select>
+	
 	<insert id="insertNotifyBoard" useGeneratedKeys="true">
+	
+	<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+		SELECT SEQ_BOARD.NEXTVAL
+		FROM DUAL
+	</selectKey>
 		INSERT INTO BOARD (
 			BOARD_NO,
 			USER_NO,
@@ -82,19 +100,121 @@
 			CONTENT,
 			BOARD_CODE,
 			ENROLL_DATE,
+			MODIFY_DATE,
 			VIEWS,
 			STATUS,
 			LIKES
 		) VALUES (
-			SEQ_BOARD.NEXTVAL,
+			#{boardNo},
 			1,
 			#{title},
 			#{content},
-			#{boardCode},
+			'N',
 			SYSDATE,
+			NULL,
 			DEFAULT,
 			DEFAULT,
 			DEFAULT
 		)
 	</insert>
+	
+	<insert id="insertEventboard" useGeneratedKeys="true">
+	
+	<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+		SELECT SEQ_BOARD.NEXTVAL
+		FROM DUAL
+	</selectKey>
+		INSERT INTO BOARD (
+			BOARD_NO,
+			USER_NO,
+			TITLE,
+			CONTENT,
+			BOARD_CODE,
+			ENROLL_DATE,
+			MODIFY_DATE,
+			VIEWS,
+			STATUS,
+			LIKES
+		) VALUES (
+			#{boardNo},
+			1,
+			#{title},
+			#{content},
+			'E',
+			SYSDATE,
+			NULL,
+			DEFAULT,
+			DEFAULT,
+			DEFAULT
+		)
+	</insert>
+	
+	<insert id="insertInfoboard" useGeneratedKeys="true">
+	
+	<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+		SELECT SEQ_BOARD.NEXTVAL
+		FROM DUAL
+	</selectKey>
+		INSERT INTO BOARD (
+			BOARD_NO,
+			USER_NO,
+			TITLE,
+			CONTENT,
+			BOARD_CODE,
+			ENROLL_DATE,
+			MODIFY_DATE,
+			VIEWS,
+			STATUS,
+			LIKES
+		) VALUES (
+			#{boardNo},
+			1,
+			#{title},
+			#{content},
+			'I',
+			SYSDATE,
+			NULL,
+			DEFAULT,
+			DEFAULT,
+			DEFAULT
+		)
+	</insert>
+	
+	<insert id="insertBoardImages">
+		INSERT INTO BOARD_IMG (IMG_NO, BOARD_NO, ORIGIN_NAME)
+		VALUES(
+			SEQ_BOARD_IMG.NEXTVAL,
+			#{boardNo},
+			#{originName}
+		)
+	</insert>
+	
+	<insert id="insertProductBoard">
+		INSERT INTO PRODUCT (
+			PRODUCT_NO,
+			PRICE,
+			QTY,
+			TITLE,
+			CONTENT,
+			STATUS,
+			LIKES,
+			IMG
+		) VALUES (
+			SEQ_PRODUCT.NEXTVAL,
+			#{price},
+			#{qty},
+			#{title},
+			#{content},
+			DEFAULT,
+			DEFAULT,
+			#{img}
+		)
+	</insert>
+	
+	<select id="selectProductImages" resultType="string">
+		SELECT IMG
+		FROM PRODUCT
+		WHERE PRODUCT_NO = #{productNo}
+	</select>
+	
 </mapper>
