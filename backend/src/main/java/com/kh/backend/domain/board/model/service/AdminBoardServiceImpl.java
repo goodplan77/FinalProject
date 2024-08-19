@@ -137,4 +137,14 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		return boardDao.selectProductImages(productNo);
 	}
 
+	@Override
+	public int updateBoard(Board board) {
+		return boardDao.updateBoard(board);
+	}
+
+	@Override
+	public int deleteBoards(Board[] boards) {
+		return boardDao.deleteBoards(boards);
+	}
+
 }

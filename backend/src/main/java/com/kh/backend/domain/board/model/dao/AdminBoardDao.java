@@ -30,5 +30,9 @@ public interface AdminBoardDao {
 
 	String selectProductImages(int productNo);
 
+	int updateBoard(Board board);
+
+	int deleteBoards(Board[] boards);
+
 
 }

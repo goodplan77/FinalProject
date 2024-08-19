@@ -217,4 +217,22 @@
 		WHERE PRODUCT_NO = #{productNo}
 	</select>
 	
+	<update id="updateBoard">
+	 UPDATE BOARD SET 
+		 CONTENT = #{content},
+		 STATUS = #{status},
+		 MODIFY_DATE = SYSDATE
+	 WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<update id="deleteBoards">
+    UPDATE BOARD SET
+    	STATUS = 'D',
+		MODIFY_DATE = SYSDATE
+    WHERE BOARD_NO IN
+	    <foreach item="board" index="index" collection="array" open="(" separator="," close=")">
+	        #{board.boardNo}
+	    </foreach>
+	</update>
+	
 </mapper>

@@ -31,4 +31,8 @@ public interface AdminBoardService {
 	int insertProductBoard(Product product, MultipartFile file);
 
 	String selectProductImages(int productNo);
+
+	int updateBoard(Board board);
+
+	int deleteBoards(Board[] boards);
 }

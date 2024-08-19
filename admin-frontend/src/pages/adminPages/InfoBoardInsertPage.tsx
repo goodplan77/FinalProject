@@ -45,7 +45,13 @@ export default function InfoBoardInsertPage() {
       const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // 폼 제출 방지
         const formData = new FormData();
-        formData.append('boardJson', JSON.stringify(board));
+        
+        const updatedBoard = {
+            ...board,
+            boardCode: 'I'
+        };
+
+        formData.append('boardJson', JSON.stringify(updatedBoard));
         if(selectedImage){
             formData.append('file' , selectedImage);
         }

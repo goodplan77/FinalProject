@@ -18,7 +18,13 @@ export default function NotifyBoardInsertPage() {
     }
 
     function notifyBoardInsert() {
-        axios.post("http://localhost:8013/banju/admin/board/insertNofityboard" , board)
+
+        const updatedBoard = {
+            ...board,
+            boardCode: 'N'
+        };
+
+        axios.post("http://localhost:8013/banju/admin/board/insertNofityboard" , updatedBoard)
             .then((response) => {
                 alert(response.data.msg);
                 navi('../nonifyBoardManage');

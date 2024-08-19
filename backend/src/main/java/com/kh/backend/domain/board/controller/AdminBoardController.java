@@ -64,8 +64,9 @@ public class AdminBoardController {
 	}
 
 	@PostMapping("/insertNofityboard")
-	public ResponseEntity<Map<String, String>> insertNofityboard(@RequestBody Board board) {
-		Map<String, String> response = new HashMap<>();
+	public ResponseEntity<Map<String, Object>> insertNofityboard(@RequestBody Board board) {
+		
+		Map<String, Object> response = new HashMap<>();
 		try {
 			int result = boardService.insertNotifyBoard(board);
 			if (result > 0) {
@@ -82,21 +83,21 @@ public class AdminBoardController {
 	}
 	
 	@PostMapping("/insertEventboard")
-	public ResponseEntity<Map<String, String>> insertEventboard(
+	public ResponseEntity<Map<String, Object>> insertEventboard(
 			@RequestPart String boardJson,
 			// 프론트에서 넘어온 첨부파일
-			@RequestPart MultipartFile file
+			@RequestPart(required = false) MultipartFile file
 			) throws Exception {
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		Board board = objectMapper.readValue(boardJson, Board.class);
 		
-		Map<String, String> response = new HashMap<>();
+		Map<String, Object> response = new HashMap<>();
 		
 		try {
 			int result = boardService.insertEventboard(board);
 			
-			if(!file.isEmpty()) {
+			if(file != null && !file.isEmpty()) {
 				result *= boardService.insertBoardImages(board , file);
 			}
 			
@@ -109,27 +110,28 @@ public class AdminBoardController {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			response.put("msg", "에러가 발생했습니다.");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 	}
 	
 	@PostMapping("/insertInfoboard")
-	public ResponseEntity<Map<String, String>> insertInfoboard(
+	public ResponseEntity<Map<String, Object>> insertInfoboard(
 			@RequestPart String boardJson,
 			// 프론트에서 넘어온 첨부파일
-			@RequestPart MultipartFile file
+			@RequestPart(required = false) MultipartFile file
 			) throws Exception {
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		Board board = objectMapper.readValue(boardJson, Board.class);
 		
-		Map<String, String> response = new HashMap<>();
+		Map<String, Object> response = new HashMap<>();
 		
 		try {
 			int result = boardService.insertInfoboard(board);
 			
-			if(!file.isEmpty()) {
+			if(file != null && !file.isEmpty()) {
 				result *= boardService.insertBoardImages(board , file);
 			}
 			
@@ -148,7 +150,7 @@ public class AdminBoardController {
 	}
 	
 	@PostMapping("/insertProductBoard")
-	public ResponseEntity<Map<String, String>> insertProductBoard(
+	public ResponseEntity<Map<String, Object>> insertProductBoard(
 			@RequestPart String productJson,
 			@RequestPart MultipartFile file
 			) throws Exception {
@@ -156,12 +158,11 @@ public class AdminBoardController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		Product product = objectMapper.readValue(productJson, Product.class);
 		
-		Map<String, String> response = new HashMap<>();
+		Map<String, Object> response = new HashMap<>();
 		
 		try {
 			int result = boardService.insertProductBoard(product , file);
-			
-			
+					
 			if (result > 0) {
 				response.put("msg", "포인트 상품이 정상적으로 등록 되었습니다.");
 				return ResponseEntity.ok(response);				
@@ -174,6 +175,57 @@ public class AdminBoardController {
 			response.put("msg", "에러가 발생했습니다.");
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
+	}
+	
+	@PostMapping("/updateBoard")
+	public ResponseEntity<Map<String, Object>> changeBoard(
+			@RequestBody Board board
+			)  {
+		Map<String, Object> response = new HashMap<>();
+			
+		try {
+			
+			int result = boardService.updateBoard(board);
+			
+			if (result > 0) {
+				response.put("msg", "게시글 수정 작업이 정상적으로 완료 되었습니다.");
+				return ResponseEntity.ok(response);				
+			} else {
+				response.put("msg", "데이터 처리중 문제가 발생했습니다.");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.put("msg", "에러가 발생했습니다.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+	
+	@PostMapping("/deleteboards")
+	public ResponseEntity<Map<String, Object>> deleteboards(
+			@RequestBody Board[] boards
+			)  {
+		Map<String, Object> response = new HashMap<>();
+			
+		try {
+			
+			int result = boardService.deleteBoards(boards);
+			
+			if (result > 0) {
+				response.put("msg", "게시글 삭제 작업이 정상적으로 완료 되었습니다.");
+				return ResponseEntity.ok(response);				
+			} else {
+				response.put("msg", "데이터 처리중 문제가 발생했습니다. : 트랜잭션 처리 문제");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.put("msg", "에러가 발생했습니다.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+		
 	}
 
 }

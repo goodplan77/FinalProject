@@ -73,5 +73,15 @@ public class AdminBoardDaoImpl implements AdminBoardDao{
 		return session.selectOne("adminBoard.selectProductImages" , productNo);
 	}
 
+	@Override
+	public int updateBoard(Board board) {
+		return session.update("adminBoard.updateBoard" , board);
+	}
+
+	@Override
+	public int deleteBoards(Board[] boards) {
+		return session.update("adminBoard.deleteBoards" , boards);
+	}
+
 
 }
