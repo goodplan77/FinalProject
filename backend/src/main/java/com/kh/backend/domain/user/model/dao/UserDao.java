@@ -23,4 +23,6 @@ public interface UserDao {
 
 	UserSocial selectSocialType(String socialId);
 
+	int checkEmail(String email);
+
 }

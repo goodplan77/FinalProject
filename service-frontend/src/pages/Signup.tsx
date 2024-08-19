@@ -38,23 +38,39 @@ const SignUpPage: React.FC = () => {
 
     const sendEmail = () => {
 
-        alert("귀하의 이메일로 인증번호가 발송되었습니다.");
+        axios({
+            method : 'get',
+            url : "http://localhost:8013/banju/user/checkEmail",
+            params : {
+                email : user.email
+            }
+        }).then(res=>{
+            if(res.data == 1){
+                alert("이미 사용중인 email입니다.");
+                return;
+            }else{
+                alert("귀하의 이메일로 인증번호가 발송되었습니다.");
 
-        axios.post("http://localhost:8013/banju/user/sendEmail", {
-            email : user.email
+                axios.post("http://localhost:8013/banju/user/sendEmail", {
+                    email : user.email
+                })
+                    .then(res => {
+                        // console.log(res);
+
+                        const verificationCode = res.data.verificationCode;
+
+                        setCookie("verificationCode", verificationCode);
+                    })
+                    .catch(error=>{
+                        // console.log(error);
+                        alert("유효하지 않은 이메일 입니다.");
+                    })
+            }
+        }).catch(err=>{
+            console.log(err);
         })
-            .then(res => {
-                // console.log(res);
 
-                const verificationCode = res.data.verificationCode;
-
-                setCookie("verificationCode", verificationCode);
-            })
-            .catch(error=>{
-                // console.log(error);
-                alert("유효하지 않은 이메일 입니다.");
-            })
-    }
+    };
 
     const checkCode = ()=>{
 
@@ -105,14 +121,20 @@ const SignUpPage: React.FC = () => {
 
     const signup = ()=>{
 
-        
-
         console.log(user);
         console.log(address);
 
         axios.post("http://localhost:8013/banju/user/insertUser", user)
             .then(res=>{
                 console.log(res);
+                alert("회원가입을 축하합니다. 포인트 500지급됨!");
+            })
+            .catch(err=>{
+                console.log(err);
+                alert("실패");
+            })
+            .finally(()=>{
+                navi('/');
             })
     }
     

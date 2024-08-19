@@ -41,7 +41,20 @@ public class UserController {
 	private final UserService service;
 	private final BCryptPasswordEncoder encoder;
 	private final JwtProvider jwtProvider;
+	
+	// email 중복확인
+	@GetMapping("/checkEmail")
+	public int checkEmail(
+			@RequestParam HashMap<String, Object> param
+			) {
+		String email = (String) param.get("email");
+		
+		int result = service.checkEmail(email);
+		
+		return result;
+	}
 
+	// 인증코드 발송
 	@PostMapping("/sendEmail")
 	public ResponseEntity<HashMap<String, Object>> sendEmail(
 			@RequestBody HashMap<String, String> param
@@ -101,7 +114,6 @@ public class UserController {
 			return result;
 			
 		} catch (MessagingException e) {
-			//e.printStackTrace();
 			return result;
 		}
 	}
@@ -138,34 +150,94 @@ public class UserController {
 		
 		int result = service.insertUser(user);
 		
-		System.err.println(user);
-		return null;
+		if(result>0) {
+			String ACCESS_TOKEN = jwtProvider.createToken(user.getUserNo());
+			
+			HashMap<String, Object> map = new HashMap<>();
+			
+			map.put("jwtToken", ACCESS_TOKEN);
+			map.put("user", user);
+			
+			return ResponseEntity.ok(map);
+		}else {
+			return ResponseEntity.badRequest().build();
+		}
+		
 	}
 	
-	// 소셜로그인 메서드
+	// (소셜)로그인 메서드
 	@PostMapping("/login/{socialType}")
 	public ResponseEntity<HashMap<String, Object>> authCheck(
 			@PathVariable String socialType,
-			@RequestBody HashMap<String, String> param
+			@RequestBody HashMap<String, Object> param
 			){
 		
-		String accessToken = param.get("accessToken");
-		
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("accessToken", accessToken);
-		map.put("socialType", socialType);
-		
-		User user = service.loginSocial(map);
-		
-		String ACCESS_TOKEN = jwtProvider.createToken(user.getUserNo());
-		
+		User user = new User();
 		HashMap<String, Object> resMap = new HashMap<>();
-		resMap.put("jwtToken", ACCESS_TOKEN);
-		resMap.put("user", user);
 		
-		return ResponseEntity.ok(resMap);
+		if(!socialType.equals("none")) {
+			String accessToken = (String) param.get("accessToken");
+			
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("accessToken", accessToken);
+			map.put("socialType", socialType);
+			
+			user = service.loginSocial(map);
+			
+		}else {
+			user = service.selectUser(param);
+
+			if(user == null) {
+				resMap.put("msg", "존재하지 않는 회원입니다.");
+				return ResponseEntity.badRequest().body(resMap);
+			}else if(user != null && !encoder.matches((CharSequence) param.get("pwd"), user.getPwd())) {
+				resMap.put("msg", "비밀번호가 다릅니다.");
+				return ResponseEntity.badRequest().body(resMap);
+			}else if(user != null && encoder.matches((CharSequence) param.get("pwd"), user.getPwd())) {
+				resMap = loginResponse(user);
+				return ResponseEntity.ok(resMap);
+			}
+			
+		}
+		
+		if(user != null) {
+			resMap = loginResponse(user);
+			return ResponseEntity.ok(resMap);
+		}else {
+			return ResponseEntity.badRequest().build();
+		}
+		
 	}
 	
+	// 로그인 세부 메서드
+	HashMap<String, Object> loginResponse(User user){
+		
+		int userNo = user.getUserNo();
+		
+		String jwtToken = jwtProvider.createToken(userNo);
+		System.err.println("loginResponse 작동");
+		System.err.println(jwtToken);
+		
+		HashMap<String, Object> resMap = new HashMap<>();
+		
+		resMap.put("jwtToken", jwtToken);
+		resMap.put("user", user);
+		resMap.put("msg", "환영합니다!");
+		
+		return resMap;
+	}
+	
+	// 필터 테스트용 메서드
+	@PostMapping("/test")
+	public String test(
+			@RequestBody HashMap<String, Object> param
+			) {
+		String result = "성공함?";
+		
+		System.err.println(param);
+		
+		return result;
+	}
 	
 	
 }

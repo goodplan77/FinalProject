@@ -59,8 +59,8 @@ public class UserServiceImpl implements UserService{
 		
 		if(user == null) {
 			
-			String currentTime = new SimpleDateFormat("yyyyMMddss").format(new Date());
-			int random = (int) (Math.random() * 1000 + 1);
+			String currentTime = new SimpleDateFormat("yyyyMMdd").format(new Date());
+			int random = (int) (Math.random() * 10000 + 1);
 			String nickName = "";
 			String profile = "";
 			String email = "";
@@ -69,25 +69,33 @@ public class UserServiceImpl implements UserService{
 			case "kakao" : 
 				nickName = kakaoInfo.getProperties().getNickname();
 				profile = kakaoInfo.getProperties().getThumbnail_image();
-				email = kakaoInfo.getProperties().getEmail();
+				email = kakaoInfo.getKakao_account().getEmail();
+				
+				System.err.println("=========================================");
+				System.err.println("email = " + email);
 				break;
 			}
 			
 			String tempNickName = currentTime + nickName + random;
+			String socialPwd = socialType + random;
 			
 			User u = user.builder()
 						 .nickName(tempNickName)
 						 .email(email)
 						 .socialId(String.valueOf(socialId))
+						 .pwd(socialPwd)
+						 .userName(tempNickName)
 						 .socialType(socialType) 
 						 .build();
 			
 			result *= dao.insertUser(u);
 			result *= dao.insertUserSocial(u);
-			result *= dao.insertAuthority(u);
+//			result *= dao.insertAuthority(u);
 			
-			// selectUser
-			user = selectUser(map);
+			if(result>0) {
+				user = dao.loadUserByUsername(socialId, socialType);
+			}
+			
 		}
 		
 		return user;
@@ -97,6 +105,12 @@ public class UserServiceImpl implements UserService{
 	public User selectUser(HashMap<String, Object> map) {
 		return dao.selectUser(map);
 	}
+
+	@Override
+	public int checkEmail(String email) {
+		return dao.checkEmail(email);
+	}
+
 
 	
 

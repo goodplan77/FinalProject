@@ -63,9 +63,12 @@ public class WebSecurityConfig {
 		.sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
 		// 스프링 시큐리티의 기본적인 인증정보 관리 방식인 세션방식의 관리를 사용하지 않는다는 설정 => 클라이언트측의 쿠키에 토큰을 저장할 예정
 		.authorizeHttpRequests((authorizeRequest) -> authorizeRequest // url별 권한 관리 설정
-				.requestMatchers("/auth/login/**").permitAll() // 누구나 이용 가능한 url
-				.requestMatchers("/**").hasRole("USER") // 그 외의 모든 url은 user권한이 필요
-				// .requestMatcher("/admin/**").hasRole("ADMIN") // /admin으로 시작하는 url은 admin권한이 필요
+				.requestMatchers("/login").permitAll() // 누구나 이용 가능한 url
+				.requestMatchers("/login").permitAll() // 누구나 이용 가능한 url
+				.requestMatchers("/signup").permitAll() // 누구나 이용 가능한 url
+				.requestMatchers("/user/login/**").permitAll() // 누구나 이용 가능한 url
+				.requestMatchers("/admin/**").hasRole("ADMIN") // /admin으로 시작하는 url은 "ADMIN"권한이 필요
+				.requestMatchers("/user/test").hasRole("USER")
 				.anyRequest().authenticated()) // 그밖의 요청은 모두 인증이 되어있어야 한다는 설정
 		.addFilterBefore(new AuthFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
 	// 스프링 시큐리티는 폼기반 로그인에 대한 인증처리이기 때문에 필터들을 실행하기 전에 먼저 jwt을 기반으로 

@@ -1,8 +1,21 @@
 import { useNavigate } from 'react-router-dom';
 import style from './Headerbar.module.css';
+import axios from '../utils/CustomAxios';
+import { getCookie } from '../utils/Cookie';
+import { url } from 'inspector';
+import { data } from 'jquery';
 export default function Headerbar(){
 
     const navi = useNavigate();
+
+    const accessToken = getCookie("accessToken");
+
+    const test = ()=>{
+        axios.post("http://localhost:8013/banju/user/test")
+            .then(res=>{
+                console.log(res);
+            })
+    }
 
     return(
         <div className={style.container}>
@@ -10,7 +23,7 @@ export default function Headerbar(){
                 <img className={style.backImg} src="/images/back-arrow.png" alt="뒤로가기" />
             </div>
             <div className={style.logo} >
-                <img className={style.logoImg} src='/images/logo.png' alt='메인 로고' onClick={()=>navi('/d')}/>
+                <img className={style.logoImg} src='/images/logo.png' alt='메인 로고' onClick={test}/>
                 <h3 onClick={()=>navi('/d')}>반주 한상</h3>
             </div>
             <div className={style.button}>

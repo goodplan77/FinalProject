@@ -4,6 +4,16 @@
 
 	<resultMap id="userMap" type="user">
 		<id column="USER_NO" property="userNo"/>
+		<result column="EMAIL" property="email"/>
+		<result column="PWD" property="pwd"/>
+		<result column="USER_NAME" property="userName"/>
+		<result column="NICK_NAME" property="nickName"/>
+		<result column="PHONE" property="phone"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="STATUS" property="status"/>
+		<result column="POINTS" property="points"/>
+		<result column="ENROLL_DATE" property="enrollDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
 		<collection property="authorities"
 					javaType="list"
 					ofType="simpleGrantedAuthority"
@@ -17,6 +27,12 @@
 			<arg column="authority" javaType="string" />
 		</constructor>
 	</resultMap>
+	
+	<select id="checkEmail" resultType="int" parameterType="String">
+		SELECT COUNT(*)
+		FROM "USER"
+		WHERE EMAIL = #{email}
+	</select>
 
 
 	<select id="checkNickName" resultType="int" parameterType="String">
@@ -25,38 +41,37 @@
 		WHERE NICK_NAME = #{nickName}
 	</select>	
 	
-	<insert id="insertUser" useGeneratedKeys="true">
-	
-	<selectKey order="BEFORE" keyProperty="userNo">
-		SELECT SEQ_USER FROM DUAL
-	</selectKey>
-		INSERT INTO "USER"(
-			USER_NO,
-			EMAIL,
-			PWD,
-			USER_NAME,
-			NICK_NAME,
-			PHONE,
-			ADDRESS,
-			STATUS,
-			POINTS,
-			ENROLL_DATE
-		)
-		VALUES(
-			#{userNo},
-			#{email},
-			#{pwd},
-			#{userName},
-			#{nickName},
-			#{phone},
-			#{address},
-			DEFAULT,
-			#{points},
-			DEFAULT
-		)
+	<insert id="insertUser" useGeneratedKeys="true" >
+		<selectKey order="BEFORE" keyProperty="userNo" resultType="int">
+			SELECT SEQ_USER.NEXTVAL FROM DUAL
+		</selectKey>
+			INSERT INTO "USER"(
+				USER_NO,
+				EMAIL,
+				PWD,
+				USER_NAME,
+				NICK_NAME,
+				PHONE,
+				ADDRESS,
+				STATUS,
+				POINTS,
+				ENROLL_DATE
+			)
+			VALUES(
+				#{userNo},
+				#{email},
+				#{pwd},
+				#{userName},
+				#{nickName},
+				#{phone},
+				#{address},
+				DEFAULT,
+				#{points},
+				DEFAULT
+			)
 	</insert>
 	
-	<insert id="insertUserSocial">
+	<insert id="insertUserSocial" >
 		INSERT INTO "USER_SOCIAL"
 		VALUES(
 			#{socialId},
@@ -90,7 +105,7 @@
 		FROM "USER"
 		JOIN USER_SOCIAL USING(USER_NO)
 		WHERE
-			SOCIAL_ID = #{socialId} 
+			USER_NO = #{socialId} 
 		  AND SOCIAL_TYPE = #{socialType}
 	</select>
 	
@@ -105,6 +120,20 @@
 		SELECT * FROM "USER_SOCIAL"
 		WHERE SOCIAL_ID = #{socialId}
 	</select>
+	
+	<select id="selectUser" resultMap="userMap">
+		SELECT * FROM "USER"
+		<where>
+		<if test="email != null">
+			EMAIL = #{email}
+		</if>
+		<if test="userNo != null">
+			USER_NO = #{userNo}
+		</if>
+		</where>
+		
+	</select>
+	
 	
 	
 	

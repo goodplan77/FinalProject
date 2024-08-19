@@ -45,21 +45,20 @@ public class JwtProvider {
 	// 현재 내가 만든 애플리케이션 자체 토큰 생성
 	public String createToken(int userNo) {
 		
-		String userPk = String.valueOf(userNo);
-		
-		Claims claims = Jwts.claims().setSubject(userPk);
+		Claims claims = Jwts.claims().setSubject(String.valueOf(userNo));
 		Date now = new Date();
 		
 		return Jwts.builder()
 			.setClaims(claims)
 			.setIssuedAt(now) // 토큰 발행 시간 (현재 시간)
-			.setExpiration( new Date( now.getTime() + (30*60*1000) )) // 만료 시간 (30분)
+			.setExpiration( new Date( now.getTime() + (60*60*1000) )) // 만료 시간 (60분)
 			.signWith(SignatureAlgorithm.HS256, secretKey) // 암호화 시킬 방법, 암호화에 사용할 키
 			.compact();
 	}
 
 	public String resolveToken(HttpServletRequest request) {
 		String accessToken = request.getHeader("Authorization");
+		System.err.println(accessToken);
 		return accessToken;
 	}
 
@@ -88,7 +87,6 @@ public class JwtProvider {
 	public Authentication getAuthentication(String accessToken) {
 		
 		User user = (User) service.loadUserByUsername(getUserPk(accessToken));
-									// accessToken, socialType, socialId
 		
 		return new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities());
 		

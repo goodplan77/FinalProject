@@ -14,4 +14,7 @@ public interface UserService {
 
 	User selectUser(HashMap<String, Object> map);
 
+	int checkEmail(String email);
+
+
 }

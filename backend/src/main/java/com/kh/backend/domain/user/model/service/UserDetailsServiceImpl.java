@@ -1,5 +1,7 @@
 package com.kh.backend.domain.user.model.service;
 
+import java.util.HashMap;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,12 +19,19 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	private final UserDao dao;
 	
 	@Override
-	public UserDetails loadUserByUsername(String socialId) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String userPk) throws UsernameNotFoundException {
 		
-		UserSocial user = dao.selectSocialType(socialId);
-		String socialType = user.getSocialType();
+		HashMap<String, Object> param = new HashMap<>();
 		
-		return dao.loadUserByUsername(socialId, socialType);
+		param.put("userNo", userPk);
+		
+		return dao.selectUser(param);
+		
+		
+//		UserSocial user = dao.selectSocialType(userPk);
+//		String socialType = user.getSocialType();
+//		
+//		return dao.loadUserByUsername(userPk, socialType);
 	}
 
 }

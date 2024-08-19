@@ -19,6 +19,7 @@ public class KakaoUserInfoResponse {
 		private Boolean profile_nickname_needs_agreement;
 		private Boolean profile_image_needs_agreement;
 		private Boolean email_needs_agreement;
+		private String email;
 	}
 	
 	@Getter
@@ -26,7 +27,6 @@ public class KakaoUserInfoResponse {
 		private String nickname;
 		private String profile_image;
 		private String thumbnail_image;		
-		private String email;
 	}
 
 }

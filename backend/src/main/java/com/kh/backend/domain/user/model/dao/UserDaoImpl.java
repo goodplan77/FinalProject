@@ -29,8 +29,13 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public int insertUser(User user) {
-		session.insert("user.signupPoint", user);
-		return session.insert("user.insertUser", user);
+		int result = 1;
+		
+		result *= session.insert("user.insertUser", user);
+		result *= session.insert("user.signupPoint", user);
+		result *= session.insert("user.insertAuthority", user);
+		
+		return result;
 	}
 
 	@Override
@@ -55,12 +60,18 @@ public class UserDaoImpl implements UserDao{
 
 	@Override
 	public User selectUser(HashMap<String, Object> map) {
+		System.err.println(map);
 		return session.selectOne("user.selectUser", map);
 	}
 
 	@Override
 	public UserSocial selectSocialType(String socialId) {
 		return session.selectOne("user.selectSocialType", socialId);
+	}
+
+	@Override
+	public int checkEmail(String email) {
+		return session.selectOne("user.checkEmail", email);
 	}
 	
 	
