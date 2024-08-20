@@ -1,0 +1,70 @@
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    /* 모달의 너비를 화면의 80%로 설정 */
+    max-width: 500px;
+    max-height: 80%;
+    /* 모달의 최대 높이를 화면의 80%로 설정 */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.modalBody {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #000000;
+    margin-top: 20px;
+    overflow-y: auto;
+    /* 내용이 많을 경우 스크롤이 가능하도록 설정 */
+    flex: 1;
+    /* 남은 공간을 모두 차지하게 설정 */
+    white-space: pre-wrap;
+    /* 줄바꿈 유지 */
+}
+
+.modalFooter {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.confirmButton {
+    background-color: rgba(2, 204, 254, 0.8);
+    border: none;
+    border-radius: 35px;
+    color: #000000;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+}

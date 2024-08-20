@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memo">
+
+	<select id="selectMemo" resultType="Memo">
+		SELECT MEMO_NO, USER_NO, CONTENT, 
+       			TO_CHAR(TARGET_DATE, 'YYYY-MM-DD HH24:MI') AS TARGET_DATE
+		FROM MEMO
+		WHERE USER_NO = 1
+		ORDER BY TARGET_DATE DESC
+	</select>
+	
+	<insert id="insertMemo" parameterType="memo" useGeneratedKeys="true">
+		<selectKey keyProperty="memoNo" resultType="int" order="BEFORE">
+			SELECT SEQ_MEMO.NEXTVAL 
+			FROM DUAL
+		</selectKey>
+	
+		INSERT INTO MEMO 
+		VALUES(
+			#{memoNo},
+			#{userNo},
+			#{content},
+			TO_DATE(#{targetDate}, 'YYYY-MM-DD HH24:MI:SS')
+		)
+	</insert>
+	
+	<delete id="deleteMemo">
+		DELETE FROM MEMO
+		WHERE MEMO_NO = #{memoNo}
+	</delete>
+	
+	
+</mapper>

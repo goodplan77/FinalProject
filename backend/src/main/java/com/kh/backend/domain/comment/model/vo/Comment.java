@@ -1,4 +1,4 @@
-package com.kh.backend.domain.commit.model.vo;
+package com.kh.backend.domain.comment.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

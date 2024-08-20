@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.board.model.vo.BoardImg;
+import com.kh.backend.domain.comment.model.vo.Comment;
 
 public interface BoardService {
 
@@ -22,5 +23,7 @@ public interface BoardService {
 	int insertImage(BoardImg boardImg);
 
 	Board boardDetail(int boardNo);
+
+	int insertComment(Comment comment);
 
 }

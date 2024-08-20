@@ -1,18 +1,25 @@
 package com.kh.backend.domain.user.model.vo;
 
+import java.util.Collection;
 import java.util.List;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@Builder
+public class User implements UserDetails{
 
 	private int userNo;
-	private char grade; // M - 마스터 | A - 관리자 | N - 일반회원
 	private String email;
 	private String pwd;
 	private String userName;
@@ -23,7 +30,9 @@ public class User {
 	private int points;
 	private String enrollDate; // 일단 String
 	private String modifyDate; // 일단 String
-	private String userSsn; // DB에는 char(14byte)
+	
+	private String socialId;
+	private String socialType;
 	
 	private ImgUser imgUser;
 	
@@ -31,4 +40,23 @@ public class User {
 	private List<History> historyList;
 	private List<Like> likeList;
 	private List<Memo> memoList;
+	
+	private List<SimpleGrantedAuthority> authorities;
+	
+	public Collection<? extends GrantedAuthority> getAuthorities(){
+		return authorities;
+	}
+
+	@Override
+	public String getPassword() {
+		return null;
+	}
+
+	@Override
+	public String getUsername() {
+		return this.userName;
+	}
+
+	
+
 }
