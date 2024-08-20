@@ -3,7 +3,7 @@ import styles from './BoardManagePage.module.css';
 import { RootState } from '../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { selectAllBoard, selectCategoryBoard } from '../../features/boardSlice';
+import { selectAllBoard, selectCategoryBoard, selectOneBoard } from '../../features/boardSlice';
 import { Board } from '../../type/board';
 import UpdateModal from '../../components/UpdateModal';
 import DeleteModal from '../../components/DeleteModal';
@@ -121,7 +121,8 @@ export default function BoardManagePage() {
 
     // 3. 활성화 관련 토글 선택시 모달 추가
     const setUpdateModal = (e:React.ChangeEvent<HTMLDivElement> , board:Board) => {
-        setData(board);
+        const oneBoard = dispatch(selectOneBoard(board));
+        setData((oneBoard.payload));
         setShowUpdateModal(true);
     };
 
@@ -139,7 +140,8 @@ export default function BoardManagePage() {
     // 4. 상세 보기 모달
     const setDetailModal = (e:React.MouseEvent<HTMLDivElement> , board:Board) => {
         e.stopPropagation();
-        setData(board);
+        const oneBoard = dispatch(selectOneBoard(board));
+        setData((oneBoard.payload));
         setShowDetailModal(true);
     };
 
@@ -272,7 +274,7 @@ export default function BoardManagePage() {
                                         <span className={styles.slider}></span>
                                     </div>
                                 ) : (
-                                    <span className={styles.defaultLabel}>삭제처리</span>
+                                    <span className={styles.defaultLabel}>삭제됨</span>
                                 )}
                         </label>
                     </div>

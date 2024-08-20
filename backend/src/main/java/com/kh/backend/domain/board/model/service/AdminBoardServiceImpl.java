@@ -42,7 +42,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	public List<Board> selectInfoBoards() {
 		return boardDao.selectInfoBoards();
 	}
-	
+
 	@Override
 	public List<Product> selectProductBoards() {
 		return boardDao.selectProductBoards();
@@ -57,7 +57,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	public int insertEventboard(Board board) {
 		return boardDao.insertEventboard(board);
 	}
-	
+
 	@Override
 	public int insertInfoboard(Board board) {
 		return boardDao.insertInfoboard(board);
@@ -145,6 +145,81 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public int deleteBoards(Board[] boards) {
 		return boardDao.deleteBoards(boards);
+	}
+
+	@Override
+	public BoardImg selectBoardImages(int boardNo) {
+		return boardDao.selectBoardImages(boardNo);
+	}
+
+	@Override
+	public int updateBoardImages(Board board, MultipartFile file) {
+		BoardImg boardImg = boardDao.selectBoardImages(board.getBoardNo());
+
+		if (!file.getOriginalFilename().equals("")) {
+			String webPath = "src/main/resources/static/images/board/admin/" + board.getBoardCode() + "/";
+			String serverFolderPath = Paths.get(webPath).toAbsolutePath().toString();
+
+			// 디렉토리가 없을때 생성하는 코드
+			File dir = new File(serverFolderPath);
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+
+			// 등록한 이미지 파일의 이름을 수정(5자리 랜덤값으로 부여)
+			String originName = file.getOriginalFilename();
+			String currentTime = new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date());
+			int random = (int) (Math.random() * 90000 + 10000); // 5자리 랜덤값
+			String ext = originName.substring(originName.indexOf("."));
+
+			String changeName = currentTime + random + ext;
+			boardImg.setOriginName(originName);
+			boardImg.setChangeName(changeName);
+
+			try {
+				File serverFile = new File(serverFolderPath, changeName);
+				file.transferTo(serverFile);
+				return boardDao.updateBoardImages(boardImg);
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+				return 0;
+			}
+		}
+		return 0;
+	}
+
+	@Override
+	public int updateProduct(Product product, MultipartFile file) {
+		if(file != null && !file.isEmpty()) {
+			String webPath = "src/main/resources/static/images/board/admin/P/";
+			String serverFolderPath = Paths.get(webPath).toAbsolutePath().toString();
+
+			// 디렉토리가 없을때 생성하는 코드
+			File dir = new File(serverFolderPath);
+			if (!dir.exists()) {
+				dir.mkdirs();
+			}
+
+			// 등록한 이미지 파일의 이름을 수정(5자리 랜덤값으로 부여)
+			String originName = file.getOriginalFilename();
+			String currentTime = new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date());
+			int random = (int) (Math.random() * 90000 + 10000); // 5자리 랜덤값
+			String ext = originName.substring(originName.indexOf("."));
+
+			String changeName = currentTime + random + ext;
+			product.setImg(changeName);
+			try {
+				File serverFile = new File(serverFolderPath, changeName);
+				file.transferTo(serverFile);
+				return boardDao.updateProduct(product);
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+				return 0;
+			}
+		} else {
+			return boardDao.updateProduct(product);
+		}
+		
 	}
 
 }

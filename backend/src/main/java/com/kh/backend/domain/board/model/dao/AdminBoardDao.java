@@ -34,5 +34,10 @@ public interface AdminBoardDao {
 
 	int deleteBoards(Board[] boards);
 
+	BoardImg selectBoardImages(int boardNo);
+
+	int updateBoardImages(BoardImg boardImg);
+
+	int updateProduct(Product product);
 
 }

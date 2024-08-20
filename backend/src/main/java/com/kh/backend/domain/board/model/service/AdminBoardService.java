@@ -35,4 +35,11 @@ public interface AdminBoardService {
 	int updateBoard(Board board);
 
 	int deleteBoards(Board[] boards);
+
+	BoardImg selectBoardImages(int boardNo);
+
+	int updateBoardImages(Board board, MultipartFile file);
+
+	int updateProduct(Product product, MultipartFile file);
+	
 }

@@ -6,15 +6,20 @@ import { Board, initialBoardList } from '../../type/board';
 import UpdateModal from '../../components/UpdateModal';
 import DeleteModal from '../../components/DeleteModal';
 import DetailModal from '../../components/DetailModal';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { selectAllBoard, selectOneBoard } from '../../features/boardSlice';
 
 export default function NotifyBoardManagePage() {
     
-    // navigate , state 관리 영역
+    // state , slice 관리 영역
     const navi = useNavigate();
-    const [boards , setBoards] = useState(initialBoardList);
+    const dispatch = useDispatch();
+    const boards = useSelector((state: RootState) => state.boards);
+    
+    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
     const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
     const [filterTerm, setFilterTerm] = useState(''); // 실제 검색에 사용될 필터 상태
-    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
     const [itemsPerPage] = useState(10); // 페이지당 항목 수
     const [checkedList , setCheckedList] = useState<Board[]>([]);
     const [isAllChecked, setIsAllChecked] = useState(false); // 전체 체크박스 상태
@@ -29,7 +34,7 @@ export default function NotifyBoardManagePage() {
     useEffect(() => {
         axios.get("http://localhost:8013/banju/admin/board/NofityboardList")
             .then((response) => {
-                setBoards(response.data);
+                dispatch(selectAllBoard(response.data));
             }).catch((response) => {
                 console.log(response);
             })
@@ -48,7 +53,7 @@ export default function NotifyBoardManagePage() {
         }
     };
 
-    const filteredBoards = boards.filter(board => 
+    const filteredBoards = boards.filteredBoards.filter(board => 
         board.title.toLowerCase().includes(filterTerm.toLowerCase()) // 제목에 검색어 포함 여부
     );
 
@@ -88,7 +93,7 @@ export default function NotifyBoardManagePage() {
         setShowDeleteModal(false);
         axios.get("http://localhost:8013/banju/admin/board/NofityboardList")
         .then((response) => {
-            setBoards(response.data); // 삭제 후 목록을 다시 불러옴
+            dispatch(selectAllBoard(response.data));
         }).catch((response) => {
             console.log(response);
         });
@@ -96,7 +101,8 @@ export default function NotifyBoardManagePage() {
 
     // 3. 활성화 관련 토글 선택시 모달 추가
     const setUpdateModal = (e:React.ChangeEvent<HTMLDivElement> , board:Board) => {
-        setData(board);
+        const oneBoard = dispatch(selectOneBoard(board));
+        setData((oneBoard.payload));
         setShowUpdateModal(true);
     };
 
@@ -105,7 +111,7 @@ export default function NotifyBoardManagePage() {
         setShowUpdateModal(false);
         axios.get("http://localhost:8013/banju/admin/board/NofityboardList")
         .then((response) => {
-            setBoards(response.data); // 삭제 후 목록을 다시 불러옴
+            dispatch(selectAllBoard(response.data));
         }).catch((response) => {
             console.log(response);
         });
@@ -114,7 +120,8 @@ export default function NotifyBoardManagePage() {
     // 4. 상세 보기 모달
     const setDetailModal = (e:React.MouseEvent<HTMLDivElement> , board:Board) => {
         e.stopPropagation();
-        setData(board);
+        const oneBoard = dispatch(selectOneBoard(board));
+        setData((oneBoard.payload));
         setShowDetailModal(true);
     };
 
@@ -123,7 +130,7 @@ export default function NotifyBoardManagePage() {
     };
 
     // 5. 페이지네이션 통합 데이터 확인용 기능
-    const totalItems = boards.length;
+    const totalItems = boards.filteredBoards.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -151,7 +158,7 @@ export default function NotifyBoardManagePage() {
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>정보 게시글 관리 페이지</h1>
+            <h1 className={styles.title}>공지사항 게시글 관리 페이지</h1>
             <div className={styles.searchBar}>
             <input
                     type="text"
@@ -208,7 +215,7 @@ export default function NotifyBoardManagePage() {
                                         <span className={styles.slider}></span>
                                     </div>
                                 ) : (
-                                    <span className={styles.defaultLabel}>삭제처리</span>
+                                    <span className={styles.defaultLabel}>삭제됨</span>
                                 )}
                         </label>
                     </div>

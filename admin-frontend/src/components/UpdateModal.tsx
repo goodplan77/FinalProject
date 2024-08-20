@@ -4,6 +4,18 @@ import styles from "./css/UpdateModal.module.css"
 
 export default function UpdateModal ({board , hideModal} : {board:Board|undefined|null , hideModal: () => void}) {
     
+    const viewType = (value:string) => {
+        switch(value){
+            case 'C': return '일반'; 
+            case 'S': return '중고'; 
+            case 'A': return '입양';
+            case 'M': return '실종';
+            case 'I': return '정보';
+            case 'E': return '이벤트';
+            case 'N': return '공지사항';
+        }
+    } 
+
     const updateCheckList = () => {
         if(board){
             switch(board.status){
@@ -20,7 +32,6 @@ export default function UpdateModal ({board , hideModal} : {board:Board|undefine
                     hideModal();
                 })
         }
-       
     }
     
     return(
@@ -35,15 +46,39 @@ export default function UpdateModal ({board , hideModal} : {board:Board|undefine
                         board ? 
                         <>
                             {(board.status == 'Y') ? (<h3>비 활성화 상태로 변경</h3>) : (<h3>활성화 상태로 변경</h3>)}
-                            <span>{board.boardNo}</span>
-                            <br/>
-                            <span>{board.title}</span>
-                            <br/>
-                            <span>{board.enrollDate}</span>
-                            <br/>
-                            <span>{board.modifyDate}</span>
-                            <br/>
-                            <br/>
+                            <h2>{board.title}</h2>
+                            <div>
+                                <th>게시글 타입</th>
+                                <td>{viewType(board.boardCode)}</td>
+                            </div>
+                            <div>
+                                <th>작성 회원 고유 ID</th>
+                                <td>{board.userNo}</td>
+                            </div>
+                            <div>
+                                <th>작성 게시글 고유 ID</th>
+                                <td>{board.boardNo}</td>
+                            </div>
+                            <div>
+                                <th>작성 날짜</th>
+                                <td>{board.enrollDate}</td>
+                            </div>
+                            <div> 
+                                <th>수정 날짜</th>
+                                <td>{board.modifyDate ? board.modifyDate : '수정 기록 없음'}</td>
+                            </div>
+                            <div>
+                                <th>조회수</th>
+                                <td>{board.views}</td>
+                            </div>
+                            <div>
+                                <th>좋아요</th>
+                                <td>{board.likes}</td>
+                            </div>
+                            <div>
+                                <th>게시글 내용</th>
+                                <td>{board.content}</td>
+                            </div>
                             <h3>해당 게시글 상태를 변경 하시겠습니까?</h3>
                         </> 
                         : 

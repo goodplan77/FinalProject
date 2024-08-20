@@ -23,6 +23,4 @@ public interface BoardDao {
 
 	Board boardDetail(int boardNo);
 
-
-
 }
