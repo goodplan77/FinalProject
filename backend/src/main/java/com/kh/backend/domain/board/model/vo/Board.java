@@ -27,6 +27,5 @@ public class Board {
 	
 	private User user;
 	private List<BoardImg> boardImg;
-	private BoardType boardType;
 	
 }

@@ -1,6 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from './css/ChatList.module.css';
 import { useLocation, useNavigate } from "react-router-dom";
+import { ChatRoom } from "../type/chat";
+import axios from "axios";
 
 export default function ChatList() {
     const navi = useNavigate();
@@ -14,6 +16,20 @@ export default function ChatList() {
 
         return null;
     };
+
+    const [chatRoomList, setChatRoomList] = useState<ChatRoom[]>([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:8013/banju/chat/chatRoomList")
+            .then((response) => {
+                setChatRoomList(response.data);
+            })
+    }, []);
+
+
+
+
+
     return (
         <>
             <div className={styles.mainHeader}>
