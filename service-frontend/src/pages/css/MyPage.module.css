@@ -4,7 +4,7 @@
     align-items: center;
     min-height: 100vh;
     font-family: Arial, sans-serif;
-    padding: 0px;
+    padding: 0px 5px;
     gap: 10px;
     isolation: isolate;
     position: relative;
@@ -56,10 +56,8 @@
 
 .profilePictureFrame {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 0px;
     width: 72px;
     height: 72px;
     background: #FFFFFF;
@@ -78,11 +76,8 @@
 
 .nicknameFrame {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 0px;
-    gap: 10px;
     width: 94px;
     height: 26px;
     background: #FFFFFF;
@@ -96,17 +91,12 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     color: #000000;
 }
 
 .pointsFrame {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    padding: 0px;
     width: 186px;
     height: 26px;
     background: #FFFFFF;
@@ -114,9 +104,7 @@
 
 .pointsTextFrame {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    padding: 0px;
     width: 106px;
     height: 26px;
     background: #FFFFFF;
@@ -130,16 +118,12 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    display: flex;
-    align-items: center;
     color: #000000;
 }
 
 .pointsValueFrame {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    padding: 0px;
     width: 80px;
     height: 26px;
     background: #FFFFFF;
@@ -153,8 +137,6 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    display: flex;
-    align-items: center;
     color: #000000;
 }
 
@@ -177,9 +159,7 @@
 
 .additionalProfileFrame {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    padding: 0px;
     gap: 10px;
     width: 256px;
     height: 72px;
@@ -188,9 +168,7 @@
 
 .additionalProfileSettingFrame {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    padding: 0px;
     width: 102px;
     height: 72px;
     background: #FFFFFF;
@@ -198,10 +176,8 @@
 
 .additionalProfilePictureFrame {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 0px;
     width: 72px;
     height: 72px;
     background: #FFFFFF;
@@ -220,9 +196,7 @@
 
 .additionalNicknameFrame {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    padding: 0px;
     gap: 10px;
     width: 144px;
     height: 26px;
@@ -237,16 +211,12 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    display: flex;
-    align-items: center;
     color: #000000;
 }
 
 .petButton {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    padding: 0px;
     width: 142px;
     height: 71px;
     background: #E4FAFF;
@@ -270,7 +240,6 @@
 
 .buttonContainer {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
@@ -287,7 +256,6 @@
 .buttonFrame2,
 .buttonFrame3 {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
     padding: 10px;
@@ -305,8 +273,6 @@
     font-weight: 400;
     font-size: 20px;
     line-height: 26px;
-    display: flex;
-    align-items: center;
     text-align: center;
     color: #000000;
 }
@@ -327,7 +293,6 @@
 
 .listItem {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 5px;
@@ -355,7 +320,6 @@
 
 .buttonFooter {
     display: flex;
-    flex-direction: row;
     justify-content: flex-end;
     align-items: center;
     padding: 10px;
@@ -372,7 +336,6 @@
 .buttonLogout,
 .buttonLogin {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
     padding: 10px;
@@ -412,127 +375,93 @@
     background: #56488a;
 }
 
-.mypage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    font-family: Arial, sans-serif;
-    padding: 0px 5px;
-    gap: 10px;
-    isolation: isolate;
-    position: relative;
-    width: 430px;
-    min-width: 360px;
-    max-width: 720px;
-    height: 932px;
-    background: #FFFFFF;
-}
-
-.myHeader {
+/* Modal Styles */
+.modalOverlay {
     position: fixed;
     top: 0;
-    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
-    min-width: 360px;
-    max-width: 720px;
-    height: 50px;
-    background: #FFFFFF;
+    justify-content: center;
     z-index: 1000;
 }
 
-.backButton {
-    display: flex;
-    align-items: center;
-    padding: 0px;
-    width: 50px;
-    height: 50px;
+.modalContent {
+    background: #E0F7FA;
+    padding: 20px;
+    border-radius: 15px;
+    width: 300px;
+    text-align: center;
+    z-index: 1001;
+    border: 3px solid #00BCD4;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.back {
-    width: 50px;
-    height: 50px;
-}
-
-.projectName {
-    display: flex;
-    align-items: center;
-    margin-left: 100px;
-}
-
-.projectLogo {
-    display: flex;
-    align-items: center;
-}
-
-.logo {
-    width: 40px;
-    height: 40px;
-}
-
-.projectTitle {
-    margin-left: 10px;
-}
-
-.projectTitleText {
-    margin: 0px;
-    font-weight: bolder;
+.modalContent h2 {
+    margin-bottom: 15px;
+    font-family: 'Noto Sans KR', sans-serif;
     font-size: 18px;
-    width: 100px;
+    color: #00BCD4;
+    background-color: #B2EBF2;
+    padding: 5px;
+    border-radius: 10px;
 }
 
-.headerButtons {
-    display: flex;
-    gap: 5px;
-    margin-left: 40px;
-}
-
-.aram {
-    display: flex;
-    align-items: center;
-}
-
-.aramImg {
-    width: 40px;
-    height: 40px;
-}
-
-.search {
-    display: flex;
-    align-items: center;
-}
-
-.searchImg {
-    width: 40px;
-    height: 40px;
-}
-
-.mainNavi {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+.askInput {
     width: 100%;
-    height: 50px;
-    background: #FFFFFF;
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #00BCD4;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #00BCD4;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    outline: none;
 }
 
-.naviHome,
-.naviHam,
-.naviChat,
-.naviMy {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.modalContent textarea {
+    width: 93%;
+    height: 100px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #00BCD4;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #00BCD4;
+    background-color: #FFFFFF;
+    outline: none;
 }
 
-.home,
-.ham,
-.chat,
-.my {
-    width: 40px;
-    height: 40px;
+.modalContent button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    color: #00BCD4;
+    background-color: #B2EBF2;
+    transition: background-color 0.3s ease;
+}
+
+.modalContent button:first-of-type {
+    background-color: #B2EBF2;
+    color: #00BCD4;
+}
+
+.modalContent button:last-of-type {
+    background-color: #FFFFFF;
+    color: #00BCD4;
+}
+
+.modalContent button:hover {
+    background-color: #00BCD4;
+    color: #FFFFFF;
 }
