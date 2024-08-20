@@ -8,14 +8,21 @@
     min-width: 360px;
 
     position: fixed;
-    bottom: 0.1%;
-
+    bottom: 0;
+    left: 50%;
+    /* 부모 요소 기준으로 가운데 정렬 */
+    transform: translateX(-50%);
+    /* left: 50%로 이동한 만큼 반대 방향으로 이동하여 완전 가운데 정렬 */
+    height: 60px;
+    /* 고정된 높이 설정 */
     border-top: 1px solid lightgray;
-    z-index: 1;
+    z-index: 1000;
+    /* 다른 요소들 위에 나타나도록 z-index 증가 */
     background-color: white;
 
     box-sizing: border-box;
-    padding-top: 2px;
+    padding: 10px 0;
+    /* 적절한 패딩을 설정 */
 }
 
 .menu {

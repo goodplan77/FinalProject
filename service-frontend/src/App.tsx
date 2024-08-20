@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Router, Routes, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Login from './pages/Login';
@@ -23,17 +23,43 @@ import SuccessUserId from './pages/SuccessUserId';
 import ChangePassword from './pages/ChangePassword';
 import CalendarPage from './pages/CalendarPage';
 import BoardDetail from './pages/BoardDetail';
+import Clause from './pages/Clause';
+import Alarm from './pages/Alarm';
+import SearchPage from './pages/SearchPage';
 
 
 const App = () => {
   const dispatch = useDispatch();
   const navi = useNavigate();
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY) {
+        setIsHeaderVisible(false);
+      } else {
+        setIsHeaderVisible(true);
+      }
+      lastScrollY = window.scrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
 
     <div className='container'>
 
-      <Headerbar />
+
+      <div className={`container ${!isHeaderVisible ? 'hidden' : ''}`}>
+        <Headerbar />
+      </div>
 
       <div className="app-container">
         <Routes>
@@ -56,10 +82,15 @@ const App = () => {
           <Route path='changePassword' element={<ChangePassword />} />
           <Route path='calendarPage' element={<CalendarPage />} />
           <Route path='/boardDetail/:boardNo' element={<BoardDetail />} />
+          <Route path='/clause' element={<Clause />} />
+          <Route path='/alarm' element={<Alarm />} />
+          <Route path='/search' element={<SearchPage />} />
         </Routes>
       </div>
 
-      <Navibar />
+      <div className="container navbar">
+        <Navibar />
+      </div>
 
     </div>
   );
