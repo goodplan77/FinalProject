@@ -133,7 +133,7 @@ const MyPage = () => {
                     </div>
                     <div className={styles.horizontalDivider} />
                     <div className={styles.listItem}>
-                        <div className={styles.listItemText}>이용약관</div>
+                        <div className={styles.listItemText} onClick={() => navi('/clause')}>이용약관</div>
                         <div className={styles.backIcon} />
                     </div>
                 </div>
