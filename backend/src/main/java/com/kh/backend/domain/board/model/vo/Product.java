@@ -12,6 +12,7 @@ public class Product {
 	private int productNo;
 	private int price;
 	private int qty;
+	private String title;
 	private String content;
 	private char status; // Y - 교환 가능 N - 불가능
 	private int likes;

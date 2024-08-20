@@ -1,12 +1,28 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './UserManagePage.module.css';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
+import { User } from '../../type/User';
 
 export default function UserManagePage() {
 
     const dispatch = useDispatch();
+    const [checked, setChecked] = useState(false);
+    const [checkedList , setChekcedList] = useState<User[]>([])
+
+    function checkHandled (e:React.ChangeEvent<HTMLInputElement>) {
+        setChecked(!checked);
+    }
+
+    function checklistconsole () {
+        console.log("바보");
+    }
+
+    function checktest (e:React.ChangeEvent<HTMLInputElement>) {
+        console.dir(e.target.parentNode);
+    }
+
 
     const Users = useSelector((state: RootState) => state.boards);
 
@@ -29,10 +45,14 @@ export default function UserManagePage() {
                     className={styles.searchInput}
                 />
             </div>
-            <button className={styles.deleteButton}>삭제</button>
+            <button className={styles.deleteButton} onClick={checklistconsole}>삭제</button>
             <div className={styles.memberList}>
                 <div className={styles.memberListHeader}>
-                    <input type="checkbox" className={styles.checkbox} />
+                    <input type="checkbox" 
+                    className={styles.checkbox}
+                    checked = {checked}
+                    onChange={(e) => checkHandled(e)}
+                    />
                     <span className={styles.headerItem}>ID</span>
                     <span className={styles.headerItem}>이메일</span>
                     <span className={styles.headerItem}>닉네임</span>
@@ -40,8 +60,10 @@ export default function UserManagePage() {
                     <span className={styles.headerItem}>활성화</span>
                 </div>
                 {Array.from({ length: 10 }).map((_, index) => (
-                    <div key={index} className={styles.memberRow}>
-                        <input type="checkbox" className={styles.checkbox} />
+                    <div key={index} className={styles.memberRow} id = {`id`+index}>
+                        <input type="checkbox" className={styles.checkbox0}
+                        onChange={(e) => checktest(e)}
+                        />
                         <span className={styles.memberId}>ID0001</span>
                         <span className={styles.memberEmail}>goodplan77@naver.com</span>
                         <span className={styles.memberNickname}>닉네임111</span>

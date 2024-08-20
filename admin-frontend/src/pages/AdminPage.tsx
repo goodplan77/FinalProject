@@ -18,6 +18,7 @@ import ReportManagePage from "./adminPages/ReportManagePage"
 import NotifyBoardUpdatePage from "./adminPages/NotifyBoardUpdatePage"
 import InfoBoardUpdatePage from "./adminPages/InfoBoardUpdatePage"
 import ProductBoardUpdatePage from "./adminPages/ProductBoardUpdatePage"
+import EventBoardUpdatePage from "./adminPages/EventBoardUpdatePage"
 
 export default function AdminPage() {
     return (
@@ -30,12 +31,14 @@ export default function AdminPage() {
                     <Route path='boardManage' element={<BoardManagePage />} />
                     <Route path='nonifyBoardManage' element={<NotifyBoardManagePage />} />
                     <Route path='notifyBoardInsert' element={<NotifyBoardInsertPage />} />
+                    <Route path='notifyBoardUpdate' element={<NotifyBoardUpdatePage />} />
                     <Route path='infoBoardManage' element={<InfoBoardManagePage />} />
                     <Route path='infoBoardInsert' element={<InfoBoardInsertPage />} />
                     <Route path='infoBoardUpdate' element={<InfoBoardUpdatePage />} />
                     <Route path='notifyBoardUpdatePage' element={<NotifyBoardUpdatePage />} />
                     <Route path='eventBoardManage' element={<EventBoardManagePage />} />
                     <Route path='eventBoardInsert' element={<EventBoardInsertPage />} />
+                    <Route path='eventBoardUpdate' element={<EventBoardUpdatePage />} />
                     <Route path='productBoardManagePage' element={<ProductBoardManagePage />} />
                     <Route path='productBoardInsertPage' element={<ProductBoardInsertPage />} />
                     <Route path='productBoardUpdatePage' element={<ProductBoardUpdatePage />} />

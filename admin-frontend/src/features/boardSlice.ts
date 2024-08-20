@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Board, initialBoardList } from "../type/board";
+import { Board, initialBoard, initialBoardList } from "../type/board";
 
 // 초기 상태에 전체 리스트와 필터링된 리스트를 분리
 let initialState = {
     allBoards: initialBoardList,
     filteredBoards: [] as Board[],
+    oneBoard : initialBoard
 };
 
 let boardSlice = createSlice({
@@ -30,9 +31,12 @@ let boardSlice = createSlice({
             state.filteredBoards = state.allBoards.filter((value) => {
                 return value.boardCode === category;
             });
+        },
+        selectOneBoard:(state , action: PayloadAction<Board>) => {
+            state.oneBoard = action.payload;
         }
     }
 });
 
-export const { selectAllBoard, selectCategoryBoard } = boardSlice.actions;
+export const { selectAllBoard, selectCategoryBoard, selectOneBoard } = boardSlice.actions;
 export default boardSlice.reducer;

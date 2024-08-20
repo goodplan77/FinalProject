@@ -29,8 +29,8 @@ export default function SideBar() {
             <div className={styles.featureList}>
                 <div className={styles.featuresHeader}>관리자 기능 목록</div>
                 <div className={styles.features}><Link to="userManage">회원 관리</Link></div>
+                <div className={styles.features}><Link to="boardManage">회원 게시글 관리</Link></div>
                 <div className={styles.features}><Link to="nonifyBoardManage">공지사항 관리</Link></div>
-                <div className={styles.features}><Link to="boardManage">게시글 관리</Link></div>
                 <div className={styles.features}><Link to="eventBoardManage">이벤트 게시글 관리</Link></div>
                 <div className={styles.features}><Link to="infoBoardManage">정보 게시글 관리</Link></div>
                 <div className={styles.features}><Link to="productBoardManagePage">상품 등록 관리</Link></div>

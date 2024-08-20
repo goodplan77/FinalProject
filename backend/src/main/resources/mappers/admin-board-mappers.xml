@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminBoard">
+	
+	<select id="selectUserBoards" resultType="Board">
+		SELECT
+			BOARD_NO,
+			USER_NO,
+			TITLE,
+			CONTENT,
+			BOARD_CODE,
+			ENROLL_DATE,
+			MODIFY_DATE,
+			VIEWS,
+			STATUS,
+			DETAIL_STATUS,
+			LIKES
+		FROM BOARD
+		WHERE BOARD_CODE IN ('C','S','A','M')
+		ORDER BY BOARD_NO DESC
+	</select>
+	
+	<select id="selectNotifyBoards" resultType="Board">
+		SELECT
+			BOARD_NO,
+			USER_NO,
+			TITLE,
+			CONTENT,
+			BOARD_CODE,
+			ENROLL_DATE,
+			MODIFY_DATE,
+			VIEWS,
+			STATUS,
+			DETAIL_STATUS,
+			LIKES
+		FROM BOARD
+		WHERE BOARD_CODE = 'N'
+		ORDER BY BOARD_NO DESC
+	</select>
+	
+	<select id="selectEventBoards" resultType="Board">
+		SELECT
+			BOARD_NO,
+			USER_NO,
+			TITLE,
+			CONTENT,
+			BOARD_CODE,
+			ENROLL_DATE,
+			MODIFY_DATE,
+			VIEWS,
+			STATUS,
+			DETAIL_STATUS,
+			LIKES
+		FROM BOARD
+		WHERE BOARD_CODE = 'E'
+		ORDER BY BOARD_NO DESC
+	</select>
+	
+	<select id="selectInfoBoards" resultType="Board">
+		SELECT
+			BOARD_NO,
+			USER_NO,
+			TITLE,
+			CONTENT,
+			BOARD_CODE,
+			ENROLL_DATE,
+			MODIFY_DATE,
+			VIEWS,
+			STATUS,
+			DETAIL_STATUS,
+			LIKES
+		FROM BOARD
+		WHERE BOARD_CODE = 'I'
+		ORDER BY BOARD_NO DESC
+	</select>
+	
+	<select id="selectProductBoards" resultType="Product">
+		SELECT
+			PRODUCT_NO,
+			PRICE,
+			QTY,
+			CONTENT,
+			TITLE,
+			STATUS,
+			LIKES,
+			IMG
+		FROM PRODUCT
+		ORDER BY PRODUCT_NO DESC
+	</select>
+	
+	<insert id="insertNotifyBoard" useGeneratedKeys="true">
+	
+	<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+		SELECT SEQ_BOARD.NEXTVAL
+		FROM DUAL
+	</selectKey>
+		INSERT INTO BOARD (
+			BOARD_NO,
+			USER_NO,
+			TITLE,
+			CONTENT,
+			BOARD_CODE,
+			ENROLL_DATE,
+			MODIFY_DATE,
+			VIEWS,
+			STATUS,
+			LIKES
+		) VALUES (
+			#{boardNo},
+			1,
+			#{title},
+			#{content},
+			'N',
+			SYSDATE,
+			NULL,
+			DEFAULT,
+			DEFAULT,
+			DEFAULT
+		)
+	</insert>
+	
+	<insert id="insertEventboard" useGeneratedKeys="true">
+	
+	<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+		SELECT SEQ_BOARD.NEXTVAL
+		FROM DUAL
+	</selectKey>
+		INSERT INTO BOARD (
+			BOARD_NO,
+			USER_NO,
+			TITLE,
+			CONTENT,
+			BOARD_CODE,
+			ENROLL_DATE,
+			MODIFY_DATE,
+			VIEWS,
+			STATUS,
+			LIKES
+		) VALUES (
+			#{boardNo},
+			1,
+			#{title},
+			#{content},
+			'E',
+			SYSDATE,
+			NULL,
+			DEFAULT,
+			DEFAULT,
+			DEFAULT
+		)
+	</insert>
+	
+	<insert id="insertInfoboard" useGeneratedKeys="true">
+	
+	<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+		SELECT SEQ_BOARD.NEXTVAL
+		FROM DUAL
+	</selectKey>
+		INSERT INTO BOARD (
+			BOARD_NO,
+			USER_NO,
+			TITLE,
+			CONTENT,
+			BOARD_CODE,
+			ENROLL_DATE,
+			MODIFY_DATE,
+			VIEWS,
+			STATUS,
+			LIKES
+		) VALUES (
+			#{boardNo},
+			1,
+			#{title},
+			#{content},
+			'I',
+			SYSDATE,
+			NULL,
+			DEFAULT,
+			DEFAULT,
+			DEFAULT
+		)
+	</insert>
+	
+	<insert id="insertBoardImages">
+		INSERT INTO BOARD_IMG (IMG_NO, BOARD_NO, ORIGIN_NAME , CHANGE_NAME)
+		VALUES(
+			SEQ_BOARD_IMG.NEXTVAL,
+			#{boardNo},
+			#{originName},
+			#{changeName}
+		)
+	</insert>
+	
+	<insert id="insertProductBoard">
+		INSERT INTO PRODUCT (
+			PRODUCT_NO,
+			PRICE,
+			QTY,
+			TITLE,
+			CONTENT,
+			STATUS,
+			LIKES,
+			IMG
+		) VALUES (
+			SEQ_PRODUCT.NEXTVAL,
+			#{price},
+			#{qty},
+			#{title},
+			#{content},
+			DEFAULT,
+			DEFAULT,
+			#{img}
+		)
+	</insert>
+	
+	<select id="selectProductImages" resultType="string">
+		SELECT IMG
+		FROM PRODUCT
+		WHERE PRODUCT_NO = #{productNo}
+	</select>
+	
+	<update id="updateBoard">
+	 UPDATE BOARD SET
+	 	TITLE = #{title},
+		CONTENT = #{content},
+		STATUS = #{status},
+		MODIFY_DATE = SYSDATE
+	 WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<update id="deleteBoards">
+    UPDATE BOARD SET
+    	STATUS = 'D',
+		MODIFY_DATE = SYSDATE
+    WHERE BOARD_NO IN
+	    <foreach item="board" index="index" collection="array" open="(" separator="," close=")">
+	        #{board.boardNo}
+	    </foreach>
+	</update>
+	
+	<select id="selectBoardImages" resultType="BoardImg">
+		SELECT *
+		FROM BOARD_IMG
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	<update id="updateBoardImages">
+		UPDATE BOARD_IMG SET
+			ORIGIN_NAME = #{originName},
+			CHANGE_NAME = #{changeName}
+    	WHERE IMG_NO = #{imgNo}
+	</update>
+	
+	<update id="updateProduct">
+		UPDATE PRODUCT SET
+			PRICE = #{price},
+			QTY = #{qty},
+			TITLE = #{title},
+			CONTENT = #{content}
+			<if test="img != null and img != '' ">
+				, IMG = #{img}
+			</if>
+    	WHERE PRODUCT_NO = #{productNo}
+	</update>
+	
+</mapper>
