@@ -12,6 +12,7 @@ import com.kh.backend.security.jwt.JwtProvider;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import org.springframework.context.annotation.Bean;
@@ -49,7 +50,7 @@ public class WebSecurityConfig {
 				
 				CorsConfiguration config = new CorsConfiguration();
 				
-				config.setAllowedOrigins(Collections.singletonList("http://localhost:3013")); // 요청이 왔을 때 허용할 오리진
+				config.setAllowedOrigins(Arrays.asList("http://localhost:3013", "http://localhost:3014"));// 요청이 왔을 때 허용할 오리진
 				config.setAllowedMethods(Collections.singletonList("*")); // 요청이 왔을 때 허용할 메서드
 				config.setAllowCredentials(true); // 요청시 인증정보를 포함할 지 여부 true => jwt사용시에만 이용 가능으로 설정
 				config.setAllowedHeaders(Collections.singletonList("*")); // 허용할 헤더 => 전부
