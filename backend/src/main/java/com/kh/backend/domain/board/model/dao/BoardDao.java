@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.board.model.vo.BoardImg;
+import com.kh.backend.domain.commit.model.vo.Comment;
 
 public interface BoardDao {
 
@@ -23,6 +24,6 @@ public interface BoardDao {
 
 	Board boardDetail(int boardNo);
 
-
+	int insertComment(Comment comment);
 
 }

@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.board.model.vo.BoardImg;
+import com.kh.backend.domain.commit.model.vo.Comment;
 
 import lombok.RequiredArgsConstructor;
 
@@ -52,8 +53,9 @@ public class BoardDaoImpl implements BoardDao{
 		return session.selectOne("board.boardDetail", boardNo);
 	}
 
-
-
-
+	@Override
+	public int insertComment(Comment comment) {
+		return session.insert("board.insertComment", comment);
+	}
 
 }

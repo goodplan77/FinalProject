@@ -1,6 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styles from './css/ChatList.module.css';
 import { useLocation, useNavigate } from "react-router-dom";
+import { ChatRoom } from "../type/chat";
+import axios from "axios";
 
 export default function ChatList() {
     const navi = useNavigate();
@@ -14,6 +16,20 @@ export default function ChatList() {
 
         return null;
     };
+
+    const [chatRoomList, setChatRoomList] = useState<ChatRoom[]>([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:8013/banju/chat/chatRoomList")
+            .then((response) => {
+                setChatRoomList(response.data);
+            })
+    }, []);
+
+
+
+
+
     return (
         <>
             <div className={styles.mainHeader}>
@@ -31,27 +47,6 @@ export default function ChatList() {
                         <p className={styles.nick}>닉네임</p>
                         <p className={styles.message}>새 쪽지 2개</p>
                     </div>
-                </div>
-            </div>
-
-
-
-
-
-
-            {/* 콘텐츠 아래 하단네비바 영역입니다 */}
-            <div className={styles.mainNavi}>
-                <div className={styles.naviHome} onClick={() => navi('/')}>
-                    <img className={styles.home} src={`${process.env.PUBLIC_URL}/images/home.png`} alt="home" />
-                </div>
-                <div className={styles.naviHam}>
-                    <img className={styles.ham} src={`${process.env.PUBLIC_URL}/images/ham.png`} alt="ham" />
-                </div>
-                <div className={styles.naviChat}>
-                    <img className={styles.chat} src={`${process.env.PUBLIC_URL}/images/message.png`} alt="chat" onClick={() => navi('/chatList')} />
-                </div>
-                <div className={styles.naviMy} onClick={() => navi('/mypage')}>
-                    <img className={styles.my} src={`${process.env.PUBLIC_URL}/images/myPage.png`} alt="myPage" />
                 </div>
             </div>
         </>

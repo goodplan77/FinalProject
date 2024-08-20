@@ -3,7 +3,7 @@
 <mapper namespace="board">
 
 	<!--일반 회원용 -->
-
+	
 	<!-- 일반 게시판 -->
 	<select id="selectBoards" resultType="Board">
 		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
@@ -36,13 +36,19 @@
 		ORDER BY BOARD_NO DESC
 	</select>
 	
+	
+	
+	
+	
+	
+	
 	<!-- 게시글 등록 -->
 	<insert id="insertBoard" useGeneratedKeys="true">
 	
-	<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
-		SELECT SEQ_BOARD.NEXTVAL
-		FROM DUAL
-	</selectKey>
+		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+			SELECT SEQ_BOARD.NEXTVAL
+			FROM DUAL
+		</selectKey>
 	
 		INSERT INTO BOARD
 		VALUES(
@@ -67,15 +73,74 @@
 			#{boardNo},
 			#{originName}
 		)
-	</insert>
+	</insert> 
 	
-	<select id="boardDetail" resultType="board">
-		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY.MM.DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
+	
+	
+	
+	<!-- 게시글 상세조회 -->
+	<resultMap id="boardResultSet" type="board" autoMapping="true">
+		<id column="BOARD_NO" property="boardNo" />
+		<collection property="boardImg" javaType="List" ofType="boardImg" resultMap="boardImgResultSet">
+		</collection>
+	</resultMap>
+	
+	<resultMap id="boardImgResultSet" type="boardImg" autoMapping="true">
+		<id column="IMG_NO" property="imgNo" />
+	</resultMap>
+	
+	<select id="boardDetail" resultMap="boardResultSet">
+		SELECT BOARD_NO, 
+			USER_NO, TITLE, 
+			CONTENT,
+			BOARD_CODE, 
+			TO_CHAR(ENROLL_DATE, 'YYYY.MM.DD') AS ENROLL_DATE, 
+			MODIFY_DATE, 
+			VIEWS,
+			STATUS, 
+			DETAIL_STATUS, 
+			LIKES,
+			IMG_NO,
+			ORIGIN_NAME,
+			CHANGE_NAME
 		FROM BOARD
-		JOIN BOARD_IMG USING (BOARD_NO)
+		LEFT JOIN BOARD_IMG USING (BOARD_NO)
 		WHERE BOARD_NO = #{boardNo}
 	</select>
 
+	<!-- 댓글 등록 -->
+	<insert id="insertComment" useGeneratedKeys="true">
+	
+		<selectKey keyProperty="commentNo" resultType="int" order="BEFORE">
+			SELECT SEQ_COMMENT.NEXTVAL
+			FROM DUAL
+		</selectKey>
+	
+		INSERT INTO "COMMENT"(
+			COMMENT_NO,
+			BOARD_NO,
+			USER_NO,
+			"CONTENT",
+			COMMENT_DATE,
+			MODIFY_DATE,
+			STATUS
+		) VALUES (
+			#{commentNo},
+			#{boardNo},
+			1,
+			#{content},
+			SYSDATE,
+			SYSDATE,
+			'Y'
+		)
+	</insert>
+
+
+
+
+
 	<!--관리자용 -->
+	
+	
 	
 </mapper>
