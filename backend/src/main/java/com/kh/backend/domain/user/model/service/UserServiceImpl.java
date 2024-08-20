@@ -5,14 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.backend.domain.user.model.dao.UserDao;
 import com.kh.backend.domain.user.model.dto.KakaoUserInfoResponse;
 import com.kh.backend.domain.user.model.vo.User;

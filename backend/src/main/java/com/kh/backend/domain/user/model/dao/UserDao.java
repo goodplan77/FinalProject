@@ -5,7 +5,6 @@ import java.util.HashMap;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.kh.backend.domain.user.model.vo.User;
-import com.kh.backend.domain.user.model.vo.UserSocial;
 
 public interface UserDao {
 

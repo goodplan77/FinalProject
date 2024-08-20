@@ -1,18 +1,12 @@
 package com.kh.backend.domain.user.model.dao;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.backend.domain.user.model.vo.User;
-import com.kh.backend.domain.user.model.vo.UserSocial;
 
 import lombok.RequiredArgsConstructor;
 
