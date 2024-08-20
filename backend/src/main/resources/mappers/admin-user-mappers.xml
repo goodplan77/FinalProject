@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="adminUser">
+
+	<select id="selectUsers" resultType="User">
+		SELECT
+			USER_NO,
+			GRADE,
+			EMAIL,
+			PWD,
+			USER_NAME,
+			NICK_NAME,
+			PHONE,
+			ADDRESS,
+			STATUS,
+			POINTS,
+			ENROLL_DATE,
+			MODIFY_DATE
+		FROM "USER"
+		ORDER BY USER_NO DESC
+	</select>
+
+
+</mapper>
