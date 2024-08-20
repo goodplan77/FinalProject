@@ -15,6 +15,7 @@ export interface Board{
     detailStatus : string,
     likes : number,
 
+    nickName : string,
 
     boardImg : BoardImg[]
 
@@ -42,6 +43,75 @@ export interface Comment{
     refNo : number
 }
 
+export interface User{
+    userNo : number,
+    grade : string,
+    email : string,
+    pwd : string,
+    userName : string,
+    nickName : string,
+    phone : string,
+    address : string,
+    status : string, 
+    points : number,
+    enrollDate : string,
+    modifyDate : string,
+    userSsn : string,
+    imgUser : ImgUser,
+
+    dogs : Dog[],
+    historyList : History[],
+    likeList : Like[],
+    memoList : Memo[]
+}
+
+export interface ImgUser{
+    userNo : number,
+    originName : string,
+    changeName : string
+}
+
+export interface Dog{
+    dogNo : number,
+    userNo : number,
+    isMain : string,
+    dogName : string,
+    breed : string,
+    gender : string,
+    birthday : string,
+    note : string,
+    imgDog : ImgDog
+}
+
+export interface ImgDog{
+    dogNo : number,
+    originName : string,
+    changeName : string
+}
+
+export interface History{
+    historyNo : number,
+    userNo : number,
+    point : number,
+    pointDate : string,
+    content : string
+}
+
+export interface Like{
+    likeNo : number,
+    userNo : number,
+    typeCode : string,
+    refNo : number
+}
+
+export interface Memo{
+    memoNo : number,
+    userNo : number,
+    content : string,
+    targetDate : string
+}
+
+
 // 보드에 대한 기본값 설정
 export const initialBoard:Board = {
     boardNo : 0,
@@ -55,6 +125,9 @@ export const initialBoard:Board = {
     status : '',
     detailStatus : '',
     likes : 0,
+
+    nickName : '',
+
     boardImg : [],
     comment : []
 };

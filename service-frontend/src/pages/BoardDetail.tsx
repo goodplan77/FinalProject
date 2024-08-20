@@ -10,6 +10,8 @@ import { Board, initialBoard } from "../type/board";
 
 export default function BoardDetail() {
 
+    const navi = useNavigate();
+
     const [board, setBoard] = useState<Board>(initialBoard);
 
     const { boardNo } = useParams();
@@ -51,11 +53,11 @@ export default function BoardDetail() {
             .then((response) => {
                 console.log(response);
                 console.log(Comment);
-                console.log('성공 ㅋ');
+                console.log('댓글 작성 성공');
             })
             .catch((error) => {
                 console.log(error);
-                console.log('실패 ㅋ');
+                console.log('댓글 작성 실패 ㅋㅋㅋ');
                 console.log('작성한 댓글 = ' + Comment);
             })
     };
@@ -68,8 +70,10 @@ export default function BoardDetail() {
             <div className={styles.detail}>
                 <div key={board.boardNo}>
                     <div className={styles.top}>
-                        <div className={styles.profileImg}></div>
-                        <p className={styles.nick}>닉네임</p>
+                        <div className={styles.user} onClick={() => navi('/chatRoom')}>
+                            <div className={styles.profileImg}></div>
+                            <p className={styles.nick}>닉네임</p>
+                        </div>
                         <p className={styles.enrollDate}>{board.enrollDate}</p>
                         <div className={styles.boardCode}>
                             <p>

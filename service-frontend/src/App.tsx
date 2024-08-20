@@ -45,7 +45,7 @@ const App = () => {
           <Route path='/missingList' element={<MissingList />} />
           <Route path='/insertBoard' element={<InsertBoard />} />
           <Route path='/chatlist' element={<ChatList />} />
-          <Route path='/chatRoom' element={<ChatRoom />} />
+          <Route path='/chatRoom/:chatRoomNo' element={<ChatRoom />} />
           <Route path='/signup' element={<Signup />} />
           <Route path='/petPlace' element={<PetPlace />} />
           <Route path='/weather' element={<Weather />} />
