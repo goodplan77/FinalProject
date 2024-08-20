@@ -13,7 +13,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kh.backend.domain.user.model.service.UserDetailsServiceImpl;
 import com.kh.backend.domain.user.model.service.UserService;
 import com.kh.backend.domain.user.model.vo.User;
 
@@ -29,8 +28,7 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class JwtProvider {
 	
-	private final UserDetailsServiceImpl service;
-	private final UserService uService;
+	private final UserService service;
 
 	// application.properties에 jwt.secret이라는 name의 키의 value값을 꺼내서 대입해 줌
 	@Value("${jwt.secret}")
@@ -42,7 +40,7 @@ public class JwtProvider {
 		secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
 	}
 	
-	// 현재 내가 만든 애플리케이션 자체 토큰 생성
+	// jwt토큰 생성 메서드
 	public String createToken(int userNo) {
 		
 		Claims claims = Jwts.claims().setSubject(String.valueOf(userNo));
@@ -51,19 +49,17 @@ public class JwtProvider {
 		return Jwts.builder()
 			.setClaims(claims)
 			.setIssuedAt(now) // 토큰 발행 시간 (현재 시간)
-			.setExpiration( new Date( now.getTime() + (60*60*1000) )) // 만료 시간 (60분)
+			.setExpiration( new Date( now.getTime() + (1000 * 60 * 60 * 24) )) // 만료 시간 (60분)
 			.signWith(SignatureAlgorithm.HS256, secretKey) // 암호화 시킬 방법, 암호화에 사용할 키
 			.compact();
 	}
-
+	
 	public String resolveToken(HttpServletRequest request) {
 		String accessToken = request.getHeader("Authorization");
-		System.err.println(accessToken);
 		return accessToken;
 	}
-
+	
 	public boolean validationToken(String accessToken) {
-		
 		try {
 			// 암호화된 토큰을 복호화
 			Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(accessToken);
@@ -88,8 +84,11 @@ public class JwtProvider {
 		
 		User user = (User) service.loadUserByUsername(getUserPk(accessToken));
 		
-		return new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities());
+		String userNo = getUserPk(accessToken);
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("userNo", userNo);
 		
+		return new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities());
 	}
 	
 	// 토큰에서 userPk값을 꺼내는 메서드
@@ -99,10 +98,4 @@ public class JwtProvider {
 	
 	
 }
-
-
-
-
-
-
 

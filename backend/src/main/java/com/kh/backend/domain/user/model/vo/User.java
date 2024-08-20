@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -53,7 +54,9 @@ public class User implements UserDetails{
 
 	@Override
 	public String getUsername() {
-		return null;
+		return this.userName;
 	}
+
+	
 
 }

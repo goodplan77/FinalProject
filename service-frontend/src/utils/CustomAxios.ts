@@ -10,7 +10,7 @@ const CustomAxios = axios.create({
 
 CustomAxios.interceptors.request.use(function(request){
     //끼어들 코드
-    request.headers.Authorization = "Bearer "+getCookie('accessToken')
+    request.headers.Authorization = getCookie('accessToken')
 
     return request;
 });

@@ -1,16 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import style from './Headerbar.module.css';
-import axios from '../utils/CustomAxios';
 import { getCookie } from '../utils/Cookie';
 import { url } from 'inspector';
 import { data } from 'jquery';
+import axios from '../utils/CustomAxios';
 export default function Headerbar(){
 
     const navi = useNavigate();
 
-    const accessToken = getCookie("accessToken");
-
     const test = ()=>{
+        const data = {
+            accessToken : getCookie("accessToken")
+        }
         axios.post("http://localhost:8013/banju/user/test")
             .then(res=>{
                 console.log(res);

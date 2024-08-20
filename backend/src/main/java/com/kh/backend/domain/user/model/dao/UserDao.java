@@ -9,20 +9,26 @@ import com.kh.backend.domain.user.model.vo.UserSocial;
 
 public interface UserDao {
 
+	// 이메일 중복확인 메서드
+	int checkEmail(String email);
+	
+	// 닉네임 중복 확인 메서드
 	int checkNickName(String nickName);
 
+	// 회원 가입 메서드
 	int insertUser(User user);
 
-	User loadUserByUsername(String socialId, String socialType);
-
+	// 소셜 회원 가입 메서드
 	int insertUserSocial(User u);
-
-	int insertAuthority(User u);
-
+	
+	// 회원 조회 메서드
 	User selectUser(HashMap<String, Object> map);
 
-	UserSocial selectSocialType(String socialId);
+	// 회원 조회 메서드(UserDetails)
+	UserDetails loadUserByUsername(HashMap<String, Object> param);
 
-	int checkEmail(String email);
-
+//	미사용 -> 추후 삭제 가능
+//	int insertAuthority(User u);
+//	
+//	UserSocial selectSocialType(String socialId);
 }

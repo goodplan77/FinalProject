@@ -63,7 +63,7 @@ public class WebSecurityConfig {
 		.sessionManagement(config -> config.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
 		// 스프링 시큐리티의 기본적인 인증정보 관리 방식인 세션방식의 관리를 사용하지 않는다는 설정 => 클라이언트측의 쿠키에 토큰을 저장할 예정
 		.authorizeHttpRequests((authorizeRequest) -> authorizeRequest // url별 권한 관리 설정
-				.requestMatchers("/login").permitAll() // 누구나 이용 가능한 url
+				.requestMatchers("/**").permitAll() // 누구나 이용 가능한 url
 				.requestMatchers("/login").permitAll() // 누구나 이용 가능한 url
 				.requestMatchers("/signup").permitAll() // 누구나 이용 가능한 url
 				.requestMatchers("/user/login/**").permitAll() // 누구나 이용 가능한 url

@@ -20,9 +20,9 @@ const LoginPage = () => {
         });
     }
     const kakaoJavascriptKey = process.env.REACT_APP_KAKAO_API_KEY as string;
-
     const navi = useNavigate();
 
+    // 카카오 로그인 메서드
     const kakaoOnSucess = (data : {response : LoginResponse})=>{
 
         const ACCESS_TOKEN = data.response.access_token;
@@ -33,21 +33,26 @@ const LoginPage = () => {
             })
             .then(res=>{
                 const JwtToken = res.data.jwtToken;
+                const msg = res.data.msg;
 
                 setCookie("accessToken", JwtToken);
                 setCookie("user", res.data.user);
                 setUser(res.data.user);
 
-                alert("카카오로 로그인 성공");
+                alert(msg);
                 navi('/');
+            }).catch((err)=>{
+                const msg = err.response.data.msg;
+                console.log(msg);
             })
     }
 
     const kakaoOnFail = (error : any) =>{
         console.log(error);
-        alert('시발');
+        alert('에러...');
     }
 
+    // 일반 로그인 메서드
     const login = ()=>{
         axios.post("http://localhost:8013/banju/user/login/none", user)
             .then(res=>{
@@ -59,6 +64,8 @@ const LoginPage = () => {
                 navi('/');
             })
             .catch(err=>{
+                console.log(err)
+
                 const msg = err.response.data.msg
 
                 alert(msg);

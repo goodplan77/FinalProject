@@ -42,53 +42,49 @@ public class UserController {
 	private final BCryptPasswordEncoder encoder;
 	private final JwtProvider jwtProvider;
 	
-	// email 중복확인
-	@GetMapping("/checkEmail")
-	public int checkEmail(
-			@RequestParam HashMap<String, Object> param
-			) {
-		String email = (String) param.get("email");
-		
-		int result = service.checkEmail(email);
-		
-		return result;
-	}
-
-	// 인증코드 발송
+	// 이메일 중복체크 & 인증코드 발송 메서드
 	@PostMapping("/sendEmail")
 	public ResponseEntity<HashMap<String, Object>> sendEmail(
-			@RequestBody HashMap<String, String> param
+			@RequestBody HashMap<String, Object> param
 			) {
 		
-		// 사용자 email
-		String email = param.get("email");
+		HashMap<String, Object> resMap = new HashMap<>();
+		int result = 0;
 		
+		// 사용자 email
+		String email = (String) param.get("email");
+		
+		// 이메일 중복확인
+		result = service.checkEmail(email);
+		
+		if(result>0) {
+			resMap.put("msg", "이미 가입된 이메일입니다.");
+			return ResponseEntity.ok(resMap);
+		}
+		
+		// 이메일 발송 로직
 		// 랜덤 코드 6자리 생성
-		String verificationCode = String.valueOf( (int)(Math.random()*999999 + 1) );		
+		String verificationCode = String.valueOf( (int)(Math.random()*900000 + 100000) );	
 		
 		// 메일 내용 생성
 		StringBuilder sbContent = new StringBuilder();
-		
 		String title = "반주한상 이메일 인증번호 입니다.";
-		
 		String content = sbContent.append("반주한상 이메일 인증번호 입니다.\n")
 								  .append("인증번호 : ")
 								  .append(verificationCode)
 								  .append("\n위 인증 번호를 인증번호 확인란에 입력해주세요.")
 								  .toString();
 		
-		HashMap<String, Object> map = new HashMap<>();
-		
 		// 이메일 발송 메서드
-		int result = sendCode(email, title, content);
+		result = sendCode(email, title, content);
 		
 		if(result > 0) {
-			map.put("verificationCode", verificationCode);
-			
-			return ResponseEntity.ok(map);
+			resMap.put("verificationCode", verificationCode);
+			resMap.put("msg", "귀하의 이메일로 인증코드가 발송되었습니다.");
+			return ResponseEntity.ok(resMap);
 		}else {
-			
-			return ResponseEntity.badRequest().build();
+			resMap.put("msg", "잘못된 이메일입니다.");
+			return ResponseEntity.badRequest().body(resMap);
 		}
 		
 	}
@@ -97,7 +93,6 @@ public class UserController {
 	int sendCode(String email, String title, String content) {
 		
 		int result = 0;
-		
 		MimeMessage mime = mailSender.createMimeMessage();
 		
 		try {
@@ -128,7 +123,7 @@ public class UserController {
 		
 		int result = service.checkNickName(nickName);
 		
-		if(result>1) {
+		if(result>0) {
 			return "이미 사용중인 닉네임입니다.";
 		}else {
 			return "사용 가능한 닉네임입니다.";
@@ -140,6 +135,7 @@ public class UserController {
 	public ResponseEntity<HashMap<String, Object>> insertUser(
 			@RequestBody User user
 			){
+		HashMap<String, Object> resMap = new HashMap<>();
 		
 		// 비밀번호 암호화
 		String encodedPwd = encoder.encode(user.getPwd());
@@ -150,22 +146,19 @@ public class UserController {
 		
 		int result = service.insertUser(user);
 		
+		// 회원가입 성공시 jwt토큰 발행
 		if(result>0) {
-			String ACCESS_TOKEN = jwtProvider.createToken(user.getUserNo());
-			
-			HashMap<String, Object> map = new HashMap<>();
-			
-			map.put("jwtToken", ACCESS_TOKEN);
-			map.put("user", user);
-			
-			return ResponseEntity.ok(map);
+			resMap = loginResponse(user);
+			resMap.put("msg", "회원가입을 축하합니다. 포인트 500지급됨!");
+			return ResponseEntity.ok(resMap);
 		}else {
-			return ResponseEntity.badRequest().build();
+			resMap.put("msg", "실패");
+			return ResponseEntity.badRequest().body(resMap);
 		}
 		
 	}
 	
-	// (소셜)로그인 메서드
+	// 로그인 메서드
 	@PostMapping("/login/{socialType}")
 	public ResponseEntity<HashMap<String, Object>> authCheck(
 			@PathVariable String socialType,
@@ -175,6 +168,7 @@ public class UserController {
 		User user = new User();
 		HashMap<String, Object> resMap = new HashMap<>();
 		
+		// 소셜 로그인 메서드
 		if(!socialType.equals("none")) {
 			String accessToken = (String) param.get("accessToken");
 			
@@ -184,6 +178,16 @@ public class UserController {
 			
 			user = service.loginSocial(map);
 			
+			if(user != null) {
+				resMap = loginResponse(user);
+				resMap.put("msg", socialType + "로 로그인 성공");
+				return ResponseEntity.ok(resMap);
+			}else {
+				resMap.put("msg", "예기치 못한 에러 발생");
+				return ResponseEntity.badRequest().body(resMap);
+			}
+			
+		// 일반 로그인 메서드
 		}else {
 			user = service.selectUser(param);
 
@@ -195,18 +199,14 @@ public class UserController {
 				return ResponseEntity.badRequest().body(resMap);
 			}else if(user != null && encoder.matches((CharSequence) param.get("pwd"), user.getPwd())) {
 				resMap = loginResponse(user);
+				resMap.put("msg", "환영합니다!");
 				return ResponseEntity.ok(resMap);
 			}
 			
 		}
 		
-		if(user != null) {
-			resMap = loginResponse(user);
-			return ResponseEntity.ok(resMap);
-		}else {
-			return ResponseEntity.badRequest().build();
-		}
-		
+		resMap.put("msg", "몰라 에러남");
+		return ResponseEntity.badRequest().body(resMap);
 	}
 	
 	// 로그인 세부 메서드
@@ -215,28 +215,23 @@ public class UserController {
 		int userNo = user.getUserNo();
 		
 		String jwtToken = jwtProvider.createToken(userNo);
-		System.err.println("loginResponse 작동");
-		System.err.println(jwtToken);
 		
 		HashMap<String, Object> resMap = new HashMap<>();
 		
 		resMap.put("jwtToken", jwtToken);
 		resMap.put("user", user);
-		resMap.put("msg", "환영합니다!");
 		
 		return resMap;
 	}
 	
 	// 필터 테스트용 메서드
 	@PostMapping("/test")
-	public String test(
-			@RequestBody HashMap<String, Object> param
-			) {
+	public ResponseEntity<HashMap<String, Object>> test() {
 		String result = "성공함?";
-		
-		System.err.println(param);
-		
-		return result;
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("msg", result);
+		log.info("{}" , map);
+		return ResponseEntity.ok(map);
 	}
 	
 	

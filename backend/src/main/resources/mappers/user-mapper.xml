@@ -28,19 +28,23 @@
 		</constructor>
 	</resultMap>
 	
+<!--=============================================================================-->
+	
+	<!-- 이메일 중복 확인 -->
 	<select id="checkEmail" resultType="int" parameterType="String">
 		SELECT COUNT(*)
 		FROM "USER"
 		WHERE EMAIL = #{email}
 	</select>
 
-
+	<!-- 닉네임 중복 확인 -->
 	<select id="checkNickName" resultType="int" parameterType="String">
 		SELECT COUNT(*)
 		FROM "USER"
 		WHERE NICK_NAME = #{nickName}
 	</select>	
 	
+	<!-- 회원 가입 -->
 	<insert id="insertUser" useGeneratedKeys="true" >
 		<selectKey order="BEFORE" keyProperty="userNo" resultType="int">
 			SELECT SEQ_USER.NEXTVAL FROM DUAL
@@ -71,6 +75,7 @@
 			)
 	</insert>
 	
+	<!-- 소셜 회원 가입 -->
 	<insert id="insertUserSocial" >
 		INSERT INTO "USER_SOCIAL"
 		VALUES(
@@ -80,6 +85,7 @@
 		)
 	</insert>
 	
+	<!-- 회원 권한 설정 -->
 	<insert id="insertAuthority">
 		INSERT INTO "AUTHORITY"
 		VALUES(
@@ -88,6 +94,7 @@
 		)
 	</insert>
 	
+	<!-- 회원가입 500포인트 지급 -->
 	<insert id="signupPoint">
 		INSERT INTO "HISTORY"
 		VALUES(
@@ -99,42 +106,50 @@
 		)
 	</insert>
 	
+	<!-- 회원 조회(UserDetails) -->
 	<select id="loadUserByUsername" resultMap="userMap">
 		SELECT
 			*
 		FROM "USER"
-		JOIN USER_SOCIAL USING(USER_NO)
-		WHERE
-			USER_NO = #{socialId} 
-		  AND SOCIAL_TYPE = #{socialType}
+		LEFT JOIN USER_SOCIAL USING(USER_NO)
+		<where>
+			<if test="userNo != null">
+				AND USER_NO = #{userNo}
+			</if>
+			<if test="socialId != null">
+				AND SOCIAL_ID = #{socialId}
+			</if>
+			<if test="socialType != null">
+				AND SOCIAL_TYPE = #{socialType}
+			</if>
+		</where>
 	</select>
 	
+	<!-- 회원 권한 조회-->
 	<select id="selectAuthorities" resultMap="authorityMap">
-		SELECT 
-			*
+		SELECT AUTHORITY
 		FROM "AUTHORITY"
 		WHERE USER_NO = #{userNo}
 	</select>
 	
-	<select id="selectSocialType">
-		SELECT * FROM "USER_SOCIAL"
-		WHERE SOCIAL_ID = #{socialId}
-	</select>
-	
+	<!-- 회원 조회 -->
 	<select id="selectUser" resultMap="userMap">
 		SELECT * FROM "USER"
 		<where>
 		<if test="email != null">
-			EMAIL = #{email}
+			AND EMAIL = #{email}
 		</if>
 		<if test="userNo != null">
-			USER_NO = #{userNo}
+			AND USER_NO = #{userNo}
 		</if>
 		</where>
-		
 	</select>
 	
-	
+	<!-- 미사용 -> 추후 삭제 가능
+	<select id="selectSocialType">
+		SELECT * FROM "USER_SOCIAL"
+		WHERE SOCIAL_ID = #{socialId}
+	</select>-->
 	
 	
 

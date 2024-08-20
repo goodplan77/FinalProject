@@ -25,22 +25,15 @@ public class AuthFilter extends GenericFilterBean{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		System.err.println("필터 실행");
 		
 		// 클라이언트의 api요청 헤더에서 토큰을 추출.
 		String accessToken = jwtProvider.resolveToken((HttpServletRequest) request);
-		
-		System.err.println(accessToken);
 		
 		// 토큰의 유효성 검사
 		// 사용할 수 있는 토큰이라면 사용자 인증정보 조회 후 Security Context에 저장.
 		if(accessToken != null && jwtProvider.validationToken(accessToken)) {
 			// 통과한다면 Authentication객체 생성
-			
-			System.err.println("if절 통과");
 			Authentication authentication = jwtProvider.getAuthentication(accessToken);
-			
-			System.err.println(authentication.toString());
 			
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
