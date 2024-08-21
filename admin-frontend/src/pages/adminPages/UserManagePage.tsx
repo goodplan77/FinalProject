@@ -27,7 +27,7 @@ export default function UserManagePage() {
     const Users = useSelector((state: RootState) => state.boards);
 
     useEffect (() => {
-        axios.get("http://localhost:8013/banju/admin/UserList")
+        axios.get("http://localhost:8013/banju/admin/user/UserList")
         .then((response) => {
             console.log(response);
         }).catch((response) => {
