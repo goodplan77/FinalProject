@@ -26,4 +26,6 @@ public interface BoardDao {
 
 	int insertComment(Comment comment);
 
+	List<Board> selectBoardsTitle(String title);
+
 }

@@ -2,6 +2,7 @@ package com.kh.backend.domain.board.model.vo;
 
 import java.util.List;
 
+import com.kh.backend.domain.comment.model.vo.Comment;
 import com.kh.backend.domain.user.model.vo.User;
 
 import lombok.AllArgsConstructor;
@@ -27,5 +28,8 @@ public class Board {
 	
 	private User user;
 	private List<BoardImg> boardImg;
+	
+	private String nickName;
+	private List<Comment> comment;
 	
 }

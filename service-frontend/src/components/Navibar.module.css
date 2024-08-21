@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 
     width: 100%;
@@ -24,6 +24,11 @@
     box-sizing: border-box;
     padding: 10px 0;
     /* 적절한 패딩을 설정 */
+}
+
+.container img {
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .menu {
