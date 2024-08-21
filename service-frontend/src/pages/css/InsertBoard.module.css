@@ -41,7 +41,7 @@
 }
 
 .insertBoard {
-    margin-top: 90px;
+    margin-top: 40px;
     margin-left: 40px;
 }
 
@@ -75,6 +75,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    text-align: center;
 }
 
 
@@ -192,6 +193,7 @@ input[type="radio"]:checked+label {
     border-radius: 10px;
     padding: 0px 35px;
     margin-right: 20px;
+    margin-bottom: 20px;
 }
 
 .customFileButton .plus{
@@ -204,17 +206,19 @@ input[type="radio"]:checked+label {
     font-size: 13px;
     margin-top: 0px;
 }
-
     
 .previewContainer{
+    display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 25px;
+    justify-items: auto;
 }
 
 .previewContainer img{
     width: 100px;
     height: 100px;
     object-fit: cover;
+    margin-top: 20px;
 }
 
 .surely{
@@ -258,36 +262,4 @@ input[type="radio"]:checked+label {
     border: none;
     outline: none;
     cursor: pointer;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-.mainNavi {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    height: 50px;
-    background: #FFFFFF;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-}
-
-.home,
-.ham,
-.chat,
-.my {
-    width: 40px;
-    height: 40px;
 }

@@ -90,8 +90,8 @@
 	</resultMap>
 	
 	<select id="boardDetail" resultMap="boardResultSet">
-		SELECT BOARD_NO, 
-			USER_NO, TITLE, 
+		SELECT BOARD_NO,
+			USER_NO, TITLE,
 			CONTENT,
 			BOARD_CODE, 
 			TO_CHAR(ENROLL_DATE, 'YYYY.MM.DD') AS ENROLL_DATE, 

@@ -9,6 +9,7 @@ import com.kh.backend.domain.board.model.dao.BoardDao;
 import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.board.model.vo.BoardImg;
 import com.kh.backend.domain.comment.model.vo.Comment;
+import com.kh.backend.domain.common.Utils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,6 +41,21 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public int insertBoard(Board board) {
+		// 게시글 삽입전 xss파싱처리, 개행 처리를 해야한다.
+		
+		// 게시글 제목과 내용 가져오기
+		String boardTitle = board.getTitle();
+		String boardContent = board.getContent();
+		
+		// 가져온 제목과 내용을 파싱해준다
+		boardTitle = Utils.XSSHandling(boardTitle);
+		boardContent = Utils.XSSHandling(boardContent);
+		boardContent = Utils.newLineClear(boardContent);
+		
+		// 파싱된 데이터를 삽입한다.
+		board.setTitle(boardTitle);
+		board.setContent(boardContent);
+		
 		return boardDao.insertBoard(board);
 	}
 
