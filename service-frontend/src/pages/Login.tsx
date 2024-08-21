@@ -2,9 +2,11 @@ import React, { ChangeEvent, useState } from 'react';
 import styles from './css/Login.module.css';
 import { useNavigate } from 'react-router-dom';
 import KakaoLogin from 'react-kakao-login';
-import { initUser, LoginResponse, User } from '../type/signup';
+import { LoginResponse } from '../type/signup';
 import axios from '../utils/CustomAxios';
 import { setCookie } from '../utils/Cookie';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../features/userSlice';
 
 const LoginPage = () => {
 
@@ -21,6 +23,7 @@ const LoginPage = () => {
     }
     const kakaoJavascriptKey = process.env.REACT_APP_KAKAO_API_KEY as string;
     const navi = useNavigate();
+    const dispatch = useDispatch();
 
     // 카카오 로그인 메서드
     const kakaoOnSucess = (data : {response : LoginResponse})=>{
@@ -38,6 +41,10 @@ const LoginPage = () => {
                 setCookie("accessToken", JwtToken);
                 setCookie("user", res.data.user);
                 setUser(res.data.user);
+
+                dispatch(loginUser(res.data.user));
+
+                console.log(res.data.user);
 
                 alert(msg);
                 navi('/');
@@ -61,6 +68,11 @@ const LoginPage = () => {
                 alert(msg);
                 setCookie("accessToken", jwtToken);
                 setCookie("user", res.data.user);
+
+                dispatch(loginUser(res.data.user));
+
+                console.log(res.data.user);
+
                 navi('/');
             })
             .catch(err=>{

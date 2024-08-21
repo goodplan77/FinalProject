@@ -3,13 +3,24 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styles from './css/MyPage.module.css';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import { logout } from '../features/userSlice';
 
 const MyPage = () => {
+    let loginUser = useSelector((state:RootState)=>state.user);
     const dispatch = useDispatch();
     const navi = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [ask, setAsk] = useState("");
     const [title, setTitle] = useState("");
+
+    // 로그아웃 함수
+    const logoutApp = ()=>{
+        alert("로그아웃합니다.");
+        dispatch(logout());
+        navi('/');
+    }
 
     // 모달 열기
     const handleOpenModal = () => {
@@ -142,11 +153,8 @@ const MyPage = () => {
                     <div className={styles.buttonEdit} onClick={() => navi('/edit')}>
                         <div className={styles.buttonEditText}>개인정보 수정</div>
                     </div>
-                    <div className={styles.buttonLogout} onClick={() => navi('/')}>
+                    <div className={styles.buttonLogout} onClick={logoutApp}>
                         <div className={styles.buttonLogoutText}>로그아웃</div>
-                    </div>
-                    <div className={styles.buttonLogin} onClick={() => navi('/login')}>
-                        <div className={styles.buttonLoginText}>로그인</div>
                     </div>
                 </div>
                 {showModal && (

@@ -5,9 +5,10 @@ import DaumPostcode from "react-daum-postcode";
 import Modal from "react-modal";
 import styles from './css/Signup.module.css';
 import useInput from '../hook/useInput';
-import { Code, initCode, initUser, User } from '../type/signup';
+import { Code, initCode } from '../type/signup';
 import axios from 'axios';
 import { getCookie, setCookie } from '../utils/Cookie';
+import { initUser, User } from '../type/user';
 
 Modal.setAppElement('#root'); // 모달의 접근성 설정
 
