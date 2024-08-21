@@ -26,9 +26,12 @@ import BoardDetail from './pages/BoardDetail';
 import Clause from './pages/Clause';
 import Alarm from './pages/Alarm';
 import SearchPage from './pages/SearchPage';
+import { useSelector } from 'react-redux';
+import { RootState } from './store/store';
 
 
 const App = () => {
+  let loginUser = useSelector((state:RootState)=>state.user);
   const dispatch = useDispatch();
   const navi = useNavigate();
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);

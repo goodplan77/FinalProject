@@ -7,9 +7,9 @@ export interface Memo {
 
 export const initialMemo: Memo = {
     memoNo: 0,
-    userNo: 0,
+    userNo: 10,
     content: '',
     targetDate: ''
 }
 
-export const initialMemoList: Memo[] = [];
+export const initMemoList: Memo[] = [];

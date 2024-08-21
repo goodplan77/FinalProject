@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { initialMemoList, Memo } from "../type/memo";
+import { initMemoList, Memo } from "../type/memo";
 
 
 
 let memoSlice = createSlice({
     name: 'board',
-    initialState: initialMemoList,
+    initialState: initMemoList,
     reducers: {
         selectedMemo: (state, action: PayloadAction<Memo[]>) => {
             return action.payload;
