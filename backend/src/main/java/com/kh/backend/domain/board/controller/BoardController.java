@@ -166,6 +166,16 @@ public class BoardController {
 		return map;
 	}
 	
+	@GetMapping("/searchTitle/{title}")
+	public List<Board> searchTitle(
+			@PathVariable String title
+			){
+		log.debug(title);
+		
+		List<Board> list = boardService.selectBoardsTitle(title);
+		
+		return list;
+	}
 	
-
+	
 }
