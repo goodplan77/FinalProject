@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.backend.domain.user.model.dao.UserDao;
 import com.kh.backend.domain.user.model.dto.KakaoUserInfoResponse;
+import com.kh.backend.domain.user.model.vo.ImgUser;
 import com.kh.backend.domain.user.model.vo.User;
 
 import lombok.RequiredArgsConstructor;
@@ -83,6 +84,9 @@ public class UserServiceImpl implements UserService {
 			String tempNickName = currentTime + nickName + random;
 			String socialPwd = socialType + random;
 			
+			ImgUser iu = new ImgUser();
+			iu.setChangeName(profile);
+			
 			User u = user.builder()
 						 .nickName(tempNickName)
 						 .email(email)
@@ -91,7 +95,9 @@ public class UserServiceImpl implements UserService {
 						 .userName(tempNickName)
 						 .points(500)
 						 .socialType(socialType) 
+						 .imgUser(iu)
 						 .build();
+			
 			
 			result *= dao.insertUser(u);
 			result *= dao.insertUserSocial(u);

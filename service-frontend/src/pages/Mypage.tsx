@@ -82,10 +82,16 @@ const MyPage = () => {
                     <div className={styles.profileFrame}>
                         <div className={styles.profileSettingFrame}>
                             <div className={styles.profilePictureFrame}>
-                                <div className={styles.profilePicture} />
+                                {/* <div className={styles.profilePicture} > */}
+                                    <img src={
+                                        loginUser.imgUser == null ?
+                                        '/images/icon.png' : 
+                                        loginUser.imgUser.changeName
+                                    } alt="프사" />
+                                {/* </div> */}
                             </div>
                             <div className={styles.nicknameFrame}>
-                                <div className={styles.nickname}>내 닉네임</div>
+                                <div className={styles.nickname}>{loginUser.nickName}</div>
                             </div>
                         </div>
                     </div>
@@ -94,7 +100,7 @@ const MyPage = () => {
                             <div className={styles.pointsText}>내 포인트 :</div>
                         </div>
                         <div className={styles.pointsValueFrame}>
-                            <div className={styles.pointsValue}>1500 P</div>
+                            <div className={styles.pointsValue}>{loginUser.points} P</div>
                         </div>
                     </div>
                 </div>
@@ -150,7 +156,7 @@ const MyPage = () => {
                 </div>
 
                 <div className={styles.buttonFooter}>
-                    <div className={styles.buttonEdit} onClick={() => navi('/edit')}>
+                    <div className={styles.buttonEdit} onClick={() => navi('/updateUser')}>
                         <div className={styles.buttonEditText}>개인정보 수정</div>
                     </div>
                     <div className={styles.buttonLogout} onClick={logoutApp}>

@@ -9,8 +9,10 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +36,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
-@CrossOrigin(origins = {"http://localhost:3013"})
 public class UserController {
 	
 	private final JavaMailSenderImpl mailSender;
@@ -221,8 +222,35 @@ public class UserController {
 		resMap.put("jwtToken", jwtToken);
 		resMap.put("user", user);
 		
+		System.err.println(user);
+		
 		return resMap;
 	}
+	
+	// 회원 정보 수정 메서드
+	@PatchMapping("/updateUser")
+	public int updateUser(
+			@RequestBody HashMap<String, Object> param
+			) {
+		int result = 0;
+
+		System.err.println(param);
+		
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 필터 테스트용 메서드
 	@PostMapping("/test")

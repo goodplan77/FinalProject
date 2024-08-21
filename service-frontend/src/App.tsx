@@ -28,6 +28,7 @@ import Alarm from './pages/Alarm';
 import SearchPage from './pages/SearchPage';
 import { useSelector } from 'react-redux';
 import { RootState } from './store/store';
+import UpdateUser from './pages/UpdateUser';
 
 
 const App = () => {
@@ -68,6 +69,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Mainpage />} />
           <Route path='/mypage' element={<Mypage />} />
+          <Route path='/updateUser' element={<UpdateUser />} />
           <Route path='/login' element={<Login />} />
           <Route path='/boardList' element={<BoardList />} />
           <Route path='/usedList' element={<UsedList />} />

@@ -30,6 +30,7 @@ const SignUpPage: React.FC = () => {
         mainAddress : '',
         detailAddress : ''
     });
+    
 
     const navi = useNavigate();
 
@@ -124,9 +125,7 @@ const SignUpPage: React.FC = () => {
     return (
         <>
             <div className={styles.elem_container}>
-
-                <button type='button' onClick={()=>navi('/login')}>로그인</button>
-
+                
                 <label htmlFor="email" className={styles.label}>이메일</label>
                 <div className={styles.email_container}>
                     <input 
@@ -258,6 +257,8 @@ const SignUpPage: React.FC = () => {
                         id='detailAddress'
                         name='detailAddress'
                         value={address.detailAddress}
+                        placeholder='상세 주소'
+                        className={styles.detailAddress}
                         onChange={(e) => {
                             let {value} = e.target as HTMLInputElement;
                             setAddress({
@@ -271,8 +272,6 @@ const SignUpPage: React.FC = () => {
                                 return {...prev, address : totalAddress}
                             })
                         }}
-                        placeholder='상세 주소'
-                        className={styles.detailAddress}
                     />
                 </div>
 
