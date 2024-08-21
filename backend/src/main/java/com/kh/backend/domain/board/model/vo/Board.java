@@ -31,8 +31,5 @@ public class Board {
 	
 	private List<BoardImg> boardImg;
 	private List<Comment> comment;
-	
-	private String nickName;
-	private List<Comment> comment;
-	
+
 }
