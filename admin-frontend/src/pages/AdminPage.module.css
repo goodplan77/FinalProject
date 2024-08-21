@@ -1,0 +1,13 @@
+.adminMain {
+    width: 100%;
+    background-color: gray;
+}
+
+.pageArea {
+    display: flex;
+    position: fixed;
+    left: 200px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}

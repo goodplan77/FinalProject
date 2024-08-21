@@ -3,77 +3,161 @@ import $ from 'jquery';
 import { xyConvert } from '../lib';
 import styles from './css/Weather.module.css';
 
-export default function Weather() {
-    const [location, setLocation] = useState<{ lat: number, lon: number } | null>(null);
-    const [temperature, setTemperature] = useState<number | null>(null);
-    const [rainfall, setRainfall] = useState<number | null>(null);
-    const [humidity, setHumidity] = useState<number | null>(null);
-    const [precipitationType, setPrecipitationType] = useState<string>('');
-    const [windDirection, setWindDirection] = useState<number | null>(null);
-    const [windSpeed, setWindSpeed] = useState<number | null>(null);
-    const [skyText, setSkyText] = useState<string>('');
-    const [weatherImage, setWeatherImage] = useState<string>('unknown');
-    const serviceKey = process.env.REACT_APP_Weather_API_ServiceKey;
+// 위치 정보를 나타내는 인터페이스
+interface Location {
+    lat: number;
+    lon: number;
+}
 
+// 날씨 데이터를 나타내는 인터페이스
+interface WeatherData {
+    temperature: number | null;
+    rainfall: number | null;
+    humidity: number | null;
+    precipitationType: string;
+    windDirection: number | null;
+    windSpeed: number | null;
+    skyText: string;
+    weatherImage: string;
+}
+
+// 날씨 컴포넌트
+export default function Weather() {
+    const [location, setLocation] = useState<Location | null>(null);
+    const [locationName, setLocationName] = useState<string>('');
+    const [weatherData, setWeatherData] = useState<WeatherData>({
+        temperature: null,
+        rainfall: null,
+        humidity: null,
+        precipitationType: '',
+        windDirection: null,
+        windSpeed: null,
+        skyText: '',
+        weatherImage: 'unknown',
+    });
+
+    const serviceKey = process.env.REACT_APP_Weather_API_ServiceKey;
+    const kakaoMapApiKey = process.env.REACT_APP_KAKAO_MAP_KEY as string;
+
+    // 위치 정보
     useEffect(() => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                setLocation({ lat: latitude, lon: longitude });
-            }, (error) => {
-                console.error("Error getting location: ", error);
+        const loadKakaoMapScript = () => {
+            return new Promise<void>((resolve, reject) => {
+                if (window.kakao && window.kakao.maps) {
+                    resolve();
+                } else {
+                    const script = document.createElement('script');
+                    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoMapApiKey}&autoload=false&libraries=services`;
+                    script.onload = () => {
+                        window.kakao.maps.load(resolve);
+                    };
+                    script.onerror = () => reject(new Error('Kakao Maps API 스크립트 로드 실패'));
+                    document.head.appendChild(script);
+                }
             });
-        } else {
-            console.error("Geolocation is not supported by this browser.");
-        }
-    }, []);
+        };
+
+        // 사용자 위치 정보
+        const getLocation = async () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    setLocation({ lat: latitude, lon: longitude });
+
+                    try {
+                        await loadKakaoMapScript();
+
+                        if (window.kakao?.maps?.services) {
+                            const geocoder = new window.kakao.maps.services.Geocoder();
+                            const coords = new window.kakao.maps.LatLng(latitude, longitude);
+
+                            // 경도 위도 지역이름 변환
+                            geocoder.coord2RegionCode(longitude, latitude, (result: any, status: any) => {
+                                if (status === window.kakao.maps.services.Status.OK && result[0]) {
+                                    setLocationName(result[0].address_name);
+                                } else {
+                                    console.error('지역명을 가져오지 못했습니다.');
+                                }
+                            });
+                        }
+                    } catch (error) {
+                        console.error('Kakao Maps API 로드 중 오류 발생:', error);
+                    }
+                }, (error) => {
+                    console.error('Geolocation 오류:', error);
+                });
+            } else {
+                console.error('Geolocation을 지원하지 않는 브라우저입니다.');
+            }
+        };
+
+        getLocation();
+    }, [kakaoMapApiKey]);
 
     useEffect(() => {
         if (location) {
-            const { lat, lon } = location;
-            const { x: nx, y: ny } = xyConvert(lat, lon);
+            const fetchWeatherData = async () => {
+                const { lat, lon } = location;
+                const { x: nx, y: ny } = xyConvert(lat, lon);
 
-            const calculateBaseTime = (hour: number): string => {
-                if (hour < 2) return '2300';
-                if (hour < 5) return '0200';
-                if (hour < 8) return '0500';
-                if (hour < 11) return '0800';
-                if (hour < 14) return '1100';
-                if (hour < 17) return '1400';
-                if (hour < 20) return '1700';
-                if (hour < 23) return '2000';
-                return '2300';
-            };
+                // 시간에 따른 예보 시간 지정
+                const calculateBaseTime = (hour: number): string => {
+                    const times = [
+                        { hour: 2, baseTime: '2300' },
+                        { hour: 5, baseTime: '0200' },
+                        { hour: 8, baseTime: '0500' },
+                        { hour: 11, baseTime: '0800' },
+                        { hour: 14, baseTime: '1100' },
+                        { hour: 17, baseTime: '1400' },
+                        { hour: 20, baseTime: '1700' },
+                        { hour: 23, baseTime: '2000' },
+                    ];
+                    return times.find(t => hour < t.hour)?.baseTime || '2300';
+                };
 
-            const currentDate = new Date();
-            const currentYear = currentDate.getFullYear();
-            const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
-            const currentDay = String(currentDate.getDate()).padStart(2, '0');
-            const currentHour = currentDate.getHours();
+                // 주야간
+                const isDaytime = (hour: number): boolean => {
+                    return hour >= 6 && hour < 18;
+                };
 
-            const baseTime = calculateBaseTime(currentHour);
-            const baseDate = `${currentYear}${currentMonth}${currentDay}`;
+                const currentDate = new Date();
+                const currentHour = currentDate.getHours();
+                const baseTime = calculateBaseTime(currentHour);
+                const baseDate = currentDate.toISOString().split('T')[0].replace(/-/g, '');
 
-            $.getJSON(
-                `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst?serviceKey=${serviceKey}&pageNo=1&numOfRows=1000&dataType=JSON&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}`,
-                function (data) {
-                    const items = data.response.body.items.item;
+                try {
+                    const response = await $.getJSON(
+                        `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst`,
+                        {
+                            serviceKey,
+                            pageNo: 1,
+                            numOfRows: 1000,
+                            dataType: 'JSON',
+                            base_date: baseDate,
+                            base_time: baseTime,
+                            nx,
+                            ny,
+                        }
+                    );
+
+                    const items = response.response.body.items.item;
                     let currentSky = '';
                     let currentPrecipitationType = '';
 
+                    // 날씨 데이터
                     items.forEach((item: any) => {
-                        const value = parseFloat(item.obsrValue);  // 문자열을 숫자로 변환
+                        const value = parseFloat(item.obsrValue);
 
                         switch (item.category) {
                             case "T1H":
-                                setTemperature(value);
+                                weatherData.temperature = value;
                                 break;
                             case "RN1":
-                                setRainfall(value);
+                                weatherData.rainfall = value;
                                 break;
                             case "REH":
-                                setHumidity(value);
+                                weatherData.humidity = value;
                                 break;
                             case "PTY": {
                                 let ptyText = '';
@@ -106,14 +190,14 @@ export default function Weather() {
                                         ptyText = '알 수 없음';
                                 }
                                 currentPrecipitationType = ptyText;
-                                setPrecipitationType(ptyText);
+                                weatherData.precipitationType = ptyText;
                                 break;
                             }
                             case "VEC":
-                                setWindDirection(value);
+                                weatherData.windDirection = value;
                                 break;
                             case "WSD":
-                                setWindSpeed(value);
+                                weatherData.windSpeed = value;
                                 break;
                             case "SKY": {
                                 let skyText = '';
@@ -131,93 +215,130 @@ export default function Weather() {
                                         skyText = '알 수 없음';
                                 }
                                 currentSky = skyText;
-                                setSkyText(skyText);
+                                weatherData.skyText = skyText;
                                 break;
                             }
-                            default:
-                                break;
                         }
                     });
 
-                    // 이미지 매칭 로직 추가
-                    if (currentPrecipitationType === '맑음') {
+                    // 이미지 매칭 로직
+                    const isDay = isDaytime(currentHour);
+                    const timePrefix = isDay ? '' : 'nt_';
+
+                    if (currentPrecipitationType === '알 수 없음') {
                         switch (currentSky) {
                             case '맑음':
-                                setWeatherImage('sunny');
+                                weatherData.weatherImage = `${timePrefix}clear`;
                                 break;
                             case '구름많음':
-                                setWeatherImage('partlycloudy');
+                                weatherData.weatherImage = `${timePrefix}partlycloudy`;
                                 break;
                             case '흐림':
-                                setWeatherImage('cloudy');
+                                weatherData.weatherImage = `${timePrefix}cloudy`;
                                 break;
                             default:
-                                setWeatherImage('sunny');
+                                weatherData.weatherImage = `${timePrefix}clear`;
                         }
                     } else {
                         switch (currentPrecipitationType) {
                             case '비':
                             case '빗방울':
-                                setWeatherImage('rain');
+                                weatherData.weatherImage = `${timePrefix}rain`;
                                 break;
                             case '비/눈':
                             case '빗방울눈날림':
-                                setWeatherImage('sleet');
+                                weatherData.weatherImage = `${timePrefix}sleet`;
                                 break;
                             case '눈':
                             case '눈날림':
-                                setWeatherImage('snow');
+                                weatherData.weatherImage = `${timePrefix}snow`;
                                 break;
                             case '소나기':
-                                setWeatherImage('tstorms');
+                                weatherData.weatherImage = `${timePrefix}tstorms`;
                                 break;
                             default:
-                                setWeatherImage('sunny');
+                                weatherData.weatherImage = `${timePrefix}clear`;
                         }
                     }
+
+                    setWeatherData({ ...weatherData });
+
+                } catch (error) {
+                    console.error('날씨 데이터 로드 중 오류 발생:', error);
                 }
-            );
+            };
+
+            fetchWeatherData();
         }
-    }, [location]);
+    }, [location, serviceKey]);
 
     return (
         <div className={styles.container}>
-            <div className={styles.main}>
-                <img src={`/images/weatherImg/${weatherImage}.png`} alt="Weather" className={styles.icon} />
-                <div className={styles.temperature}>
-                    {temperature !== null ? `${temperature.toFixed(1)}°C` : '--'}
-                </div>
-                <div className={styles.description}>
-                    {precipitationType ? precipitationType : '정보 없음'}
-                </div>
+            <MainWeatherDisplay
+                weatherImage={weatherData.weatherImage}
+                temperature={weatherData.temperature}
+                precipitationType={weatherData.precipitationType}
+                skyText={weatherData.skyText}
+            />
+            <WeatherDetails
+                temperature={weatherData.temperature}
+                humidity={weatherData.humidity}
+                rainfall={weatherData.rainfall}
+                windSpeed={weatherData.windSpeed}
+                windDirection={weatherData.windDirection}
+            />
+            <LocationDisplay locationName={locationName} />
+        </div>
+    );
+}
+
+function MainWeatherDisplay({ weatherImage, temperature, precipitationType, skyText }: { weatherImage: string, temperature: number | null, precipitationType: string, skyText: string }) {
+    return (
+        <div className={styles.main}>
+            <img src={`/images/weatherImg/${weatherImage}.png`} alt="Weather" className={styles.icon} />
+            <div className={styles.temperature}>
+                {temperature !== null ? `${temperature.toFixed(1)}°C` : '--'}
             </div>
-            <div className={styles.details}>
-                <div className={styles.detailItem}>
-                    <span>체감</span>
-                    <span>{temperature !== null ? `${(temperature - 0.5).toFixed(1)}°C` : '--'}</span>
-                </div>
-                <div className={styles.detailItem}>
-                    <span>습도</span>
-                    <span>{humidity !== null ? `${humidity}%` : '--'}</span>
-                </div>
-                <div className={styles.detailItem}>
-                    <span>강수량</span>
-                    <span>{rainfall !== null ? `${rainfall} mm` : '--'}</span>
-                </div>
-                <div className={styles.detailItem}>
-                    <span>풍속</span>
-                    <span>{windSpeed !== null ? `${windSpeed} m/s` : '--'}</span>
-                </div>
-                <div className={styles.detailItem}>
-                    <span>풍향</span>
-                    <span>{windDirection !== null ? `${windDirection}°` : '--'}</span>
-                </div>
+            <div className={styles.description}>
+                {precipitationType ? precipitationType : '정보 없음'} {skyText ? skyText : ''}
             </div>
-            <div>
-                <div>
-                    <span>{location?.lat}, {location?.lon}</span>
-                </div>
-            </div>
+        </div>
+    );
+}
+
+interface WeatherDetailsProps {
+    temperature: number | null;
+    humidity: number | null;
+    rainfall: number | null;
+    windSpeed: number | null;
+    windDirection: number | null;
+}
+
+function WeatherDetails({ temperature, humidity, rainfall, windSpeed, windDirection }: WeatherDetailsProps) {
+    return (
+        <div className={styles.details}>
+            <DetailItem label="체감" value={temperature !== null ? `${(temperature - 0.5).toFixed(1)}°C` : '--'} />
+            <DetailItem label="습도" value={humidity !== null ? `${humidity}%` : '--'} />
+            <DetailItem label="강수량" value={rainfall !== null ? `${rainfall} mm` : '--'} />
+            <DetailItem label="풍속" value={windSpeed !== null ? `${windSpeed} m/s` : '--'} />
+            <DetailItem label="풍향" value={windDirection !== null ? `${windDirection}°` : '--'} />
+        </div>
+    );
+}
+
+function DetailItem({ label, value }: { label: string, value: string }) {
+    return (
+        <div className={styles.detailItem}>
+            <span>{label}</span>
+            <span>{value}</span>
+        </div>
+    );
+}
+
+function LocationDisplay({ locationName }: { locationName: string }) {
+    return (
+        <div className={styles.location}>
+            <span>{locationName || '위치 정보 없음'}</span>
         </div>
     );
 }

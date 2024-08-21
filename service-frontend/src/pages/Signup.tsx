@@ -1,236 +1,308 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import DaumPostcode from "react-daum-postcode";
+import Modal from "react-modal";
 import styles from './css/Signup.module.css';
+import useInput from '../hook/useInput';
+import { Code, initCode, initUser, User } from '../type/signup';
+import axios from 'axios';
+import { getCookie, setCookie } from '../utils/Cookie';
+
+Modal.setAppElement('#root'); // 모달의 접근성 설정
 
 const SignUpPage: React.FC = () => {
-    const [form, setForm] = useState({
-        name: '',
-        nickname: '',
-        email: '',
-        authCode: '',
-        password: '',
-        passwordConfirm: '',
-        phone: '',
-        birthDate: '',
-        address: '',
-        addressDetail: '',
+
+    const [user, setUser] = useState<User>(initUser);
+    const setUserChange = (e:ChangeEvent) => {
+        let {name, value} = e.target as HTMLInputElement;
+        setUser({
+            ...user,
+            [name] : value
+        });
+    }
+
+    const [modal, setModal] = useState(false);
+    const [code, setCode] = useInput<Code>(initCode);
+    const [address, setAddress] = useState({
+        postCode : '',
+        mainAddress : '',
+        detailAddress : ''
     });
-
-    const [showPassword, setShowPassword] = useState(false);
-    const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
-
-    const datepickerRef = useRef<DatePicker>(null);
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setForm({ ...form, [name]: value });
-    };
-
-    const handleDateChange = (date: Date | null) => {
-        if (date) {
-            const formattedDate = date.toISOString().split('T')[0]; // YYYY-MM-DD 형식으로 변환
-            setForm({ ...form, birthDate: formattedDate });
-        } else {
-            setForm({ ...form, birthDate: '' });
-        }
-    };
-
-    const toggleShowPassword = () => {
-        setShowPassword(!showPassword);
-    };
-
-    const toggleShowPasswordConfirm = () => {
-        setShowPasswordConfirm(!showPasswordConfirm);
-    };
 
     const navi = useNavigate();
 
+    // 이메일 중복체크 & 발송
+    const sendEmail = () => {
+
+        // 이메일 중복 체크 메서드
+        axios.post("http://localhost:8013/banju/user/sendEmail", {
+            email : user.email
+        })
+        .then(res => {
+            const msg = res.data.msg;
+            const verificationCode = res.data.verificationCode;
+
+            alert(msg);
+
+            setCookie("verificationCode", verificationCode);
+        })
+        .catch(error=>{
+            const msg = error.response.data.msg;
+            alert(msg);
+        })
+    }
+
+    // 인증코드 확인 메서드
+    const checkCode = ()=>{
+
+        const userCode = getCookie("verificationCode");
+
+        if(code.verificationCode == userCode){
+            alert("인증번호가 확인되었습니다.");
+        }else{
+            alert("인증번호가 다릅니다.");
+        }
+    }
+
+    // 닉네임 중복체크
+    const checkNickName = ()=>{
+        axios({
+            method : 'get',
+            url : "http://localhost:8013/banju/user/checkNickName",
+            params : {
+                nickName : user.nickName
+            }
+        }).then(res =>{
+            console.log(res);
+            alert(res.data);
+        })
+    }
+
+    // 우편번호 찾기 모달 
+    const openModal = ()=>{
+        setModal(true);
+    }
+
+    const closeModal = () => {
+        setModal(false);
+    };
+
+    const handleAddress = (data: any) => {
+
+        console.log(data);
+        
+        const address = {
+            postCode : data.zonecode,
+            mainAddress:data.address,
+            detailAddress : ''
+        }
+
+        setAddress(address);
+
+        closeModal();
+    };
+
+    // 회원가입 메서드
+    const signup = ()=>{
+
+        axios.post("http://localhost:8013/banju/user/insertUser", user)
+            .then(res=>{
+                const msg = res.data.msg;
+                alert(msg);
+            })
+            .catch(err=>{
+                const msg = err.response.data.msg;
+                alert(msg);
+            })
+            .finally(()=>{
+                navi('/');
+            })
+    }
+
     return (
         <>
-            <div className={styles.container}>
-                <div className={styles.header}>
-                    <div onClick={() => navi('/login')} className={styles.backButton}>
-                        <img src={`${process.env.PUBLIC_URL}/images/back.png`} alt="back" className={styles.backIcon} />
-                    </div>
-                    <span className={styles.title}>회원 가입</span>
-                    <div></div>
-                </div>
-                <form className={styles.form}>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="name" className={styles.label}>이름</label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={form.name}
-                            onChange={handleChange}
-                            placeholder="반주한상"
-                            className={styles.input}
-                        />
-                        <div className={styles.error}>* 이름을 입력해주세요.</div>
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="nickname" className={styles.label}>닉네임</label>
-                        <div className={styles.inputContainer}>
-                            <input
-                                type="text"
-                                id="nickname"
-                                name="nickname"
-                                value={form.nickname}
-                                onChange={handleChange}
-                                placeholder="2~6자 이내로 입력해주세요"
-                                className={styles.inputInline}
-                            />
-                            <button type="button" className={styles.inlineButton}>
-                                중복 확인
-                            </button>
-                        </div>
-                        <div className={styles.error}>* 닉네임을 입력해주세요.</div>
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="email" className={styles.label}>이메일</label>
-                        <div className={styles.inputContainer}>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={form.email}
-                                onChange={handleChange}
-                                placeholder="@를 포함한 이메일 주소를 입력해주세요"
-                                className={styles.inputInline}
-                            />
-                            <button type="button" className={styles.inlineButton}>
-                                인증번호
-                            </button>
-                        </div>
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="authCode" className={styles.label}>인증 번호</label>
-                        <div className={styles.inputContainer}>
-                            <input
-                                type="text"
-                                id="authCode"
-                                name="authCode"
-                                value={form.authCode}
-                                onChange={handleChange}
-                                placeholder="인증번호를 입력해주세요"
-                                className={styles.inputInline}
-                            />
-                            <button type="button" className={styles.inlineButton}>
-                                인증하기
-                            </button>
-                        </div>
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="password" className={styles.label}>비밀번호</label>
-                        <div className={styles.inputContainer}>
-                            <input
-                                type={showPassword ? "text" : "password"}
-                                id="password"
-                                name="password"
-                                value={form.password}
-                                onChange={handleChange}
-                                placeholder="영문/숫자/특수문자 혼합 8~20자"
-                                className={styles.input}
-                            />
-                            <button type="button" onClick={toggleShowPassword} className={styles.toggleButton}>
-                                {showPassword ? "숨김" : "표시"}
-                            </button>
-                        </div>
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="passwordConfirm" className={styles.label}>비밀번호 재확인</label>
-                        <div className={styles.inputContainer}>
-                            <input
-                                type={showPasswordConfirm ? "text" : "password"}
-                                id="passwordConfirm"
-                                name="passwordConfirm"
-                                value={form.passwordConfirm}
-                                onChange={handleChange}
-                                placeholder="비밀번호를 한번 더 입력해주세요"
-                                className={styles.input}
-                            />
-                            <button type="button" onClick={toggleShowPasswordConfirm} className={styles.toggleButton}>
-                                {showPasswordConfirm ? "숨김" : "표시"}
-                            </button>
-                        </div>
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="phone" className={styles.label}>연락처</label>
-                        <input
-                            type="text"
-                            id="phone"
-                            name="phone"
-                            value={form.phone}
-                            onChange={handleChange}
-                            placeholder="‘-’를 제외한 숫자만 입력해주세요"
-                            className={styles.input}
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="birthDate" className={styles.label}>생년월일</label>
-                        <div className={styles.inputContainer}>
-                            <DatePicker
-                                ref={datepickerRef}
-                                selected={form.birthDate ? new Date(form.birthDate) : null}
-                                onChange={handleDateChange}
-                                dateFormat="yyyy/MM/dd"
-                                customInput={
-                                    <input
-                                        type="text"
-                                        id="birthDate"
-                                        name="birthDate"
-                                        value={form.birthDate}
-                                        placeholder="YYYY / MM / DD"
-                                        className={styles.input}
-                                        readOnly
-                                    />
-                                }
-                            />
-                            <div className={styles.calendarIcon} onClick={() => datepickerRef.current?.setOpen(true)}></div>
-                        </div>
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label htmlFor="address" className={styles.label}>주소</label>
-                        <div className={styles.inputContainer}>
-                            <input
-                                type="text"
-                                id="address"
-                                name="address"
-                                value={form.address}
-                                onChange={handleChange}
-                                placeholder="우편번호"
-                                className={styles.inputInline}
-                            />
-                            <button type="button" className={styles.inlineButton}>
-                                우편번호
-                            </button>
-                        </div>
-                        <input
-                            type="text"
-                            name="addressDetail"
-                            value={form.addressDetail}
-                            onChange={handleChange}
-                            placeholder="기본주소"
-                            className={styles.input}
-                            style={{ marginTop: '10px' }}
-                        />
-                        <input
-                            type="text"
-                            name="addressDetail"
-                            value={form.addressDetail}
-                            onChange={handleChange}
-                            placeholder="상세주소"
-                            className={styles.input}
-                            style={{ marginTop: '10px' }}
-                        />
-                    </div>
-                    <button type="submit" className={styles.submitButton}>
-                        회원 가입
+            <div className={styles.elem_container}>
+
+                <button type='button' onClick={()=>navi('/login')}>로그인</button>
+
+                <label htmlFor="email" className={styles.label}>이메일</label>
+                <div className={styles.email_container}>
+                    <input 
+                        type='email' 
+                        id='email' 
+                        name='email' 
+                        placeholder='이메일을 입력해 주세요.'
+                        value={user.email}
+                        onChange={setUserChange}
+                        className={styles.email} 
+                    />
+                    <button type="button" className={styles.button} onClick={sendEmail}>
+                        인증번호 받기
                     </button>
-                </form>
+                </div>
+
+                <label htmlFor='verificationCode' className={styles.label}>인증번호</label>
+                <div className={styles.code_container}>
+                    <input 
+                        type="number"
+                        id='verificationCode'
+                        name='verificationCode'
+                        placeholder='인증번호'
+                        value={code.verificationCode}
+                        onChange={setCode}
+                        max={999999}
+                        className={styles.code}
+                    />
+                    <button type="button" className={styles.button} onClick={checkCode}>
+                        인증번호 확인
+                    </button>
+                </div>
+
+                <label htmlFor="userName" className={styles.label}>이름</label>
+                <div className={styles.userName_container}>
+                    <input
+                        type="text"
+                        id="userName"
+                        name="userName"
+                        value={user.userName}
+                        onChange={setUserChange}
+                        placeholder="이름"
+                        className={styles.userName}
+                    />
+                </div>
+
+                <label htmlFor="nickName" className={styles.label}>닉네임(2~10글자)</label>
+                <div className={styles.nickName_container}>
+                    <input
+                        type="text"
+                        id="nickName"
+                        name="nickName"
+                        value={user.nickName}
+                        onChange={setUserChange}
+                        placeholder="2~10자 이내로 입력해주세요."
+                        maxLength={10}
+                        className={styles.nickName}
+                    />
+                    <button type="button" className={styles.button} onClick={checkNickName}>
+                        중복 확인
+                    </button>
+                </div>
+
+                <label htmlFor='pwd' className={styles.label}>비밀번호</label>
+                <div className={styles.pwd_container}>
+                    <input
+                        type="password"
+                        id="pwd"
+                        name="pwd"
+                        value={user.pwd}
+                        onChange={setUserChange}
+                        placeholder="영문/숫자/특수문자 혼합 8~20자"
+                        className={styles.pwd}
+                    />
+                </div>
+
+                <label htmlFor='pwdCheck' className={styles.label}>비밀번호 확인</label>
+                <div className={styles.pwdCheck_container}>
+                    <input
+                        type="password"
+                        id="pwdCheck"
+                        name="pwdCheck"
+                        // onChange={(e) => {
+                        //     let {value} = e.target as HTMLInputElement;
+                        // }}
+                        placeholder="비밀번호를 한번 더 입력해주세요."
+                        className={styles.pwdCheck}
+                    />
+                </div>
+
+                <label htmlFor='phone' className={styles.label}>휴대폰 번호</label>
+                <div className={styles.phone_container}>
+                    <input
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        value={user.phone}
+                        onChange={setUserChange}
+                        placeholder=" - 제외 숫자만 입력"
+                        className={styles.phone}
+                    />
+                </div>
+
+                <label htmlFor='address' className={styles.label}>주소</label>
+                <div className={styles.address_container}>
+                    <div className={styles.postCode_container}>
+                        <input 
+                            type="text"
+                            id='postCode'
+                            name='postCode'
+                            value={address.postCode}
+                            placeholder='우편번호'
+                            className={styles.postCode}
+                        />
+                        <button type="button" className={styles.button} onClick={openModal}>
+                            검색
+                        </button>
+                    </div>
+                    <input 
+                        type="text"
+                        id='mainAddress'
+                        name='mainAddress'
+                        value={address.mainAddress}                    
+                        placeholder='기본 주소'
+                        className={styles.mainAddress}
+                    />
+                    <input 
+                        type="text"
+                        id='detailAddress'
+                        name='detailAddress'
+                        value={address.detailAddress}
+                        onChange={(e) => {
+                            let {value} = e.target as HTMLInputElement;
+                            setAddress({
+                                ...address,
+                                detailAddress : value
+                            })
+                            
+                            const totalAddress = `(${address.postCode}) ${address.mainAddress} ${address.detailAddress}`;
+
+                            setUser(prev => {
+                                return {...prev, address : totalAddress}
+                            })
+                        }}
+                        placeholder='상세 주소'
+                        className={styles.detailAddress}
+                    />
+                </div>
+
+                <button 
+                    type='button' 
+                    className={styles.button}
+                    style={{
+                        width : '50%',
+                        alignSelf : 'center',
+                        marginTop : '50px'
+                    }}
+                    onClick={signup}
+                >회원가입</button>
+
+                <Modal 
+                    isOpen={modal}
+                    className={styles.modal_container}
+                    onRequestClose={closeModal} // 모달 외부 클릭 시 닫기
+                    overlayClassName={styles.overlay}
+                >
+                    <div className={styles.modal_header}>
+                        <h3 style={{margin : 5, paddingTop : '10px'}}>우편번호 찾기</h3>
+                        <button onClick={closeModal} className={styles.closeButton}>&times;</button>
+                    </div>
+                    <div className={styles.modal_content}>
+                        <DaumPostcode 
+                            onComplete={handleAddress}
+                        />
+                    </div>
+                </Modal>
+                        
             </div>
         </>
     );

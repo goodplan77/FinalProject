@@ -1,37 +1,72 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styles from './css/MyPage.module.css';
+import axios from 'axios';
 
 const MyPage = () => {
     const dispatch = useDispatch();
     const navi = useNavigate();
+    const [showModal, setShowModal] = useState(false);
+    const [ask, setAsk] = useState("");
+    const [title, setTitle] = useState("");
+
+    // 모달 열기
+    const handleOpenModal = () => {
+        setShowModal(true);
+    };
+
+    // 모달 닫기
+    const handleCloseModal = () => {
+        setShowModal(false);
+        setAsk("");
+        setTitle("");
+    };
+
+    // 문의 저장
+    const handleAsk = () => {
+        if (!ask || !title) {
+            alert("문의 하실 내용을 입력하세요.");
+            return;
+        }
+
+        const askData = {
+            title: title,
+            content: ask,
+            userNo: 1
+        }
+
+        axios.post('http://localhost:8013/banju/mypage/insertAsk', askData, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then((response) => {
+                console.log(response);
+                alert("문의가 접수되었습니다.");
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+        setShowModal(false);
+        setAsk("");
+        setTitle("");
+    };
+
+    // 문의 내용 변경 처리
+    const handleChangeAsk = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setAsk(event.target.value);
+    };
+
+    // 제목 변경 처리
+    const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTitle(event.target.value);
+    };
 
     return (
         <>
             <div className={styles.mypage}>
-                <div className={styles.myHeader}>
-                    <div className={styles.backButton}>
-                        <img className={styles.back} src={`${process.env.PUBLIC_URL}/images/back.png`} alt="back" onClick={() => navi('/')} />
-                    </div>
-                    <div className={styles.projectName}>
-                        <div className={styles.projectLogo}>
-                            <img className={styles.logo} src={`${process.env.PUBLIC_URL}/images/logo.png`} alt="logo" />
-                        </div>
-                        <div className={styles.projectTitle}>
-                            <p className={styles.projectTitleText}>반주한상</p>
-                        </div>
-                    </div>
-                    <div className={styles.headerButtons}>
-                        <div className={styles.aram}>
-                            <img className={styles.aramImg} src={`${process.env.PUBLIC_URL}/images/bell.png`} alt="aram" />
-                        </div>
-                        <div className={styles.search}>
-                            <img className={styles.searchImg} src={`${process.env.PUBLIC_URL}/images/search.png`} alt="search" />
-                        </div>
-                    </div>
-                </div>
-
                 <div className={styles.myInfo}>
                     <div className={styles.profileFrame}>
                         <div className={styles.profileSettingFrame}>
@@ -71,7 +106,7 @@ const MyPage = () => {
 
                 <div className={styles.buttonContainer}>
                     <div className={styles.buttonFrame1}>
-                        <div className={styles.buttonText1}>캘린더</div>
+                        <div className={styles.buttonText1} onClick={() => navi('/calendarPage')}>캘린더</div>
                     </div>
                     <div className={styles.buttonFrame2}>
                         <div className={styles.buttonText2}>내가 쓴 글 목록</div>
@@ -82,7 +117,7 @@ const MyPage = () => {
                 </div>
 
                 <div className={styles.listContainer}>
-                    <div className={styles.listItem}>
+                    <div className={styles.listItem} onClick={handleOpenModal}>
                         <div className={styles.listItemText}>문의하기</div>
                         <div className={styles.backIcon} />
                     </div>
@@ -98,7 +133,7 @@ const MyPage = () => {
                     </div>
                     <div className={styles.horizontalDivider} />
                     <div className={styles.listItem}>
-                        <div className={styles.listItemText}>이용약관</div>
+                        <div className={styles.listItemText} onClick={() => navi('/clause')}>이용약관</div>
                         <div className={styles.backIcon} />
                     </div>
                 </div>
@@ -114,11 +149,28 @@ const MyPage = () => {
                         <div className={styles.buttonLoginText}>로그인</div>
                     </div>
                 </div>
-
-
+                {showModal && (
+                    <div className={styles.modalOverlay}>
+                        <div className={styles.modalContent}>
+                            <h2>문의 하기</h2>
+                            <input
+                                className={styles.askInput}
+                                value={title}
+                                onChange={handleChangeTitle} // onChange 핸들러 추가
+                                placeholder="제목을 입력하세요"
+                            />
+                            <textarea
+                                value={ask}
+                                onChange={handleChangeAsk}
+                                placeholder='문의 내용을 입력해주세요'
+                            />
+                            <button onClick={handleAsk}>제출</button>
+                            <button onClick={handleCloseModal}>취소</button>
+                        </div>
+                    </div>
+                )}
             </div>
         </>
-
     );
 };
 

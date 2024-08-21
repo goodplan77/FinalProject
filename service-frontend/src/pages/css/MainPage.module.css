@@ -1,48 +1,3 @@
-.mainHeader {
-  display: flex;
-  align-items: center;
-  min-width: 360px;
-  max-width: 720px;
-  height: 50px;
-  background-color: white;
-  position: fixed;
-  width: 100%;
-}
-
-.backButton .back {
-  width: 50px;
-  height: 50px;
-}
-
-.projectName {
-  display: flex;
-  align-items: center;
-  margin-left: 150px;
-}
-
-.projectLogo .logo {
-  width: 40px;
-  height: 40px;
-}
-
-.projectTitle {
-  margin: 0;
-}
-
-.projectTitleText {
-  margin: 0px;
-  font-weight: bolder;
-  font-size: 18px;
-  width: 100px;
-}
-
-.headerButtons {
-  display: flex;
-  gap: 5px;
-  margin-left: 40px;
-  margin-top: 4px;
-}
-
 .aram .aramImg,
 .search .searchImg {
   width: 40px;
@@ -58,8 +13,6 @@
   height: 430px;
   width: 430px;
 }
-
-
 
 .contentButtons .buttonsRow {
   display: flex;
@@ -116,6 +69,7 @@
 
 .contentUp {
   display: flex;
+  width: 100%;
 }
 
 .contentUp .contentTitle {
@@ -156,6 +110,7 @@
 
 .contentDown {
   display: flex;
+  width: 100%;
 }
 
 .contentDown .contentLike {

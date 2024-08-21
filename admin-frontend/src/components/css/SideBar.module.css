@@ -1,0 +1,146 @@
+/* 사이드바 기본 옵션 */
+.main {
+    position: fixed;
+    top: 0;
+    width: 200px;
+    height: 100vh;
+    background-color: white;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 헤더 설정 정보 시작 */
+
+.mainHeader{
+    display: flex;
+    height: 60px;
+}
+
+.mainHeaderImage{
+    background-color: green;
+    width: 30%;
+}
+
+.mainHeaderImage img{
+    width: 100%;
+}
+
+.mainHeaderText{
+    background-color: greenyellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+}
+
+/* 헤더 설정 정보 끝 */
+
+
+/* 관리자 설정 정보 시작 */
+.adminInfo{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 120px;
+}
+
+.adminInfoImage{
+    background-color: green;
+    width: 30%;
+    height: 50%;
+}
+
+.adminInfoImage img{
+    width: 100%;
+}
+
+.adminInfoName{
+    background-color: greenyellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 50%;
+}
+
+.adminLogout{
+    background-color: yellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+}
+
+/* 관리자 설정 정보 끝 */
+
+/* 기능 목록 설정 정보 시작 */
+.featureList{
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-items: space-between;
+    align-items: center;
+}
+
+.featuresHeader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+}
+
+.features {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+}
+
+/* 기능 목록 설정 정보 끝 */
+
+/* 알람 목록 설정 정보 시작 */
+.alarmList{
+    position: fixed;
+    bottom: 0;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-items: space-between;
+    align-items: center;
+}
+
+.alarmHeader{
+    display: flex;
+    height: 60px;
+}
+
+.alarmHeaderImage{
+    background-color: green;
+    width: 30%;
+    height: 50%;
+}
+
+.alarmHeaderImage img{
+    width: 100%;
+}
+
+.alarmHeaderText{
+    background-color: greenyellow;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+}
+
+.alarms{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+}
+
+/* 알람 목록 설정 정보 끝 */

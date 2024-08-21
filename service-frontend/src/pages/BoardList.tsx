@@ -12,7 +12,7 @@ export default function BoardList() {
 
     const dispatch = useDispatch();
 
-    const boards = useSelector((state: RootState) => state.boards)
+    const boards = useSelector((state: RootState) => state.boards);
 
     const ScrollToTop = () => {
         const { pathname } = useLocation();
@@ -58,10 +58,10 @@ export default function BoardList() {
             {
                 boards.map((board) => {
                     return (
-                        <div>
+                        <div key={board.boardNo}>
                             {/* 보드 카테고리바 아래에 보드 리스트입니다. */}
                             <div className={styles.classic}>
-                                <div className={styles.classicContent} key={board.boardNo}>
+                                <div className={styles.classicContent}>
                                     <div className={styles.img}></div>
                                     <div className={styles.upAndDown}>
                                         <div className={styles.contentUp}>
@@ -98,6 +98,8 @@ export default function BoardList() {
 
 
             }
+
+            
             {/* isnertBoard 페이지로 이동하는 버튼(fixed) */}
             <div className='plus' style={{
                 backgroundColor: "#02CCFE",
@@ -111,7 +113,7 @@ export default function BoardList() {
             }} onClick={() => navi('/insertBoard')}>
                 <img className='plus-pen' src={`${process.env.PUBLIC_URL}/images/pen.png`} alt="글쓰기" style={{
                     marginTop: "9px",
-                    marginLeft: "9px",
+                    marginLeft: "2px",
                     width: "50px",
                     height: "50px",
                 }} />

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="chat">
+	
+	<select id="chatList">
+		SELECT CHAT_ROOM_NO, TO_USER, TO_STATUS
+		FROM CHAT_ROOM
+		WHERE FROM_USER_NO = #{현재 로그인한 회원No}
+	</select>
+	
+	<insert id="openChatRoom">
+		INSERT INTO CHAT_ROOM
+		VALUES(
+			SEQ_CHAT_ROOM.NEXTVAL,
+			#{현재 로그인한 회원No},
+			'Y',
+			#{해당 게시글을 올린 회원 No},
+			'Y'
+		)
+	</insert>
+	
+	
+	<!-- 채팅방 들어가기 -->
+	<select id="messageSelect">
+		SELECT 
+		FROM 
+		WHERE 
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>

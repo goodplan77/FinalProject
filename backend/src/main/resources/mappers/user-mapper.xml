@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+
+	<resultMap id="userMap" type="user">
+		<id column="USER_NO" property="userNo"/>
+		<result column="EMAIL" property="email"/>
+		<result column="PWD" property="pwd"/>
+		<result column="USER_NAME" property="userName"/>
+		<result column="NICK_NAME" property="nickName"/>
+		<result column="PHONE" property="phone"/>
+		<result column="ADDRESS" property="address"/>
+		<result column="STATUS" property="status"/>
+		<result column="POINTS" property="points"/>
+		<result column="ENROLL_DATE" property="enrollDate"/>
+		<result column="MODIFY_DATE" property="modifyDate"/>
+		<collection property="authorities"
+					javaType="list"
+					ofType="simpleGrantedAuthority"
+					select="selectAuthorities"
+					column="USER_NO"
+		 />
+	</resultMap>
+	
+	<resultMap id="authorityMap" type="simpleGrantedAuthority">
+		<constructor>
+			<arg column="authority" javaType="string" />
+		</constructor>
+	</resultMap>
+	
+<!--=============================================================================-->
+	
+	<!-- 이메일 중복 확인 -->
+	<select id="checkEmail" resultType="int" parameterType="String">
+		SELECT COUNT(*)
+		FROM "USER"
+		WHERE EMAIL = #{email}
+	</select>
+
+	<!-- 닉네임 중복 확인 -->
+	<select id="checkNickName" resultType="int" parameterType="String">
+		SELECT COUNT(*)
+		FROM "USER"
+		WHERE NICK_NAME = #{nickName}
+	</select>	
+	
+	<!-- 회원 가입 -->
+	<insert id="insertUser" useGeneratedKeys="true" >
+		<selectKey order="BEFORE" keyProperty="userNo" resultType="int">
+			SELECT SEQ_USER.NEXTVAL FROM DUAL
+		</selectKey>
+			INSERT INTO "USER"(
+				USER_NO,
+				EMAIL,
+				PWD,
+				USER_NAME,
+				NICK_NAME,
+				PHONE,
+				ADDRESS,
+				STATUS,
+				POINTS,
+				ENROLL_DATE
+			)
+			VALUES(
+				#{userNo},
+				#{email},
+				#{pwd},
+				#{userName},
+				#{nickName},
+				#{phone},
+				#{address},
+				DEFAULT,
+				#{points},
+				DEFAULT
+			)
+	</insert>
+	
+	<!-- 소셜 회원 가입 -->
+	<insert id="insertUserSocial" >
+		INSERT INTO "USER_SOCIAL"
+		VALUES(
+			#{socialId},
+			#{userNo},
+			#{socialType}
+		)
+	</insert>
+	
+	<!-- 회원 권한 설정 -->
+	<insert id="insertAuthority">
+		INSERT INTO "AUTHORITY"
+		VALUES(
+			#{userNo},
+			'ROLE_USER'
+		)
+	</insert>
+	
+	<!-- 회원가입 500포인트 지급 -->
+	<insert id="signupPoint">
+		INSERT INTO "HISTORY"
+		VALUES(
+			SEQ_HISTORY.NEXTVAL,
+			#{userNo},
+			#{points},
+			DEFAULT,
+			'회원가입 축하 포인트 지급!'
+		)
+	</insert>
+	
+	<!-- 회원 조회(UserDetails) -->
+	<select id="loadUserByUsername" resultMap="userMap">
+		SELECT
+			*
+		FROM "USER"
+		LEFT JOIN USER_SOCIAL USING(USER_NO)
+		<where>
+			<if test="userNo != null">
+				AND USER_NO = #{userNo}
+			</if>
+			<if test="socialId != null">
+				AND SOCIAL_ID = #{socialId}
+			</if>
+			<if test="socialType != null">
+				AND SOCIAL_TYPE = #{socialType}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 회원 권한 조회-->
+	<select id="selectAuthorities" resultMap="authorityMap">
+		SELECT AUTHORITY
+		FROM "AUTHORITY"
+		WHERE USER_NO = #{userNo}
+	</select>
+	
+	<!-- 회원 조회 -->
+	<select id="selectUser" resultMap="userMap">
+		SELECT * FROM "USER"
+		<where>
+		<if test="email != null">
+			AND EMAIL = #{email}
+		</if>
+		<if test="userNo != null">
+			AND USER_NO = #{userNo}
+		</if>
+		</where>
+	</select>
+	
+	<!-- 미사용 -> 추후 삭제 가능
+	<select id="selectSocialType">
+		SELECT * FROM "USER_SOCIAL"
+		WHERE SOCIAL_ID = #{socialId}
+	</select>-->
+	
+	
+
+
+</mapper>

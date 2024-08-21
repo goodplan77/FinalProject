@@ -19,11 +19,6 @@ export default function ChatRoom() {
 
 
 
-
-
-
-
-
                 <div className={styles.chatPost}>
                     <input className={styles.postBox} type="text" />
                     <div className={styles.postBtn}>
