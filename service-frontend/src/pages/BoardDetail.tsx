@@ -66,7 +66,6 @@ export default function BoardDetail() {
 
     return (
         <>
-            <ScrollToTop />
             <div className={styles.detail}>
                 <div key={board.boardNo}>
                     <div className={styles.top}>

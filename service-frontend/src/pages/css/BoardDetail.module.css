@@ -51,6 +51,7 @@
     font-weight: bold;
     margin-top: 0px;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .content{
@@ -59,14 +60,25 @@
     font-size: 18px;
     margin: 0 auto;
     margin-bottom: 20px;
+    text-align: left;
 }
 
-.picture{
+.pictures{
+    margin-left: 20px;
+    
+}
+
+.pictures .image{
     width: 390px;
     height: 390px;
     background-color: #E4FAFF;
+    
     margin-bottom: 20px;
+
+    height: 290px;
+    object-fit: cover;
 }
+
 
 .likeBox{
     margin: 0 auto;
@@ -80,16 +92,19 @@
 .like{
     width: 50px;
     padding-top: 20px;
+    padding-left: 25px;
     margin-bottom: 0px;
 }
 .likeNo{
     margin-top: 0px;
+    text-align: center;
 }
 
 .commentBox{
     background-color: #E4FAFF;
     display: grid;
     width: 390px;
+    margin-left: 20px;
 }
 
 .commentPlus{
@@ -105,7 +120,7 @@
     height: 40px;
     background-color: white;
     margin-left: 5px;
-    margin-top: 5px;
+    margin-top: 4px;
     border: none;
     outline: none;
 }
@@ -124,8 +139,4 @@
     outline: none;
     border: none;
 }
-.image {
-    height: 300px;
-    object-fit: cover;
-    margin: 10px;
-}
+

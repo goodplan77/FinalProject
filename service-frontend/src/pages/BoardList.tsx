@@ -112,10 +112,10 @@ export default function BoardList() {
                 right: "10px",
             }} onClick={() => navi('/insertBoard')}>
                 <img className='plus-pen' src={`${process.env.PUBLIC_URL}/images/pen.png`} alt="글쓰기" style={{
-                    marginTop: "9px",
-                    marginLeft: "2px",
+                    marginTop: "10px",
+                    marginLeft: "10px",
                     width: "50px",
-                    height: "50px",
+                    height: "50px"
                 }} />
             </div>
         </>

@@ -27,7 +27,10 @@ public class Board {
 	private int likes;
 	
 	private User user;
+	private String nickName;
+	
 	private List<BoardImg> boardImg;
+	private List<Comment> comment;
 	
 	private String nickName;
 	private List<Comment> comment;
