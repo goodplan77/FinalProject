@@ -230,7 +230,7 @@ export default function BoardManagePage() {
                     checked={isAllChecked}
                     onChange={checkAllHandler}
                     />
-                    <span className={styles.headerItem}>UID</span>
+                    <span className={styles.headerItem}>BID</span>
                     <span className={styles.headerItem}>게시글 제목</span>
                     <span className={styles.headerItem}>분류</span>
                     <span className={styles.headerItem}>작성자</span>

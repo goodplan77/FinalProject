@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Product } from "../type/product";
 
-export default function DetailProductModel ({product , hideModal} : {product:Product|undefined|null , hideModal: () => void}) {
+export default function DetailProductModal ({product , hideModal} : {product:Product|undefined|null , hideModal: () => void}) {
     
     const navi = useNavigate();
 

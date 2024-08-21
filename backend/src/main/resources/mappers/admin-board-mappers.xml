@@ -88,6 +88,16 @@
 		ORDER BY PRODUCT_NO DESC
 	</select>
 	
+	<select id="selectBoardImageList" resultType="BoardImg">
+		SELECT
+			IMG_NO,
+			BOARD_NO,
+			ORIGIN_NAME,
+			CHANGE_NAME
+		FROM BOARD_IMG
+		ORDER BY IMG_NO DESC
+	</select>
+	
 	<insert id="insertNotifyBoard" useGeneratedKeys="true">
 	
 	<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
@@ -107,7 +117,7 @@
 			LIKES
 		) VALUES (
 			#{boardNo},
-			1,
+			0,
 			#{title},
 			#{content},
 			'N',
@@ -138,7 +148,7 @@
 			LIKES
 		) VALUES (
 			#{boardNo},
-			1,
+			0,
 			#{title},
 			#{content},
 			'E',
@@ -169,7 +179,7 @@
 			LIKES
 		) VALUES (
 			#{boardNo},
-			1,
+			0,
 			#{title},
 			#{content},
 			'I',

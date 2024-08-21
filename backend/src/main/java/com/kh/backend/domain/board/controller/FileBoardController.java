@@ -38,11 +38,11 @@ public class FileBoardController {
 			) {
 		try {
 			
-            String boardImagePath = "/images/board/admin/" + boardCode + "/";
+            String boardImagePath = "uploads/images/board/" + boardCode + "/";
             String boardImageName = adminBoardService.selectBoardImages(boardNo).getChangeName();
             
             if (boardImageName != null && !boardImageName.isEmpty()) {
-                Path filePath = Paths.get("src/main/resources/static" + boardImagePath + boardImageName).normalize();
+                Path filePath = Paths.get(boardImagePath + boardImageName).normalize();
                 Resource resource = new UrlResource(filePath.toUri());
 
                 if (resource.exists() && resource.isReadable()) {
@@ -64,11 +64,11 @@ public class FileBoardController {
 	@GetMapping("/admin/product/{productNo}")
 	public ResponseEntity<Resource> serveProductFile(@PathVariable int productNo) {
         try {
-            String productImagePath = "/images/board/admin/P/";
+            String productImagePath = "uploads/images/board/P/";
             String productImageName = adminBoardService.selectProductImages(productNo);
 
             if (productImageName != null && !productImageName.isEmpty()) {
-                Path filePath = Paths.get("src/main/resources/static" + productImagePath + productImageName).normalize();
+                Path filePath = Paths.get(productImagePath + productImageName).normalize();
                 Resource resource = new UrlResource(filePath.toUri());
 
                 if (resource.exists() && resource.isReadable()) {

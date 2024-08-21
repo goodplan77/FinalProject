@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,7 +48,12 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	public List<Product> selectProductBoards() {
 		return boardDao.selectProductBoards();
 	}
-
+	
+	@Override
+	public List<BoardImg> selectBoardImageList() {
+		return boardDao.selectBoardImageList();
+	}
+	
 	@Override
 	public int insertNotifyBoard(Board board) {
 		return boardDao.insertNotifyBoard(board);
@@ -70,7 +76,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		boardImg.setOriginName(file.getOriginalFilename());
 
 		if (!file.getOriginalFilename().equals("")) {
-			String webPath = "src/main/resources/static/images/board/admin/" + board.getBoardCode() + "/";
+			String webPath = "uploads/images/board/" + board.getBoardCode() + "/";
 			String serverFolderPath = Paths.get(webPath).toAbsolutePath().toString();
 
 			// 디렉토리가 없을때 생성하는 코드
@@ -103,7 +109,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public int insertProductBoard(Product product, MultipartFile file) {
 		if (!file.getOriginalFilename().equals("")) {
-			String webPath = "src/main/resources/static/images/board/admin/P/";
+			String webPath = "uploads/images/board/P";
 			String serverFolderPath = Paths.get(webPath).toAbsolutePath().toString();
 
 			// 디렉토리가 없을때 생성하는 코드
@@ -157,7 +163,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		BoardImg boardImg = boardDao.selectBoardImages(board.getBoardNo());
 
 		if (!file.getOriginalFilename().equals("")) {
-			String webPath = "src/main/resources/static/images/board/admin/" + board.getBoardCode() + "/";
+			String webPath = "uploads/images/board/" + board.getBoardCode() + "/";
 			String serverFolderPath = Paths.get(webPath).toAbsolutePath().toString();
 
 			// 디렉토리가 없을때 생성하는 코드
@@ -191,7 +197,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	@Override
 	public int updateProduct(Product product, MultipartFile file) {
 		if(file != null && !file.isEmpty()) {
-			String webPath = "src/main/resources/static/images/board/admin/P/";
+			String webPath = "uploads/images/board/P/";
 			String serverFolderPath = Paths.get(webPath).toAbsolutePath().toString();
 
 			// 디렉토리가 없을때 생성하는 코드
