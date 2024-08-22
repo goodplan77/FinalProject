@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.kh.backend.domain.board.model.service.AdminBoardService;
+import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.board.model.vo.Product;
 import com.kh.backend.domain.user.model.service.AdminUserService;
 
@@ -71,6 +72,14 @@ public class FileDeleteScheduler {
 	        log.error("파일 경로를 읽어오는 데 실패했습니다.", e);
 	    }
 	}
+	
+	public List<String> selectBoardTypeImageList (List<Board> imageList , char boardCode){
+		return imageList.stream()
+				.filter(board->board.getBoardCode() == boardCode)
+				.flatMap(board -> board.getBoardImg().stream()) // 각 Board의 BoardImg 리스트를 스트림으로 변환
+				.map(boardimg -> boardimg.getChangeName())
+				.toList();
+	}
 
 
 //	@Scheduled(cron = "1 * * * * *")
@@ -86,12 +95,13 @@ public class FileDeleteScheduler {
 	@Scheduled(cron = "21 * * * * *")
 	public void deleteUserBoardFile() {
 		log.debug("-----전체 게시판 사진 파일 삭제 스케쥴러 시작-----");
-		deleteFile("회원 일반 게시판" , "uploads/images/board/C/" , boardService.selectBoardImageList().stream().map(v->v.getChangeName()).toList());
-		deleteFile("회원 중고 게시판" , "uploads/images/board/S/" , boardService.selectBoardImageList().stream().map(v->v.getChangeName()).toList());
-		deleteFile("회원 입양 게시판" , "uploads/images/board/A/" , boardService.selectBoardImageList().stream().map(v->v.getChangeName()).toList());
-		deleteFile("회원 실종 게시판" , "uploads/images/board/M/" , boardService.selectBoardImageList().stream().map(v->v.getChangeName()).toList());
-		deleteFile("관리자 정보 게시판" , "uploads/images/board/I/" , boardService.selectBoardImageList().stream().map(v->v.getChangeName()).toList());
-		deleteFile("관리자 이벤트 게시판" , "uploads/images/board/E/" , boardService.selectBoardImageList().stream().map(v->v.getChangeName()).toList());
+			List<Board> imageList = boardService.selectBoardImageList(); // 게시판 테이블 타입 코드를 받아오기 위해 게시판 타입으로 받아옴
+			deleteFile("회원 일반 게시판" , "uploads/images/board/C/" , selectBoardTypeImageList(imageList,'C'));
+			deleteFile("회원 중고 게시판" , "uploads/images/board/S/" , selectBoardTypeImageList(imageList,'S'));
+			deleteFile("회원 입양 게시판" , "uploads/images/board/A/" , selectBoardTypeImageList(imageList,'A'));
+			deleteFile("회원 실종 게시판" , "uploads/images/board/M/" , selectBoardTypeImageList(imageList,'M'));
+			deleteFile("관리자 정보 게시판" , "uploads/images/board/I/" , selectBoardTypeImageList(imageList,'I'));
+			deleteFile("관리자 이벤트 게시판" , "uploads/images/board/E/" , selectBoardTypeImageList(imageList,'E'));
 		log.debug("-----전체 게시판 사진 파일 삭제 스케쥴러 끝-----");
 
 	}

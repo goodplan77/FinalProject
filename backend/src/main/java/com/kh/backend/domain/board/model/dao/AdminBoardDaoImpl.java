@@ -43,7 +43,7 @@ public class AdminBoardDaoImpl implements AdminBoardDao{
 	}
 	
 	@Override
-	public List<BoardImg> selectBoardImageList() {
+	public List<Board> selectBoardImageList() {
 		return session.selectList("adminBoard.selectBoardImageList");
 	}
 

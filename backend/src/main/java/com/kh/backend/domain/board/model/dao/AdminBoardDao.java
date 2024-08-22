@@ -18,7 +18,7 @@ public interface AdminBoardDao {
 
 	List<Product> selectProductBoards();
 	
-	List<BoardImg> selectBoardImageList();
+	List<Board> selectBoardImageList();
 
 	int insertNotifyBoard(Board board);
 

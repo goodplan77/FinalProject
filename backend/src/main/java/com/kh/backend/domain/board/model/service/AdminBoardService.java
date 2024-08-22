@@ -20,7 +20,7 @@ public interface AdminBoardService {
 
 	List<Product> selectProductBoards();
 	
-	List<BoardImg> selectBoardImageList();
+	List<Board> selectBoardImageList();
 
 	int insertNotifyBoard(Board board);
 

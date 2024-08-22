@@ -50,7 +50,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 	
 	@Override
-	public List<BoardImg> selectBoardImageList() {
+	public List<Board> selectBoardImageList() {
 		return boardDao.selectBoardImageList();
 	}
 	
