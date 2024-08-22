@@ -70,7 +70,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 
 	@Override
-	public int insertBoardImages(Board board, MultipartFile file) {
+	public int insertBoardImage(Board board, MultipartFile file) {
 		BoardImg boardImg = new BoardImg();
 		boardImg.setBoardNo(board.getBoardNo());
 		boardImg.setOriginName(file.getOriginalFilename());
@@ -97,7 +97,7 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 			try {
 				File serverFile = new File(serverFolderPath, changeName);
 				file.transferTo(serverFile);
-				return boardDao.insertBoardImages(boardImg);
+				return boardDao.insertBoardImage(boardImg);
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
 				return 0;
@@ -154,43 +154,46 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 	}
 
 	@Override
-	public BoardImg selectBoardImages(int boardNo) {
+	public List<BoardImg> selectBoardImages(int boardNo) {
 		return boardDao.selectBoardImages(boardNo);
 	}
 
 	@Override
 	public int updateBoardImages(Board board, MultipartFile file) {
-		BoardImg boardImg = boardDao.selectBoardImages(board.getBoardNo());
+		List<BoardImg> boardImgs = boardDao.selectBoardImages(board.getBoardNo());
+		
+		for(BoardImg boardImg : boardImgs) {
+			if (!file.getOriginalFilename().equals("")) {
+				String webPath = "uploads/images/board/" + board.getBoardCode() + "/";
+				String serverFolderPath = Paths.get(webPath).toAbsolutePath().toString();
 
-		if (!file.getOriginalFilename().equals("")) {
-			String webPath = "uploads/images/board/" + board.getBoardCode() + "/";
-			String serverFolderPath = Paths.get(webPath).toAbsolutePath().toString();
+				// 디렉토리가 없을때 생성하는 코드
+				File dir = new File(serverFolderPath);
+				if (!dir.exists()) {
+					dir.mkdirs();
+				}
 
-			// 디렉토리가 없을때 생성하는 코드
-			File dir = new File(serverFolderPath);
-			if (!dir.exists()) {
-				dir.mkdirs();
-			}
+				// 등록한 이미지 파일의 이름을 수정(5자리 랜덤값으로 부여)
+				String originName = file.getOriginalFilename();
+				String currentTime = new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date());
+				int random = (int) (Math.random() * 90000 + 10000); // 5자리 랜덤값
+				String ext = originName.substring(originName.indexOf("."));
 
-			// 등록한 이미지 파일의 이름을 수정(5자리 랜덤값으로 부여)
-			String originName = file.getOriginalFilename();
-			String currentTime = new java.text.SimpleDateFormat("yyyyMMddHHmmss").format(new java.util.Date());
-			int random = (int) (Math.random() * 90000 + 10000); // 5자리 랜덤값
-			String ext = originName.substring(originName.indexOf("."));
+				String changeName = currentTime + random + ext;
+				boardImg.setOriginName(originName);
+				boardImg.setChangeName(changeName);
 
-			String changeName = currentTime + random + ext;
-			boardImg.setOriginName(originName);
-			boardImg.setChangeName(changeName);
-
-			try {
-				File serverFile = new File(serverFolderPath, changeName);
-				file.transferTo(serverFile);
-				return boardDao.updateBoardImages(boardImg);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-				return 0;
+				try {
+					File serverFile = new File(serverFolderPath, changeName);
+					file.transferTo(serverFile);
+					return boardDao.updateBoardImages(boardImg);
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+					return 0;
+				}
 			}
 		}
+
 		return 0;
 	}
 

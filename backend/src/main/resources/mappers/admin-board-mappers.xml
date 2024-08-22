@@ -4,18 +4,20 @@
 	
 	<select id="selectUserBoards" resultType="Board">
 		SELECT
-			BOARD_NO,
-			USER_NO,
-			TITLE,
-			CONTENT,
-			BOARD_CODE,
-			ENROLL_DATE,
-			MODIFY_DATE,
-			VIEWS,
-			STATUS,
-			DETAIL_STATUS,
-			LIKES
-		FROM BOARD
+			B.BOARD_NO,
+			B.USER_NO,
+			B.TITLE,
+			B.CONTENT,
+			B.BOARD_CODE,
+			B.ENROLL_DATE,
+			B.MODIFY_DATE,
+			B.VIEWS,
+			B.STATUS,
+			B.DETAIL_STATUS,
+			B.LIKES,
+			U.NICK_NAME
+		FROM BOARD B
+		JOIN "USER" U ON (B.USER_NO=U.USER_NO)
 		WHERE BOARD_CODE IN ('C','S','A','M')
 		ORDER BY BOARD_NO DESC
 	</select>
@@ -204,7 +206,7 @@
 		)
 	</insert>
 	
-	<insert id="insertBoardImages">
+	<insert id="insertBoardImage">
 		INSERT INTO BOARD_IMG (IMG_NO, BOARD_NO, ORIGIN_NAME , CHANGE_NAME)
 		VALUES(
 			SEQ_BOARD_IMG.NEXTVAL,

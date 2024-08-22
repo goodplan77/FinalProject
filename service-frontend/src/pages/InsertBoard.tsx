@@ -4,6 +4,8 @@ import { FormEvent, useRef, useState } from "react";
 import axios from "axios";
 import { Board, initialBoard } from "../type/board";
 import useInput from "../hook/useInput";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 export default function InsertBoard() {
     const navi = useNavigate();
@@ -12,6 +14,7 @@ export default function InsertBoard() {
     const [filePreviewMap, setFilePreviewMap] = useState<Map<File, string>>(new Map());
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [currentBoardCode, setCurrentBoardCode] = useState<string>('C');
+    let loginUser = useSelector((state:RootState)=>state.user);
 
     const handleBoardCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCurrentBoardCode(e.target.value);
@@ -20,9 +23,12 @@ export default function InsertBoard() {
 
     const insertBoard = (e: FormEvent) => {
         e.preventDefault();
-
+          
         const formData = new FormData();
-        formData.append("board", JSON.stringify(newBoard));
+        formData.append("board", JSON.stringify({
+            ...newBoard,
+            userNo : loginUser.userNo
+        }));
 
         selectedFiles.forEach((file) => {
             formData.append(`files`, file);

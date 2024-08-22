@@ -93,7 +93,7 @@ public class BoardController {
 
 	    if (result > 0 && files != null) {
 	        // 디렉토리 생성
-	        String uploadDir = Paths.get("src/main/resources/static/images/board/" + board.getBoardCode()).toAbsolutePath().toString(); // A인지 S인지 뭐 이런거
+	        String uploadDir = Paths.get("uploads/images/board/" + board.getBoardCode()).toAbsolutePath().toString(); // A인지 S인지 뭐 이런거
 	        File dir = new File(uploadDir);
 	        if (!dir.exists()) {
 	            dir.mkdirs();

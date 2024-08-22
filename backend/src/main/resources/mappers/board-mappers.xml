@@ -53,7 +53,7 @@
 		INSERT INTO BOARD
 		VALUES(
 			#{boardNo},
-			1,
+			#{userNo},
 			#{title},
 			#{content},
 			#{boardCode},
