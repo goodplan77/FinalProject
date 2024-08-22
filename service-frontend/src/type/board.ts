@@ -64,3 +64,7 @@ export const initialBoard:Board = {
 
 // 내보내기
 export const initialBoardList:Board[] = [];
+
+export interface SearchKeyword {
+    title: Board['title']
+};
