@@ -1,34 +1,47 @@
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './UserDetailPage.module.css';
+import { RootState } from '../../store/store';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 export default function UserDetailPage() {
+
+    const dispatch = useDispatch();
+    const users = useSelector((state: RootState) => state.users);
+    const [user , setUser] = useState(users.oneUser);
+
+    useEffect(() => {
+        axios.get(`http://localhost:8013/banju/admin/user/UserDetail/${user.userNo}`)
+            .then((response) => {
+                console.log(response);
+            }).catch((response) => {
+                console.log(response);
+            })
+    },[])
+
     return (
         <div className={styles.userProfileContainer}>
             <div className={styles.profileContainer}>
                 <div className={styles.profileImage}></div>
-                <div className={styles.profileText}>멍멍사</div>
-                <div className={styles.profileValue}>UID: ID0001</div>
-                <div className={styles.profileValue}>goodplan77@naver.com</div>
-                <div className={styles.profileValue}>010-1234-5678</div>
-                <div className={styles.profileValue}>1995 / 08 / 17</div>
+                <div className={styles.profileText}>{user.nickName}</div>
+                <div className={styles.profileValue}>UID : {user.userNo}</div>
+                <div className={styles.profileValue}>{user.email}</div>
+                <div className={styles.profileValue}>{user.phone}</div>
             </div>
 
             <div className={styles.infoEditContainer}>
                 <div className={styles.infoEditHeader}>정보 수정</div>
                 <div className={styles.infoEditItem}>
                     <div className={styles.infoEditLabel}>닉네임</div>
-                    <div className={styles.infoEditValue}>멍멍사</div>
+                    <div className={styles.infoEditValue}>{user.nickName}</div>
                 </div>
                 <div className={styles.infoEditItem}>
                     <div className={styles.infoEditLabel}>E-mail</div>
-                    <div className={styles.infoEditValue}>goodplan77@naver.com</div>
+                    <div className={styles.infoEditValue}>{user.email}</div>
                 </div>
                 <div className={styles.infoEditItem}>
                     <div className={styles.infoEditLabel}>연락처</div>
-                    <div className={styles.infoEditValue}>010-1234-5678</div>
-                </div>
-                <div className={styles.infoEditItem}>
-                    <div className={styles.infoEditLabel}>생년 월일</div>
-                    <div className={styles.infoEditValue}>1995 / 08 / 17</div>
+                    <div className={styles.infoEditValue}>{user.phone}</div>
                 </div>
                 <div className={styles.infoEditItem}>
                     <div className={styles.infoEditLabel}>활성화 상태</div>
@@ -60,6 +73,22 @@ export default function UserDetailPage() {
 
             <div className={styles.pointInfoContainer}>
                 <div className={styles.pointInfoHeader}>회원 포인트 관리</div>
+                <div className={styles.pointInfoBox}>
+                    <div className={styles.pointInfoText}>현재 포인트</div>
+                    <div className={styles.pointInfoText}>2040P</div>
+                    <div className={styles.pointInfoText}>최근 적립</div>
+                    <div className={styles.pointInfoText}>0일전</div>
+                    <div className={styles.pointInfoText}>최근 사용</div>
+                    <div className={styles.pointInfoText}>0일전</div>
+                </div>
+                <div className={styles.pointInfoBox}>
+                    <div className={styles.pointInfoText}>현재 포인트</div>
+                    <div className={styles.pointInfoText}>2040P</div>
+                    <div className={styles.pointInfoText}>최근 적립</div>
+                    <div className={styles.pointInfoText}>0일전</div>
+                    <div className={styles.pointInfoText}>최근 사용</div>
+                    <div className={styles.pointInfoText}>0일전</div>
+                </div>
                 <div className={styles.pointInfoBox}>
                     <div className={styles.pointInfoText}>현재 포인트</div>
                     <div className={styles.pointInfoText}>2040P</div>

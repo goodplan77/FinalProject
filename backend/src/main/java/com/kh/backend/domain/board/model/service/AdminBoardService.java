@@ -19,6 +19,8 @@ public interface AdminBoardService {
 	List<Board> selectInfoBoards();
 
 	List<Product> selectProductBoards();
+	
+	List<Board> selectBoardImageList();
 
 	int insertNotifyBoard(Board board);
 

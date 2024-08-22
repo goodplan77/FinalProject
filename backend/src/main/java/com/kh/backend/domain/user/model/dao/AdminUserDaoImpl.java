@@ -20,4 +20,9 @@ public class AdminUserDaoImpl implements AdminUserDao{
 		return session.selectList("adminUser.selectUsers");
 	}
 
+	@Override
+	public User selectUserOne(int userNo) {
+		return session.selectOne("adminUser.selectUserOne" , userNo);
+	}
+
 }

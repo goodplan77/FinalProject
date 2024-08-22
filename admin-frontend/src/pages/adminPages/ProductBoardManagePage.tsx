@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { initProductList, Product } from '../../type/product';
 import { selectAllProduct, selectOneProduct } from '../../features/productSlice'
 import axios from 'axios';
-import DetailProductModel from '../../components/DetailProductModel';
+import DetailProductModal from '../../components/DetailProductModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 
@@ -132,7 +132,7 @@ export default function ProductBoardManagePage() {
                 })}
             </div>
             {
-                showDetailModal && <DetailProductModel product={data} hideModal={hideDetailModal}></DetailProductModel>
+                showDetailModal && <DetailProductModal product={data} hideModal={hideDetailModal}></DetailProductModal>
             }
         </div>
     )

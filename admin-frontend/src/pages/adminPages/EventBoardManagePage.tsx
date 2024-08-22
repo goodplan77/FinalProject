@@ -178,7 +178,7 @@ export default function EventBoardManagePage() {
                     checked={isAllChecked}
                     onChange={checkAllHandler}
                     />
-                    <span className={styles.headerItem}>UID</span>
+                    <span className={styles.headerItem}>BID</span>
                     <span className={styles.headerItem}>게시글 제목</span>
                     <span className={styles.headerItem}>작성날짜</span>
                     <span className={styles.headerItem}>수정날짜</span>

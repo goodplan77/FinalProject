@@ -24,25 +24,30 @@ export default function DetailModal ({board , hideModal} : {board:Board|undefine
                     break;
                 case 'I':
                 case 'E':
-                case 'N':
                     apiRequestURL = `http://localhost:8013/banju/api/board/admin/board/${board.boardCode}/${board.boardNo}`;
+                    setButtonArea(true);
+                    break;
+                case 'N':
                     setButtonArea(true);
                     break;
                 default :
                     alert("게시판 타입을 불러오는데 실패했습니다.");
             }
-            axios.get(apiRequestURL, {
-                responseType: 'blob',
-              })
-              .then((response) => {
-                const url = URL.createObjectURL(response.data);
-                setImageArea(true);
-                setImageUrl(url);
-              })
-              .catch((error) => {
-                console.error('이미지 로드 중 오류 발생:', error);
-                setImageUrl(`${process.env.PUBLIC_URL}/images/not-found.png`);
-              });
+
+            if(apiRequestURL.length>0){
+                axios.get(apiRequestURL, {
+                    responseType: 'blob',
+                  })
+                  .then((response) => {
+                    const url = URL.createObjectURL(response.data);
+                    setImageArea(true);
+                    setImageUrl(url);
+                  })
+                  .catch((error) => {
+                    console.error('이미지 로드 중 오류 발생:', error);
+                    setImageUrl(`${process.env.PUBLIC_URL}/images/not-found.png`);
+                  });
+            }
         }
       }, []);
 

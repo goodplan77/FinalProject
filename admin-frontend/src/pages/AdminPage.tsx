@@ -27,7 +27,7 @@ export default function AdminPage() {
                 <Routes>
                     <Route path='/' element={<InitPage />} />
                     <Route path='userManage' element={<UserManagePage />} />
-                    <Route path='userDetail' element={<UserDetailPage />} />
+                    <Route path='userDetail/:userNo' element={<UserDetailPage />} />
                     <Route path='boardManage' element={<BoardManagePage />} />
                     <Route path='nonifyBoardManage' element={<NotifyBoardManagePage />} />
                     <Route path='notifyBoardInsert' element={<NotifyBoardInsertPage />} />
