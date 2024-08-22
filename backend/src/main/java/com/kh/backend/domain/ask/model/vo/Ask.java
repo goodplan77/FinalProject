@@ -21,5 +21,6 @@ public class Ask {
 	private String title;
 	
 	private User user;
+	private String nickName;
 	
 }
