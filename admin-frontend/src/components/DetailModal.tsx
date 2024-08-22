@@ -8,7 +8,7 @@ export default function DetailModal ({board , hideModal} : {board:Board|undefine
     
     const navi = useNavigate();
 
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
+    const [imageUrls, setImageUrls] = useState<string[] | null>([]);
     const [buttonArea , setButtonArea] = useState(false);
     const [imageArea , setImageArea] = useState(false);
 
@@ -35,21 +35,19 @@ export default function DetailModal ({board , hideModal} : {board:Board|undefine
             }
 
             if(apiRequestURL.length>0){
-                axios.get(apiRequestURL, {
-                    responseType: 'blob',
-                  })
+                axios.get(apiRequestURL)
                   .then((response) => {
-                    const url = URL.createObjectURL(response.data);
+                    console.log(response);
                     setImageArea(true);
-                    setImageUrl(url);
+                    setImageUrls([...response.data.imageList]);
                   })
                   .catch((error) => {
                     console.error('이미지 로드 중 오류 발생:', error);
-                    setImageUrl(`${process.env.PUBLIC_URL}/images/not-found.png`);
+                    setImageUrls([`${process.env.PUBLIC_URL}/images/not-found.png`]);
                   });
             }
         }
-      }, []);
+      }, [board]);
 
       const updateBoard = () => {
         if(board){
@@ -91,16 +89,19 @@ export default function DetailModal ({board , hideModal} : {board:Board|undefine
                         </div>
                         <div className={styles.modalBody}>
                             <h2>{board.title}</h2>
-                            {
-                                imageArea && (<img
-                                    src={imageUrl || `${process.env.PUBLIC_URL}/images/upload.png`}
-                                    alt="게시글 이미지"
-                                    style={{ maxWidth: '100%', maxHeight: '300px' }}
-                                    onError={(e) => {
-                                    e.currentTarget.src = `${process.env.PUBLIC_URL}/images/upload.png`; // 이미지 로드 실패 시 대체 이미지
-                                    }}
-                                />)
-                            }
+                            {imageArea && imageUrls && (
+                                imageUrls.map((url, index) => (
+                                    <img
+                                        key={index}
+                                        src={`http://localhost:8013/banju${url}`}
+                                        alt={`게시글 이미지 ${index + 1}`}
+                                        style={{ maxWidth: '100%', maxHeight: '300px', marginBottom: '10px' }}
+                                        onError={(e) => {
+                                            e.currentTarget.src = `${process.env.PUBLIC_URL}/images/upload.png`; // 이미지 로드 실패 시 대체 이미지
+                                        }}
+                                    />
+                                ))
+                            )}
                             <div>
                                 <th>게시글 타입</th>
                                 <td>{viewType(board.boardCode)}</td>

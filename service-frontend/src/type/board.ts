@@ -48,7 +48,7 @@ export const initialBoard:Board = {
     userNo : 0,
     title : '',
     content : '',
-    boardCode : '',
+    boardCode : 'C',
     enrollDate : '',
     modifyDate : '',
     views : 0,

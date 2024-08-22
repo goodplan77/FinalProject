@@ -1,21 +1,16 @@
 package com.kh.backend.common.scheduling;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.kh.backend.domain.board.model.service.AdminBoardService;
 import com.kh.backend.domain.board.model.vo.Board;
-import com.kh.backend.domain.board.model.vo.Product;
 import com.kh.backend.domain.user.model.service.AdminUserService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +23,6 @@ public class FileDeleteScheduler {
 
 	private final AdminBoardService boardService;
 	private final AdminUserService userService;
-	private final ResourceLoader resourceLoader;
 	
 	public void deleteFile(String name, String pathURL, List<String> list) {
 	    log.debug(name + " 사진 파일 삭제 스케쥴러 시작");
@@ -92,7 +86,7 @@ public class FileDeleteScheduler {
 //
 //	}
 //
-	@Scheduled(cron = "21 * * * * *")
+	@Scheduled(cron = "1 1 * * * *")
 	public void deleteUserBoardFile() {
 		log.debug("-----전체 게시판 사진 파일 삭제 스케쥴러 시작-----");
 			List<Board> imageList = boardService.selectBoardImageList(); // 게시판 테이블 타입 코드를 받아오기 위해 게시판 타입으로 받아옴
@@ -106,7 +100,7 @@ public class FileDeleteScheduler {
 
 	}
 
-	@Scheduled(cron = "31 * * * * *")
+	@Scheduled(cron = "1 1 * * * *")
 	public void deleteProductFile() {
 		deleteFile("상품" , "uploads/images/board/P/" , boardService.selectProductBoards().stream().map(v->v.getImg()).toList());
 	}

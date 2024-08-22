@@ -255,7 +255,7 @@ export default function BoardManagePage() {
                         <span className={styles.postId}>{board.boardNo}</span>
                         <span className={styles.postTitle}>{board.title}</span>
                         <span className={styles.postCategory}>{categoryConvert(`${board.boardCode}`)}</span>
-                        <span className={styles.postAuthor}>{board.userNo}</span>
+                        <span className={styles.postAuthor}>{board.nickName}</span>
                         <span className={styles.postCreatedDate}>{board.enrollDate}</span>
                         <span className={styles.postModifiedDate}>{board.modifyDate}</span>
                         <span className={styles.postViews}>{board.views}</span>

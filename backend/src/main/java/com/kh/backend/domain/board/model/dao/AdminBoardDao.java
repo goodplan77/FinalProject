@@ -26,7 +26,7 @@ public interface AdminBoardDao {
 
 	int insertInfoboard(Board board);
 	
-	int insertBoardImages(BoardImg boardImg);
+	int insertBoardImage(BoardImg boardImg);
 
 	int insertProductBoard(Product product);
 
@@ -36,7 +36,7 @@ public interface AdminBoardDao {
 
 	int deleteBoards(Board[] boards);
 
-	BoardImg selectBoardImages(int boardNo);
+	List<BoardImg> selectBoardImages(int boardNo);
 
 	int updateBoardImages(BoardImg boardImg);
 

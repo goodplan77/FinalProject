@@ -13,13 +13,10 @@ export default function DetailProductModal ({product , hideModal} : {product:Pro
 
     useEffect(() => {
         if(product){
-            axios.get(`http://localhost:8013/banju/api/board/admin/product/${product.productNo}`, {
-                responseType: 'blob',
-              })
+            axios.get(`http://localhost:8013/banju/api/board/admin/product/${product.productNo}`)
               .then((response) => {
-                const url = URL.createObjectURL(response.data);
                 setImageArea(true);
-                setImageUrl(url);
+                setImageUrl(`http://localhost:8013/banju${response.data}`);
               })
               .catch((error) => {
                 console.error('이미지 로드 중 오류 발생:', error);

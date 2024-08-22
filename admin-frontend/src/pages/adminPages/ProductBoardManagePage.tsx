@@ -16,6 +16,8 @@ export default function ProductBoardManagePage() {
     const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
     const [filterTerm, setFilterTerm] = useState(''); // 실제 검색에 사용될 필터 상태
 
+    const[productImgUrl , setProductImgUrl] = useState<string[]>([]);
+
     // 모달 상태 확인용 state 영역
     const [data , setData] = useState<Product|null>();
     const [showDetailModal , setShowDetailModal] = useState(false);
@@ -25,14 +27,28 @@ export default function ProductBoardManagePage() {
     );
 
     useEffect(() => {
-        axios.get("http://localhost:8013/banju/admin/board/ProductboardList")
-            .then((response) => {
-                console.dir(response.data);
+        const fetchImagePath = async () => {
+            try {
+                const response = await axios.get("http://localhost:8013/banju/admin/board/ProductboardList");
                 dispatch(selectAllProduct(response.data));
-            }).catch((error) => {
-                console.log(error);
-            })
-    }, [])
+
+                const imageUrls = await Promise.all(
+                    response.data.map(async (value: Product) => {
+                        const imgResponse = await axios.get(`http://localhost:8013/banju/api/board/admin/product/${value.productNo}`);
+                        console.log(imgResponse.data);
+                        return imgResponse.data; // 각 이미지 URL을 배열로 반환
+                    })
+                );
+
+                setProductImgUrl(imageUrls); // 상태를 한 번에 업데이트
+
+            } catch (error) {
+                console.error('이미지 경로를 불러오는데 실패했습니다.', error);
+            }
+        };
+
+        fetchImagePath();
+    }, []);
 
     // 1. 제목 검색 기능
     const handleSearch = () => {
@@ -78,14 +94,12 @@ export default function ProductBoardManagePage() {
             </div>
             <div className={styles.productGrid}>
                 {filteredproducts.map((product , index) => {
-                    const imgPath = `http://localhost:8013/banju/api/board/admin/product/${product.productNo}`;
-                    if(imgPath){
-                        return(
+                        return (
                             <div key={index} className={styles.productCard}
                             onClick={(e) => setDetailModal(e, product)}
                             >
                             <img
-                                src={imgPath}
+                                src={`http://localhost:8013/banju${productImgUrl[index]}`}
                                 alt="상품 이미지"
                                 className={styles.productImage}
                             />
@@ -123,12 +137,6 @@ export default function ProductBoardManagePage() {
                             </div>
                         </div>
                         )
-                    } else {
-                        return (
-                            <>
-                            </>
-                        )
-                    }
                 })}
             </div>
             {
