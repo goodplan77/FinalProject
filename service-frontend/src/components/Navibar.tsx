@@ -6,7 +6,7 @@ import { RootState } from '../store/store';
 import { initUser } from '../type/user';
 
 export default function Navibar() {
-    let loginUser = useSelector((state:RootState)=>state.user);
+    let loginUser = useSelector((state: RootState) => state.user);
     const navi = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -39,17 +39,12 @@ export default function Navibar() {
             <img src='/images/hamburger.png' alt='게시판 목록' style={{ height: "30px" }} onClick={handleHamburgerClick} />
             <img src='/images/message.png' alt='메세지' style={{ height: "28px" }} onClick={() => navi('chatList')} />
             <img src='/images/login.png' alt='마이페이지' style={{ height: "32px" }} onClick={() => {
-                if(loginUser == initUser){
+                if (loginUser == initUser) {
                     navi('login');
-                }else{
+                } else {
                     navi('mypage')
                 }
             }} />
-            {
-                loginUser == initUser ? <span>로그인</span> : <span>마이페이지</span>
-            }
-            
-            
 
             {isMenuOpen && (
                 <div className={styles.menu} ref={menuRef}>
