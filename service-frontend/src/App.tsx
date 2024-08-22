@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Router, Routes, useNavigate } from 'react-router-dom';
+import { Route, Router, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Login from './pages/Login';
 import Mypage from './pages/Mypage';
@@ -28,13 +28,16 @@ import Alarm from './pages/Alarm';
 import SearchPage from './pages/SearchPage';
 import { useSelector } from 'react-redux';
 import { RootState } from './store/store';
+import BoardHeaderbar from './components/BoardHeader';
 
 
 const App = () => {
-  let loginUser = useSelector((state:RootState)=>state.user);
+  let loginUser = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const navi = useNavigate();
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const currentLocation = useLocation(); // `location` 대신 `currentLocation`으로 변경
+  const [boardNo, setBoardNo] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -61,7 +64,7 @@ const App = () => {
 
 
       <div className={`container ${!isHeaderVisible ? 'hidden' : ''}`}>
-        <Headerbar />
+        {currentLocation.pathname.includes('/boardDetail') ? <BoardHeaderbar boardNo={boardNo} /> : <Headerbar />}
       </div>
 
       <div className="app-container">
@@ -84,7 +87,7 @@ const App = () => {
           <Route path='successUserId' element={<SuccessUserId />} />
           <Route path='changePassword' element={<ChangePassword />} />
           <Route path='calendarPage' element={<CalendarPage />} />
-          <Route path='/boardDetail/:boardNo' element={<BoardDetail />} />
+          <Route path='/boardDetail/:boardNo' element={<BoardDetail setBoardNo={setBoardNo} />} />
           <Route path='/clause' element={<Clause />} />
           <Route path='/alarm' element={<Alarm />} />
           <Route path='/search' element={<SearchPage />} />

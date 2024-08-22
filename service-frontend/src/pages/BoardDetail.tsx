@@ -7,14 +7,23 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { selectAllBoard } from "../features/boardSlice";
 import { Board, initialBoard } from "../type/board";
+import BoardHeaderbar from "../components/BoardHeader";
 
-export default function BoardDetail() {
+
+interface BoardDetailProps {
+    setBoardNo: (boardNo: string | undefined) => void;
+}
+
+export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
+
+    const { boardNo } = useParams<{ boardNo: string }>();
+    const parsedBoardNo = boardNo;
 
     const navi = useNavigate();
 
     const [board, setBoard] = useState<Board>(initialBoard);
 
-    const { boardNo } = useParams();
+
 
     const boards = useSelector((state: RootState) => state.boards);
 
@@ -29,6 +38,7 @@ export default function BoardDetail() {
     };
 
     useEffect(() => {
+        setBoardNo(boardNo);
         axios
             .get(`http://localhost:8013/banju/board/boardDetail/${boardNo}`)
             .then((response) => {
@@ -37,7 +47,7 @@ export default function BoardDetail() {
             }).catch((response) => {
                 console.log(response);
             })
-    }, [boardNo])
+    }, [boardNo, setBoardNo]);
 
 
 
