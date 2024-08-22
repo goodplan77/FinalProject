@@ -64,7 +64,8 @@
 				ADDRESS,
 				STATUS,
 				POINTS,
-				ENROLL_DATE
+				ENROLL_DATE,
+				MODIFY_DATE
 			)
 			VALUES(
 				#{userNo},
@@ -76,7 +77,8 @@
 				#{address},
 				DEFAULT,
 				#{points},
-				DEFAULT
+				DEFAULT,
+				NULL
 			)
 	</insert>
 	
@@ -159,6 +161,35 @@
 		FROM "IMG_USER"
 		WHERE USER_NO = #{userNo}
 	</select>
+	
+	<!-- 반려견 등록 -->
+	<insert id="insertDog">
+		<selectKey order="BEFORE" keyProperty="dogNo" resultType="int">
+			SELECT SEQ_DOG.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO "DOG"
+		VALUES(
+			#{dogNo},
+			#{userNo},
+			#{isMain},
+			#{dogName},
+			#{breed},
+			#{gender},
+			#{birthday},
+			#{note}
+		)
+	</insert>
+	
+	<!-- 반려견 프사 등록 -->
+	<insert id="insertImgDog">
+		INSERT INTO "IMG_DOG"
+		VALUES(
+			#{dogNo},
+			#{originName},
+			#{changeName}
+		)
+	</insert>
+	
 	
 	
 	<!-- 미사용 -> 추후 삭제 가능

@@ -15,8 +15,11 @@ Modal.setAppElement('#root'); // 모달의 접근성 설정
 const SignUpPage: React.FC = () => {
 
     const [user, setUser] = useState<User>(initUser);
+
     const setUserChange = (e:ChangeEvent) => {
+
         let {name, value} = e.target as HTMLInputElement;
+        
         setUser({
             ...user,
             [name] : value

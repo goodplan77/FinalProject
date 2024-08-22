@@ -117,7 +117,7 @@ const MyPage = () => {
                         </div>
                     </div>
                     <div className={styles.petButton}>
-                        <div className={styles.petButtonText}>나의 반려견</div>
+                        <div className={styles.petButtonText} onClick={()=>navi('/insertDog')}>나의 반려견</div>
                     </div>
                 </div>
 

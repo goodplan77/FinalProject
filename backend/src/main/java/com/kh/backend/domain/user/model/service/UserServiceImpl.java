@@ -7,9 +7,12 @@ import java.util.HashMap;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.backend.domain.user.model.dao.UserDao;
 import com.kh.backend.domain.user.model.dto.KakaoUserInfoResponse;
+import com.kh.backend.domain.user.model.vo.Dog;
+import com.kh.backend.domain.user.model.vo.ImgDog;
 import com.kh.backend.domain.user.model.vo.ImgUser;
 import com.kh.backend.domain.user.model.vo.User;
 
@@ -126,6 +129,13 @@ public class UserServiceImpl implements UserService {
 		param.put("userNo", Integer.parseInt(userPk));
 		
 		return dao.loadUserByUsername(param);
+	}
+
+	// 반려견 등록 메서드
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int insertDog(Dog dog, ImgDog id) {
+		return dao.insertDog(dog, id);
 	}
 
 	
