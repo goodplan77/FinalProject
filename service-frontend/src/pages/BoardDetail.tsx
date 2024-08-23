@@ -78,25 +78,30 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
     
     const insertComment = (e: FormEvent) => {
         e.preventDefault();
-        const commentData = {
-            userNo: loginUser.userNo,
-            bordNo: boardNo,
-            content: comment
+        if (loginUser.nickName === '') {
+            alert("로그인후 이용해주세요.");
+            return;
+        } else {
+            const commentData = {
+                userNo: loginUser.userNo,
+                bordNo: boardNo,
+                content: comment
+            }
+    
+            axios
+                .post(`http://localhost:8013/banju/board/boardDetail/${boardNo}`, commentData)
+                .then((response) => {
+                    console.log(response);
+                    console.log(comment);
+                    console.log('성공');
+                    setComment(''); // 댓글 추가 후 폼 초기화
+                })
+                .catch((error) => {
+                    console.log(error);
+                    console.log('실패 ㅋ');
+                    console.log('작성한 댓글 = ' + comment);
+                });
         }
-
-        axios
-            .post(`http://localhost:8013/banju/board/boardDetail/${boardNo}`, commentData)
-            .then((response) => {
-                console.log(response);
-                console.log(comment);
-                console.log('성공');
-                setComment(''); // 댓글 추가 후 폼 초기화
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('실패 ㅋ');
-                console.log('작성한 댓글 = ' + comment);
-            });
 
     }
     
@@ -142,14 +147,6 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                 console.log('생성 실패');
             })
     }
-
-    const insertComment = (e: React.FormEvent) => {
-        e.preventDefault(); // 기본 폼 제출 동작 방지
-        console.log(loginUser);
-        if (loginUser.nickName === '') {
-            alert("로그인후 이용해주세요.");
-            return;
-        }
 
     return (
         <>
