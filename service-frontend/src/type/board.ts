@@ -62,6 +62,18 @@ export const initialBoard:Board = {
     comment : []
 };
 
+// 댓글에 대한 기본값 설정
+export const initialComment:Comment = {
+    commentNo : 0,
+    boardNo : 0,
+    userNo : 0,
+    content : '',
+    commentData : '',
+    modifyDate : '',
+    status : 'Y',
+    refNo : 0
+};
+
 // 내보내기
 export const initialBoardList:Board[] = [];
 

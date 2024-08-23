@@ -27,7 +27,16 @@
 		WHERE 
 	</select>
 	
-	
+	<insert id="makeChatRoom">
+		INSERT INTO CHAT_ROOM
+		VALUES(
+			SEQ_CHAT_ROOM.NEXTVAL,
+			#{fromUserNo},
+			'Y',
+			#{toUserNo},
+			'Y'
+		)
+	</insert>
 	
 	
 	

@@ -147,14 +147,15 @@ public class BoardController {
 		return board;
 	}
 	
+	
+	
 	@PostMapping("/boardDetail/{boardNo}")
 	public Map<String, Object> insertComment(
 			@PathVariable int boardNo,
-			@RequestParam("content") String content
+			@RequestBody Comment comment
 			) {
+		log.debug("comment = {}", comment);
 		Map<String, Object> map = new HashMap<>();
-		
-		Comment comment = new Comment();
 		
 		comment.setBoardNo(boardNo);
 		
@@ -163,9 +164,27 @@ public class BoardController {
 		map.put("comment", comment);
 		
 		log.debug("댓글 내용 = {}", comment.getContent());
+		log.debug("유저 넘버 = {}", comment.getUserNo());
 		
 		return map;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@GetMapping("/searchTitle/{title}")
 	public List<Board> searchTitle(

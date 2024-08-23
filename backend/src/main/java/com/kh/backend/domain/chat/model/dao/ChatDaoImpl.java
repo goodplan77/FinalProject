@@ -23,13 +23,13 @@ public class ChatDaoImpl implements ChatDao{
 	}
 
 	@Override
-	public int openChatRoom(User toUser) {
-		return session.insert("chat.openChatRoom", toUser);
+	public List<Message> messageSelect(int chatRoomNo) {
+		return session.selectList("chat.messageSelect", chatRoomNo);
 	}
 
 	@Override
-	public List<Message> messageSelect(int chatRoomNo) {
-		return session.selectList("chat.messageSelect", chatRoomNo);
+	public int makeChatRoom(ChatRoom users) {
+		return session.insert("chat.makeChatRoom", users);
 	}
 
 }

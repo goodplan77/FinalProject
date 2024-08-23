@@ -49,7 +49,7 @@
 			SELECT SEQ_BOARD.NEXTVAL
 			FROM DUAL
 		</selectKey>
-	
+		
 		INSERT INTO BOARD
 		VALUES(
 			#{boardNo},
@@ -75,9 +75,6 @@
 			#{changeName}
 		)
 	</insert> 
-	
-	
-	
 	
 	<!-- 게시글 상세조회 -->
    <resultMap id="boardResultSet" type="board">
@@ -119,8 +116,7 @@
       LEFT JOIN BOARD_IMG BI ON (B.BOARD_NO=BI.BOARD_NO)
       WHERE B.BOARD_NO = #{boardNo}
    </select>
-
-
+  
 	<!-- 댓글 등록 -->
 	<insert id="insertComment" useGeneratedKeys="true">
 	
@@ -140,7 +136,7 @@
 		) VALUES (
 			#{commentNo},
 			#{boardNo},
-			1,
+			#{userNo},
 			#{content},
 			SYSDATE,
 			SYSDATE,
@@ -148,6 +144,7 @@
 		)
 	</insert>
 
+	<!-- 검색 할 때 사용할 제목 -->
 	<select id="selectBoardsTitle" resultType="Board">
 	    SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, 
 	           TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, 

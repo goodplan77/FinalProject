@@ -39,8 +39,6 @@ export default function BoardList() {
     }, [])
     return (
         <>
-            <ScrollToTop />{/* 페이지 이동시 상단이 보이게끔 */}
-
             {/* 헤더아래에 보드 카테고리 바 입니다. */}
             <div className={styles.categorys}>
                 <div className={styles.cateClassic} onClick={() => navi('/BoardList')}>
