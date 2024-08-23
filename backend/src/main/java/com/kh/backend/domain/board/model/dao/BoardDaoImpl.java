@@ -63,4 +63,9 @@ public class BoardDaoImpl implements BoardDao{
 		return session.selectList("board.selectBoardsTitle", title);
 	}
 
+	@Override
+	public List<BoardImg> selectBoardImages(int boardNo) {
+		return session.selectList("board.selectBoardImages", boardNo);
+	}
+
 }

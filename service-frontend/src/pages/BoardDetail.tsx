@@ -22,8 +22,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
     const navi = useNavigate();
 
     const [board, setBoard] = useState<Board>(initialBoard);
-
-
+    const[boardImgUrl , setBoardImgUrl] = useState<string[]>([]);
 
     const boards = useSelector((state: RootState) => state.boards);
 
@@ -38,19 +37,31 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
     };
 
     useEffect(() => {
-        setBoardNo(boardNo);
-        axios
-            .get(`http://localhost:8013/banju/board/boardDetail/${boardNo}`)
-            .then((response) => {
+        const fetchBoardDetails = async () => {
+            try {
+                setBoardNo(boardNo);
+    
+                // 첫 번째 비동기 요청
+                const response = await axios.get(`http://localhost:8013/banju/board/boardDetail/${boardNo}`);
                 setBoard(response.data);
                 console.log(response.data);
-            }).catch((response) => {
-                console.log(response);
-            })
+    
+                // 첫 번째 요청이 성공한 후에 두 번째 비동기 요청
+                if (response.data.boardCode && response.data.boardNo) {
+                    const secondResponse = await axios.get(`http://localhost:8013/banju/api/board/${response.data.boardCode}/${boardNo}`);
+                    console.log(secondResponse.data);
+                    setBoardImgUrl(secondResponse.data.imageList);
+                } else {
+                    console.log('게시판 정보를 연결하는데 실패했습니다.');
+                }
+    
+            } catch (error) {
+                console.error('게시판 정보를 불러오는데 실패했습니다.:', error);
+            }
+        };
+        fetchBoardDetails();
     }, [boardNo, setBoardNo]);
-
-
-
+    
     const insertComment = (e: FormEvent) => {
         e.preventDefault();
 
@@ -71,8 +82,6 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                 console.log('작성한 댓글 = ' + Comment);
             })
     };
-
-
 
     return (
         <>
@@ -100,9 +109,9 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
 
                     {/* 이미지 표시 */}
                     <div className={styles.pictures}>
-                        {(Array.isArray(board.boardImg) && board.boardImg.length > 0) ? (
-                            board.boardImg.map((imageUrl, index) => (
-                                <img key={imageUrl.imgNo} src={`http://localhost:8013/banju/images/board/${board.boardCode}/${imageUrl.originName}`} alt={`Image ${index}`} className={styles.image} />
+                        {boardImgUrl.length > 0 ? (
+                            boardImgUrl.map((imageUrl, index) => (
+                                <img key={index} src={`http://localhost:8013/banju${imageUrl}`} alt={`Image ${index}`} className={styles.image} />
                             ))
                         ) : (
                             <p>이미지가 없습니다.</p>
@@ -122,16 +131,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                                 <button type="submit" className={styles.plusBtn}>추가</button>
                             </div>
                         </form>
-
-
-
-
-
                     </div>
-
-
-
-
                 </div>
             </div>
 
