@@ -113,12 +113,12 @@ const MyPage = () => {
                             </div>
                             <div className={styles.additionalNicknameFrame}>
                                 <img src={
-                                    loginUser.dogs == null ?
+                                    loginUser.dogs.length == 0 ?
                                     '/images/icon.png' :
                                     filePath + '/dog/' + (loginUser.dogs[0].imgDog && loginUser.dogs[0].imgDog.changeName)
                                 } alt="개프사" />
                                 <div className={styles.additionalNickname}>{
-                                        loginUser.dogs == null ?
+                                        loginUser.dogs.length == 0 ?
                                         '등록된 반려견이 없습니다.' : 
                                         loginUser.dogs[0].dogName
                                     }</div>

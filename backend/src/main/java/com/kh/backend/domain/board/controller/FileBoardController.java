@@ -26,7 +26,7 @@ public class FileBoardController {
 	
 	private final BoardService boardService;
 	
-	@GetMapping("/admin/board/{boardCode}/{boardNo}")
+	@GetMapping("/{boardCode}/{boardNo}")
 	public ResponseEntity<Map<String,Object>> serveAdminBoardFile(
 	        @PathVariable String boardCode,
 	        @PathVariable int boardNo

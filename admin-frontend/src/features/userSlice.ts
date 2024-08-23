@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { initialUserList, initUser, User } from "../type/User";
+import { initialUserList, initUser, User } from "../type/user";
 
 // 초기 상태에 전체 리스트와 필터링된 리스트를 분리
 let initialState = {
