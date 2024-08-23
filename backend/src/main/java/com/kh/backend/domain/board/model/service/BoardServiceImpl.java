@@ -79,4 +79,9 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.selectBoardsTitle(title);
 	}
 
+	@Override
+	public List<BoardImg> selectBoardImages(int boardNo) {
+		return boardDao.selectBoardImages(boardNo);
+	}
+
 }
