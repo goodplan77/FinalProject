@@ -139,7 +139,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
             .post(`http://localhost:8013/banju/chat/makeChatRoom`, chatRoom)
             .then((response) => {
                 
-                console.log(loginUser.userNo + "가 " + board.userNo + "에게 채팅방 생성");
+                console.log(loginUser.userNo + "(이)가 " + board.userNo + "에게 채팅방 생성");
                 console.log('성공')
                 alert("채팅방을 만들었습니다.")
             })
