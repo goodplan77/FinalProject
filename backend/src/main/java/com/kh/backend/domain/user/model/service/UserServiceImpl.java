@@ -131,11 +131,29 @@ public class UserServiceImpl implements UserService {
 		return dao.loadUserByUsername(param);
 	}
 
+	// 회원 정보 수정 메서드
+	@Override
+	public int updateUser(User user) {
+		return dao.updateUser(user);
+	}
+
+	// 회원 정보 수정 메서드(프사)
+	@Override
+	public int updateImgUser(ImgUser iu) {
+		return dao.updateImgUser(iu);
+	}
+
 	// 반려견 등록 메서드
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int insertDog(Dog dog, ImgDog id) {
 		return dao.insertDog(dog, id);
+	}
+
+	// 회원 프사 등록 메서드
+	@Override
+	public int insertImgUser(ImgUser iu) {
+		return dao.insertImgUser(iu);
 	}
 
 	

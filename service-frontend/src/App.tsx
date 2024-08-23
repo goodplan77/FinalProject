@@ -30,6 +30,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from './store/store';
 import UpdateUser from './pages/UpdateUser';
 import InsertDog from './pages/InsertDog';
+import DogList from './pages/DogList';
 
 
 const App = () => {
@@ -92,6 +93,7 @@ const App = () => {
           <Route path='/alarm' element={<Alarm />} />
           <Route path='/search' element={<SearchPage />} />
           <Route path='/insertDog' element={<InsertDog />} />
+          <Route path='/dogList' element={<DogList/>} />
         </Routes>
       </div>
 

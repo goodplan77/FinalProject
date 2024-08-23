@@ -11,15 +11,25 @@ import { closeModal, openModal } from "../features/modalSlice";
 import styles from './css/UpdateUser.module.css';
 import ReactModal from "react-modal";
 import DaumPostcodeEmbed from "react-daum-postcode";
+import { loginUser } from "../features/userSlice";
 
 export default function UpdateUserPage() {
 
     let {user} = useSelector((state:RootState)=>state);
+    let [imgUser, setImgUser] = useState<File>();
+
+    const filePath = "http://localhost:8013/banju/images/user/";
 
     const dispatch = useDispatch();
     const navi = useNavigate();
 
-    const [updateUser, setUpdateUser] = useState<User>(user);
+    const [updateUser, setUpdateUser] = useState({
+        imgUser : user.imgUser,
+        userNo : user.userNo,
+        nickName : user.nickName,
+        phone : user.phone,
+        address : user.address
+    });
 
     const setUserChange = (e:ChangeEvent) => {
 
@@ -65,18 +75,55 @@ export default function UpdateUserPage() {
         closeModal();
     };
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if(e.target.files){
+            let upfile = e.target.files[0];
+            setImgUser(upfile);
+        }
+    };
 
     const update = ()=>{
         console.log(updateUser);
-        axios.patch("http://localhost:8013/banju/user/updateUser",updateUser)
-                    .then(res=>{
-                        console.log(res);
-                    })
+
+        let formData = new FormData();
+
+        if(imgUser){
+            let upfile = imgUser as File;
+            formData.append("upfile", upfile, upfile && upfile.name);
+        }
+
+        formData.append("user", JSON.stringify(updateUser));
+
+        axios.patch("http://localhost:8013/banju/user/updateUser", formData)
+        .then(res=>{
+            console.log(res);
+            dispatch(loginUser(res.data.user));
+            alert(res.data.msg);
+            navi('/mypage');
+        })
     }
 
     return(
         <>
         <div className={styles.container}>
+                <div className={styles.iconContainer}>
+                    <img src={
+                        updateUser.imgUser == null ?
+                        '/images/icon.png' : 
+                        filePath + updateUser.imgUser.changeName
+                    } alt="프사" className={styles.img}/>  
+                    <label htmlFor="upfile">
+                        <img src="/images/pen.png" alt="사진 등록" className={styles.iconImg} />
+                    </label>
+                    <input 
+                        type="file" 
+                        className={styles.insertP} 
+                        id="upfile"
+                        name="upfile"
+                        style={{display : 'none'}}
+                        onChange={handleFileChange} />
+                </div>
+
             <label htmlFor="nickName">닉네임 : </label>
             <input 
                 type="text"
@@ -150,7 +197,7 @@ export default function UpdateUserPage() {
                                 
                                 const totalAddress = `(${newAddress.postCode}) ${newAddress.mainAddress} ${newAddress.detailAddress}`;
 
-                                setUpdateUser((prev:User) => {
+                                setUpdateUser((prev) => {
                                     return {...prev, address : totalAddress}
                                 })
                             }}

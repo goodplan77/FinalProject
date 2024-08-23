@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styles from './css/MyPage.module.css';
@@ -14,6 +14,8 @@ const MyPage = () => {
     const [showModal, setShowModal] = useState(false);
     const [ask, setAsk] = useState("");
     const [title, setTitle] = useState("");
+
+    const filePath = "http://localhost:8013/banju/images";
 
     // 로그아웃 함수
     const logoutApp = ()=>{
@@ -82,13 +84,11 @@ const MyPage = () => {
                     <div className={styles.profileFrame}>
                         <div className={styles.profileSettingFrame}>
                             <div className={styles.profilePictureFrame}>
-                                {/* <div className={styles.profilePicture} > */}
-                                    <img src={
-                                        loginUser.imgUser == null ?
-                                        '/images/icon.png' : 
-                                        loginUser.imgUser.changeName
-                                    } alt="프사" />
-                                {/* </div> */}
+                                <img src={
+                                    loginUser.imgUser == null ?
+                                    '/images/icon.png' : 
+                                    filePath + '/user/' + loginUser.imgUser.changeName
+                                } alt="프사" className={styles.img}/>
                             </div>
                             <div className={styles.nicknameFrame}>
                                 <div className={styles.nickname}>{loginUser.nickName}</div>
@@ -112,12 +112,24 @@ const MyPage = () => {
                                 <div className={styles.additionalProfilePicture} />
                             </div>
                             <div className={styles.additionalNicknameFrame}>
-                                <div className={styles.additionalNickname}>내 반려견 이름</div>
+                                <img src={
+                                    loginUser.dogs == null ?
+                                    '/images/icon.png' :
+                                    filePath + '/dog/' + (loginUser.dogs[0].imgDog && loginUser.dogs[0].imgDog.changeName)
+                                } alt="개프사" />
+                                <div className={styles.additionalNickname}>{
+                                        loginUser.dogs == null ?
+                                        '등록된 반려견이 없습니다.' : 
+                                        loginUser.dogs[0].dogName
+                                    }</div>
                             </div>
                         </div>
                     </div>
                     <div className={styles.petButton}>
-                        <div className={styles.petButtonText} onClick={()=>navi('/insertDog')}>나의 반려견</div>
+                        <div className={styles.petButtonText} onClick={()=>navi('/insertDog')}>반려견 추가</div>
+                    </div>
+                    <div className={styles.petButton}>
+                        <div className={styles.petButtonText} onClick={()=>navi('/dogList')}>나의 반려견</div>
                     </div>
                 </div>
 
