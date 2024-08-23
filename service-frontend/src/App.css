@@ -22,11 +22,7 @@
     width: 100%;
     background: #FFFFFF;
     text-align: left;
-    padding: 1% 2% 1% 2%;
-    margin-top: 50px;
-    /* 헤더 공간 확보 */
-    margin-bottom: 60px;
-    /* 네비게이션 바 공간 확보 */
+    margin-bottom: 50px;
 }
 
 /* 헤더 스타일 */
@@ -38,7 +34,6 @@
     justify-content: space-between;
     padding-right: 10px;
     padding-left: 10px;
-    border-bottom: 1px solid lightgray;
     position: fixed;
     top: 0;
     z-index: 1;
@@ -61,8 +56,6 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    /* 이 속성을 추가 */
-    border-top: 1px solid lightgray;
     z-index: 1000;
     /* 헤더보다 더 높은 z-index */
     background-color: white;

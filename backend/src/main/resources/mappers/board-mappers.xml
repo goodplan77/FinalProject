@@ -49,11 +49,11 @@
 			SELECT SEQ_BOARD.NEXTVAL
 			FROM DUAL
 		</selectKey>
-	
+		
 		INSERT INTO BOARD
 		VALUES(
 			#{boardNo},
-			1,
+			#{userNo},
 			#{title},
 			#{content},
 			#{boardCode},
@@ -67,47 +67,56 @@
 	</insert>
 	
 	<insert id="insertImage">
-		INSERT INTO BOARD_IMG (IMG_NO, BOARD_NO, ORIGIN_NAME)
+		INSERT INTO BOARD_IMG (IMG_NO, BOARD_NO, ORIGIN_NAME , CHANGE_NAME)
 		VALUES(
 			SEQ_BOARD_IMG.NEXTVAL,
 			#{boardNo},
-			#{originName}
+			#{originName},
+			#{changeName}
 		)
 	</insert> 
 	
-	
-	
-	
 	<!-- 게시글 상세조회 -->
-	<resultMap id="boardResultSet" type="board" autoMapping="true">
-		<id column="BOARD_NO" property="boardNo" />
-		<collection property="boardImg" javaType="List" ofType="boardImg" resultMap="boardImgResultSet">
-		</collection>
-	</resultMap>
-	
-	<resultMap id="boardImgResultSet" type="boardImg" autoMapping="true">
-		<id column="IMG_NO" property="imgNo" />
-	</resultMap>
-	
-	<select id="boardDetail" resultMap="boardResultSet">
-		SELECT BOARD_NO, 
-			USER_NO, TITLE, 
-			CONTENT,
-			BOARD_CODE, 
-			TO_CHAR(ENROLL_DATE, 'YYYY.MM.DD') AS ENROLL_DATE, 
-			MODIFY_DATE, 
-			VIEWS,
-			STATUS, 
-			DETAIL_STATUS, 
-			LIKES,
-			IMG_NO,
-			ORIGIN_NAME,
-			CHANGE_NAME
-		FROM BOARD
-		LEFT JOIN BOARD_IMG USING (BOARD_NO)
-		WHERE BOARD_NO = #{boardNo}
-	</select>
+   <resultMap id="boardResultSet" type="board">
+       <id column="BOARD_NO" property="boardNo" />
+       <result column="USER_NO" property="userNo" />
+       <result column="TITLE" property="title" />
+       <result column="CONTENT" property="content" />
+       <result column="BOARD_CODE" property="boardCode" />
+       <result column="ENROLL_DATE" property="enrollDate" />
+       <result column="MODIFY_DATE" property="modifyDate" />
+       <result column="VIEWS" property="views" />
+       <result column="STATUS" property="status" />
+       <result column="DETAIL_STATUS" property="detailStatus" />
+       <result column="LIKES" property="likes" />
+       <collection property="boardImg" ofType="boardImg">
+           <result column="IMG_NO" property="imgNo" />
+           <result column="ORIGIN_NAME" property="originName" />
+           <result column="CHANGE_NAME" property="changeName" />
+       </collection>
+   </resultMap>
 
+   <select id="boardDetail" resultMap="boardResultSet">
+      SELECT 
+         B.BOARD_NO,
+         B.USER_NO,
+         B.TITLE,
+         B.CONTENT,
+         B.BOARD_CODE, 
+         TO_CHAR(B.ENROLL_DATE, 'YYYY.MM.DD') AS ENROLL_DATE, 
+         B.MODIFY_DATE, 
+         B.VIEWS,
+         B.STATUS, 
+         B.DETAIL_STATUS, 
+         B.LIKES,
+         BI.IMG_NO,
+         BI.ORIGIN_NAME,
+         BI.CHANGE_NAME
+      FROM BOARD B
+      LEFT JOIN BOARD_IMG BI ON (B.BOARD_NO=BI.BOARD_NO)
+      WHERE B.BOARD_NO = #{boardNo}
+   </select>
+  
 	<!-- 댓글 등록 -->
 	<insert id="insertComment" useGeneratedKeys="true">
 	
@@ -127,7 +136,7 @@
 		) VALUES (
 			#{commentNo},
 			#{boardNo},
-			1,
+			#{userNo},
 			#{content},
 			SYSDATE,
 			SYSDATE,
@@ -135,11 +144,23 @@
 		)
 	</insert>
 
-
-
-
-
-	<!--관리자용 -->
+	<!-- 검색 할 때 사용할 제목 -->
+	<select id="selectBoardsTitle" resultType="Board">
+	    SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, 
+	           TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, 
+	           TO_CHAR(MODIFY_DATE, 'YYYY-MM-DD') AS MODIFY_DATE, 
+	           VIEWS, STATUS, DETAIL_STATUS, LIKES
+	    FROM BOARD
+	    WHERE TITLE Like '%' || #{title} || '%'
+	      AND STATUS = 'Y'
+	    ORDER BY BOARD_NO DESC
+	</select>
+	
+	<select id="selectBoardImages" resultType="BoardImg">
+		SELECT *
+		FROM BOARD_IMG
+		WHERE BOARD_NO = #{boardNo}
+	</select>
 	
 	
 	

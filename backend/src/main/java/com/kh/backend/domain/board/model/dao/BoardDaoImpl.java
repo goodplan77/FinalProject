@@ -58,4 +58,14 @@ public class BoardDaoImpl implements BoardDao{
 		return session.insert("board.insertComment", comment);
 	}
 
+	@Override
+	public List<Board> selectBoardsTitle(String title) {
+		return session.selectList("board.selectBoardsTitle", title);
+	}
+
+	@Override
+	public List<BoardImg> selectBoardImages(int boardNo) {
+		return session.selectList("board.selectBoardImages", boardNo);
+	}
+
 }

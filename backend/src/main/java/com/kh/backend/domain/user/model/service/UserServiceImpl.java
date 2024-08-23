@@ -7,9 +7,13 @@ import java.util.HashMap;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.backend.domain.user.model.dao.UserDao;
 import com.kh.backend.domain.user.model.dto.KakaoUserInfoResponse;
+import com.kh.backend.domain.user.model.vo.Dog;
+import com.kh.backend.domain.user.model.vo.ImgDog;
+import com.kh.backend.domain.user.model.vo.ImgUser;
 import com.kh.backend.domain.user.model.vo.User;
 
 import lombok.RequiredArgsConstructor;
@@ -83,6 +87,9 @@ public class UserServiceImpl implements UserService {
 			String tempNickName = currentTime + nickName + random;
 			String socialPwd = socialType + random;
 			
+			ImgUser iu = new ImgUser();
+			iu.setChangeName(profile);
+			
 			User u = user.builder()
 						 .nickName(tempNickName)
 						 .email(email)
@@ -91,7 +98,9 @@ public class UserServiceImpl implements UserService {
 						 .userName(tempNickName)
 						 .points(500)
 						 .socialType(socialType) 
+						 .imgUser(iu)
 						 .build();
+			
 			
 			result *= dao.insertUser(u);
 			result *= dao.insertUserSocial(u);
@@ -120,6 +129,31 @@ public class UserServiceImpl implements UserService {
 		param.put("userNo", Integer.parseInt(userPk));
 		
 		return dao.loadUserByUsername(param);
+	}
+
+	// 회원 정보 수정 메서드
+	@Override
+	public int updateUser(User user) {
+		return dao.updateUser(user);
+	}
+
+	// 회원 정보 수정 메서드(프사)
+	@Override
+	public int updateImgUser(ImgUser iu) {
+		return dao.updateImgUser(iu);
+	}
+
+	// 반려견 등록 메서드
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int insertDog(Dog dog, ImgDog id) {
+		return dao.insertDog(dog, id);
+	}
+
+	// 회원 프사 등록 메서드
+	@Override
+	public int insertImgUser(ImgUser iu) {
+		return dao.insertImgUser(iu);
 	}
 
 	

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="report">
+
+	<insert id="insertReport" parameterType="report" useGeneratedKeys="true">
+		<selectKey keyProperty="reportNo" resultType="int" order="BEFORE">
+			SELECT SEQ_REPORT.NEXTVAL 
+			FROM DUAL
+		</selectKey>
+	
+		INSERT INTO REPORT 
+		VALUES(
+			#{reportNo},
+			#{userNo},
+			#{category},
+			#{content},
+			SYSDATE,
+			#{typeCode},
+			#{refNo}
+		)
+	</insert>
+
+	<select id="selectList" resultType="Report">
+		SELECT 
+			R.REPORT_NO, 
+			R.USER_NO, 
+			R.CATEGORY, 
+			R.CONTENT, 
+			R.REPORT_DATE, 
+			R.TYPE_CODE, 
+			R.REF_NO,
+			U.NICK_NAME
+		FROM REPORT R
+		JOIN "USER" U ON (R.USER_NO=U.USER_NO)
+		ORDER BY R.REPORT_DATE DESC
+	</select>
+	
+</mapper>

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/admin/board")
 @CrossOrigin(origins = { "http://localhost:3014" })
 public class AdminBoardController {
-
+	
 	private final AdminBoardService boardService;
 
 	@GetMapping("/UserboardList")
@@ -97,7 +98,7 @@ public class AdminBoardController {
 			int result = boardService.insertEventboard(board);
 
 			if (file != null && !file.isEmpty()) {
-				result *= boardService.insertBoardImages(board, file);
+				result *= boardService.insertBoardImage(board, file);
 			}
 
 			if (result > 0) {
@@ -129,7 +130,7 @@ public class AdminBoardController {
 			int result = boardService.insertInfoboard(board);
 
 			if (file != null && !file.isEmpty()) {
-				result *= boardService.insertBoardImages(board, file);
+				result *= boardService.insertBoardImage(board, file);
 			}
 
 			if (result > 0) {

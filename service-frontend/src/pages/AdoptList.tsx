@@ -14,16 +14,6 @@ export default function AdoptList() {
 
     const adopts = useSelector((state: RootState) => state.boards);
 
-    const ScrollToTop = () => {
-        const { pathname } = useLocation();
-
-        useEffect(() => {
-            window.scrollTo(0, 0);
-        }, [pathname]);
-
-        return null;
-    };
-
     useEffect(() => {
         axios.get("http://localhost:8013/banju/board/adoptList")
             .then((response) => {
@@ -35,10 +25,6 @@ export default function AdoptList() {
     }, [])
     return (
         <>
-            <ScrollToTop />
-
-
-
             <div className={styles.categorys}>
                 <div className={styles.cateClassic} onClick={() => navi('/BoardList')}>
                     <p>일반</p>
@@ -113,10 +99,10 @@ export default function AdoptList() {
                 right: "10px",
             }} onClick={() => navi('/insertBoard')}>
                 <img className='plus-pen' src={`${process.env.PUBLIC_URL}/images/pen.png`} alt="글쓰기" style={{
-                    marginTop: "9px",
-                    marginLeft: "2px",
+                    marginTop: "10px",
+                    marginLeft: "10px",
                     width: "50px",
-                    height: "50px",
+                    height: "50px"
                 }} />
             </div>
 

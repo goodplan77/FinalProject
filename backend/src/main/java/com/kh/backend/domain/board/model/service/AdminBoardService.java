@@ -19,6 +19,8 @@ public interface AdminBoardService {
 	List<Board> selectInfoBoards();
 
 	List<Product> selectProductBoards();
+	
+	List<Board> selectBoardImageList();
 
 	int insertNotifyBoard(Board board);
 
@@ -26,7 +28,7 @@ public interface AdminBoardService {
 
 	int insertInfoboard(Board board);
 
-	int insertBoardImages(Board board, MultipartFile file);
+	int insertBoardImage(Board board, MultipartFile file);
 
 	int insertProductBoard(Product product, MultipartFile file);
 
@@ -36,7 +38,7 @@ public interface AdminBoardService {
 
 	int deleteBoards(Board[] boards);
 
-	BoardImg selectBoardImages(int boardNo);
+	List<BoardImg> selectBoardImages(int boardNo);
 
 	int updateBoardImages(Board board, MultipartFile file);
 

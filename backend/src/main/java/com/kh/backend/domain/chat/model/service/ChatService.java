@@ -10,8 +10,8 @@ public interface ChatService {
 
 	List<ChatRoom> chatList();
 
-	int openChatRoom(User toUser);
-
 	List<Message> messageSelect(int chatRoomNo);
+
+	int makeChatRoom(ChatRoom users);
 
 }

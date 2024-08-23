@@ -10,8 +10,8 @@ public interface ChatDao {
 
 	List<ChatRoom> chatList();
 
-	int openChatRoom(User toUser);
-
 	List<Message> messageSelect(int chatRoomNo);
+
+	int makeChatRoom(ChatRoom users);
 
 }

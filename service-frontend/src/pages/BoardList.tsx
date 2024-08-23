@@ -24,6 +24,10 @@ export default function BoardList() {
         return null;
     };
 
+    const handleClick = (boardNo: number) => {
+        navi(`/boardDetail/${boardNo}`);
+      };
+
     useEffect(() => {
         axios.get("http://localhost:8013/banju/board/boardList")
             .then((response) => {
@@ -35,8 +39,6 @@ export default function BoardList() {
     }, [])
     return (
         <>
-            <ScrollToTop />{/* 페이지 이동시 상단이 보이게끔 */}
-
             {/* 헤더아래에 보드 카테고리 바 입니다. */}
             <div className={styles.categorys}>
                 <div className={styles.cateClassic} onClick={() => navi('/BoardList')}>
@@ -61,7 +63,7 @@ export default function BoardList() {
                         <div key={board.boardNo}>
                             {/* 보드 카테고리바 아래에 보드 리스트입니다. */}
                             <div className={styles.classic}>
-                                <div className={styles.classicContent}>
+                                <div className={styles.classicContent} onClick={() => handleClick(board.boardNo)}>
                                     <div className={styles.img}></div>
                                     <div className={styles.upAndDown}>
                                         <div className={styles.contentUp}>
@@ -112,10 +114,10 @@ export default function BoardList() {
                 right: "10px",
             }} onClick={() => navi('/insertBoard')}>
                 <img className='plus-pen' src={`${process.env.PUBLIC_URL}/images/pen.png`} alt="글쓰기" style={{
-                    marginTop: "9px",
-                    marginLeft: "2px",
+                    marginTop: "10px",
+                    marginLeft: "10px",
                     width: "50px",
-                    height: "50px",
+                    height: "50px"
                 }} />
             </div>
         </>

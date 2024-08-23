@@ -1,8 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Navibar.module.css';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/store';
+import { initUser } from '../type/user';
 
 export default function Navibar() {
+    let loginUser = useSelector((state: RootState) => state.user);
     const navi = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -34,7 +38,13 @@ export default function Navibar() {
             <img src='/images/home.png' alt="메인페이지로" style={{ height: "30px" }} onClick={() => navi('/')} />
             <img src='/images/hamburger.png' alt='게시판 목록' style={{ height: "30px" }} onClick={handleHamburgerClick} />
             <img src='/images/message.png' alt='메세지' style={{ height: "28px" }} onClick={() => navi('chatList')} />
-            <img src='/images/login.png' alt='마이페이지' style={{ height: "32px" }} onClick={() => navi('mypage')} />
+            <img src='/images/login.png' alt='마이페이지' style={{ height: "32px" }} onClick={() => {
+                if (loginUser == initUser) {
+                    navi('login');
+                } else {
+                    navi('mypage')
+                }
+            }} />
 
             {isMenuOpen && (
                 <div className={styles.menu} ref={menuRef}>

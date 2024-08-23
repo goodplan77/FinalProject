@@ -4,21 +4,122 @@
 
 	<select id="selectUsers" resultType="User">
 		SELECT
-			USER_NO,
-			GRADE,
-			EMAIL,
-			PWD,
-			USER_NAME,
-			NICK_NAME,
-			PHONE,
-			ADDRESS,
-			STATUS,
-			POINTS,
-			ENROLL_DATE,
-			MODIFY_DATE
-		FROM "USER"
+			U.USER_NO,
+			U.EMAIL,
+			U.PWD,
+			U.USER_NAME,
+			U.NICK_NAME,
+			U.PHONE,
+			U.ADDRESS,
+			U.STATUS,
+			U.POINTS,
+			U.ENROLL_DATE,
+			U.MODIFY_DATE
+		FROM "USER" U
+		WHERE USER_NO <![CDATA[>=]]> 10
 		ORDER BY USER_NO DESC
 	</select>
+
+	<select id="selectUserOne" parameterType="int" resultMap="UserMap">
+		SELECT
+			U.USER_NO,
+			U.EMAIL,
+			U.PWD,
+			U.USER_NAME,
+			U.NICK_NAME,
+			U.PHONE,
+			U.ADDRESS,
+			U.STATUS,
+			U.POINTS,
+			U.ENROLL_DATE,
+			U.MODIFY_DATE,
+			I.ORIGIN_NAME,
+			I.CHANGE_NAME,
+			D.DOG_NO,
+			D.IS_MAIN,
+			D.DOG_NAME,
+			D.BREED,
+			D.GENDER,
+			D.BIRTHDAY,
+			D.NOTE,
+			DI.ORIGIN_NAME AS DOG_ORIGIN_NAME,
+			DI.CHANGE_NAME AS DOG_CHANGE_NAME,
+			H.HISTORY_NO,
+			H.POINT,
+			H.POINT_DATE,
+			H.CONTENT,
+			L.LIKE_NO,
+			L.TYPE_CODE,
+			L.REF_NO,
+			M.MEMO_NO,
+			M.CONTENT,
+			M.TARGET_DATE
+		FROM "USER" U
+		LEFT JOIN "IMG_USER" I ON (U.USER_NO=I.USER_NO)
+		LEFT JOIN "DOG" D ON (U.USER_NO=D.USER_NO)
+		LEFT JOIN "IMG_DOG" DI ON (D.DOG_NO=DI.DOG_NO)
+		LEFT JOIN "HISTORY" H ON (U.USER_NO=H.USER_NO)
+		LEFT JOIN "LIKE" L ON (U.USER_NO=L.USER_NO)
+		LEFT JOIN "MEMO" M ON (U.USER_NO=M.USER_NO)
+		WHERE U.USER_NO = #{userNo}
+	</select>
+	
+	<resultMap id="UserMap" type="User">
+		<id property="userNo" column="USER_NO"/>
+		<result property="email" column="EMAIL"/>
+		<result property="pwd" column="PWD"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="nickName" column="NICK_NAME"/>
+		<result property="phone" column="PHONE"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="status" column="STATUS"/>
+		<result property="points" column="POINTS"/>
+		<result property="enrollDate" column="ENROLL_DATE"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		
+		<association property="imgUser" javaType="ImgUser">
+            <id property="userNo" column="USER_NO"/>
+            <result property="originName" column="ORIGIN_NAME"/>
+            <result property="changeName" column="CHANGE_NAME"/>
+        </association>
+        
+        <collection property="dogs" javaType="ArrayList" ofType="Dog">
+        	<id property="dogNo" column="DOG_NO"/>
+            <result property="isMain" column="IS_MAIN"/>
+            <result property="dogName" column="DOG_NAME"/>
+            <result property="breed" column="BREED"/>
+            <result property="gender" column="GENDER"/>
+            <result property="birthday" column="BIRTHDAY"/>
+            <result property="note" column="NOTE"/>
+            
+            <association property="imgDog" javaType="ImgDog">
+	            <id property="dogNo" column="DOG_NO"/>
+	            <result property="originName" column="DOG_ORIGIN_NAME"/>
+	            <result property="changeName" column="DOG_CHANGE_NAME"/>
+       		</association>
+       		
+        </collection>
+        
+        <collection property="historyList" javaType="ArrayList" ofType="History">
+        	<id property="historyNo" column="HISTORY_NO"/>
+            <result property="point" column="POINT"/>
+            <result property="pointDate" column="POINT_DATE"/>
+            <result property="content" column="CONTENT"/>
+        </collection>
+        
+        <collection property="likeList" javaType="ArrayList" ofType="Like">
+        	<id property="likeNo" column="LIKE_NO"/>
+            <result property="typeCode" column="TYPE_CODE"/>
+            <result property="refNo" column="REF_NO"/>
+        </collection>
+        
+        <collection property="memoList" javaType="ArrayList" ofType="Memo">
+        	<id property="memoNo" column="MEMO_NO"/>
+            <result property="content" column="CONTENT"/>
+            <result property="targetDate" column="TARGET_DATE"/>
+        </collection>
+        
+	</resultMap>
 
 
 </mapper>

@@ -1,0 +1,115 @@
+.container{
+    z-index: 2000;
+    background-color: blue;
+    width: 100px;
+    height: 100px;
+}
+
+/* 주소 */
+.address_container{
+    display: flex;
+    flex-direction: column;
+}
+.postCode_container{
+    display: flex;
+    flex-basis: 33%;
+}
+.postCode{
+    flex-basis: 20%;
+    height: 3vh;
+    border: 3px solid #E4FAFF;
+    border-radius: 5px;
+}
+.postCode:focus{
+    outline: 2px solid #02CCFE;
+}
+.mainAddress{
+    height: 3vh;
+    border: 3px solid #E4FAFF;
+    border-radius: 5px;
+
+    flex-basis: 33%;
+
+}
+.mainAddress:focus{
+    outline: 2px solid #02CCFE;
+}
+.detailAddress{
+    height: 3vh;
+    border: 3px solid #E4FAFF;
+    border-radius: 5px;
+
+    flex-basis: 33%;
+
+}
+.detailAddress:focus{
+    outline: 2px solid #02CCFE;
+}
+
+/* 모달 오버레이 */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    z-index: 2;
+}
+
+/* 모달 컨테이너 */
+.modal_container{
+
+    background: #FFFFFF;
+
+    margin: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 50%;
+    height: 60%;
+
+    max-width: 500px;
+    min-width: 340px;
+
+    border-radius: 10px;
+}
+
+/* 모달 헤더 */
+.modal_header{
+    display: flex;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+
+    padding-left: 10px;
+    padding-right: 10px;
+
+    width: 100%;
+    
+    flex-basis: 10%;
+
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+}
+.closeButton {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    font-weight: bolder;
+}
+
+/* 모달 컨텐트 */
+.modal_content{
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 20px;
+    overflow: scroll;
+}

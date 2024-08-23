@@ -20,5 +20,29 @@
 		)
 	</insert>
 	
+	<select id="selectAskList" resultType="Ask">
+		SELECT
+			A.ASK_NO,
+			A.USER_NO,
+			A.CONTENT,
+			A.RES_CONTENT,
+			A.STATUS,
+			A.ASK_DATE,
+			A.RES_DATE,
+			A.TITLE,
+			U.NICK_NAME
+		FROM ASK A
+		JOIN "USER" U ON (A.USER_NO=U.USER_NO)
+		ORDER BY A.ASK_NO DESC
+	</select>
+	
+	<update id="updateAsk">
+		UPDATE ASK SET
+			RES_CONTENT = #{resContent},
+			STATUS = 'Y',
+			RES_DATE = SYSDATE
+	 	WHERE ASK_NO = #{askNo}
+	</update>
+	
 	
 </mapper>
