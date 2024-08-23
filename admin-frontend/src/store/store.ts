@@ -3,13 +3,17 @@ import userSlice from "../features/userSlice";
 import boardSlice from "../features/boardSlice";
 import productSlice from "../features/productSlice";
 import askSlice from "../features/askSlice";
+import reportSlice from "../features/reportSlice";
+import adminSlice from "../features/adminSlice";
 
 const store = configureStore({
     reducer: {
         users : userSlice,
         boards : boardSlice,
         products : productSlice,
-        asks : askSlice
+        asks : askSlice,
+        reports : reportSlice,
+        admins : adminSlice
     }
 });
 

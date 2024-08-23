@@ -1,7 +1,19 @@
 import { Link, useNavigate } from "react-router-dom"
 import styles from "./css/SideBar.module.css"
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 export default function SideBar() {
+
+
+    const dispatch = useDispatch();
+    const asks  = useSelector((state: RootState) => state.asks);
+    const reports = useSelector((state: RootState) => state.reports);
+
+    useEffect(() => {
+
+    },[asks , reports])
 
     const navi = useNavigate();
 
