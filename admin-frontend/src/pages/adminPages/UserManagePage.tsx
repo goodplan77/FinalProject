@@ -3,7 +3,7 @@ import styles from './UserManagePage.module.css';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import { User } from '../../type/user';
+import { User } from '../../type/User';
 import { selectAllUser, selectOneUser } from '../../features/userSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,16 +13,16 @@ export default function UserManagePage() {
     const navi = useNavigate();
     const dispatch = useDispatch();
     const users = useSelector((state: RootState) => state.users);
-    
+
     const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
     const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
     const [filterTerm, setFilterTerm] = useState(''); // 실제 검색에 사용될 필터 상태
     const [itemsPerPage] = useState(10); // 페이지당 항목 수
-    const [checkedList , setCheckedList] = useState<User[]>([]);
+    const [checkedList, setCheckedList] = useState<User[]>([]);
     const [isAllChecked, setIsAllChecked] = useState(false); // 전체 체크박스 상태
 
     // 모달 상태 확인용 state 영역
-    const [data , setData] = useState<User|null>();
+    const [data, setData] = useState<User | null>();
 
     // 페이지 로딩시 초기 데이터 불러오기 (useEffect)
     useEffect(() => {
@@ -40,14 +40,14 @@ export default function UserManagePage() {
         setSearchTerm('');
     };
 
-    const handleKeyPress = (e:React.KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             handleSearch();
             setSearchTerm('');
         }
     };
 
-    const filteredBoards = users.filteredUsers.filter(users => 
+    const filteredBoards = users.filteredUsers.filter(users =>
         users.nickName.toLowerCase().includes(filterTerm.toLowerCase()) // 사용자 닉네임 검색
     );
 
@@ -74,7 +74,7 @@ export default function UserManagePage() {
     };
 
     // ?. 상세보기 페이지 이동
-    const moveDetailUser = (e:React.MouseEvent<HTMLDivElement> , user:User) => {
+    const moveDetailUser = (e: React.MouseEvent<HTMLDivElement>, user: User) => {
         e.stopPropagation();
         dispatch(selectOneUser(user));
         navi(`../userDetail/${user.userNo}`);
@@ -95,7 +95,8 @@ export default function UserManagePage() {
                 <span
                     key={i}
                     className={`${styles.page} ${currentPage === i ? styles.activePage : ''}`}
-                    onClick={() => {setCurrentPage(i)
+                    onClick={() => {
+                        setCurrentPage(i)
                         setIsAllChecked(false);
                         setCheckedList([]);
                     }}
@@ -106,13 +107,13 @@ export default function UserManagePage() {
         }
         return pageNumbers;
     };
-    
+
     // 6. 실제 html 요소 반환 부분
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>회원 관리 페이지</h1>
             <div className={styles.searchBar}>
-            <input
+                <input
                     type="text"
                     placeholder="회원 닉네임 검색"
                     className={styles.searchInput}
@@ -126,8 +127,8 @@ export default function UserManagePage() {
             <div className={styles.memberList}>
                 <div className={styles.memberListHeader}>
                     <input type="checkbox" className={styles.checkbox}
-                    checked={isAllChecked}
-                    onChange={checkAllHandler}
+                        checked={isAllChecked}
+                        onChange={checkAllHandler}
                     />
                     <span className={styles.headerItem}>UID</span>
                     <span className={styles.headerItem}>이메일</span>
@@ -135,45 +136,47 @@ export default function UserManagePage() {
                     <span className={styles.headerItem}>가입일</span>
                     <span className={styles.headerItem}>활성화</span>
                 </div>
-                
-                {currentItems.map((user,index) => {return (
-                    <div key={index} className={styles.memberRow}
-                    onClick={(e) => moveDetailUser(e,user)}
-                    >
-                        <input type="checkbox" className={styles.checkbox} 
-                        checked={checkedList.some(item => (item.userNo === user.userNo) && (user.status !== 'D'))} // some : 조건을 만족하는 요소 검사 메서드
-                        onChange={(e) => handleCheckboxChange(e, user)}
-                        disabled = {user.status === 'N'}
-                        onClick={(e) => e.stopPropagation()}
-                        />
-                        <span className={styles.memberId}>{user.userNo}</span>
-                        <span className={styles.memberEmail}>{user.email}</span>
-                        <span className={styles.memberNickname}>{user.nickName}</span>
-                        <span className={styles.memberJoinDate}>{user.enrollDate}</span>
-                        <div className={styles.toggleContainer} onClick={(e) => e.stopPropagation()}>
-                        <label className={styles.switch}>
+
+                {currentItems.map((user, index) => {
+                    return (
+                        <div key={index} className={styles.memberRow}
+                            onClick={(e) => moveDetailUser(e, user)}
+                        >
+                            <input type="checkbox" className={styles.checkbox}
+                                checked={checkedList.some(item => (item.userNo === user.userNo) && (user.status !== 'D'))} // some : 조건을 만족하는 요소 검사 메서드
+                                onChange={(e) => handleCheckboxChange(e, user)}
+                                disabled={user.status === 'N'}
+                                onClick={(e) => e.stopPropagation()}
+                            />
+                            <span className={styles.memberId}>{user.userNo}</span>
+                            <span className={styles.memberEmail}>{user.email}</span>
+                            <span className={styles.memberNickname}>{user.nickName}</span>
+                            <span className={styles.memberJoinDate}>{user.enrollDate}</span>
+                            <div className={styles.toggleContainer} onClick={(e) => e.stopPropagation()}>
+                                <label className={styles.switch}>
                                     {user.status === 'Y' ? (
-                                    <div>
-                                        <input type="checkbox" checked={true}/>
-                                        <span className={styles.slider}></span>
-                                    </div>
-                                ) : user.status === 'B' ? (
-                                    <div>
-                                        <input type="checkbox" checked={false}/>
-                                        <span className={styles.slider}></span>
-                                    </div>
-                                ) : (
-                                    <span className={styles.defaultLabel}>삭제됨</span>
-                                )}
-                        </label>
-                    </div>
-                </div>
-                )})}
+                                        <div>
+                                            <input type="checkbox" checked={true} />
+                                            <span className={styles.slider}></span>
+                                        </div>
+                                    ) : user.status === 'B' ? (
+                                        <div>
+                                            <input type="checkbox" checked={false} />
+                                            <span className={styles.slider}></span>
+                                        </div>
+                                    ) : (
+                                        <span className={styles.defaultLabel}>삭제됨</span>
+                                    )}
+                                </label>
+                            </div>
+                        </div>
+                    )
+                })}
             </div>
             <div className={styles.pagination}>
                 {renderPageNumbers()}
             </div>
-            
+
         </div>
     )
 }

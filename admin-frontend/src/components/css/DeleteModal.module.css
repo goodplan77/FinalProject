@@ -46,6 +46,25 @@
     line-height: 1.5;
 }
 
+.boardGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* 2개의 컬럼으로 나누기 */
+    gap: 15px;
+    /* 각 항목 사이의 간격 */
+    margin-bottom: 20px;
+    /* 마지막 텍스트와의 간격 */
+}
+
+.boardItem {
+    background-color: #f9f9f9;
+    /* 항목 배경색 */
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
 .modalFooter {
     display: flex;
     justify-content: flex-end;
