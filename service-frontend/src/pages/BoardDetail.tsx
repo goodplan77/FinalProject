@@ -126,6 +126,10 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
       const makeChatRoom = (e:React.FormEvent) => {
         e.preventDefault();
 
+        if(board.userNo == loginUser.userNo){
+            return;
+        }
+
         const chatRoom = {
             toUserNo : board.userNo,
             fromUserNo : loginUser.userNo
