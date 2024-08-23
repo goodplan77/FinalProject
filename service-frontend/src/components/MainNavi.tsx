@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './MainNavi.module.css';
+import styles from './styles/MainNavi.module.css';
 
 const MainNavi: React.FC = () => {
     const navi = useNavigate();

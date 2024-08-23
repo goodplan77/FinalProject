@@ -1,37 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Router, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Login from './pages/Login';
-import Mypage from './pages/Mypage';
-import BoardList from './pages/BoardList';
-import Mainpage from './pages/Mainpage';
-import Signup from './pages/Signup';
-import UsedList from './pages/UsedList';
-import AdoptList from './pages/AdoptList';
-import MissingList from './pages/MissingList';
-import InsertBoard from './pages/InsertBoard';
-import ChatList from './pages/ChatList';
-import ChatRoom from './pages/ChatRoom';
-import PetPlace from './pages/PetPlace';
-import Weather from './pages/Weather';
+import BoardList from './pages/board/BoardList';
+import UsedList from './pages/board/UsedList';
+import AdoptList from './pages/board/AdoptList';
+import MissingList from './pages/board/MissingList';
+import InsertBoard from './pages/board/InsertBoard';
+import ChatList from './pages/chat/ChatList';
+import ChatRoom from './pages/chat/ChatRoom';
+import PetPlace from './pages/common/PetPlace';
+import Weather from './pages/common/Weather';
 import Navibar from './components/Navibar';
 import './App.css';
 import Headerbar from './components/Headerbar';
-import FindUserId from './pages/FindUserId';
-import FindUserPassword from './pages/FindUserPassword';
-import SuccessUserId from './pages/SuccessUserId';
-import ChangePassword from './pages/ChangePassword';
-import CalendarPage from './pages/CalendarPage';
-import BoardDetail from './pages/BoardDetail';
-import Clause from './pages/Clause';
-import Alarm from './pages/Alarm';
-import SearchPage from './pages/SearchPage';
+import FindUserId from './pages/user/FindUserId';
+import FindUserPassword from './pages/user/FindUserPassword';
+import SuccessUserId from './pages/user/SuccessUserId';
+import ChangePassword from './pages/user/ChangePassword';
+import CalendarPage from './pages/common/CalendarPage';
+import BoardDetail from './pages/board/BoardDetail';
+import Clause from './pages/common/Clause';
+import Alarm from './pages/common/Alarm';
+import SearchPage from './pages/common/SearchPage';
 import { useSelector } from 'react-redux';
 import { RootState } from './store/store';
-import UpdateUser from './pages/UpdateUser';
-import InsertDog from './pages/InsertDog';
-import DogList from './pages/DogList';
+import InsertDog from './pages/dog/InsertDog';
+import DogList from './pages/dog/DogList';
 import BoardHeaderbar from './components/BoardHeader';
+import MainPage from './pages/common/Mainpage';
+import MyPage from './pages/user/Mypage';
+import UpdateUserPage from './pages/user/UpdateUser';
+import LoginPage from './pages/user/Login';
+import SignUpPage from './pages/user/Signup';
 
 
 
@@ -73,10 +73,10 @@ const App = () => {
 
       <div className="app-container">
         <Routes>
-          <Route path='/' element={<Mainpage />} />
-          <Route path='/mypage' element={<Mypage />} />
-          <Route path='/updateUser' element={<UpdateUser />} />
-          <Route path='/login' element={<Login />} />
+          <Route path='/' element={<MainPage />} />
+          <Route path='/mypage' element={<MyPage />} />
+          <Route path='/updateUser' element={<UpdateUserPage />} />
+          <Route path='/login' element={<LoginPage />} />
           <Route path='/boardList' element={<BoardList />} />
           <Route path='/usedList' element={<UsedList />} />
           <Route path='/adoptList' element={<AdoptList />} />
@@ -84,7 +84,7 @@ const App = () => {
           <Route path='/insertBoard' element={<InsertBoard />} />
           <Route path='/chatlist' element={<ChatList />} />
           <Route path='/chatRoom/:chatRoomNo' element={<ChatRoom />} />
-          <Route path='/signup' element={<Signup />} />
+          <Route path='/signup' element={<SignUpPage />} />
           <Route path='/petPlace' element={<PetPlace />} />
           <Route path='/weather' element={<Weather />} />
           <Route path='findUserId' element={<FindUserId />} />

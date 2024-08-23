@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import styles from './MainHeader.module.css';
+import styles from './styles/MainHeader.module.css';
 
 export default function MainHeader() {
     const ScrollToTop = () => {

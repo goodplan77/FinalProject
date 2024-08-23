@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import style from './BoardHeader.module.css';
+import style from './styles/BoardHeader.module.css';
 import { getCookie } from '../utils/Cookie';
 import axios from '../utils/CustomAxios';
 import { useEffect, useRef, useState } from 'react';

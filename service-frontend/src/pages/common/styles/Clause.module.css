@@ -1,0 +1,93 @@
+/* Clause.module.css */
+
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    height: 741px;
+    margin: 0 auto;
+    background: #FFFFFF;
+    overflow: hidden;
+}
+
+.logo {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    left: 50%;
+    top: 50px;
+    transform: translateX(-50%);
+    background: url('../../../../public/images/logo.png') no-repeat center;
+    background-size: contain;
+}
+
+.checkboxContainers {
+    margin-top: 230px;
+}
+
+.checkboxContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-left: 63px;
+    margin-bottom: 25px;
+}
+
+.checkbox {
+    width: 18px;
+    height: 18px;
+    background: #D9D9D9;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.text {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 26px;
+    color: #000000;
+}
+
+.viewTermsButton {
+    margin-left: auto;
+    width: 100px;
+    height: 26px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 26px;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F0F0F0;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+}
+
+.nextButtonContainer {
+    position: absolute;
+    width: 130px;
+    height: 40px;
+    left: 50%;
+    top: 600px;
+    transform: translateX(-50%);
+    background: #02CCFE;
+    border-radius: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease, cursor 0.3s ease;
+}
+
+.nextButtonText {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #000000;
+    text-align: center;
+}

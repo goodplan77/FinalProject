@@ -1,0 +1,472 @@
+.img{
+    width: 100px;
+    height: 100px;
+}
+
+.mypage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    padding: 0px 5px;
+    gap: 10px;
+    isolation: isolate;
+    position: relative;
+    width: 430px;
+    min-width: 360px;
+    max-width: 720px;
+    height: 932px;
+    background: #FFFFFF;
+}
+
+.myInfo {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    width: 420px;
+    height: 92px;
+    background: #FFFFFF;
+    border-bottom: 1px solid #B1B1B1;
+    position: absolute;
+    left: 5px;
+    top: 60px;
+    z-index: 1;
+}
+
+.profileFrame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 10px;
+    width: 206px;
+    height: 72px;
+    background: #FFFFFF;
+}
+
+.profileSettingFrame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    width: 102px;
+    height: 72px;
+    background: #FFFFFF;
+}
+
+.profilePictureFrame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 72px;
+    height: 72px;
+    background: #FFFFFF;
+    border-radius: 45px;
+}
+
+.profilePicture {
+    box-sizing: border-box;
+    width: 72px;
+    height: 72px;
+    background: url('../../../../public/images/icon.png') no-repeat center center;
+    background-size: cover;
+    border: 1px solid #000000;
+    border-radius: 1000px;
+}
+
+.nicknameFrame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 94px;
+    height: 26px;
+    background: #FFFFFF;
+}
+
+.nickname {
+    width: 94px;
+    height: 26px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    color: #000000;
+}
+
+.pointsFrame {
+    display: flex;
+    align-items: center;
+    width: 186px;
+    height: 26px;
+    background: #FFFFFF;
+}
+
+.pointsTextFrame {
+    display: flex;
+    align-items: center;
+    width: 106px;
+    height: 26px;
+    background: #FFFFFF;
+}
+
+.pointsText {
+    width: 106px;
+    height: 26px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    color: #000000;
+}
+
+.pointsValueFrame {
+    display: flex;
+    align-items: center;
+    width: 80px;
+    height: 26px;
+    background: #FFFFFF;
+}
+
+.pointsValue {
+    width: 80px;
+    height: 26px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    color: #000000;
+}
+
+.additionalInfo {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    position: absolute;
+    width: 420px;
+    height: 92px;
+    left: 5px;
+    top: 162px;
+    background: #FFFFFF;
+    border-bottom: 1px solid rgba(177, 177, 177, 0.733333);
+}
+
+.additionalProfileFrame {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 256px;
+    height: 72px;
+    background: #FFFFFF;
+}
+
+.additionalProfileSettingFrame {
+    display: flex;
+    align-items: center;
+    width: 102px;
+    height: 72px;
+    background: #FFFFFF;
+}
+
+.additionalProfilePictureFrame {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 72px;
+    height: 72px;
+    background: #FFFFFF;
+    border-radius: 45px;
+}
+
+.additionalProfilePicture {
+    box-sizing: border-box;
+    width: 72px;
+    height: 72px;
+    background: url('../../../../public/images/icon.png') no-repeat center center;
+    background-size: cover;
+    border: 1px solid #000000;
+    border-radius: 1000px;
+}
+
+.additionalNicknameFrame {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 144px;
+    height: 26px;
+    background: #FFFFFF;
+}
+
+.additionalNickname {
+    width: 144px;
+    height: 26px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    color: #000000;
+}
+
+.petButton {
+    display: flex;
+    align-items: center;
+    width: 142px;
+    height: 71px;
+    background: #E4FAFF;
+    border-radius: 45px;
+}
+
+.petButtonText {
+    width: 142px;
+    height: 71px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+    justify-content: center;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    position: absolute;
+    gap: 10px;
+    width: 420px;
+    height: 100px;
+    left: 5px;
+    top: 264px;
+    background: #FFFFFF;
+}
+
+.buttonFrame1,
+.buttonFrame2,
+.buttonFrame3 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    width: 120px;
+    height: 80px;
+    background: #E4FAFF;
+    border-radius: 30px;
+}
+
+.buttonText1,
+.buttonText2,
+.buttonText3 {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    text-align: center;
+    color: #000000;
+}
+
+.listContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+    gap: 10px;
+    position: absolute;
+    width: 420px;
+    height: 323px;
+    left: 5px;
+    top: 374px;
+    background: #FFFFFF;
+}
+
+.listItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    gap: 10px;
+    width: 400px;
+    height: 60px;
+}
+
+.listItemText {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    color: #000000;
+}
+
+.horizontalDivider {
+    width: 400px;
+    height: 1px;
+    background: #F0F0F0;
+}
+
+.buttonFooter {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    position: absolute;
+    width: 420px;
+    height: 66px;
+    left: 5px;
+    top: 707px;
+    background: #FFFFFF;
+}
+
+.buttonEdit,
+.buttonLogout,
+.buttonLogin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    border-radius: 30px;
+}
+
+.buttonEdit {
+    width: 158px;
+    height: 46px;
+    background: #02CCFE;
+}
+
+.buttonEditText,
+.buttonLogoutText,
+.buttonLoginText {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 26px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.buttonLogout {
+    width: 114px;
+    height: 46px;
+    background: #FF0000;
+}
+
+.buttonLogin {
+    width: 114px;
+    height: 46px;
+    background: #56488a;
+}
+
+/* Modal Styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background: #E0F7FA;
+    padding: 20px;
+    border-radius: 15px;
+    width: 300px;
+    text-align: center;
+    z-index: 1001;
+    border: 3px solid #00BCD4;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modalContent h2 {
+    margin-bottom: 15px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 18px;
+    color: #00BCD4;
+    background-color: #B2EBF2;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.askInput {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #00BCD4;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #00BCD4;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.modalContent textarea {
+    width: 93%;
+    height: 100px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #00BCD4;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    color: #00BCD4;
+    background-color: #FFFFFF;
+    outline: none;
+}
+
+.modalContent button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    color: #00BCD4;
+    background-color: #B2EBF2;
+    transition: background-color 0.3s ease;
+}
+
+.modalContent button:first-of-type {
+    background-color: #B2EBF2;
+    color: #00BCD4;
+}
+
+.modalContent button:last-of-type {
+    background-color: #FFFFFF;
+    color: #00BCD4;
+}
+
+.modalContent button:hover {
+    background-color: #00BCD4;
+    color: #FFFFFF;
+}

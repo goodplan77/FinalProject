@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import style from './Headerbar.module.css';
+import style from './styles/Headerbar.module.css';
 import { getCookie } from '../utils/Cookie';
 import { url } from 'inspector';
 import { data } from 'jquery';
