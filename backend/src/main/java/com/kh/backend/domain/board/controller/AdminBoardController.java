@@ -98,7 +98,7 @@ public class AdminBoardController {
 			int result = boardService.insertEventboard(board);
 
 			if (file != null && !file.isEmpty()) {
-				result *= boardService.insertBoardImages(board, file);
+				result *= boardService.insertBoardImage(board, file);
 			}
 
 			if (result > 0) {
@@ -130,7 +130,7 @@ public class AdminBoardController {
 			int result = boardService.insertInfoboard(board);
 
 			if (file != null && !file.isEmpty()) {
-				result *= boardService.insertBoardImages(board, file);
+				result *= boardService.insertBoardImage(board, file);
 			}
 
 			if (result > 0) {

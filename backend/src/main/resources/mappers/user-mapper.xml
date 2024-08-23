@@ -14,18 +14,40 @@
 		<result column="POINTS" property="points"/>
 		<result column="ENROLL_DATE" property="enrollDate"/>
 		<result column="MODIFY_DATE" property="modifyDate"/>
+		<association property="imgUser"
+					 javaType="imgUser"
+					 select="selectImgUser"
+					 column="USER_NO"/>
 		<collection property="authorities"
 					javaType="list"
 					ofType="simpleGrantedAuthority"
 					select="selectAuthorities"
-					column="USER_NO"
-		 />
+					column="USER_NO"/>
+		 <collection property="dogs"
+		 			 javaType="list"
+		 			 ofType="dog"
+		 			 select="selectDogs"
+		 			 column="USER_NO"/>
 	</resultMap>
 	
 	<resultMap id="authorityMap" type="simpleGrantedAuthority">
 		<constructor>
 			<arg column="authority" javaType="string" />
 		</constructor>
+	</resultMap>
+	
+	<resultMap id="dogMap" type="dog">
+		<id column="DOG_NO" property="dogNo"/>
+		<result column="IS_MAIN" property="isMain"/>
+		<result column="DOG_NAME" property="dogName"/>
+		<result column="BREED" property="breed"/>
+		<result column="GENDER" property="gender"/>
+		<result column="BIRTHDAY" property="birthday"/>
+		<result column="NOTE" property="note"/>
+		<association property="imgDog"
+					 javaType="imgDog"
+					 select="selectImgDog"
+					 column="DOG_NO"/>
 	</resultMap>
 	
 <!--=============================================================================-->
@@ -59,7 +81,8 @@
 				ADDRESS,
 				STATUS,
 				POINTS,
-				ENROLL_DATE
+				ENROLL_DATE,
+				MODIFY_DATE
 			)
 			VALUES(
 				#{userNo},
@@ -71,7 +94,8 @@
 				#{address},
 				DEFAULT,
 				#{points},
-				DEFAULT
+				DEFAULT,
+				NULL
 			)
 	</insert>
 	
@@ -106,12 +130,27 @@
 		)
 	</insert>
 	
+	<!-- 회원 조회 -->
+	<select id="selectUser" resultMap="userMap">
+		SELECT * 
+		FROM "USER"
+		<where>
+		<if test="email != null">
+			AND EMAIL = #{email}
+		</if>
+		<if test="userNo != null">
+			AND USER_NO = #{userNo}
+		</if>
+		</where>
+	</select>
+	
 	<!-- 회원 조회(UserDetails) -->
 	<select id="loadUserByUsername" resultMap="userMap">
 		SELECT
 			*
 		FROM "USER"
 		LEFT JOIN USER_SOCIAL USING(USER_NO)
+		LEFT JOIN IMG_USER USING(USER_NO)
 		<where>
 			<if test="userNo != null">
 				AND USER_NO = #{userNo}
@@ -132,18 +171,85 @@
 		WHERE USER_NO = #{userNo}
 	</select>
 	
-	<!-- 회원 조회 -->
-	<select id="selectUser" resultMap="userMap">
-		SELECT * FROM "USER"
-		<where>
-		<if test="email != null">
-			AND EMAIL = #{email}
-		</if>
-		<if test="userNo != null">
-			AND USER_NO = #{userNo}
-		</if>
-		</where>
+	<!-- 회원의 반려견 조회 -->
+	<select id="selectDogs" resultMap="dogMap">
+		SELECT *
+		FROM "DOG"
+		WHERE USER_NO = #{userNo}
 	</select>
+	
+	<!-- 회원 프사 조회 -->
+	<select id="selectImgUser" resultType="imgUser">
+		SELECT * 
+		FROM "IMG_USER"
+		WHERE USER_NO = #{userNo}
+	</select>
+	
+	<!-- 반려견 프사 조회 -->
+	<select id="selectImgDog" resultType="imgDog">
+		SELECT *
+		FROM "IMG_DOG"
+		WHERE DOG_NO = #{dogNo}
+	</select>
+	
+	<!-- 반려견 등록 -->
+	<insert id="insertDog">
+		<selectKey order="BEFORE" keyProperty="dogNo" resultType="int">
+			SELECT SEQ_DOG.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO "DOG"
+		VALUES(
+			#{dogNo},
+			#{userNo},
+			#{isMain},
+			#{dogName},
+			#{breed},
+			#{gender},
+			#{birthday},
+			#{note}
+		)
+	</insert>
+	
+	<!-- 회원 정보 수정 -->
+	<update id="updateUser" parameterType="user">
+		UPDATE "USER"
+		SET NICK_NAME = #{nickName},
+			PHONE = #{phone},
+			ADDRESS = #{address}
+		WHERE USER_NO = #{userNo}		
+	</update>
+	
+	<!-- 회원 정보 수정 (프사) -->
+	<update id="updateImgUser">
+		UPDATE "IMG_USER"
+		SET ORIGIN_NAME = #{originName},
+			CHANGE_NAME = #{changeName}
+		WHERE USER_NO = #{userNo}
+	</update>
+	
+	<!-- 회원 프사 등록 메서드 -->
+	<insert id="insertImgUser">
+		INSERT INTO "IMG_USER"
+		VALUES(
+			#{userNo},
+			#{originName},
+			#{changeName}
+		)
+	</insert>
+	
+	<!-- 반려견 프사 등록 -->
+	<insert id="insertImgDog">
+		INSERT INTO "IMG_DOG"
+		VALUES(
+			#{dogNo},
+			#{originName},
+			#{changeName}
+		)
+	</insert>
+	
+	
+	
+	
 	
 	<!-- 미사용 -> 추후 삭제 가능
 	<select id="selectSocialType">

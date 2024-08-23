@@ -93,7 +93,7 @@ public class BoardController {
 
 	    if (result > 0 && files != null) {
 	        // 디렉토리 생성
-	        String uploadDir = Paths.get("src/main/resources/static/images/board/" + board.getBoardCode()).toAbsolutePath().toString(); // A인지 S인지 뭐 이런거
+	        String uploadDir = Paths.get("uploads/images/board/" + board.getBoardCode()).toAbsolutePath().toString(); // A인지 S인지 뭐 이런거
 	        File dir = new File(uploadDir);
 	        if (!dir.exists()) {
 	            dir.mkdirs();
@@ -102,6 +102,7 @@ public class BoardController {
 	        for (MultipartFile file : files) {
 	            if (file != null && !file.getOriginalFilename().isEmpty()) {
 	                BoardImg boardImg = new BoardImg();
+	                boardImg.setOriginName(file.getOriginalFilename());
 	                boardImg.setBoardNo(board.getBoardNo());
 	                
 	                String originName = file.getOriginalFilename();
@@ -111,7 +112,7 @@ public class BoardController {
 	                String ext = originName.substring(originName.lastIndexOf(".")); // .jpg 이런거 잘라내는 용도
 	                String changeName = currentTime + random + ext; // 시간 + 랜덤값5자리 + .jpg이런식으로 저장됨
 	                
-	                boardImg.setOriginName(changeName);
+	                boardImg.setChangeName(changeName);
 	                
 	                File serverFile = new File(uploadDir, changeName);
 	                try {

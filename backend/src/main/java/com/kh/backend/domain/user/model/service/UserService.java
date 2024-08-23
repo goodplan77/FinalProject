@@ -5,6 +5,9 @@ import java.util.HashMap;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import com.kh.backend.domain.user.model.vo.Dog;
+import com.kh.backend.domain.user.model.vo.ImgDog;
+import com.kh.backend.domain.user.model.vo.ImgUser;
 import com.kh.backend.domain.user.model.vo.User;
 
 public interface UserService extends UserDetailsService{
@@ -26,6 +29,18 @@ public interface UserService extends UserDetailsService{
 	
 	// 회원 조회 메서드
 	User selectUser(HashMap<String, Object> map);
+
+	// 반려견 등록 메서드
+	int insertDog(Dog dog, ImgDog id);
+
+	// 회원 정보 수정 메서드
+	int updateUser(User user);
+
+	// 회원 정보 수정 메서드(프사)
+	int updateImgUser(ImgUser iu);
+
+	// 회원 프사 등록 메서드
+	int insertImgUser(ImgUser iu);
 
 
 }

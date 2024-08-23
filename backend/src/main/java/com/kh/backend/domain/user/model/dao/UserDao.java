@@ -4,6 +4,9 @@ import java.util.HashMap;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.kh.backend.domain.user.model.vo.Dog;
+import com.kh.backend.domain.user.model.vo.ImgDog;
+import com.kh.backend.domain.user.model.vo.ImgUser;
 import com.kh.backend.domain.user.model.vo.User;
 
 public interface UserDao {
@@ -26,6 +29,22 @@ public interface UserDao {
 	// 회원 조회 메서드(UserDetails)
 	UserDetails loadUserByUsername(HashMap<String, Object> param);
 
+	// 회원 정보 수정 메서드
+	int updateUser(User user);
+	
+	// 회원 정보 수정 메서드(프사)
+	int updateImgUser(ImgUser iu);
+	
+	// 반려견 등록 메서드
+	int insertDog(Dog dog, ImgDog id);
+
+	// 회원 프사 등록 메서드
+	int insertImgUser(ImgUser iu);
+
+
+	
+	
+	
 //	미사용 -> 추후 삭제 가능
 //	int insertAuthority(User u);
 //	

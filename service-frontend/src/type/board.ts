@@ -79,4 +79,4 @@ export const initialBoardList:Board[] = [];
 
 export interface SearchKeyword {
     title: Board['title']
-}
+};

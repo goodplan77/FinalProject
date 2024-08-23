@@ -63,8 +63,8 @@ public class AdminBoardDaoImpl implements AdminBoardDao{
 	}
 
 	@Override
-	public int insertBoardImages(BoardImg boardImg) {
-		return session.insert("adminBoard.insertBoardImages" , boardImg);
+	public int insertBoardImage(BoardImg boardImg) {
+		return session.insert("adminBoard.insertBoardImage" , boardImg);
 	}
 
 	@Override
@@ -88,8 +88,8 @@ public class AdminBoardDaoImpl implements AdminBoardDao{
 	}
 
 	@Override
-	public BoardImg selectBoardImages(int boardNo) {
-		return session.selectOne("adminBoard.selectBoardImages" , boardNo);
+	public List<BoardImg> selectBoardImages(int boardNo) {
+		return session.selectList("adminBoard.selectBoardImages" , boardNo);
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import com.kh.backend.domain.board.model.dao.BoardDao;
 import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.board.model.vo.BoardImg;
 import com.kh.backend.domain.comment.model.vo.Comment;
-import com.kh.backend.domain.common.Utils;
+import com.kh.backend.common.Utils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -77,6 +77,11 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<Board> selectBoardsTitle(String title) {
 		return boardDao.selectBoardsTitle(title);
+	}
+
+	@Override
+	public List<BoardImg> selectBoardImages(int boardNo) {
+		return boardDao.selectBoardImages(boardNo);
 	}
 
 }

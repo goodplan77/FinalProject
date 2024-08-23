@@ -72,8 +72,8 @@ export default function BoardManagePage() {
         switch(type){
             case 'C': return '일반';
             case 'S': return '중고';
-            case 'M': return '분양';
-            case 'A': return '실종';
+            case 'A': return '분양';
+            case 'M': return '실종';
         }
     };
 
@@ -211,16 +211,16 @@ export default function BoardManagePage() {
                     중고
                 </button>
                 <button
-                    className={`${styles.categoryButton} ${activeCategory === '분양' ? styles.active : ''}`}
-                    onClick={() => handleCategoryClick('분양')}
-                >
-                    분양
-                </button>
-                <button
                     className={`${styles.categoryButton} ${activeCategory === '실종' ? styles.active : ''}`}
                     onClick={() => handleCategoryClick('실종')}
                 >
                     실종
+                </button>
+                <button
+                    className={`${styles.categoryButton} ${activeCategory === '분양' ? styles.active : ''}`}
+                    onClick={() => handleCategoryClick('분양')}
+                >
+                    분양
                 </button>
             </div>
             <button className={styles.deleteButton} onClick={setDeleteModal}>삭제</button>
@@ -255,7 +255,7 @@ export default function BoardManagePage() {
                         <span className={styles.postId}>{board.boardNo}</span>
                         <span className={styles.postTitle}>{board.title}</span>
                         <span className={styles.postCategory}>{categoryConvert(`${board.boardCode}`)}</span>
-                        <span className={styles.postAuthor}>{board.userNo}</span>
+                        <span className={styles.postAuthor}>{board.nickName}</span>
                         <span className={styles.postCreatedDate}>{board.enrollDate}</span>
                         <span className={styles.postModifiedDate}>{board.modifyDate}</span>
                         <span className={styles.postViews}>{board.views}</span>

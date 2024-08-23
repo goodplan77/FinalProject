@@ -1,15 +1,25 @@
 export interface ask {
-    askNo: number,
-    userNo: number,
-    content: string,
-    title: string
+    userNo : number;
+    askNo : number;
+    title : string;
+	content : string;
+	resContent : string;
+	status : string; // Y - 답변완료 N - 미완료
+	askDate : string; // 일단 String
+	resDate : string; // 일단 String
+    nickName : string;
 }
 
 export const initialAsk: ask = {
-    askNo: 0,
-    userNo: 0,
-    content: '',
-    title: ''
+    userNo : 0,
+    askNo : 0,
+    title : '',
+	content : '',
+	resContent : '',
+	status : 'N',
+	askDate : '',
+	resDate : '',
+    nickName : ''
 }
 
 export const initialAskList: ask[] = [];

@@ -16,23 +16,39 @@ export default function ProductBoardManagePage() {
     const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
     const [filterTerm, setFilterTerm] = useState(''); // 실제 검색에 사용될 필터 상태
 
-    // 모달 상태 확인용 state 영역
-    const [data , setData] = useState<Product|null>();
-    const [showDetailModal , setShowDetailModal] = useState(false);
+    const [productImgUrl, setProductImgUrl] = useState<string[]>([]);
 
-    const filteredproducts = products.filteredProducts.filter(product => 
+    // 모달 상태 확인용 state 영역
+    const [data, setData] = useState<Product | null>();
+    const [showDetailModal, setShowDetailModal] = useState(false);
+
+    const filteredproducts = products.filteredProducts.filter(product =>
         (product.title || '').toLowerCase().includes(filterTerm.toLowerCase()) // 제목에 검색어 포함 여부
     );
 
     useEffect(() => {
-        axios.get("http://localhost:8013/banju/admin/board/ProductboardList")
-            .then((response) => {
-                console.dir(response.data);
+        const fetchImagePath = async () => {
+            try {
+                const response = await axios.get("http://localhost:8013/banju/admin/board/ProductboardList");
                 dispatch(selectAllProduct(response.data));
-            }).catch((error) => {
-                console.log(error);
-            })
-    }, [])
+
+                const imageUrls = await Promise.all(
+                    response.data.map(async (value: Product) => {
+                        const imgResponse = await axios.get(`http://localhost:8013/banju/api/board/admin/product/${value.productNo}`);
+                        console.log(imgResponse.data);
+                        return imgResponse.data; // 각 이미지 URL을 배열로 반환
+                    })
+                );
+
+                setProductImgUrl(imageUrls); // 상태를 한 번에 업데이트
+
+            } catch (error) {
+                console.error('이미지 경로를 불러오는데 실패했습니다.', error);
+            }
+        };
+
+        fetchImagePath();
+    }, []);
 
     // 1. 제목 검색 기능
     const handleSearch = () => {
@@ -40,7 +56,7 @@ export default function ProductBoardManagePage() {
         setSearchTerm('');
     };
 
-    const handleKeyPress = (e:React.KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             handleSearch();
             setSearchTerm('');
@@ -48,7 +64,7 @@ export default function ProductBoardManagePage() {
     };
 
     // 4. 상세 보기 모달
-    const setDetailModal = (e:React.MouseEvent<HTMLDivElement> , product:Product) => {
+    const setDetailModal = (e: React.MouseEvent<HTMLDivElement>, product: Product) => {
         e.stopPropagation();
         const oneProduct = dispatch(selectOneProduct(product));
         setData((oneProduct.payload));
@@ -63,7 +79,7 @@ export default function ProductBoardManagePage() {
         <div className={styles.container}>
             <h1 className={styles.title}>포인트 상품 관리 페이지</h1>
             <div className={styles.searchBar}>
-            <input
+                <input
                     type="text"
                     placeholder="상품 이름 검색"
                     className={styles.searchInput}
@@ -77,15 +93,13 @@ export default function ProductBoardManagePage() {
                 <button className={styles.addButton} onClick={() => navi('/adminPage/productBoardInsertPage')}>포인트 상품 추가</button>
             </div>
             <div className={styles.productGrid}>
-                {filteredproducts.map((product , index) => {
-                    const imgPath = `http://localhost:8013/banju/api/board/admin/product/${product.productNo}`;
-                    if(imgPath){
-                        return(
-                            <div key={index} className={styles.productCard}
+                {filteredproducts.map((product, index) => {
+                    return (
+                        <div key={index} className={styles.productCard}
                             onClick={(e) => setDetailModal(e, product)}
-                            >
+                        >
                             <img
-                                src={imgPath}
+                                src={`http://localhost:8013/banju${productImgUrl[index]}`}
                                 alt="상품 이미지"
                                 className={styles.productImage}
                             />
@@ -95,40 +109,19 @@ export default function ProductBoardManagePage() {
                                     <span>{product.price}</span>
                                 </div>
                                 <div className={styles.productLikes}>
-                                    <img
-                                        src="https://via.placeholder.com/20"
-                                        alt="좋아요 아이콘"
-                                        className={styles.icon}
-                                    />
-                                    <span>{product.likes}</span>
+                                    ❤<span>{product.likes}</span>
                                 </div>
                             </div>
                             <div className={styles.footer}>
                                 <div className={styles.footerItem}>
-                                    <img
-                                        src="https://via.placeholder.com/20"
-                                        alt="재고 아이콘"
-                                        className={styles.icon}
-                                    />
-                                    <span>{product.qty}</span>
+                                    🎁<span>{product.qty}</span>
                                 </div>
                                 <div className={styles.footerItem}>
-                                    <img
-                                        src="https://via.placeholder.com/20"
-                                        alt="날짜 아이콘"
-                                        className={styles.icon}
-                                    />
-                                    <span>????</span>
+                                    📆<span>????</span>
                                 </div>
                             </div>
                         </div>
-                        )
-                    } else {
-                        return (
-                            <>
-                            </>
-                        )
-                    }
+                    )
                 })}
             </div>
             {
