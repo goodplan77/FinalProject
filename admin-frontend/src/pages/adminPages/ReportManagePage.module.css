@@ -44,7 +44,7 @@
 .categoryButton {
     width: 160px;
     height: 40px;
-    background-color: #D9D9D9;
+    background: #AFAFAF;
     border-radius: 30px;
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 500;
@@ -55,12 +55,19 @@
     border: 0px;
 }
 
-.categoryButton.active {
-    background-color: #AFAFAF;
+.deleteButton {
+    display: flex;
+    background-color: #EC221F;
+    color: #FFF;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-bottom: 20px;
 }
 
-/* 게시글 목록 */
-.postList {
+.memberList {
     width: 100%;
     background: #FFFFFF;
     box-shadow: 0px 0px 32px rgba(0, 0, 0, 0.2);
@@ -68,34 +75,29 @@
     overflow-y: auto;
 }
 
-.postListHeader,
-.postRow {
+.memberListHeader,
+.memberRow {
     display: flex;
     align-items: center;
     padding: 10px 20px;
     border-bottom: 1px solid #e0e0e0;
 }
 
-.postListHeader {
+.memberListHeader {
     background-color: #f5f5f5;
     font-weight: bold;
 }
 
-.postListHeader span {
-    flex: 1;
+.memberListHeader span {
+    width: 100px;
     text-align: center;
 }
 
 .headerItem,
-.postId,
-.postTitle,
-.postCategory,
-.postAuthor,
-.postCreatedDate,
-.postModifiedDate,
-.postViews,
-.postLikes,
-.postReports,
+.memberId,
+.memberEmail,
+.memberNickname,
+.memberJoinDate,
 .toggleContainer {
     flex: 1;
     text-align: center;
@@ -106,6 +108,34 @@
     width: 20px;
     height: 20px;
     margin-right: 10px;
+}
+
+.toggleContainer {
+    width: 60px;
+    display: flex;
+    justify-content: center;
+}
+
+.toggle {
+    width: 30px;
+    height: 14.4px;
+    background: #8B8B8B;
+    border-radius: 73.1707px;
+    position: relative;
+}
+
+.toggle::after {
+    content: '';
+    position: absolute;
+    width: 11.71px;
+    height: 11.71px;
+    right: 1.46px;
+    top: calc(50% - 11.71px / 2);
+    background: #FFFFFF;
+    box-shadow: 0px 0px 0px 0.731707px rgba(0, 0, 0, 0.04),
+        0px 2.19512px 5.85366px rgba(0, 0, 0, 0.15),
+        0px 2.19512px 0.731707px rgba(0, 0, 0, 0.06);
+    border-radius: 50%;
 }
 
 .pagination {

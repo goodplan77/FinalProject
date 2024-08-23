@@ -86,7 +86,7 @@ public class FileDeleteScheduler {
 //
 //	}
 //
-	@Scheduled(cron = "10 0 0 * * *")
+	@Scheduled(cron = "1 1 * * * *")
 	public void deleteUserBoardFile() {
 		log.debug("-----전체 게시판 사진 파일 삭제 스케쥴러 시작-----");
 			List<Board> imageList = boardService.selectBoardImageList(); // 게시판 테이블 타입 코드를 받아오기 위해 게시판 타입으로 받아옴
@@ -100,7 +100,7 @@ public class FileDeleteScheduler {
 
 	}
 
-	@Scheduled(cron = "10 1 0 * * *")
+	@Scheduled(cron = "1 1 * * * *")
 	public void deleteProductFile() {
 		deleteFile("상품" , "uploads/images/board/P/" , boardService.selectProductBoards().stream().map(v->v.getImg()).toList());
 	}

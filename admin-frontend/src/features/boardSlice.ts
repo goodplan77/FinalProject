@@ -21,8 +21,8 @@ let boardSlice = createSlice({
             switch(action.payload){
                 case '일반': category = 'C'; break;
                 case '중고': category = 'S'; break;
-                case '실종': category = 'M'; break;
                 case '분양': category = 'A'; break;
+                case '실종': category = 'M'; break;
                 default: 
                     state.filteredBoards = state.allBoards; // 카테고리에 해당하지 않으면 전체 게시물 반환
                     return;

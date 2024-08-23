@@ -39,4 +39,14 @@ public class Reportcontroller {
 	    return map;
 	}
 	
+	
+	@GetMapping("/reportList")
+	public List<Report> reportList(HttpServletResponse response){
+		List<Report> list = reportService.selectList();
+		
+		return list;
+	}
+	
+	
+	
 }

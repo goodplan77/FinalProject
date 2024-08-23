@@ -45,10 +45,10 @@ export default function BoardHeaderbar({ boardNo }: BoardHeaderbarProps) {
 
     const handleSubmitReport = () => {
 
-        // if (loginUser.userNo === 10) {
-        //     alert("로그인 후 이용해주세요");
-        //     return;
-        // }
+        if (loginUser.userNo === 10) {
+            alert("로그인 후 이용해주세요");
+            return;
+        }
 
         const reportData = {
             userNo: loginUser.userNo,

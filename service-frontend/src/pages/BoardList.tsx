@@ -24,10 +24,6 @@ export default function BoardList() {
         return null;
     };
 
-    const handleClick = (boardNo: number) => {
-        navi(`/boardDetail/${boardNo}`);
-      };
-
     useEffect(() => {
         axios.get("http://localhost:8013/banju/board/boardList")
             .then((response) => {
@@ -65,7 +61,7 @@ export default function BoardList() {
                         <div key={board.boardNo}>
                             {/* 보드 카테고리바 아래에 보드 리스트입니다. */}
                             <div className={styles.classic}>
-                                <div className={styles.classicContent} onClick={() => handleClick(board.boardNo)}>
+                                <div className={styles.classicContent}>
                                     <div className={styles.img}></div>
                                     <div className={styles.upAndDown}>
                                         <div className={styles.contentUp}>

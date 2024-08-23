@@ -22,17 +22,15 @@
 
 	<select id="selectList" resultType="Report">
 		SELECT 
-			R.REPORT_NO, 
-			R.USER_NO, 
-			R.CATEGORY, 
-			R.CONTENT, 
-			R.REPORT_DATE, 
-			R.TYPE_CODE, 
-			R.REF_NO,
-			U.NICK_NAME
-		FROM REPORT R
-		JOIN "USER" U ON (R.USER_NO=U.USER_NO)
-		ORDER BY R.REPORT_DATE DESC
+			REPORT_NO, 
+			USER_NO, 
+			CATEGORY, 
+			CONTENT, 
+			REPORT_DATE, 
+			TYPE_CODE, 
+			REF_NO
+		FROM REPORT
+		ORDER BY REPORT_DATE DESC
 	</select>
 	
 </mapper>
