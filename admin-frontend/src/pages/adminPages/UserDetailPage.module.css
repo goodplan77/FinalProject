@@ -1,153 +1,175 @@
 /* 전체 컨테이너 스타일 */
 .userProfileContainer {
-    position: relative;
-    width: 1700px;
-    height: 1245px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr;
+    gap: 20px;
     background: #FFFFFF;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 12px;
     padding: 20px;
-    margin-left: 10px;
-    margin-top: 35px;
+    border-radius: 12px;
+    align-items: flex-start;
+    /* 아이템을 상단 정렬 */
+    height: 100vh;
+    /* 전체 높이를 화면에 맞게 설정 */
+    box-sizing: border-box;
+    /* 패딩을 포함한 높이 계산 */
 }
 
-/* 회원 기본 프로필 */
+/* 프로필 컨테이너 */
 .profileContainer {
-    position: absolute;
-    width: 250px;
-    height: 526px;
-    left: 39px;
-    top: 37px;
-    background: #F0F0F0;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background: #F8F9FA;
     border-radius: 12px;
-    text-align: center;
     padding: 20px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    width: 100%;
+    height: auto;
+    /* 높이를 자동으로 조정 */
+    display: flex;
+    flex-direction: column;
+    /* 세로 정렬 */
+    justify-content: space-between;
+    /* 내용 간의 균형을 맞춤 */
 }
 
+/* 프로필 이미지 스타일 */
 .profileImage {
-    width: 200px;
-    height: 185.58px;
+    width: 100%;
+    max-width: 150px;
+    /* 이미지의 최대 너비를 설정 */
     margin: 0 auto 20px auto;
-    background-size: cover;
-    background-position: center;
+    border-radius: 50%;
+    /* 동그랗게 만들기 */
+    overflow: hidden;
+    /* 이미지가 동그라미 밖으로 넘어가지 않도록 */
 }
 
-.profileText {
-    font-family: 'Noto Sans';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 22px;
-    color: #000000;
-}
-
-.profileValue {
-    font-family: 'Noto Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 22px;
-    color: #ACACAC;
-    margin-bottom: 10px;
-}
-
-/* 정보 수정 */
-.infoEditContainer {
-    position: absolute;
-    width: 650px;
-    height: 250px;
-    left: 340px;
-    top: 37px;
-    background: #F0F0F0;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 12px;
-    padding: 20px;
+.profileImage img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    /* 이미지의 비율을 유지하면서, 컨테이너에 맞게 조정 */
+    border-radius: 50%;
 }
 
 .infoEditHeader {
-    font-family: 'Noto Sans';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 20px;
-    color: #000000;
-    margin-bottom: 20px;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 15px;
 }
 
 .infoEditItem {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .infoEditLabel {
-    font-family: 'Noto Sans';
-    font-style: normal;
-    font-weight: 700;
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
     font-size: 14px;
-    color: #000000;
+    color: #333;
 }
 
 .infoEditValue {
-    font-family: 'Noto Sans';
-    font-style: normal;
+    font-family: 'Noto Sans', sans-serif;
     font-weight: 400;
     font-size: 14px;
-    color: #8B8B8B;
+    color: #666;
 }
 
-.infoEditToggle {
+.infoEditToggle input[type="checkbox"] {
+    transform: scale(1.2);
+}
+
+/* 오른편 컨테이너 */
+.rightContainer {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    margin-left: 40px;
+    gap: 20px;
+    height: 100%;
+    /* 오른쪽 컨테이너의 높이를 100%로 설정 */
+    justify-content: flex-start;
+    /* 내용을 상단 정렬 */
 }
 
-/* 반려견 정보 수정 */
+/* 반려견 정보 수정 섹션 */
 .dogInfoContainer {
-    position: absolute;
-    width: 650px;
-    height: 200px;
-    left: 341px;
-    top: 298px;
-    background: #F0F0F0;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background: #F8F9FA;
     border-radius: 12px;
     padding: 20px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    height: auto;
+    /* 높이를 자동으로 조정 */
+}
+
+.dogInfoHeader {
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 15px;
 }
 
 .dogInfoBox {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
     margin-bottom: 10px;
 }
 
-.dogInfoImage {
+.dogInfoImage img {
     width: 50px;
     height: 50px;
-    background-size: cover;
-    background-position: center;
-    margin-right: 10px;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
 .dogInfoText {
-    font-family: 'Noto Sans';
-    font-style: normal;
+    font-family: 'Noto Sans', sans-serif;
     font-weight: 700;
     font-size: 14px;
-    color: #8B8B8B;
-    margin-right: 10px;
+    color: #666;
+    text-align: center;
 }
 
-/* 포인트 정보 */
 .pointInfoContainer {
-    position: absolute;
-    width: 650px;
-    height: 150px;
-    left: 340px;
-    top: 509px;
-    background: #F0F0F0;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background: #F8F9FA;
     border-radius: 12px;
     padding: 20px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    height: auto;
+    /* 높이를 자동으로 조정 */
+}
+
+.pointInfoHeader {
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.pointInfoList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pointInfoBoxScroll {
+    max-height: 200px;
+    /* 스크롤이 생길 높이 한도를 설정 */
+    overflow-y: auto;
+    /* 세로 스크롤 활성화 */
+    overflow-x: hidden;
+    /* 가로 스크롤 비활성화 */
 }
 
 .pointInfoBox {
@@ -157,12 +179,77 @@
     padding: 10px;
     background: #FFFFFF;
     border-radius: 6px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    /* 각각의 박스 사이에 간격 추가 */
 }
 
 .pointInfoText {
-    font-family: 'Noto Sans';
-    font-style: normal;
+    font-family: 'Noto Sans', sans-serif;
     font-weight: 700;
     font-size: 15px;
     color: #000000;
+    text-align: center;
+}
+
+
+/* 유저 기록 */
+.userAction {
+    display: flex;
+    flex-direction: column;
+    background-color: #F0F0F0;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    width: 90%;
+    height: auto;
+    position: relative;
+}
+
+.userAction .userActionContent {
+    width: 100%;
+    height: auto;
+}
+
+.userAction .recentActivity {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #A1A1A1;
+}
+
+.userAction .category {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.userAction .usedCategory {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.userAction .categoryRect {
+    background: #D9D9D9;
+    border-radius: 50%;
+    width: 50px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.userAction .categoryText {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #000000;
+    text-align: center;
 }
