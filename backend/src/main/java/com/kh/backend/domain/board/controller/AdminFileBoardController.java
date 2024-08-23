@@ -29,9 +29,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RequestMapping("/api/board")
 @CrossOrigin(origins = { "http://localhost:3014" })
-public class FileBoardController {
+public class AdminFileBoardController {
 	
-	private final BoardService userBoardService;
 	private final AdminBoardService adminBoardService;
 	
 	@GetMapping("/admin/board/{boardCode}/{boardNo}")
@@ -62,8 +61,6 @@ public class FileBoardController {
 	    }
 	}
 
-	
-	
 	@GetMapping("/admin/product/{productNo}")
 	public ResponseEntity<String> serveProductImagePath(@PathVariable int productNo) {
 	    try {

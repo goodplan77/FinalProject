@@ -28,4 +28,6 @@ public interface BoardDao {
 
 	List<Board> selectBoardsTitle(String title);
 
+	List<BoardImg> selectBoardImages(int boardNo);
+
 }

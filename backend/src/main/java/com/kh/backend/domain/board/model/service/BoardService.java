@@ -27,5 +27,7 @@ public interface BoardService {
 	int insertComment(Comment comment);
 
 	List<Board> selectBoardsTitle(String title);
+	
+	List<BoardImg> selectBoardImages(int boardNo);
 
 }
