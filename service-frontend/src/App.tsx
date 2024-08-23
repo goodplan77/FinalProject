@@ -28,7 +28,11 @@ import Alarm from './pages/Alarm';
 import SearchPage from './pages/SearchPage';
 import { useSelector } from 'react-redux';
 import { RootState } from './store/store';
+import UpdateUser from './pages/UpdateUser';
+import InsertDog from './pages/InsertDog';
+import DogList from './pages/DogList';
 import BoardHeaderbar from './components/BoardHeader';
+
 
 
 const App = () => {
@@ -71,6 +75,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Mainpage />} />
           <Route path='/mypage' element={<Mypage />} />
+          <Route path='/updateUser' element={<UpdateUser />} />
           <Route path='/login' element={<Login />} />
           <Route path='/boardList' element={<BoardList />} />
           <Route path='/usedList' element={<UsedList />} />
@@ -91,6 +96,8 @@ const App = () => {
           <Route path='/clause' element={<Clause />} />
           <Route path='/alarm' element={<Alarm />} />
           <Route path='/search' element={<SearchPage />} />
+          <Route path='/insertDog' element={<InsertDog />} />
+          <Route path='/dogList' element={<DogList/>} />
         </Routes>
       </div>
 

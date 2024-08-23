@@ -6,6 +6,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
+import com.kh.backend.domain.user.model.vo.Dog;
+import com.kh.backend.domain.user.model.vo.ImgDog;
+import com.kh.backend.domain.user.model.vo.ImgUser;
 import com.kh.backend.domain.user.model.vo.User;
 
 import lombok.RequiredArgsConstructor;
@@ -57,6 +60,45 @@ public class UserDaoImpl implements UserDao{
 	public User selectUser(HashMap<String, Object> map) {
 		return session.selectOne("user.selectUser", map);
 	}
+	
+	// 회원 정보 수정 메서드
+	@Override
+	public int updateUser(User user) {
+		return session.update("user.updateUser", user);
+	}
+	
+	// 회원 정보 수정 메서드(프사)
+	@Override
+	public int updateImgUser(ImgUser iu) {
+		return session.update("user.updateImgUser", iu);
+	}
+
+	// 반려견 등록 메서드
+	@Override
+	public int insertDog(Dog dog, ImgDog id) {
+		int result = 1;
+		result *= session.insert("user.insertDog", dog);
+		
+		if(id != null) {
+			id.setDogNo(dog.getDogNo());
+			result *= session.insert("user.insertImgDog", id);
+		}
+		
+		return result;
+	}
+
+	// 회원 프사 등록 메서드
+	@Override
+	public int insertImgUser(ImgUser iu) {
+		return session.insert("user.insertImgUser", iu);
+	}
+
+	
+
+	
+	
+	
+	
 
 //	미사용 -> 추후 삭제 가능
 //	@Override

@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ReactorResourceFactory;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
@@ -25,7 +27,7 @@ public class WebClientConfig {
 		ReactorResourceFactory factory = new ReactorResourceFactory();
 		
 		factory.setUseGlobalResources(false); // 공유자원 사용설정 false
-		
+
 		return factory;
 	}
 	
@@ -52,7 +54,6 @@ public class WebClientConfig {
 				.build();
 		
 	}
-	
 	
 }
 

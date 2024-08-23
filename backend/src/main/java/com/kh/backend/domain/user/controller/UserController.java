@@ -1,5 +1,8 @@
 package com.kh.backend.domain.user.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,19 +12,31 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DatabindException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.kh.backend.common.Utils;
 import com.kh.backend.domain.user.model.service.UserService;
+import com.kh.backend.domain.user.model.vo.Dog;
+import com.kh.backend.domain.user.model.vo.ImgDog;
+import com.kh.backend.domain.user.model.vo.ImgUser;
 import com.kh.backend.domain.user.model.vo.User;
 import com.kh.backend.security.jwt.JwtProvider;
 
@@ -34,7 +49,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
-@CrossOrigin(origins = {"http://localhost:3013"})
 public class UserController {
 	
 	private final JavaMailSenderImpl mailSender;
@@ -221,8 +235,146 @@ public class UserController {
 		resMap.put("jwtToken", jwtToken);
 		resMap.put("user", user);
 		
+		System.err.println(user);
+		
 		return resMap;
 	}
+	
+	// 회원 정보 수정 메서드
+	@PatchMapping("/updateUser")
+	public HashMap<String, Object> updateUser(
+			@RequestParam(required = false) MultipartFile upfile,
+			@RequestParam HashMap<String, Object> param
+			) throws JsonMappingException, JsonProcessingException {
+		HashMap<String, Object> map = new HashMap<>();
+		
+		System.err.println(upfile);
+		System.err.println(param);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String userInfo = param.get("user").toString();
+		
+		String msg = "";
+		int result = 1;
+		
+		ImgUser iu = null;
+		
+		User user = mapper.readValue(userInfo, User.class);
+		
+		if(upfile != null && !upfile.isEmpty()) {
+			String path = Paths.get("uploads/images/user/").toAbsolutePath().toString();
+			
+			File dir = new File(path);
+			if(!dir.exists()) {
+				dir.mkdirs();
+			}
+			
+			String changeName = Utils.saveFile(upfile, path);
+			
+			iu = new ImgUser();
+			iu.setUserNo(user.getUserNo());
+			iu.setChangeName(changeName);
+			iu.setOriginName(upfile.getOriginalFilename());
+			
+			if(user.getImgUser() != null) {
+				result *= service.updateImgUser(iu);
+			}
+			
+			if(user.getImgUser() == null) {
+				result *= service.insertImgUser(iu);
+			}
+			
+		}
+		
+		result *= service.updateUser(user);
+		
+		if(result>0) {
+			msg = "수정 성공";
+			
+			map.put("userNo", user.getUserNo());
+			User updateUser = service.selectUser(map);
+			
+			map.put("user", updateUser);
+			
+		}else {
+			msg = "실패...";
+		}
+		
+		map.put("msg", msg);
+		
+		return map;
+	}
+	
+	// 강아지 등록 메서드
+	@PostMapping("/insertDog")
+	public String insertDog(
+			@RequestParam(required = false) MultipartFile upfile,
+			@RequestParam HashMap<String,Object> map
+			) throws JsonMappingException, JsonProcessingException {
+		
+		String res = "";
+		
+		ObjectMapper mapper = new ObjectMapper();
+
+		String dogInfo = map.get("dog").toString();
+		String strNo = map.get("userNo").toString();
+		int userNo = Integer.parseInt(strNo);
+		
+		Dog dog = mapper.readValue(dogInfo, Dog.class);
+		
+		dog.setUserNo(userNo);
+		
+		ImgDog id = null;
+
+		if(upfile != null && !upfile.isEmpty()) {
+			String path = Paths.get("uploads/images/dog/").toAbsolutePath().toString();
+			
+			File dir = new File(path);
+			if(!dir.exists()) {
+				dir.mkdirs();
+			}
+			
+			String changeName = Utils.saveFile(upfile, path);
+			
+			id = new ImgDog();
+			id.setChangeName(changeName);
+			id.setOriginName(upfile.getOriginalFilename());
+		}
+		
+		int result = 0;
+		try {
+			result = service.insertDog(dog, id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if(result>0) {
+			res = "성공";
+		}else {
+			res = "실패";
+		}
+		
+		
+		return res;
+	}
+	
+//	// 반려견 목록 조회 메서드
+//	@GetMapping("/selectDogs/{userNo}")
+//	public void selectDogs() {
+//		int userNo = 
+//		
+//		System.err.println(userNo);
+//	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 필터 테스트용 메서드
 	@PostMapping("/test")
