@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import styles from './ProductBoardManagePage.module.css';
+import styles from './styles/ProductBoardManagePage.module.css';
 import { useEffect, useState } from 'react';
-import { initProductList, Product } from '../../type/product';
-import { selectAllProduct, selectOneProduct } from '../../features/productSlice'
+import { initProductList, Product } from '../../../type/product';
+import { selectAllProduct, selectOneProduct } from '../../../features/productSlice'
 import axios from 'axios';
-import DetailProductModal from '../../components/DetailProductModal';
+import DetailProductModal from '../../../components/DetailProductModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import { RootState } from '../../../store/store';
 
 export default function ProductBoardManagePage() {
 

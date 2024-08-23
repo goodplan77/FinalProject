@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import styles from './EventBoardInsertPage.module.css';
+import styles from './styles/EventBoardInsertPage.module.css';
 import { useState } from 'react';
-import { initialBoard } from '../../type/board';
+import { initialBoard } from '../../../type/board';
 import axios from 'axios';
 
 export default function EventBoardInsertPage() {

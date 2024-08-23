@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import styles from './BoardManagePage.module.css';
-import { RootState } from '../../store/store';
+import styles from './styles/BoardManagePage.module.css';
+import { RootState } from '../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { selectAllBoard, selectCategoryBoard, selectOneBoard } from '../../features/boardSlice';
-import { Board } from '../../type/board';
-import UpdateModal from '../../components/UpdateModal';
-import DeleteModal from '../../components/DeleteModal';
-import DetailModal from '../../components/DetailModal';
+import { selectAllBoard, selectCategoryBoard, selectOneBoard } from '../../../features/boardSlice';
+import { Board } from '../../../type/board';
+import UpdateModal from '../../../components/UpdateModal';
+import DeleteModal from '../../../components/DeleteModal';
+import DetailModal from '../../../components/DetailModal';
 
 export default function BoardManagePage() {
     

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './UserDetailPage.module.css';
-import { RootState } from '../../store/store';
+import styles from './styles/UserDetailPage.module.css';
+import { RootState } from '../../../store/store';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 

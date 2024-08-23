@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import styles from './ProductBoardInsertPage.module.css';
+import styles from './styles/ProductBoardInsertPage.module.css';
 import { useState } from 'react';
-import { initProduct } from '../../type/product';
+import { initProduct } from '../../../type/product';
 import axios from 'axios';
 
 export default function ProductBoardInsertPage() {

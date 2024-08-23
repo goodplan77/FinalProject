@@ -1,8 +1,8 @@
 import axios from 'axios';
-import styles from './EventBoardInsertPage.module.css';
+import styles from './styles/EventBoardInsertPage.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import { RootState } from '../../../store/store';
 import { useEffect, useState } from 'react';
 
 export default function EventBoardUpdatePage() {

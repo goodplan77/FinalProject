@@ -1,17 +1,17 @@
+import { ReactEventHandler, useEffect, useState } from 'react';
+import styles from './styles/NotifyBoardManagePage.module.css';
 import { useNavigate } from 'react-router-dom';
-import styles from './InfoBoardManagePage.module.css';
-import { useEffect, useState } from 'react';
-import { Board, initialBoardList } from '../../type/board';
 import axios from 'axios';
-import UpdateModal from '../../components/UpdateModal';
-import DeleteModal from '../../components/DeleteModal';
-import DetailModal from '../../components/DetailModal';
+import { Board, initialBoardList } from '../../../type/board';
+import UpdateModal from '../../../components/UpdateModal';
+import DeleteModal from '../../../components/DeleteModal';
+import DetailModal from '../../../components/DetailModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { selectAllBoard, selectOneBoard } from '../../features/boardSlice';
+import { RootState } from '../../../store/store';
+import { selectAllBoard, selectOneBoard } from '../../../features/boardSlice';
 
-export default function InfoBoardManagePage() {
-
+export default function NotifyBoardManagePage() {
+    
     // state , slice 관리 영역
     const navi = useNavigate();
     const dispatch = useDispatch();
@@ -32,7 +32,7 @@ export default function InfoBoardManagePage() {
 
     // 페이지 로딩시 초기 데이터 불러오기 (useEffect)
     useEffect(() => {
-        axios.get("http://localhost:8013/banju/admin/board/InfoboardList")
+        axios.get("http://localhost:8013/banju/admin/board/NofityboardList")
             .then((response) => {
                 dispatch(selectAllBoard(response.data));
             }).catch((response) => {
@@ -91,7 +91,7 @@ export default function InfoBoardManagePage() {
     const hideDeleteModal = () => {
         setCheckedList([]);
         setShowDeleteModal(false);
-        axios.get("http://localhost:8013/banju/admin/board/InfoboardList")
+        axios.get("http://localhost:8013/banju/admin/board/NofityboardList")
         .then((response) => {
             dispatch(selectAllBoard(response.data));
         }).catch((response) => {
@@ -109,7 +109,7 @@ export default function InfoBoardManagePage() {
     const hideUpdateModal = () => {
         setCheckedList([]);
         setShowUpdateModal(false);
-        axios.get("http://localhost:8013/banju/admin/board/InfoboardList")
+        axios.get("http://localhost:8013/banju/admin/board/NofityboardList")
         .then((response) => {
             dispatch(selectAllBoard(response.data));
         }).catch((response) => {
@@ -158,7 +158,7 @@ export default function InfoBoardManagePage() {
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>정보 게시글 관리 페이지</h1>
+            <h1 className={styles.title}>공지사항 게시글 관리 페이지</h1>
             <div className={styles.searchBar}>
             <input
                     type="text"
@@ -215,7 +215,7 @@ export default function InfoBoardManagePage() {
                                         <span className={styles.slider}></span>
                                     </div>
                                 ) : (
-                                    <span className={styles.defaultLabel}>삭제처리</span>
+                                    <span className={styles.defaultLabel}>삭제됨</span>
                                 )}
                         </label>
                     </div>
@@ -235,7 +235,7 @@ export default function InfoBoardManagePage() {
             {
                 showDetailModal && <DetailModal board={data} hideModal={hideDetailModal}></DetailModal>
             }
-            <button className={styles.addButton} onClick={() => navi('/adminPage/infoBoardInsert')}>추가</button>
+            <div className={styles.addButton} onClick={() => navi('/adminPage/notifyBoardInsert')}>+</div>
         </div>
     )
 }

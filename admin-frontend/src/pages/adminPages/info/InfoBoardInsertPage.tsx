@@ -1,20 +1,16 @@
 import axios from 'axios';
-import styles from './EventBoardInsertPage.module.css';
+import styles from '../event/styles/EventBoardInsertPage.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import { initialBoard } from '../../../type/board';
 
 export default function InfoBoardInsertPage() {
 
     const navi = useNavigate();
-    const cacheBoard = useSelector((state: RootState) => state.boards);
-    const [board , setBoard] = useState(cacheBoard.oneBoard);
+    const [board , setBoard] = useState(initialBoard);
 
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
-
-    const cacheImage = `http://localhost:8013/banju/api/board/admin/board/${board.boardCode}/${board.boardNo}`
-    const [previewUrl, setPreviewUrl] = useState<string | null>(cacheImage);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
     
     function handleInputChange(e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         let {name , value} = e.target;
@@ -60,7 +56,7 @@ export default function InfoBoardInsertPage() {
             formData.append('file' , selectedImage);
         }
 
-        axios.post("http://localhost:8013/banju/admin/board/updateBoardFormData" , formData)
+        axios.post("http://localhost:8013/banju/admin/board/insertInfoboard" , formData)
             .then((response) => {
                 alert(response.data.msg);
                 navi('../infoBoardManage');
@@ -73,7 +69,7 @@ export default function InfoBoardInsertPage() {
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>정보글 수정</h1>
+            <h1 className={styles.title}>정보글 등록</h1>
             <form className={styles.formContent} onSubmit={handleSubmit}>
                 <div className={styles.leftSection}>
                     <div className={styles.formContainer}>

@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import styles from './EventBoardManage.module.css'
+import styles from './styles/EventBoardManage.module.css'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Board, initialBoard, initialBoardList } from '../../type/board';
-import UpdateModal from '../../components/UpdateModal';
-import DeleteModal from '../../components/DeleteModal';
-import DetailModal from '../../components/DetailModal';
+import { Board, initialBoard, initialBoardList } from '../../../type/board';
+import UpdateModal from '../../../components/UpdateModal';
+import DeleteModal from '../../../components/DeleteModal';
+import DetailModal from '../../../components/DetailModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { selectAllBoard, selectOneBoard } from '../../features/boardSlice';
+import { RootState } from '../../../store/store';
+import { selectAllBoard, selectOneBoard } from '../../../features/boardSlice';
 
 export default function EventBoardManagePage() {
     
