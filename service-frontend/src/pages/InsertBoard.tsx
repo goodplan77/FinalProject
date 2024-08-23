@@ -4,7 +4,8 @@ import { FormEvent, useRef, useState } from "react";
 import axios from "axios";
 import { Board, initialBoard } from "../type/board";
 import useInput from "../hook/useInput";
-import { User } from "../type/user";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 export default function InsertBoard() {
     const navi = useNavigate();
@@ -13,6 +14,7 @@ export default function InsertBoard() {
     const [filePreviewMap, setFilePreviewMap] = useState<Map<File, string>>(new Map());
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [currentBoardCode, setCurrentBoardCode] = useState<string>('C');
+    let loginUser = useSelector((state:RootState)=>state.user);
 
     const handleBoardCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCurrentBoardCode(e.target.value);
@@ -21,9 +23,12 @@ export default function InsertBoard() {
 
     const insertBoard = (e: FormEvent) => {
         e.preventDefault();
-
+          
         const formData = new FormData();
-        formData.append("board", JSON.stringify(newBoard));
+        formData.append("board", JSON.stringify({
+            ...newBoard,
+            userNo : loginUser.userNo
+        }));
 
         selectedFiles.forEach((file) => {
             formData.append(`files`, file);
@@ -182,22 +187,25 @@ export default function InsertBoard() {
                     {currentBoardCode !== 'C' && (
                         <>
                             <div className={styles.picture}>
-                                <button type="button" onClick={handleFileClick} className={styles.customFileButton}>
-                                    <p className={styles.plus}>+</p>
-                                    <p>{selectedFiles.length} / 5</p>
-                                </button>
-                                <input className={styles.insertP} type="file" multiple accept="image/*" ref={fileInputRef} onChange={handleFileChange} required/>
-                            </div>
-                            <div className={styles.previewContainer}>
-                                {Array.from(filePreviewMap.entries()).map(([file, url]) => (
-                                    <img
-                                        key={url}
-                                        src={url}
-                                        alt={`preview`}
-                                        className={styles.previewImage}
-                                        onClick={() => handleImageClick(file)} // 이미지 클릭 시 핸들러 호출
-                                    />
-                                ))}
+                                <div className={styles.previewContainer}>
+                                    <div>
+                                        <button type="button" onClick={handleFileClick} className={styles.customFileButton}>
+                                            <p className={styles.plus}>+</p>
+                                            <p>{selectedFiles.length} / 5</p>
+                                        </button>
+                                        <input className={styles.insertP} type="file" multiple accept="image/*" ref={fileInputRef} onChange={handleFileChange} required />
+                                        {Array.from(filePreviewMap.entries()).map(([file, url]) => (
+                                            <img
+                                                key={url}
+                                                src={url}
+                                                alt={`preview`}
+                                                className={styles.previewImage}
+                                                style={{ width: "100px", height: "100px" }}
+                                                onClick={() => handleImageClick(file)} // 이미지 클릭 시 핸들러 호출
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
                             </div>
                             <div className={styles.surely}>
                                 <p>**해당 게시글은 사진첨부가 필수입니다**</p>

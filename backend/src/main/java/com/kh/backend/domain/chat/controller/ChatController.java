@@ -28,8 +28,8 @@ public class ChatController {
 	private final ChatService chatService;
 	
 	// 내 채팅방 리스트 조회하기
-	@GetMapping("chatList")
-	public List<ChatRoom> chatList(
+	@GetMapping("/chatRoomList")
+	public List<ChatRoom> chatRoomList(
 			// 현재 JWT 토큰에 담긴 로그인 유저정보를 가져와야한다.
 			){
 		
@@ -39,17 +39,15 @@ public class ChatController {
 	}
 	
 	// 다른 사용자와 연결되는 1대1 채팅방 만들기
-	@PostMapping("/chatRoom")
-	public int openChatRoom(
-			@RequestBody User toUser
-			// 1. 매개변수로 현재 토큰에 담긴 로그인 유저정보를 가져와야한다.
+	@PostMapping("/makeChatRoom")
+	public ChatRoom makeChatRoom(
+			@RequestBody ChatRoom users
 			) {
+		log.debug("users == {}", users);
 		
-		// 2. 토큰은 암호화가 되어있다. 디코딩 단계를 거쳐서 사용해야한다.
+		int result = chatService.makeChatRoom(users);
 		
-		// 3. 그것을 맵에 담아서 서비스에 넘겨줘야한다.
-		
-		return chatService.openChatRoom(toUser);
+		return null;
 	}
 	////////////////////////////////////////채팅방 생성하고, 채팅방 조회 끝//////////////////////////////////////
 	

@@ -49,11 +49,11 @@
 			SELECT SEQ_BOARD.NEXTVAL
 			FROM DUAL
 		</selectKey>
-	
+		
 		INSERT INTO BOARD
 		VALUES(
 			#{boardNo},
-			10,
+			#{userNo},
 			#{title},
 			#{content},
 			#{boardCode},

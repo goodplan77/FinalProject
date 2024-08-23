@@ -23,13 +23,13 @@ public class ChatServiceImpl implements ChatService{
 	}
 	
 	@Override
-	public int openChatRoom(User toUser) {
-		return chatDao.openChatRoom(toUser);
+	public List<Message> messageSelect(int chatRoomNo) {
+		return chatDao.messageSelect(chatRoomNo);
 	}
 
 	@Override
-	public List<Message> messageSelect(int chatRoomNo) {
-		return chatDao.messageSelect(chatRoomNo);
+	public int makeChatRoom(ChatRoom users) {
+		return chatDao.makeChatRoom(users);
 	}
 
 	

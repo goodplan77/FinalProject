@@ -4,6 +4,9 @@ import styles from './css/ChatRoom.module.css';
 export default function ChatRoom() {
     const navi = useNavigate();
 
+    
+
+
     return (
         <>
             <div className={styles.mainHeader}>

@@ -22,11 +22,11 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer{
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		
 		// 브로커 활성화
-		// '/chat'으로 시작하는 메세지
-//		registry
-//			.enableSimpleBroker("/chat")
+		// '/chat'으로 시작해서 들어오는 메세지
+		registry
+			.enableSimpleBroker("/chat");
 			
-		// 
+		
 	}
 	
 	
