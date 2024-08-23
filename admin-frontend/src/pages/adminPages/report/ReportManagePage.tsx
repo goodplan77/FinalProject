@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './ReportManagePage.module.css';
+import styles from './styles/ReportManagePage.module.css';
 import { useEffect, useState } from 'react';
-import { RootState } from '../../store/store';
-import { report } from '../../type/report';
+import { RootState } from '../../../store/store';
+import { report } from '../../../type/report';
 import axios from 'axios';
-import { selectAllReport, selectCategory, selectOneReport, selectReportType } from '../../features/reportSlice';
-import DetailReportModal from '../../components/DetailReportModal';
+import { selectAllReport, selectCategory, selectOneReport, selectReportType } from '../../../features/reportSlice';
+import DetailReportModal from '../../../components/DetailReportModal';
 
 export default function ReportManagePage() {
 

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import styles from './UserManagePage.module.css';
+import styles from './styles/UserManagePage.module.css';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { User } from '../../type/user';
-import { selectAllUser, selectOneUser } from '../../features/userSlice';
+import { RootState } from '../../../store/store';
+import { User } from '../../../type/user';
+import { selectAllUser, selectOneUser } from '../../../features/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 export default function UserManagePage() {

@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import styles from './ProductBoardInsertPage.module.css';
+import styles from './styles/ProductBoardInsertPage.module.css';
 import { useEffect, useState } from 'react';
-import { initProduct, Product } from '../../type/product';
+import { initProduct, Product } from '../../../type/product';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import { RootState } from '../../../store/store';
 import axios from 'axios';
 
 export default function ProductBoardUpdatePage() {

@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './AskManagePage.module.css';
-import { RootState } from '../../store/store';
+import styles from './styles/AskManagePage.module.css';
+import { RootState } from '../../../store/store';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { ask } from '../../type/ask';
-import { selectAllAsk, selectOneAsk } from '../../features/askSlice';
-import AskDetailModal from '../../components/AskDetailModal';
+import { ask } from '../../../type/ask';
+import { selectAllAsk, selectOneAsk } from '../../../features/askSlice';
+import AskDetailModal from '../../../components/AskDetailModal';
 
 export default function InquiryManagePage() {
     // state , slice 관리 영역
