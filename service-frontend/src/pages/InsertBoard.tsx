@@ -4,39 +4,35 @@ import { FormEvent, useRef, useState } from "react";
 import axios from "axios";
 import { Board, initialBoard } from "../type/board";
 import useInput from "../hook/useInput";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 export default function InsertBoard() {
     const navi = useNavigate();
-
-    const fileInputRef = useRef<HTMLInputElement>(null); // 파일 입력 요소에 대한 ref 생성
-
+    const fileInputRef = useRef<HTMLInputElement>(null);
     const [newBoard, handleInputChange] = useInput<Board>(initialBoard);
-
-    const [previewUrls, setPreviewUrls] = useState<string[]>([]); // 미리보기 URL을 저장할 상태
-
-    const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // 선택된 파일들을 저장할 상태
-
-    const [currentBoardCode, setCurrentBoardCode] = useState<string>('C'); // 선택된 게시판 코드를 관리하는 상태
+    const [filePreviewMap, setFilePreviewMap] = useState<Map<File, string>>(new Map());
+    const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+    const [currentBoardCode, setCurrentBoardCode] = useState<string>('C');
+    let loginUser = useSelector((state:RootState)=>state.user);
 
     const handleBoardCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setCurrentBoardCode(e.target.value); // 선택된 게시판 코드를 상태로 저장
-        handleInputChange(e); // 기존의 입력 핸들러도 호출
+        setCurrentBoardCode(e.target.value);
+        handleInputChange(e);
     };
 
     const insertBoard = (e: FormEvent) => {
         e.preventDefault();
-
+          
         const formData = new FormData();
-         console.log(newBoard);
-        // 텍스트 데이터를 FormData에 추가
-        formData.append("board",JSON.stringify(newBoard));
+        formData.append("board", JSON.stringify({
+            ...newBoard,
+            userNo : loginUser.userNo
+        }));
 
-        // 선택된 파일들을 FormData에 추가
         selectedFiles.forEach((file) => {
             formData.append(`files`, file);
         });
-
-        console.log(formData);
 
         axios
             .post('http://localhost:8013/banju/board/insertBoard', formData, {
@@ -51,11 +47,11 @@ export default function InsertBoard() {
             .catch((error) => {
                 console.log(error);
             });
-    }
+    };
 
     const handleFileClick = () => {
         if (fileInputRef.current) {
-            fileInputRef.current.click(); // "+" 버튼 클릭 시 숨겨진 파일 입력 요소를 클릭
+            fileInputRef.current.click();
         }
     };
 
@@ -64,20 +60,34 @@ export default function InsertBoard() {
             const newFiles = Array.from(e.target.files);
             const totalFiles = selectedFiles.length + newFiles.length;
 
-            if (totalFiles > 5) { // 최대 5장의 파일만 업로드 가능
+            if (totalFiles > 5) {
                 alert("최대 5장의 사진만 업로드할 수 있습니다.");
             } else {
-                setSelectedFiles(prevFiles => {
+                setSelectedFiles((prevFiles) => {
                     const updatedFiles = [...prevFiles, ...newFiles];
 
                     // 미리보기 URL 생성
-                    const newPreviewUrls = updatedFiles.map(file => URL.createObjectURL(file));
-                    setPreviewUrls(newPreviewUrls);
+                    const newFilePreviewMap = new Map(filePreviewMap);
+                    newFiles.forEach((file) => {
+                        const url = URL.createObjectURL(file);
+                        newFilePreviewMap.set(file, url);
+                    });
+                    setFilePreviewMap(newFilePreviewMap);
 
                     return updatedFiles;
                 });
             }
         }
+    };
+
+    const handleImageClick = (file: File) => {
+        setFilePreviewMap((prevMap) => {
+            const newMap = new Map(prevMap);
+            newMap.delete(file);
+            return newMap;
+        });
+
+        setSelectedFiles((prevFiles) => prevFiles.filter((f) => f !== file));
     };
 
     return (
@@ -140,7 +150,7 @@ export default function InsertBoard() {
                             </div>
                         </>
                     )}
-                    
+
                     {currentBoardCode !== 'M' && (
                         <>
                             <div className={styles.contentStroke}>
@@ -161,8 +171,14 @@ export default function InsertBoard() {
                                 <input className={styles.insertP} type="file" multiple accept="image/*" ref={fileInputRef} onChange={handleFileChange} />
                             </div>
                             <div className={styles.previewContainer}>
-                                {previewUrls.map((url, index) => (
-                                    <img key={index} src={url} alt={`preview ${index}`} className={styles.previewImage} />
+                                {Array.from(filePreviewMap.entries()).map(([file, url]) => (
+                                    <img
+                                        key={url}
+                                        src={url}
+                                        alt={`preview`}
+                                        className={styles.previewImage}
+                                        onClick={() => handleImageClick(file)} // 이미지 클릭 시 핸들러 호출
+                                    />
                                 ))}
                             </div>
                         </>
@@ -171,17 +187,24 @@ export default function InsertBoard() {
                     {currentBoardCode !== 'C' && (
                         <>
                             <div className={styles.picture}>
-                                <div>
-                                    <button type="button" onClick={handleFileClick} className={styles.customFileButton}>
-                                        <p className={styles.plus}>+</p>
-                                        <p>{selectedFiles.length} / 5</p>
-                                    </button>
-                                    <input className={styles.insertP} type="file" multiple accept="image/*" ref={fileInputRef} onChange={handleFileChange} required />
-                                </div>
                                 <div className={styles.previewContainer}>
-                                    {previewUrls.map((url, index) => (
-                                        <img key={index} src={url} alt={`preview ${index}`} className={styles.previewImage} style={{ width: "100px", height: "100px" }} />
-                                    ))}
+                                    <div>
+                                        <button type="button" onClick={handleFileClick} className={styles.customFileButton}>
+                                            <p className={styles.plus}>+</p>
+                                            <p>{selectedFiles.length} / 5</p>
+                                        </button>
+                                        <input className={styles.insertP} type="file" multiple accept="image/*" ref={fileInputRef} onChange={handleFileChange} required />
+                                        {Array.from(filePreviewMap.entries()).map(([file, url]) => (
+                                            <img
+                                                key={url}
+                                                src={url}
+                                                alt={`preview`}
+                                                className={styles.previewImage}
+                                                style={{ width: "100px", height: "100px" }}
+                                                onClick={() => handleImageClick(file)} // 이미지 클릭 시 핸들러 호출
+                                            />
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                             <div className={styles.surely}>
@@ -190,7 +213,7 @@ export default function InsertBoard() {
                         </>
                     )}
 
-                    <div className={styles.choicies}>
+                    <div className={styles.choicies} style={{ marginBottom: "50px" }}>
                         <div className={styles.choice} onClick={() => navi(-1)}>
                             <p>취소하기</p>
                         </div>
@@ -199,20 +222,7 @@ export default function InsertBoard() {
                 </form>
             </div>
 
-            <div className={styles.mainNavi}>
-                <div className={styles.naviHome} onClick={() => navi('/')}>
-                    <img className={styles.home} src={`${process.env.PUBLIC_URL}/images/home.png`} alt="back" />
-                </div>
-                <div className={styles.naviHam}>
-                    <img className={styles.ham} src={`${process.env.PUBLIC_URL}/images/ham.png`} alt="back" />
-                </div>
-                <div className={styles.naviChat}>
-                    <img className={styles.chat} src={`${process.env.PUBLIC_URL}/images/message.png`} alt="back" />
-                </div>
-                <div className={styles.naviMy} onClick={() => navi('/mypage')}>
-                    <img className={styles.my} src={`${process.env.PUBLIC_URL}/images/myPage.png`} alt="back" />
-                </div>
-            </div>
+            
         </>
-    )
+    );
 }

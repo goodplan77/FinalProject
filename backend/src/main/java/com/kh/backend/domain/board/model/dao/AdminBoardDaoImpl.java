@@ -41,6 +41,11 @@ public class AdminBoardDaoImpl implements AdminBoardDao{
 	public List<Product> selectProductBoards() {
 		return session.selectList("adminBoard.selectProductBoards");
 	}
+	
+	@Override
+	public List<Board> selectBoardImageList() {
+		return session.selectList("adminBoard.selectBoardImageList");
+	}
 
 	@Override
 	public int insertNotifyBoard(Board board) {
@@ -52,15 +57,14 @@ public class AdminBoardDaoImpl implements AdminBoardDao{
 		return session.insert("adminBoard.insertEventboard" , board);
 	}
 	
-	
 	@Override
 	public int insertInfoboard(Board board) {
 		return session.insert("adminBoard.insertInfoboard" , board);
 	}
 
 	@Override
-	public int insertBoardImages(BoardImg boardImg) {
-		return session.insert("adminBoard.insertBoardImages" , boardImg);
+	public int insertBoardImage(BoardImg boardImg) {
+		return session.insert("adminBoard.insertBoardImage" , boardImg);
 	}
 
 	@Override
@@ -84,8 +88,8 @@ public class AdminBoardDaoImpl implements AdminBoardDao{
 	}
 
 	@Override
-	public BoardImg selectBoardImages(int boardNo) {
-		return session.selectOne("adminBoard.selectBoardImages" , boardNo);
+	public List<BoardImg> selectBoardImages(int boardNo) {
+		return session.selectList("adminBoard.selectBoardImages" , boardNo);
 	}
 
 	@Override
@@ -97,5 +101,6 @@ public class AdminBoardDaoImpl implements AdminBoardDao{
 	public int updateProduct(Product product) {
 		return session.update("adminBoard.updateProduct" , product);
 	}
+
 
 }

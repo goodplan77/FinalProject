@@ -8,4 +8,6 @@ public interface AdminUserDao {
 
 	List<User> selectUsers();
 
+	User selectUserOne(int userNo);
+
 }

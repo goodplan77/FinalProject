@@ -21,6 +21,7 @@ export default function CalendarPage() {
     const [memo, setMemo] = useState("");
     const [time, setTime] = useState(""); // 시간 입력을 위한 state 추가
     const attendDay = ["2023-12-03", "2023-12-13"];
+    const loginUser = useSelector((state: RootState) => state.user);
 
     const memos = useSelector((state: RootState) => state.memos);
 
@@ -69,7 +70,7 @@ export default function CalendarPage() {
         const memoData = {
             targetDate: targetDateString, // 'yyyy-MM-dd HH:mm:ss' 형식의 문자열
             content: memo,
-            userNo: 1
+            userNo: loginUser.userNo
         };
 
         axios.post('http://localhost:8013/banju/calendarPage/insertMemo', memoData, {

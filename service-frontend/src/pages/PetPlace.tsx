@@ -12,8 +12,8 @@ declare global {
 export default function PetPlace() {
     const location = useGeolocation();
     const [map, setMap] = useState<any>(null);
-    const [markers , setMarkers] = useState<any[]>([]);
-    const [keywordInput , setKeywordInput] = useState('');
+    const [markers, setMarkers] = useState<any[]>([]);
+    const [keywordInput, setKeywordInput] = useState('');
     const navi = useNavigate();
 
     useEffect(() => {
@@ -50,25 +50,29 @@ export default function PetPlace() {
         };
     }, [location]);
 
+    const serarchReset = () => {
+        clearMarkers();  // 기존 마커 제거
+    };
+
     const serarchHospital = () => {
         if (map) {
             const places = new window.kakao.maps.services.Places(map);
             places.categorySearch('HP8', placesSearchCB, { useMapBounds: true });
-        } 
+        }
     };
 
     const serarchCafe = () => {
         if (map) {
             const places = new window.kakao.maps.services.Places(map);
             places.categorySearch('CE7', placesSearchCB, { useMapBounds: true });
-        } 
+        }
     };
 
     const serarchFood = () => {
         if (map) {
             const places = new window.kakao.maps.services.Places(map);
             places.categorySearch('FD6', placesSearchCB, { useMapBounds: true });
-        } 
+        }
     };
 
     const placesSearchCB = (data: any, status: string) => {
@@ -77,28 +81,32 @@ export default function PetPlace() {
             const newMarkers = data.map((place: any) => {
                 const markerPosition = new window.kakao.maps.LatLng(place.y, place.x);
                 const marker = new window.kakao.maps.Marker({
-                    map : map,
+                    map: map,
                     position: markerPosition,
                 });
 
                 var infowindow = new window.kakao.maps.InfoWindow({
                     position: new window.kakao.maps.LatLng(place.y, place.x),
-                    content: `<div>${place.place_name}</div>`
+                    content: `<div class="${styles.mapPlace}">
+                                <div class="${styles.mapPlaceTitle}">${place.place_name}</div>
+                                <div class="${styles.mapPlaceAddress}">${place.address_name}</div>
+                                <div class="${styles.mapPlacePhone}">${place.phone ? `전화번호: ${place.phone}` : '전화번호 정보 없음'}</div>
+                              </div>`
                 });
 
-                infowindow.open(map,marker);
-                return {marker,infowindow};
+                infowindow.open(map, marker);
+                return { marker, infowindow };
             });
             setMarkers(newMarkers);
         }
     };
 
     function clearMarkers() {
-            markers.forEach((marker) => {
-                marker.marker.setMap(null);
-                marker.infowindow.close();
-            });
-            setMarkers([]);
+        markers.forEach((marker) => {
+            marker.marker.setMap(null);
+            marker.infowindow.close();
+        });
+        setMarkers([]);
     }
 
     const serarchKeyword = () => {
@@ -106,23 +114,39 @@ export default function PetPlace() {
             const places = new window.kakao.maps.services.Places(map);
             places.keywordSearch(keywordInput, placesSearchCB, { useMapBounds: true });
             setKeywordInput('');
-        } 
+        }
+    };
+
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            serarchKeyword();
+        }
     };
 
     return (
         <>
-            <div id="map" style={{ width: "100vh", height: "100vh" }}></div>
-            <div className={styles.searchArea}>
-                <div className={styles.searchInput}>
-                    <input type="text" value={keywordInput} onChange={(e) =>
-                        {setKeywordInput(e.target.value)}
-                        }></input>
+            <div className={styles.container}>
+                <div className={styles.map} id="map"></div>
+
+                <div className={styles.searchContainer}>
+                    <input
+                        className={styles.searchInput}
+                        type="text"
+                        value={keywordInput}
+                        onChange={(e) => setKeywordInput(e.target.value)}
+                        placeholder="장소를 검색하세요"
+                        onKeyPress={handleKeyPress}
+                    />
+                    <div className={styles.searchIcon} onClick={serarchKeyword}></div>
                 </div>
-                <div className={styles.searchButton} onClick={serarchKeyword}></div>
+
+                <div className={styles.categoryButtons}>
+                    <div className={styles.categoryButton} onClick={serarchReset}>초기화</div>
+                    <div className={styles.categoryButton} onClick={serarchHospital}>병원</div>
+                    <div className={styles.categoryButton} onClick={serarchCafe}>카페</div>
+                    <div className={styles.categoryButton} onClick={serarchFood}>음식점</div>
+                </div>
             </div>
-            <div className={styles.serarchButton1} onClick={serarchHospital}>병</div>
-            <div className={styles.serarchButton2} onClick={serarchCafe}>카</div>
-            <div className={styles.serarchButton3} onClick={serarchFood}>음</div>
         </>
     );
 }

@@ -53,7 +53,7 @@
 		INSERT INTO BOARD
 		VALUES(
 			#{boardNo},
-			1,
+			#{userNo},
 			#{title},
 			#{content},
 			#{boardCode},
@@ -90,8 +90,8 @@
 	</resultMap>
 	
 	<select id="boardDetail" resultMap="boardResultSet">
-		SELECT BOARD_NO, 
-			USER_NO, TITLE, 
+		SELECT BOARD_NO,
+			USER_NO, TITLE,
 			CONTENT,
 			BOARD_CODE, 
 			TO_CHAR(ENROLL_DATE, 'YYYY.MM.DD') AS ENROLL_DATE, 
@@ -135,7 +135,18 @@
 		)
 	</insert>
 
-
+	<select id="selectBoardsTitle" resultType="Board">
+	    SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, 
+	           TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, 
+	           TO_CHAR(MODIFY_DATE, 'YYYY-MM-DD') AS MODIFY_DATE, 
+	           VIEWS, STATUS, DETAIL_STATUS, LIKES
+	    FROM BOARD
+	    WHERE TITLE Like '%' || #{title} || '%'
+	      AND STATUS = 'Y'
+	    ORDER BY BOARD_NO DESC
+	</select>
+	
+	
 
 
 

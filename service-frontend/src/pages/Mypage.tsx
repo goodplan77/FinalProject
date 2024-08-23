@@ -46,7 +46,7 @@ const MyPage = () => {
         const askData = {
             title: title,
             content: ask,
-            userNo: 1
+            userNo: loginUser.userNo
         }
 
         axios.post('http://localhost:8013/banju/mypage/insertAsk', askData, {

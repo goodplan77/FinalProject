@@ -230,7 +230,7 @@ export default function BoardManagePage() {
                     checked={isAllChecked}
                     onChange={checkAllHandler}
                     />
-                    <span className={styles.headerItem}>UID</span>
+                    <span className={styles.headerItem}>BID</span>
                     <span className={styles.headerItem}>게시글 제목</span>
                     <span className={styles.headerItem}>분류</span>
                     <span className={styles.headerItem}>작성자</span>
@@ -255,7 +255,7 @@ export default function BoardManagePage() {
                         <span className={styles.postId}>{board.boardNo}</span>
                         <span className={styles.postTitle}>{board.title}</span>
                         <span className={styles.postCategory}>{categoryConvert(`${board.boardCode}`)}</span>
-                        <span className={styles.postAuthor}>{board.userNo}</span>
+                        <span className={styles.postAuthor}>{board.nickName}</span>
                         <span className={styles.postCreatedDate}>{board.enrollDate}</span>
                         <span className={styles.postModifiedDate}>{board.modifyDate}</span>
                         <span className={styles.postViews}>{board.views}</span>
