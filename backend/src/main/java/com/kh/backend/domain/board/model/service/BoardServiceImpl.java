@@ -9,7 +9,7 @@ import com.kh.backend.domain.board.model.dao.BoardDao;
 import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.board.model.vo.BoardImg;
 import com.kh.backend.domain.comment.model.vo.Comment;
-import com.kh.backend.domain.common.Utils;
+import com.kh.backend.common.Utils;
 
 import lombok.RequiredArgsConstructor;
 
