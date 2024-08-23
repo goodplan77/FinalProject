@@ -14,16 +14,6 @@ export default function AdoptList() {
 
     const adopts = useSelector((state: RootState) => state.boards);
 
-    const ScrollToTop = () => {
-        const { pathname } = useLocation();
-
-        useEffect(() => {
-            window.scrollTo(0, 0);
-        }, [pathname]);
-
-        return null;
-    };
-
     useEffect(() => {
         axios.get("http://localhost:8013/banju/board/adoptList")
             .then((response) => {
@@ -35,10 +25,6 @@ export default function AdoptList() {
     }, [])
     return (
         <>
-            <ScrollToTop />
-
-
-
             <div className={styles.categorys}>
                 <div className={styles.cateClassic} onClick={() => navi('/BoardList')}>
                     <p>일반</p>

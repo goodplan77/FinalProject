@@ -14,16 +14,6 @@ export default function MissingList() {
 
     const missings = useSelector((state: RootState) => state.boards);
 
-    const ScrollToTop = () => {
-        const { pathname } = useLocation();
-
-        useEffect(() => {
-            window.scrollTo(0, 0);
-        }, [pathname]);
-
-        return null;
-    };
-
     useEffect(() => {
         axios.get("http://localhost:8013/banju/board/missingList")
             .then((response) => {
@@ -35,11 +25,6 @@ export default function MissingList() {
     }, [])
     return (
         <>
-            <ScrollToTop />
-
-
-
-
             <div className={styles.categorys}>
                 <div className={styles.cateClassic} onClick={() => navi('/BoardList')}>
                     <p>일반</p>
@@ -62,7 +47,7 @@ export default function MissingList() {
                     return (
                         <div key={board.boardNo}>
                             <div className={styles.used}>
-                                <div className={styles.usedContent}>
+                                <div className={styles.usedContent} onClick={() => navi('/BoardDetail/' + board.boardNo)}>
                                     <img className={styles.usedImg} src="" alt="이미지" />
                                     <div className={styles.upAndDown}>
                                         <div className={styles.contentUp}>

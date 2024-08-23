@@ -112,12 +112,6 @@
     margin-top: 5px;
 }
 
-.classic {
-    /* 스타일 추가 */
-    margin-bottom: 55px;
-    /* 하단 네비게이션과 겹치지 않도록 여백 추가 */
-}
-
 .classicContent {
     background-color: #FFFFFF;
     border-radius: 10px;

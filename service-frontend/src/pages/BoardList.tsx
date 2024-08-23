@@ -35,8 +35,6 @@ export default function BoardList() {
     }, [])
     return (
         <>
-            <ScrollToTop />{/* 페이지 이동시 상단이 보이게끔 */}
-
             {/* 헤더아래에 보드 카테고리 바 입니다. */}
             <div className={styles.categorys}>
                 <div className={styles.cateClassic} onClick={() => navi('/BoardList')}>
@@ -61,7 +59,7 @@ export default function BoardList() {
                         <div key={board.boardNo}>
                             {/* 보드 카테고리바 아래에 보드 리스트입니다. */}
                             <div className={styles.classic}>
-                                <div className={styles.classicContent}>
+                                <div className={styles.classicContent} onClick={() => navi('/BoardDetail/' + board.boardNo)}>
                                     <div className={styles.img}></div>
                                     <div className={styles.upAndDown}>
                                         <div className={styles.contentUp}>

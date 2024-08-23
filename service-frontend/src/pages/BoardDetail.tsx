@@ -6,7 +6,8 @@ import { RootState } from "../store/store";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { selectAllBoard } from "../features/boardSlice";
-import { Board, initialBoard } from "../type/board";
+import { Board, Comment, initialBoard, initialComment } from "../type/board";
+import useInput from "../hook/useInput";
 
 export default function BoardDetail() {
 
@@ -18,15 +19,9 @@ export default function BoardDetail() {
 
     const boards = useSelector((state: RootState) => state.boards);
 
-    const ScrollToTop = () => {
-        const { pathname } = useLocation();
+    const loginUser = useSelector((state:RootState)=>state.user);
 
-        useEffect(() => {
-            window.scrollTo(0, 0);
-        }, [pathname]);
-
-        return null;
-    };
+    const [comment, setComment] = useState('');
 
     useEffect(() => {
         axios
@@ -34,33 +29,43 @@ export default function BoardDetail() {
             .then((response) => {
                 setBoard(response.data);
                 console.log(response.data);
+                console.log(loginUser);
             }).catch((response) => {
                 console.log(response);
             })
     }, [boardNo])
 
+    const insertComment = (e: React.FormEvent) => {
+        e.preventDefault(); // 기본 폼 제출 동작 방지
+        console.log(loginUser);
+        if(loginUser.nickName === ''){
+            alert("로그인후 이용해주세요.");
+            return;
+        }
 
-
-    const insertComment = (e: FormEvent) => {
-        e.preventDefault();
-
-        const comment = {
-            Comment
+        const commentData = {
+            userNo : loginUser.userNo,
+            bordNo:boardNo,
+            content:comment
         }
 
         axios
-            .post(`http://localhost:8013/banju/board/boardDetail/${boardNo}`, Comment)
-            .then((response) => {
-                console.log(response);
-                console.log(Comment);
-                console.log('댓글 작성 성공');
-            })
-            .catch((error) => {
-                console.log(error);
-                console.log('댓글 작성 실패 ㅋㅋㅋ');
-                console.log('작성한 댓글 = ' + Comment);
-            })
-    };
+        .post(`http://localhost:8013/banju/board/boardDetail/${boardNo}`, commentData)
+        .then((response) => {
+            console.log(response);
+            console.log(comment);
+            console.log('성공');
+            // 댓글 등록 후 폼 초기화 및 다른 처리
+        })
+        .catch((error) => {
+            console.log(error);
+            console.log('실패 ㅋ');
+            console.log('작성한 댓글 = ' + comment);
+        });
+
+
+
+    }
 
 
 
@@ -94,11 +99,8 @@ export default function BoardDetail() {
                             board.boardImg.map((imageUrl, index) => (
                                 <img key={imageUrl.imgNo} src={`http://localhost:8013/banju/images/board/${board.boardCode}/${imageUrl.originName}`} alt={`Image ${index}`} className={styles.image} />
                             ))
-                        ) : (
-                            <p>이미지가 없습니다.</p>
-                        )}
+                        ) : (<></>)}
                     </div>
-
 
                     <div className={styles.likeBox}>
                         <img className={styles.like} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="view" />
@@ -106,21 +108,16 @@ export default function BoardDetail() {
                     </div>
 
                     <div className={styles.commentBox}>
-                        <form id="commentEnrollForm" onSubmit={insertComment}>
+                        <form id="commentEnrollForm">
                             <div className={styles.commentPlus}>
-                                <input type="text" className={styles.plusBox} name="content"></input>
-                                <button type="submit" className={styles.plusBtn}>추가</button>
+                                <input type="text" className={styles.plusBox} name="content" value={comment} required onChange={(e)=>setComment(e.target.value)}/>
+                                <button  className={styles.plusBtn} onClick={insertComment}>추가</button>
                             </div>
                         </form>
 
 
 
-
-
                     </div>
-
-
-
 
                 </div>
             </div>

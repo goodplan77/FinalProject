@@ -4,6 +4,7 @@ import { FormEvent, useRef, useState } from "react";
 import axios from "axios";
 import { Board, initialBoard } from "../type/board";
 import useInput from "../hook/useInput";
+import { User } from "../type/user";
 
 export default function InsertBoard() {
     const navi = useNavigate();
@@ -181,25 +182,22 @@ export default function InsertBoard() {
                     {currentBoardCode !== 'C' && (
                         <>
                             <div className={styles.picture}>
-                                <div className={styles.previewContainer}>
-                                    <div>
-                                        <button type="button" onClick={handleFileClick} className={styles.customFileButton}>
-                                            <p className={styles.plus}>+</p>
-                                            <p>{selectedFiles.length} / 5</p>
-                                        </button>
-                                        <input className={styles.insertP} type="file" multiple accept="image/*" ref={fileInputRef} onChange={handleFileChange} required />
-                                        {Array.from(filePreviewMap.entries()).map(([file, url]) => (
-                                            <img
-                                                key={url}
-                                                src={url}
-                                                alt={`preview`}
-                                                className={styles.previewImage}
-                                                style={{ width: "100px", height: "100px" }}
-                                                onClick={() => handleImageClick(file)} // 이미지 클릭 시 핸들러 호출
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
+                                <button type="button" onClick={handleFileClick} className={styles.customFileButton}>
+                                    <p className={styles.plus}>+</p>
+                                    <p>{selectedFiles.length} / 5</p>
+                                </button>
+                                <input className={styles.insertP} type="file" multiple accept="image/*" ref={fileInputRef} onChange={handleFileChange} required/>
+                            </div>
+                            <div className={styles.previewContainer}>
+                                {Array.from(filePreviewMap.entries()).map(([file, url]) => (
+                                    <img
+                                        key={url}
+                                        src={url}
+                                        alt={`preview`}
+                                        className={styles.previewImage}
+                                        onClick={() => handleImageClick(file)} // 이미지 클릭 시 핸들러 호출
+                                    />
+                                ))}
                             </div>
                             <div className={styles.surely}>
                                 <p>**해당 게시글은 사진첨부가 필수입니다**</p>
