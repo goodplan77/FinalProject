@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import DaumPostcode from "react-daum-postcode";
-import styles from './AddressModal.module.css';
+import styles from './styles/AddressModal.module.css';
 
 export default function AddressModal(){
 
