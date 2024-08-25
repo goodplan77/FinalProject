@@ -81,7 +81,7 @@ export default function AskDetailModal ({ask , hideModal} : {ask:ask|undefined|n
                             </div>
                         </div>
                         {
-                            ask.resContent.length>0 ? '' : (
+                            ask.resContent?.length>0 ? '' : (
                                 <div className={styles.modalFooter}>
                                 <button className={styles.cancelButton} onClick={hideModal}>취소</button>
                                 <button className={styles.confirmButton} onClick={updateask}>답변</button>

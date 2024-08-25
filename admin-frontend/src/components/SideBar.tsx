@@ -1,21 +1,91 @@
-import { Link, useNavigate } from "react-router-dom"
-import styles from "./css/SideBar.module.css"
-import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import styles from "./css/SideBar.module.css";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
+import { logout } from "../features/adminSlice";
+import axios from "axios";
 
 export default function SideBar() {
-
-
+    const navi = useNavigate();
     const dispatch = useDispatch();
-    const asks  = useSelector((state: RootState) => state.asks);
-    const reports = useSelector((state: RootState) => state.reports);
+    const adminUser = useSelector((state: RootState) => state.admins);
+    const [askCount, setAskCount] = useState(0);
+    const [reportCount, setReportCount] = useState(0);
 
     useEffect(() => {
 
-    },[asks , reports])
+        const updateUnReadList = () => {
+            axios.get("http://localhost:8013/banju/alarm/unReadList")
+            .then((response) => {
+                for(let item of response.data.list) {
+                    switch (item.typeCode) {
+                        case 'A':
+                            setAskCount(prevCount => prevCount + 1);
+                            break;
+                        case 'R':
+                            setReportCount(prevCount => prevCount + 1);
+                            break;
+                        default:
+                            console.warn(`Unknown alarm type: ${item.typeCode}`);
+                    }
+                }
+            })
+            .catch((response) => {
+                console.log(response);
+            })
+        }
 
-    const navi = useNavigate();
+        const createEventSource = () => {
+            const eventSource = new EventSource('http://localhost:8013/banju/alarm/subscribe');
+
+            eventSource.addEventListener('alarm', function(event) {
+                try {
+                    const newAlarm = JSON.parse(event.data);  // JSON 데이터를 파싱
+                    if (newAlarm) {
+                        switch (newAlarm.typeCode) {
+                            case 'A':
+                                setAskCount(prevCount => prevCount + 1);
+                                break;
+                            case 'R':
+                                setReportCount(prevCount => prevCount + 1);
+                                break;
+                            default:
+                                console.warn(`Unknown alarm type: ${newAlarm.typeCode}`);
+                        }
+                    }
+                } catch (error) {
+                    console.error("JSON 파싱 중 오류 발생:", error);
+                }
+            });
+
+            eventSource.onerror = function(event) {
+                console.error("SSE connection error", event);
+                eventSource.close();
+
+                // 일정 시간 후 재연결 시도
+                setTimeout(() => {
+                    createEventSource(); // 재연결 시도 시 새로운 EventSource 생성
+                }, 3000);  // 3초 후 재연결 시도
+            };
+
+            return eventSource;
+        };
+
+        updateUnReadList();
+
+        const eventSource = createEventSource();
+
+        return () => {
+            eventSource.close(); // Cleanup the event source when component unmounts
+        };
+    }, []);
+
+    function adminLogout() {
+        alert('로그아웃 합니다.');
+        dispatch(logout());
+        navi('/');
+    }
 
     return (
         <nav className={styles.main}>
@@ -32,8 +102,8 @@ export default function SideBar() {
                     <img src={`${process.env.PUBLIC_URL}/images/admin_profile.jpg`} alt="관리자 프로필" />
                 </div>
                 <div className={styles.adminInfoDetails}>
-                    <span className={styles.adminInfoName}>관리자 누군가</span>
-                    <button className={styles.logoutButton} onClick={() => navi('/')}>❌</button>
+                    <span className={styles.adminInfoName}>{adminUser.nickName}</span>
+                    <button className={styles.logoutButton} onClick={adminLogout}>❌</button>
                 </div>
             </div>
 
@@ -68,33 +138,25 @@ export default function SideBar() {
             <div className={styles.alarmList}>
                 <div className={styles.alarmHeader}>
                     <div className={styles.alarmHeaderImage}>
-                        <img src={`${process.env.PUBLIC_URL}/images/Banju_Icon.png`}></img>
+                        <img src={`${process.env.PUBLIC_URL}/images/Banju_Icon.png`} alt="알림 아이콘" />
                     </div>
                     <div className={styles.alarmHeaderText}>
                         <span>알림 목록</span>
                     </div>
                 </div>
-                <div className={styles.alarms} onClick={() => navi('reportManagePage')}>
-                    <div className={styles.alarmName}>신고 목록1</div>
-                    <div className={styles.alarmTime}>12시간 전</div>
+                <div className={styles.alarms} onClick={() => {
+                    navi('reportManagePage');
+                }}>
+                    <div className={styles.alarmName}>신고 목록</div>
+                    <div className={styles.alarmTime}>{reportCount}</div>
                 </div>
-                <div className={styles.alarms} onClick={() => navi('reportManagePage')}>
-                    <div className={styles.alarmName}>신고 목록2</div>
-                    <div className={styles.alarmTime}>12시간 전</div>
-                </div>
-                <div className={styles.alarms} onClick={() => navi('reportManagePage')}>
-                    <div className={styles.alarmName}>신고 목록3</div>
-                    <div className={styles.alarmTime}>12시간 전</div>
-                </div>
-                <div className={styles.alarms} onClick={() => navi('reportManagePage')}>
-                    <div className={styles.alarmName}>신고 목록4</div>
-                    <div className={styles.alarmTime}>12시간 전</div>
-                </div>
-                <div className={styles.alarms} onClick={() => navi('reportManagePage')}>
-                    <div className={styles.alarmName}>신고 목록5</div>
-                    <div className={styles.alarmTime}>12시간 전</div>
+                <div className={styles.alarms} onClick={() => {
+                    navi('askManagePage');
+                }}>
+                    <div className={styles.alarmName}>문의 목록</div>
+                    <div className={styles.alarmTime}>{askCount}</div>
                 </div>
             </div>
         </nav>
-    )
+    );
 }
