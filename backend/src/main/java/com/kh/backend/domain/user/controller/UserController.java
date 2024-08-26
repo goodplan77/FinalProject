@@ -79,7 +79,7 @@ public class UserController {
 		
 		if(result>0) {
 			resMap.put("msg", "이미 가입된 이메일입니다.");
-			return ResponseEntity.ok(resMap);
+			return ResponseEntity.badRequest().body(resMap);
 		}
 		
 		// 이메일 발송 로직
@@ -135,7 +135,7 @@ public class UserController {
 	
 	// 닉네임 중복 확인 메서드
 	@GetMapping("/checkNickName")
-	public String checkNickName(
+	public ResponseEntity<HashMap<String, Object>> checkNickName(
 			@RequestParam HashMap<String, String> param
 			) {
 
@@ -143,10 +143,14 @@ public class UserController {
 		
 		int result = service.checkNickName(nickName);
 		
+		HashMap<String, Object> resMap = new HashMap<>();
+		
 		if(result>0) {
-			return "이미 사용중인 닉네임입니다.";
+			resMap.put("msg", "이미 사용중인 닉네임입니다.");
+			return ResponseEntity.badRequest().body(resMap);
 		}else {
-			return "사용 가능한 닉네임입니다.";
+			resMap.put("msg", "사용 가능한 닉네임입니다.");
+			return ResponseEntity.ok(resMap);
 		}
 	}
 	
