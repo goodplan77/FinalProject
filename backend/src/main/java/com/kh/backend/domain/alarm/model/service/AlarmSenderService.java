@@ -7,6 +7,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import com.kh.backend.domain.alarm.model.vo.AdminAlarm;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -81,5 +83,28 @@ public class AlarmSenderService {
         }
         emitters.remove(emitter);
         log.error("Error on emitter: {}, original error: {}", emitter, e.getMessage());
+    }
+
+    public void sendUnreadAlarms(List<AdminAlarm> alarms) {
+        if (alarms != null && !alarms.isEmpty()) {
+            String eventId = String.valueOf(eventCache.size() + 1);
+            eventCache.add(eventId + ":unReadAlarms");
+
+            List<SseEmitter> deadEmitters = new CopyOnWriteArrayList<>();
+            emitters.forEach(emitter -> {
+                try {
+                    log.debug("읽지 않은 알림 보내기");
+                    emitter.send(SseEmitter.event()
+                            .id(eventId)
+                            .name("unReadAlarms")
+                            .data(alarms)
+                    );
+                } catch (IOException e) {
+                    log.error("읽지 않은 알림 전송 중 오류 발생: {}", e.getMessage());
+                    deadEmitters.add(emitter);
+                }
+            });
+            emitters.removeAll(deadEmitters);
+        }
     }
 }

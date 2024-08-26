@@ -3,9 +3,13 @@ package com.kh.backend.domain.user.controller;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -33,10 +37,12 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.kh.backend.common.Utils;
+import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.user.model.service.UserService;
 import com.kh.backend.domain.user.model.vo.Dog;
 import com.kh.backend.domain.user.model.vo.ImgDog;
 import com.kh.backend.domain.user.model.vo.ImgUser;
+import com.kh.backend.domain.user.model.vo.Like;
 import com.kh.backend.domain.user.model.vo.User;
 import com.kh.backend.security.jwt.JwtProvider;
 
@@ -235,6 +241,24 @@ public class UserController {
 		resMap.put("jwtToken", jwtToken);
 		resMap.put("user", user);
 		
+		int result = service.updateLoginDate(user);
+		if(result > 0) {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				Date lastLoginDate = dateFormat.parse(user.getLastLoginDate());
+				
+				String todayStr = dateFormat.format(new Date());
+		        Date todayDate = dateFormat.parse(todayStr);
+		        
+		        if(!todayDate.equals(lastLoginDate)) {
+		        	service.insertPointHistory(user.getUserNo() , 100 , 'L');
+		        } 
+		        
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+		}
 		System.err.println(user);
 		
 		return resMap;
@@ -365,6 +389,50 @@ public class UserController {
 //		
 //		System.err.println(userNo);
 //	}
+	
+	
+	@GetMapping("/{userNo}/like/{boardNo}")
+	public boolean hasUserLike(@PathVariable int userNo , @PathVariable int boardNo) {
+		Like userLike = new Like();
+		userLike.setUserNo(userNo);
+		userLike.setTypeCode('B');
+		userLike.setRefNo(boardNo);
+		int result = service.hasUserLike(userLike);
+		
+		if(result > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	@PostMapping("/insertLike/board/{userNo}")
+	public ResponseEntity<Map<String, Object>> insertBoardLike(@PathVariable int userNo , @RequestBody Board board) {
+		Map<String, Object> response = new HashMap<>();
+		Like like = new Like();
+		like.setUserNo(userNo);
+		like.setTypeCode('B');
+		like.setRefNo(board.getBoardNo());
+		try {
+
+			int result = service.insertBoardLike(like);
+
+			if (result > 0) {
+				response.put("msg", "좋아요 목록 추가 작업이 정상적으로 완료 되었습니다.");
+				return ResponseEntity.ok(response);
+			} else {
+				response.put("msg", "데이터 처리중 문제가 발생했습니다.");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.put("msg", "에러가 발생했습니다.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+	
+	
 	
 	
 	

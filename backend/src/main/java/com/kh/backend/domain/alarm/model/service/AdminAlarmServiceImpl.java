@@ -2,6 +2,7 @@ package com.kh.backend.domain.alarm.model.service;
 
 import java.util.List;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -50,5 +51,12 @@ public class AdminAlarmServiceImpl implements AdminAlarmService {
 	public List<AdminAlarm> unReadList() {
 		return adminAlarmDao.unReadList();
 	}
+	
+	// 주기적으로 호출되어 읽지 않은 알림을 전송
+    @Scheduled(fixedRate = 10000)
+    public void processAndSendUnreadAlarms() {
+        List<AdminAlarm> unReadAlarms = unReadList();
+        alarmSenderService.sendUnreadAlarms(unReadAlarms);
+    }
 
 }

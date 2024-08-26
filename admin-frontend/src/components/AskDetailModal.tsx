@@ -37,6 +37,7 @@ export default function AskDetailModal ({ask , hideModal} : {ask:ask|undefined|n
             axios.post("http://localhost:8013/banju/admin/ask/updateAsk" , askContent)
             .then((response) => {
                 alert(response.data.msg);
+                hideModal();
                 navi('../askManagePage');
             })
             .catch((error) => {

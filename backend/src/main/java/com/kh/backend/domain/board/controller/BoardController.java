@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,8 @@ import com.kh.backend.domain.board.model.service.BoardService;
 import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.board.model.vo.BoardImg;
 import com.kh.backend.domain.comment.model.vo.Comment;
+import com.kh.backend.domain.user.model.service.UserService;
+import com.kh.backend.domain.user.model.vo.History;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletResponse;
@@ -40,6 +43,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 
 	private final BoardService boardService;
+	private final UserService userService;
 	private final ServletContext application;
 	
 	@GetMapping("/boardList")
@@ -127,7 +131,9 @@ public class BoardController {
 	            }
 	        }
 	    }
-
+	    
+	    userService.insertPointHistory(board.getUserNo() , 100 , 'B');
+	    
 	    map.put("board", board);
 	    return map;
 	}
@@ -166,8 +172,33 @@ public class BoardController {
 		log.debug("댓글 내용 = {}", comment.getContent());
 		log.debug("유저 넘버 = {}", comment.getUserNo());
 		
+		userService.insertPointHistory(comment.getUserNo() , 50 , 'C');
+		
 		return map;
 	}
+	
+	@PostMapping("/updateLikeCount")
+	public ResponseEntity<Map<String, Object>> updateLikeCount(@RequestBody Board board) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+
+			int result = boardService.updateLikeCount(board);
+
+			if (result > 0) {
+				response.put("msg", "좋아요 작업이 정상적으로 완료 되었습니다.");
+				return ResponseEntity.ok(response);
+			} else {
+				response.put("msg", "데이터 처리중 문제가 발생했습니다.");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.put("msg", "에러가 발생했습니다.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+	
 	
 	
 	

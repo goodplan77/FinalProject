@@ -27,6 +27,7 @@ export interface User{
     points : number,
     enrollDate : string,
     modifyDate : string,
+    lastLoginDate : string,
     imgUser : ImgUser,
 
     dogs : Dog[],
@@ -47,6 +48,7 @@ export const initUser:User = {
     points : 0,
     enrollDate : '',
     modifyDate : '',
+    lastLoginDate : '',
     imgUser : initImgUser,
 
     dogs : initDogList,

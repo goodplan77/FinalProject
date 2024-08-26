@@ -14,34 +14,41 @@ export default function SideBar() {
     const [reportCount, setReportCount] = useState(0);
 
     useEffect(() => {
-
-        const updateUnReadList = () => {
+        const fetchInitialUnReadList = () => {
             axios.get("http://localhost:8013/banju/alarm/unReadList")
-            .then((response) => {
-                for(let item of response.data.list) {
-                    switch (item.typeCode) {
-                        case 'A':
-                            setAskCount(prevCount => prevCount + 1);
-                            break;
-                        case 'R':
-                            setReportCount(prevCount => prevCount + 1);
-                            break;
-                        default:
-                            console.warn(`Unknown alarm type: ${item.typeCode}`);
+                .then((response) => {
+                    if (response.data.list) {
+                        let initialAskCount = 0;
+                        let initialReportCount = 0;
+                        for (let item of response.data.list) {
+                            switch (item.typeCode) {
+                                case 'A':
+                                    initialAskCount++;
+                                    break;
+                                case 'R':
+                                    initialReportCount++;
+                                    break;
+                                default:
+                                    console.warn(`Unknown alarm type: ${item.typeCode}`);
+                            }
+                        }
+                        setAskCount(initialAskCount);
+                        setReportCount(initialReportCount);
                     }
-                }
-            })
-            .catch((response) => {
-                console.log(response);
-            })
-        }
+                })
+                .catch((error) => {
+                    setAskCount(0);
+                    setReportCount(0);
+                    //console.error("Error fetching unread alarms:", error);
+                });
+        };
 
         const createEventSource = () => {
             const eventSource = new EventSource('http://localhost:8013/banju/alarm/subscribe');
 
-            eventSource.addEventListener('alarm', function(event) {
+            eventSource.addEventListener('alarm', (event) => {
                 try {
-                    const newAlarm = JSON.parse(event.data);  // JSON 데이터를 파싱
+                    const newAlarm = JSON.parse(event.data);
                     if (newAlarm) {
                         switch (newAlarm.typeCode) {
                             case 'A':
@@ -55,29 +62,56 @@ export default function SideBar() {
                         }
                     }
                 } catch (error) {
-                    console.error("JSON 파싱 중 오류 발생:", error);
+                    console.error("Error parsing JSON from SSE:", error);
                 }
             });
 
-            eventSource.onerror = function(event) {
+            eventSource.addEventListener('unReadAlarms', (event) => {
+                try {
+                    const alarms = JSON.parse(event.data);
+                    let initialAskCount = 0;
+                    let initialReportCount = 0;
+                    for (let item of alarms) {
+                        switch (item.typeCode) {
+                            case 'A':
+                                initialAskCount++;
+                                break;
+                            case 'R':
+                                initialReportCount++;
+                                break;
+                            default:
+                                console.warn(`Unknown alarm type: ${item.typeCode}`);
+                        }
+                    }
+                    setAskCount(initialAskCount);
+                    setReportCount(initialReportCount);
+                    
+                } catch (error) {
+                    setAskCount(0);
+                    setReportCount(0);
+                    //console.error("Error parsing JSON from SSE:", error);
+                }
+            });
+
+            eventSource.onerror = (event) => {
                 console.error("SSE connection error", event);
                 eventSource.close();
 
                 // 일정 시간 후 재연결 시도
                 setTimeout(() => {
                     createEventSource(); // 재연결 시도 시 새로운 EventSource 생성
-                }, 3000);  // 3초 후 재연결 시도
+                }, 3000); // 3초 후 재연결 시도
             };
 
             return eventSource;
         };
 
-        updateUnReadList();
+        fetchInitialUnReadList(); // 초기 로드 시 읽지 않은 알림 목록을 한 번 가져옴
 
-        const eventSource = createEventSource();
+        const eventSource = createEventSource(); // SSE 연결 생성
 
         return () => {
-            eventSource.close(); // Cleanup the event source when component unmounts
+            eventSource.close(); // 컴포넌트 언마운트 시 SSE 연결 종료
         };
     }, []);
 
