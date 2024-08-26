@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ import com.kh.backend.domain.board.model.vo.BoardImg;
 import com.kh.backend.domain.comment.model.vo.Comment;
 
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -135,7 +138,9 @@ public class BoardController {
 	
 	@GetMapping("/boardDetail/{boardNo}")
 	public Board boardDetail(
-			@PathVariable int boardNo
+			@PathVariable int boardNo,
+			HttpServletRequest req,
+			HttpServletResponse res
 			) {
 		
 		log.debug("boardNo = {}", boardNo);
@@ -143,6 +148,52 @@ public class BoardController {
 		Board board =  boardService.boardDetail(boardNo);
 		
 		log.debug("board = {}", board);
+		
+		if(board != null) {
+			Cookie cookie = null;
+			
+			Cookie[] cookies = req.getCookies();
+			
+			if(cookies != null && cookies.length > 0) {
+				for(Cookie c : cookies) {
+					log.debug("Existing cookie: {} = {}", c.getName(), c.getValue());
+					if("readBoardNo".equals(c.getName())) {
+						cookie = c;
+						break;
+					}
+				}
+			}
+			
+			int result = 0;
+			if(cookie == null) {
+				//readBoardNo쿠키 생성
+				cookie = new Cookie("readBoardNo", boardNo+"" );
+				log.debug("New cookie created: {} = {}", cookie.getName(), cookie.getValue());
+				// 조회수 증가서비스 호출
+				result = boardService.increaseCount(boardNo);
+			} else {
+				// 기존 쿠키값중에 중복되는 게시글번호가 없는 경우 조회수 증가서비스 호출,
+				// readBoardNo에 현재 게시글번호 추가
+				String[] arr = cookie.getValue().split("/");
+				List<String> list = Arrays.asList(arr); // 메서드 사용을 위한 변환
+				if(list.indexOf(boardNo+"" ) == -1) { // 조회결과가 없다면
+					// 조회수 증가서비스호출
+					result = boardService.increaseCount(boardNo);
+					// 쿠키값에 현재 게시글번호 추차
+					cookie.setValue(cookie.getValue()+"/"+boardNo);
+					log.debug("Updated cookie value: {} = {}", cookie.getName(), cookie.getValue());
+				}
+				// 중복되는 게시글번호가 이미 존재하는경우 종료
+			}
+			if(result > 0) {
+				board.setViews(board.getViews()+1);
+				cookie.setPath(req.getContextPath());
+				cookie.setMaxAge(24 * 60 * 60);
+				res.addCookie(cookie);
+				log.debug("Updated cookie value: {} = {}", cookie.getName(), cookie.getValue());
+			}
+		}
+		
 		
 		return board;
 	}
