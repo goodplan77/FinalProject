@@ -38,6 +38,12 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
     const [comment, setComment] = useState('');
 
     const nick = (event: React.MouseEvent<HTMLDivElement>) => {
+        console.log(loginUser.userNo);
+        console.log(board.userNo);
+        if(loginUser.userNo === board.userNo){
+            return;
+        }
+
         if (loginUser.userNo === 10) {
             alert("로그인 후 이용해주세요");
             return;
@@ -83,7 +89,8 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
             return;
         } else {
             const commentData = {
-                userNo: loginUser.userNo,
+                fromUserNo: loginUser.userNo,
+                toUserNo : board.userNo,
                 bordNo: boardNo,
                 content: comment
             }
@@ -141,8 +148,8 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
             })
             .catch((error) => {
                 alert("채팅방 생성에 실패했습니다.");
-                console.log('요청을 보낸 사람' + loginUser.userNo);
-                console.log('요청을 받을 사람' + board.userNo);
+                console.log('요청을 보낸 사람 = ' + loginUser.userNo);
+                console.log('요청을 받을 사람 = ' + board.userNo);
                 console.log(error);
                 console.log('생성 실패');
             })

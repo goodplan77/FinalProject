@@ -2,12 +2,14 @@ package com.kh.backend.domain.chat.controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kh.backend.domain.chat.model.service.ChatService;
@@ -29,13 +31,11 @@ public class ChatController {
 	
 	// 내 채팅방 리스트 조회하기
 	@GetMapping("/chatRoomList")
-	public List<ChatRoom> chatRoomList(
-			// 현재 JWT 토큰에 담긴 로그인 유저정보를 가져와야한다.
-			){
-		
-		// 디코딩 과정을 거쳐서 서비스로 넘겨줘야한다.
-		
-		return chatService.chatList();
+	public ResponseEntity<List<ChatRoom>> chatRoomList(
+	        @RequestParam Long fromUserNo, 
+	        @RequestParam Long toUserNo) {
+	    List<ChatRoom> chatRooms = chatService.chatList(fromUserNo, toUserNo);
+	    return ResponseEntity.ok(chatRooms);
 	}
 	
 	// 다른 사용자와 연결되는 1대1 채팅방 만들기
@@ -70,8 +70,7 @@ public class ChatController {
 		return messages;
 	}
 	
-	
-	
+
 	
 	
 }

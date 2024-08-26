@@ -8,10 +8,16 @@ import com.kh.backend.domain.user.model.vo.User;
 
 public interface ChatDao {
 
-	List<ChatRoom> chatList();
+	List<ChatRoom> chatList(Long fromUserNo, Long toUserNo);
 
 	List<Message> messageSelect(int chatRoomNo);
 
 	int makeChatRoom(ChatRoom users);
+
+	void insertChatMessage(Message message);
+
+	User selectUser(int userNo);
+
+	Message selectChatMessage(int messageNo);
 
 }

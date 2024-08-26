@@ -2,11 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="chat">
 	
-	<select id="chatList">
-		SELECT CHAT_ROOM_NO, TO_USER, TO_STATUS
-		FROM CHAT_ROOM
-		WHERE FROM_USER_NO = #{현재 로그인한 회원No}
+	<!-- 내가 보냈던 받았던 내가 있는 채팅방 모두 보여주기 -->
+	<select id="chatList" parameterType="Map" resultType="ChatRoom">
+	    SELECT CHAT_ROOM_NO, TO_USER_NO, TO_STATUS
+	    FROM CHAT_ROOM
+	    WHERE FROM_USER_NO = #{fromUserNo} OR TO_USER_NO = #{toUserNo}
 	</select>
+
 	
 	<insert id="openChatRoom">
 		INSERT INTO CHAT_ROOM
@@ -21,12 +23,14 @@
 	
 	
 	<!-- 채팅방 들어가기 -->
-	<select id="messageSelect">
-		SELECT 
-		FROM 
-		WHERE 
+	<select id="messageSelect" resultType="message">
+		SELECT CONTENT, TO_CHAR(MESSAGE_DATE, 'HH24:SS') AS MESSAGE_DATE, USER_NO, NICK_NAME
+		FROM MESSAGE
+		LEFT JOIN "USER" USING (USER_NO)
+		WHERE CHAT_ROOM_NO = #{chatRoomNo}
 	</select>
 	
+	<!-- 상대방의 닉네임을 눌러서 채팅방 만들기 -->
 	<insert id="makeChatRoom">
 		INSERT INTO CHAT_ROOM
 		VALUES(
@@ -39,13 +43,37 @@
 	</insert>
 	
 	
+	<insert id="insertChatMessage" useGeneratedKeys="true">
+		INSERT INTO MESSAGE
+		VALUES(
+			SEQ_MESSAGE.NEXTVAL,
+			#{chatRoomNo},
+			#{userNo},
+			#{content},
+			DEFAULT
+		)
+		
+		<selectKey keyProperty="messageNo" resultType="int" order="AFTER">
+			SELECT SEQ_MESSAGE.CURRVAL
+			FROM DUAL
+		</selectKey>
+		
+	</insert>
 	
 	
+	<select id="selectUser" resultType="user">
+		SELECT USER_NO, NICK_NAME
+		FROM USER
+		WHERE USER_NO = #{userNo}
+	</select>
 	
 	
-	
-	
-	
+	<select id="selectChatMessage" resultType="message">
+		SELECT CONTENT, TO_CHAR(MESSAGE_DATE, 'HH24:SS') AS MESSAGE_DATE, USER_NO, NICK_NAME
+		FROM MESSAGE
+		LEFT JOIN "USER" USING (USER_NO)
+		WHERE MESSAGE_NO = #{messageNo}
+	</select>
 	
 	
 	
