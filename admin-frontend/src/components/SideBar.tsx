@@ -148,13 +148,21 @@ export default function SideBar() {
                     navi('reportManagePage');
                 }}>
                     <div className={styles.alarmName}>신고 목록</div>
-                    <div className={styles.alarmTime}>{reportCount}</div>
+                    <div className={
+                        reportCount > 0 
+                        ? `${styles.alarmCount} ${styles.hasCount}` 
+                        : `${styles.alarmCount} ${styles.NoCount}`
+                    }>{reportCount}</div>
                 </div>
                 <div className={styles.alarms} onClick={() => {
                     navi('askManagePage');
                 }}>
                     <div className={styles.alarmName}>문의 목록</div>
-                    <div className={styles.alarmTime}>{askCount}</div>
+                    <div className={
+                        askCount > 0 
+                        ? `${styles.alarmCount} ${styles.hasCount}` 
+                        : `${styles.alarmCount} ${styles.NoCount}`
+                    }>{askCount}</div>
                 </div>
             </div>
         </nav>
