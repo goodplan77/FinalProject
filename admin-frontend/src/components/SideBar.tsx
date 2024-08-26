@@ -15,7 +15,7 @@ export default function SideBar() {
 
     useEffect(() => {
         const fetchInitialUnReadList = () => {
-            axios.get("http://localhost:8013/banju/alarm/unReadList")
+            axios.get("http://localhost:8013/banju/admin/alarm/unReadList")
                 .then((response) => {
                     if (response.data.list) {
                         let initialAskCount = 0;
@@ -37,14 +37,12 @@ export default function SideBar() {
                     }
                 })
                 .catch((error) => {
-                    setAskCount(0);
-                    setReportCount(0);
-                    //console.error("Error fetching unread alarms:", error);
+                    console.error("Error fetching unread alarms:", error);
                 });
         };
 
         const createEventSource = () => {
-            const eventSource = new EventSource('http://localhost:8013/banju/alarm/subscribe');
+            const eventSource = new EventSource('http://localhost:8013/banju/admin/alarm/subscribe');
 
             eventSource.addEventListener('alarm', (event) => {
                 try {
@@ -67,29 +65,38 @@ export default function SideBar() {
             });
 
             eventSource.addEventListener('unReadAlarms', (event) => {
-                try {
-                    const alarms = JSON.parse(event.data);
-                    let initialAskCount = 0;
-                    let initialReportCount = 0;
-                    for (let item of alarms) {
-                        switch (item.typeCode) {
-                            case 'A':
-                                initialAskCount++;
-                                break;
-                            case 'R':
-                                initialReportCount++;
-                                break;
-                            default:
-                                console.warn(`Unknown alarm type: ${item.typeCode}`);
-                        }
-                    }
-                    setAskCount(initialAskCount);
-                    setReportCount(initialReportCount);
+                try {    
+                    const data = JSON.parse(event.data);
+                    console.log("Parsed data:", data);
                     
+                    if (Array.isArray(data)) {
+                        let initialAskCount = 0;
+                        let initialReportCount = 0;
+                        for (let item of data) {
+                            switch (item.typeCode) {
+                                case 'A':
+                                    initialAskCount++;
+                                    break;
+                                case 'R':
+                                    initialReportCount++;
+                                    break;
+                                default:
+                                    console.warn(`Unknown alarm type: ${item.typeCode}`);
+                            }
+                        }
+                        setAskCount(initialAskCount);
+                        setReportCount(initialReportCount);
+                    } else if (data && typeof data === 'object' && data.message === "No new alarms") {
+                        console.log("No new alarms detected");
+                        setAskCount(0);
+                        setReportCount(0);
+                    } else {
+                        console.warn("Unexpected data format:", data);
+                    }
                 } catch (error) {
+                    console.error("Error parsing JSON from SSE or in processing logic:", error);
                     setAskCount(0);
                     setReportCount(0);
-                    //console.error("Error parsing JSON from SSE:", error);
                 }
             });
 

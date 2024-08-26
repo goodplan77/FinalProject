@@ -3,7 +3,7 @@ import styles from './styles/UserManagePage.module.css';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
-import { User } from '../../../type/User';
+import { User } from '../../../type/user';
 import { selectAllUser, selectOneUser } from '../../../features/userSlice';
 import { useNavigate } from 'react-router-dom';
 

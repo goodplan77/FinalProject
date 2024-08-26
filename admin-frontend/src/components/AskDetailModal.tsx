@@ -12,7 +12,7 @@ export default function AskDetailModal ({ask , hideModal} : {ask:ask|undefined|n
     useEffect(() => {
         if(ask){
             const askRefNo = ask.askNo;
-            axios.post(`http://localhost:8013/banju/alarm/updateReadStatus/A/${askRefNo}`)
+            axios.post(`http://localhost:8013/banju/admin/alarm/updateReadStatus/A/${askRefNo}`)
                 .then((response) => {
                     console.log(response);
                 })

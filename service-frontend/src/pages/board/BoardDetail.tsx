@@ -119,7 +119,17 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                         ...board,
                         likes : (board.likes)+1
                     })
-                    const updateBoardLike = await axios.post(`http://localhost:8013/banju/board/updateLikeCount` , board)
+
+                    const updateSendData = {
+                        board : board,
+                        likeUser : loginUser.userNo
+                    }
+
+                    const updateBoardLike = await axios.post(`http://localhost:8013/banju/board/updateLikeCount` , JSON.stringify(updateSendData) , {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    })
                     if(updateBoardLike){
                         console.log(updateBoardLike.data.msg);
                         const updateLikeList = await axios.post(`http://localhost:8013/banju/user/insertLike/board/${loginUser.userNo}` , board)

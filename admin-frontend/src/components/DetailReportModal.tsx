@@ -14,7 +14,7 @@ export default function DetailReportModal ({report , hideModal} : {report:report
     useEffect(() => {
         if(report){
             const reportRefNo = report.reportNo;
-            axios.post(`http://localhost:8013/banju/alarm/updateReadStatus/R/${reportRefNo}`)
+            axios.post(`http://localhost:8013/banju/admin/alarm/updateReadStatus/R/${reportRefNo}`)
                 .then((response) => {
                     console.log(response);
                 })

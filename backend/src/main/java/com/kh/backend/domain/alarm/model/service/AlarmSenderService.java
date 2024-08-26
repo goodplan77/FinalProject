@@ -1,7 +1,10 @@
 package com.kh.backend.domain.alarm.model.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.stereotype.Service;
@@ -86,25 +89,36 @@ public class AlarmSenderService {
     }
 
     public void sendUnreadAlarms(List<AdminAlarm> alarms) {
-        if (alarms != null && !alarms.isEmpty()) {
-            String eventId = String.valueOf(eventCache.size() + 1);
-            eventCache.add(eventId + ":unReadAlarms");
+        String eventId = String.valueOf(eventCache.size() + 1);
+        eventCache.add(eventId + ":unReadAlarms");
 
-            List<SseEmitter> deadEmitters = new CopyOnWriteArrayList<>();
-            emitters.forEach(emitter -> {
-                try {
-                    log.debug("읽지 않은 알림 보내기");
+        List<SseEmitter> deadEmitters = new CopyOnWriteArrayList<>();
+        emitters.forEach(emitter -> {
+            try {
+                log.debug("읽지 않은 알림 보내기");
+                if (alarms != null && !alarms.isEmpty()) {
                     emitter.send(SseEmitter.event()
                             .id(eventId)
                             .name("unReadAlarms")
                             .data(alarms)
                     );
-                } catch (IOException e) {
-                    log.error("읽지 않은 알림 전송 중 오류 발생: {}", e.getMessage());
-                    deadEmitters.add(emitter);
+                } else {
+                	// 알람이 없을 때 JSON 형식의 메시지 전송
+                	Map<String, String> noAlarmsMessage = new HashMap<>();
+                    noAlarmsMessage.put("message", "No new alarms");
+                    
+                    emitter.send(SseEmitter.event()
+                            .id(eventId)
+                            .name("unReadAlarms")
+                            .data(noAlarmsMessage)
+                    );
                 }
-            });
-            emitters.removeAll(deadEmitters);
-        }
+            } catch (IOException e) {
+                log.error("읽지 않은 알림 전송 중 오류 발생: {}", e.getMessage());
+                deadEmitters.add(emitter);
+            }
+        });
+        emitters.removeAll(deadEmitters);
     }
+
 }
