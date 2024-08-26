@@ -32,4 +32,6 @@ public interface BoardDao {
 
 	int updateLikeCount(Board board);
 
+	int increaseCount(int boardNo);
+
 }

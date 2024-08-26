@@ -32,4 +32,6 @@ public interface BoardService {
 
 	int updateLikeCount(Board board);
 
+	int increaseCount(int boardNo);
+
 }
