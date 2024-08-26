@@ -39,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/board")
-@CrossOrigin(origins = { "http://localhost:3013" })
+@CrossOrigin(origins = { "http://localhost:3013" }, allowCredentials = "true")
 public class BoardController {
 
 	private final BoardService boardService;
@@ -190,7 +190,7 @@ public class BoardController {
 				cookie.setPath(req.getContextPath());
 				cookie.setMaxAge(24 * 60 * 60);
 				res.addCookie(cookie);
-				log.debug("Updated cookie value: {} = {}", cookie.getName(), cookie.getValue());
+				log.debug("Updated cookie value2: {} = {}", cookie.getName(), cookie.getValue());
 			}
 		}
 		
@@ -219,22 +219,6 @@ public class BoardController {
 		
 		return map;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	@GetMapping("/searchTitle/{title}")
