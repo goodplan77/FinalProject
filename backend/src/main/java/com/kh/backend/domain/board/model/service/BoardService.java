@@ -30,4 +30,6 @@ public interface BoardService {
 	
 	List<BoardImg> selectBoardImages(int boardNo);
 
+	int increaseCount(int boardNo);
+
 }

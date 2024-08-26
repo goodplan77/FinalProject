@@ -1,10 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import styles from './styles/ChatRoom.module.css';
 
-export default function ChatRoom() {
+interface ChatRoomNoProps {
+    setChatRoomNo: (chatRoomNo: string | undefined) => void;
+}
+
+export default function ChatRoom({ setChatRoomNo }: ChatRoomNoProps) {
     const navi = useNavigate();
 
-    
+
 
 
     return (

@@ -32,6 +32,7 @@ import MyPage from './pages/user/Mypage';
 import UpdateUserPage from './pages/user/UpdateUser';
 import LoginPage from './pages/user/Login';
 import SignUpPage from './pages/user/Signup';
+import ChatHeaderbar from './components/ChatHeader';
 
 
 
@@ -42,6 +43,7 @@ const App = () => {
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const currentLocation = useLocation(); // `location` 대신 `currentLocation`으로 변경
   const [boardNo, setBoardNo] = useState<string | undefined>(undefined);
+  const [chatRoomNo, setChatRoomNo] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -68,8 +70,15 @@ const App = () => {
 
 
       <div className={`container ${!isHeaderVisible ? 'hidden' : ''}`}>
-        {currentLocation.pathname.includes('/boardDetail') ? <BoardHeaderbar boardNo={boardNo} /> : <Headerbar />}
+        {currentLocation.pathname.includes('/boardDetail') ? (
+          <BoardHeaderbar boardNo={boardNo} />
+        ) : currentLocation.pathname.includes('/chatRoom') ? (
+          <ChatHeaderbar chatRoomNo={chatRoomNo} />
+        ) : (
+          <Headerbar />
+        )}
       </div>
+
 
       <div className="app-container">
         <Routes>
@@ -83,7 +92,7 @@ const App = () => {
           <Route path='/missingList' element={<MissingList />} />
           <Route path='/insertBoard' element={<InsertBoard />} />
           <Route path='/chatlist' element={<ChatList />} />
-          <Route path='/chatRoom/:chatRoomNo' element={<ChatRoom />} />
+          <Route path='/chatRoom/:chatRoomNo' element={<ChatRoom setChatRoomNo={setChatRoomNo} />} />
           <Route path='/signup' element={<SignUpPage />} />
           <Route path='/petPlace' element={<PetPlace />} />
           <Route path='/weather' element={<Weather />} />
@@ -97,7 +106,7 @@ const App = () => {
           <Route path='/alarm' element={<Alarm />} />
           <Route path='/search' element={<SearchPage />} />
           <Route path='/insertDog' element={<InsertDog />} />
-          <Route path='/dogList' element={<DogList/>} />
+          <Route path='/dogList' element={<DogList />} />
         </Routes>
       </div>
 

@@ -30,4 +30,6 @@ public interface BoardDao {
 
 	List<BoardImg> selectBoardImages(int boardNo);
 
+	int increaseCount(int boardNo);
+
 }
