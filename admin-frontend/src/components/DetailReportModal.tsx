@@ -13,6 +13,15 @@ export default function DetailReportModal ({report , hideModal} : {report:report
 
     useEffect(() => {
         if(report){
+            const reportRefNo = report.reportNo;
+            axios.post(`http://localhost:8013/banju/alarm/updateReadStatus/R/${reportRefNo}`)
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((response) =>{
+                    console.log(response);
+                })
+
             switch(report.typeCode){
                 case 'B': searchBoard(report.refNo); break;
                 case 'C': searchComment(report.refNo); break;

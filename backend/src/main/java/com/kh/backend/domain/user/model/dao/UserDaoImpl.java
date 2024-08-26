@@ -1,14 +1,17 @@
 package com.kh.backend.domain.user.model.dao;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import com.kh.backend.domain.user.model.vo.Dog;
+import com.kh.backend.domain.user.model.vo.History;
 import com.kh.backend.domain.user.model.vo.ImgDog;
 import com.kh.backend.domain.user.model.vo.ImgUser;
+import com.kh.backend.domain.user.model.vo.Like;
 import com.kh.backend.domain.user.model.vo.User;
 
 import lombok.RequiredArgsConstructor;
@@ -92,6 +95,33 @@ public class UserDaoImpl implements UserDao{
 	public int insertImgUser(ImgUser iu) {
 		return session.insert("user.insertImgUser", iu);
 	}
+
+	@Override
+	public int hasUserLike(Like userLike) {
+		return session.selectOne("user.hasUserLike", userLike);
+	}
+
+	@Override
+	public int insertBoardLike(Like like) {
+		return session.insert("user.insertBoardLike", like);
+	}
+
+	@Override
+	public int insertPointHistory(History history) {
+		return session.insert("user.insertPointHistory", history);
+	}
+
+	@Override
+	public int updateUserPoint(int userNo, int point) {
+		 return session.update("user.updateUserPoint", Map.of("userNo", userNo, "point", point));
+	}
+
+	@Override
+	public int updateLoginDate(User user) {
+		return session.update("user.updateLoginDate", user);
+	}
+	
+	
 
 	
 

@@ -134,6 +134,7 @@ export default function UserManagePage() {
                     <span className={styles.headerItem}>이메일</span>
                     <span className={styles.headerItem}>닉네임</span>
                     <span className={styles.headerItem}>가입일</span>
+                    <span className={styles.headerItem}>최근 로그인</span>
                     <span className={styles.headerItem}>활성화</span>
                 </div>
 
@@ -152,6 +153,7 @@ export default function UserManagePage() {
                             <span className={styles.memberEmail}>{user.email}</span>
                             <span className={styles.memberNickname}>{user.nickName}</span>
                             <span className={styles.memberJoinDate}>{user.enrollDate}</span>
+                            <span className={styles.memberJoinDate}>{user.lastLoginDate}</span>
                             <div className={styles.toggleContainer} onClick={(e) => e.stopPropagation()}>
                                 <label className={styles.switch}>
                                     {user.status === 'Y' ? (

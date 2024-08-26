@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import com.kh.backend.domain.user.model.vo.Dog;
 import com.kh.backend.domain.user.model.vo.ImgDog;
 import com.kh.backend.domain.user.model.vo.ImgUser;
+import com.kh.backend.domain.user.model.vo.Like;
 import com.kh.backend.domain.user.model.vo.User;
 
 public interface UserService extends UserDetailsService{
@@ -41,6 +42,14 @@ public interface UserService extends UserDetailsService{
 
 	// 회원 프사 등록 메서드
 	int insertImgUser(ImgUser iu);
+
+	int hasUserLike(Like userLike);
+
+	int insertBoardLike(Like like);
+
+	int insertPointHistory(int userNo, int point, char pointType);
+
+	int updateLoginDate(User user);
 
 
 }

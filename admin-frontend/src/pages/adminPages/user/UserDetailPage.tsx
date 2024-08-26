@@ -13,7 +13,7 @@ export default function UserDetailPage() {
     useEffect(() => {
         axios.get(`http://localhost:8013/banju/admin/user/UserDetail/${user.userNo}`)
             .then((response) => {
-                console.log(response);
+                setUser(response.data.user);
             }).catch((response) => {
                 console.log(response);
             })
@@ -91,12 +91,21 @@ export default function UserDetailPage() {
                     <div className={styles.pointInfoHeader}>회원 포인트 관리</div>
                     <div className={styles.pointInfoList}>
                         <div className={styles.pointInfoBox}>
-                            <span className={styles.pointInfoText}>현재 포인트</span>
                             <span className={styles.pointInfoText}>사용 포인트</span>
-                            <span className={styles.pointInfoText}>사용 날짜</span>
+                            <span className={styles.pointInfoText}>내용</span>
+                            <span className={styles.pointInfoText}>변동 날짜</span>
                         </div>
                         <div className={styles.pointInfoBoxScllor}>
-                            {[
+                            {
+                                user.historyList?.map((item,index) => (
+                                <div key={index} className={styles.pointInfoBox}>
+                                    <span className={styles.pointInfoText}>{item.point}</span>
+                                    <span className={styles.pointInfoText}>{item.content}</span>
+                                    <span className={styles.pointInfoText}>{item.pointDate}</span>
+                                </div>
+                                ))
+                            }
+                            {/* {[
                                 { point: "2040P", change: "- 500P", date: "2024.08.09" },
                                 { point: "2040P", change: "- 500P", date: "2024.08.09" },
                                 { point: "2040P", change: "- 500P", date: "2024.08.09" },
@@ -108,7 +117,7 @@ export default function UserDetailPage() {
                                     <span className={styles.pointInfoText}>{item.change}</span>
                                     <span className={styles.pointInfoText}>{item.date}</span>
                                 </div>
-                            ))}
+                            ))} */}
                         </div>
                     </div>
                 </div>

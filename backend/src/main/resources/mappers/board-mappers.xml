@@ -162,12 +162,18 @@
 		WHERE BOARD_NO = #{boardNo}
 	</select>
 	
+
+	<update id="updateLikeCount">
+		UPDATE BOARD SET
+		 	LIKES = LIKES + 1
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+
 	<update id="increaseCount">
 		UPDATE BOARD SET
 		VIEWS = VIEWS + 1
 		WHERE BOARD_NO = #{boardNo}
 	</update>
-	
 	
 	
 </mapper>
