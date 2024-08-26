@@ -29,7 +29,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
     const modalRef = useRef<HTMLDivElement | null>(null);
 
     const [board, setBoard] = useState<Board>(initialBoard);
-    const[boardImgUrl , setBoardImgUrl] = useState<string[]>([]);
+    const [boardImgUrl, setBoardImgUrl] = useState<string[]>([]);
 
     const boards = useSelector((state: RootState) => state.boards);
 
@@ -57,7 +57,9 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
             try {
                 setBoardNo(boardNo);
                 // 첫 번째 비동기 요청
-                const response = await axios.get(`http://localhost:8013/banju/board/boardDetail/${boardNo}`);
+                const response = await axios.get(`http://localhost:8013/banju/board/boardDetail/${boardNo}`, {
+                    withCredentials: true  // 쿠키를 포함하여 요청
+                });
                 setBoard(response.data);
                 console.log(response.data);
                 // 첫 번째 요청이 성공한 후에 두 번째 비동기 요청
@@ -68,14 +70,14 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                 } else {
                     console.log('게시판 정보를 연결하는데 실패했습니다.');
                 }
-    
+
             } catch (error) {
                 console.error('게시판 정보를 불러오는데 실패했습니다.:', error);
             }
         };
-        fetchBoardDetails(); 
+        fetchBoardDetails();
     }, [boardNo, setBoardNo]);
-    
+
     const insertComment = (e: FormEvent) => {
         e.preventDefault();
         if (loginUser.nickName === '') {
@@ -87,7 +89,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                 bordNo: boardNo,
                 content: comment
             }
-    
+
             axios
                 .post(`http://localhost:8013/banju/board/boardDetail/${boardNo}`, commentData)
                 .then((response) => {
@@ -104,7 +106,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
         }
 
     }
-    
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -122,19 +124,19 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
             window.removeEventListener('click', handleClickOutside);
         };
     }, [showModal]);
-                
-      const makeChatRoom = (e:React.FormEvent) => {
+
+    const makeChatRoom = (e: React.FormEvent) => {
         e.preventDefault();
 
         const chatRoom = {
-            toUserNo : board.userNo,
-            fromUserNo : loginUser.userNo
+            toUserNo: board.userNo,
+            fromUserNo: loginUser.userNo
         }
 
         axios
             .post(`http://localhost:8013/banju/chat/makeChatRoom`, chatRoom)
             .then((response) => {
-                
+
                 console.log(loginUser.userNo + "가 " + board.userNo + "에게 채팅방 생성");
                 console.log('성공')
                 alert("채팅방을 만들었습니다.")
@@ -153,7 +155,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
             <div className={styles.detail}>
                 <div key={board.boardNo}>
                     <div className={styles.top}>
-                        <div className={styles.user}  onClick={nick} >
+                        <div className={styles.user} onClick={nick} >
                             <div className={styles.profileImg}></div>
                             <p className={styles.nick}>닉네임</p>
                         </div>
@@ -167,7 +169,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                                     || board.boardCode === 'A' && '입양'
                                     || board.boardCode === 'M' && '실종'}
                             </p>
-                        </div>  
+                        </div>
                     </div>
                     <div className={styles.text}>
                         <p className={styles.title}>{board.title}</p>
