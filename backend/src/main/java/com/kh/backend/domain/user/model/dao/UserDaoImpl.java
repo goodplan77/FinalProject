@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.backend.domain.user.model.vo.Dog;
 import com.kh.backend.domain.user.model.vo.ImgDog;
 import com.kh.backend.domain.user.model.vo.ImgUser;
+import com.kh.backend.domain.user.model.vo.Like;
 import com.kh.backend.domain.user.model.vo.User;
 
 import lombok.RequiredArgsConstructor;
@@ -91,6 +92,16 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public int insertImgUser(ImgUser iu) {
 		return session.insert("user.insertImgUser", iu);
+	}
+
+	@Override
+	public int hasUserLike(Like userLike) {
+		return session.selectOne("user.hasUserLike", userLike);
+	}
+
+	@Override
+	public int insertBoardLike(Like like) {
+		return session.insert("user.insertBoardLike", like);
 	}
 
 	
