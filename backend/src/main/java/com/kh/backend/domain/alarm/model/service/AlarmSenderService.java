@@ -1,16 +1,11 @@
 package com.kh.backend.domain.alarm.model.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
-
-import com.kh.backend.domain.alarm.model.vo.AdminAlarm;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,27 +13,42 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AlarmSenderService {
 
-    private final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
+    private final List<SseEmitter> adminEmitters = new CopyOnWriteArrayList<>();
+    private final List<SseEmitter> userEmitters = new CopyOnWriteArrayList<>();
     private final List<String> eventCache = new CopyOnWriteArrayList<>();
 
-    public SseEmitter createEmitter() {
+    public SseEmitter createEmitter(boolean isAdmin) {
         SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
-        emitters.add(emitter);
+        if (isAdmin) {
+            adminEmitters.add(emitter);
+        } else {
+            userEmitters.add(emitter);
+        }
 
-        emitter.onCompletion(() -> emitters.remove(emitter));
-        emitter.onTimeout(() -> handleEmitterTimeout(emitter));
-        emitter.onError(e -> handleEmitterError(emitter, e));
+        emitter.onCompletion(() -> removeEmitter(emitter, isAdmin));
+        emitter.onTimeout(() -> handleEmitterTimeout(emitter, isAdmin));
+        emitter.onError(e -> handleEmitterError(emitter, isAdmin, e));
 
         return emitter;
     }
 
-    public void sendAlarm(String message) {
+    private void removeEmitter(SseEmitter emitter, boolean isAdmin) {
+        if (isAdmin) {
+            adminEmitters.remove(emitter);
+        } else {
+            userEmitters.remove(emitter);
+        }
+    }
+
+    public void sendAlarm(String message, boolean isAdmin) {
         String eventId = String.valueOf(eventCache.size() + 1);
         eventCache.add(eventId + ":" + message);
 
         log.debug("알림 보내기 최종: {}", message);
         List<SseEmitter> deadEmitters = new CopyOnWriteArrayList<>();
-        emitters.forEach(emitter -> {
+        List<SseEmitter> targetEmitters = isAdmin ? adminEmitters : userEmitters;
+
+        targetEmitters.forEach(emitter -> {
             try {
                 log.debug("알림 보내기");
                 emitter.send(SseEmitter.event()
@@ -51,74 +61,22 @@ public class AlarmSenderService {
                 deadEmitters.add(emitter);
             }
         });
-        emitters.removeAll(deadEmitters);
+        targetEmitters.removeAll(deadEmitters);
     }
 
-    public void sendMissedAlarms(SseEmitter emitter, long lastId) {
-        for (String cachedEvent : eventCache) {
-            String[] parts = cachedEvent.split(":", 2);
-            long eventId = Long.parseLong(parts[0]);
-            if (eventId > lastId) {
-                try {
-                    emitter.send(SseEmitter.event()
-                            .id(String.valueOf(eventId))
-                            .name("alarm")
-                            .data(parts[1])
-                    );
-                } catch (IOException e) {
-                    handleEmitterError(emitter, e);
-                    break;
-                }
-            }
-        }
-    }
-
-    private void handleEmitterTimeout(SseEmitter emitter) {
-        emitters.remove(emitter);
+    private void handleEmitterTimeout(SseEmitter emitter, boolean isAdmin) {
+        removeEmitter(emitter, isAdmin);
         log.info("Emitter timed out: {}", emitter);
     }
 
-    private void handleEmitterError(SseEmitter emitter, Throwable e) {
+    private void handleEmitterError(SseEmitter emitter, boolean isAdmin, Throwable e) {
         try {
             emitter.completeWithError(e);
         } catch (Exception ex) {
             log.error("Failed to complete emitter with error: {}", ex.getMessage());
         }
-        emitters.remove(emitter);
+        removeEmitter(emitter, isAdmin);
         log.error("Error on emitter: {}, original error: {}", emitter, e.getMessage());
     }
-
-    public void sendUnreadAlarms(List<AdminAlarm> alarms) {
-        String eventId = String.valueOf(eventCache.size() + 1);
-        eventCache.add(eventId + ":unReadAlarms");
-
-        List<SseEmitter> deadEmitters = new CopyOnWriteArrayList<>();
-        emitters.forEach(emitter -> {
-            try {
-                log.debug("읽지 않은 알림 보내기");
-                if (alarms != null && !alarms.isEmpty()) {
-                    emitter.send(SseEmitter.event()
-                            .id(eventId)
-                            .name("unReadAlarms")
-                            .data(alarms)
-                    );
-                } else {
-                	// 알람이 없을 때 JSON 형식의 메시지 전송
-                	Map<String, String> noAlarmsMessage = new HashMap<>();
-                    noAlarmsMessage.put("message", "No new alarms");
-                    
-                    emitter.send(SseEmitter.event()
-                            .id(eventId)
-                            .name("unReadAlarms")
-                            .data(noAlarmsMessage)
-                    );
-                }
-            } catch (IOException e) {
-                log.error("읽지 않은 알림 전송 중 오류 발생: {}", e.getMessage());
-                deadEmitters.add(emitter);
-            }
-        });
-        emitters.removeAll(deadEmitters);
-    }
-
 }
+

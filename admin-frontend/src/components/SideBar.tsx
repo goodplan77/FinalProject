@@ -5,21 +5,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { logout } from "../features/adminSlice";
 import axios from "axios";
+import { incrementAskCount, incrementReportCount, setAskCount, setReportCount } from "../features/alarmSlice";
 
 export default function SideBar() {
     const navi = useNavigate();
     const dispatch = useDispatch();
     const adminUser = useSelector((state: RootState) => state.admins);
-    const [askCount, setAskCount] = useState(0);
-    const [reportCount, setReportCount] = useState(0);
+    const askCount = useSelector((state: RootState) => state.alarm.askCount);
+    const reportCount = useSelector((state: RootState) => state.alarm.reportCount);
 
     useEffect(() => {
         const fetchInitialUnReadList = () => {
             axios.get("http://localhost:8013/banju/admin/alarm/unReadList")
                 .then((response) => {
+                    let initialAskCount = 0;
+                    let initialReportCount = 0;
                     if (response.data.list) {
-                        let initialAskCount = 0;
-                        let initialReportCount = 0;
                         for (let item of response.data.list) {
                             switch (item.typeCode) {
                                 case 'A':
@@ -32,95 +33,54 @@ export default function SideBar() {
                                     console.warn(`Unknown alarm type: ${item.typeCode}`);
                             }
                         }
-                        setAskCount(initialAskCount);
-                        setReportCount(initialReportCount);
                     }
+                    dispatch(setAskCount(initialAskCount));
+                    dispatch(setReportCount(initialReportCount));
                 })
                 .catch((error) => {
                     console.error("Error fetching unread alarms:", error);
                 });
         };
-
+    
         const createEventSource = () => {
             const eventSource = new EventSource('http://localhost:8013/banju/admin/alarm/subscribe');
-
+        
             eventSource.addEventListener('alarm', (event) => {
                 try {
                     const newAlarm = JSON.parse(event.data);
                     if (newAlarm) {
-                        switch (newAlarm.typeCode) {
-                            case 'A':
-                                setAskCount(prevCount => prevCount + 1);
-                                break;
-                            case 'R':
-                                setReportCount(prevCount => prevCount + 1);
-                                break;
-                            default:
-                                console.warn(`Unknown alarm type: ${newAlarm.typeCode}`);
+                        if (newAlarm.typeCode === 'A') {
+                            dispatch(incrementAskCount());
+                        } else if (newAlarm.typeCode === 'R') {
+                            dispatch(incrementReportCount());
                         }
                     }
                 } catch (error) {
                     console.error("Error parsing JSON from SSE:", error);
                 }
             });
-
-            eventSource.addEventListener('unReadAlarms', (event) => {
-                try {    
-                    const data = JSON.parse(event.data);
-                    console.log("Parsed data:", data);
-                    
-                    if (Array.isArray(data)) {
-                        let initialAskCount = 0;
-                        let initialReportCount = 0;
-                        for (let item of data) {
-                            switch (item.typeCode) {
-                                case 'A':
-                                    initialAskCount++;
-                                    break;
-                                case 'R':
-                                    initialReportCount++;
-                                    break;
-                                default:
-                                    console.warn(`Unknown alarm type: ${item.typeCode}`);
-                            }
-                        }
-                        setAskCount(initialAskCount);
-                        setReportCount(initialReportCount);
-                    } else if (data && typeof data === 'object' && data.message === "No new alarms") {
-                        console.log("No new alarms detected");
-                        setAskCount(0);
-                        setReportCount(0);
-                    } else {
-                        console.warn("Unexpected data format:", data);
-                    }
-                } catch (error) {
-                    console.error("Error parsing JSON from SSE or in processing logic:", error);
-                    setAskCount(0);
-                    setReportCount(0);
-                }
-            });
-
+        
             eventSource.onerror = (event) => {
                 console.error("SSE connection error", event);
                 eventSource.close();
-
+        
                 // 일정 시간 후 재연결 시도
                 setTimeout(() => {
                     createEventSource(); // 재연결 시도 시 새로운 EventSource 생성
                 }, 3000); // 3초 후 재연결 시도
             };
-
+        
             return eventSource;
         };
-
+    
         fetchInitialUnReadList(); // 초기 로드 시 읽지 않은 알림 목록을 한 번 가져옴
-
+    
         const eventSource = createEventSource(); // SSE 연결 생성
-
+    
         return () => {
             eventSource.close(); // 컴포넌트 언마운트 시 SSE 연결 종료
         };
-    }, []);
+    }, [dispatch]);
 
     function adminLogout() {
         alert('로그아웃 합니다.');

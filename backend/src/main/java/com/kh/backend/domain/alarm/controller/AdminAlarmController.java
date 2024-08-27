@@ -31,13 +31,7 @@ public class AdminAlarmController {
 
     @GetMapping("/admin/alarm/subscribe")
     public SseEmitter subscribe(@RequestHeader(value = "Last-Event-ID", required = false) String lastEventId) {
-        SseEmitter emitter = alarmSenderService.createEmitter();
-
-        if (lastEventId != null) {
-            long lastId = Long.parseLong(lastEventId);
-            alarmSenderService.sendMissedAlarms(emitter, lastId);
-        }
-
+        SseEmitter emitter = alarmSenderService.createEmitter(true);
         log.debug("SSE 연결 확인");
         return emitter;
     }

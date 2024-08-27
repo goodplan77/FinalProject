@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.backend.domain.alarm.model.service.AlarmService;
 import com.kh.backend.domain.board.model.service.BoardService;
 import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.board.model.vo.BoardImg;
@@ -48,6 +49,7 @@ public class BoardController {
 
 	private final BoardService boardService;
 	private final UserService userService;
+	private final AlarmService alarmService;
 	private final ServletContext application;
 	
 	@GetMapping("/boardList")
@@ -224,13 +226,16 @@ public class BoardController {
 		log.debug("댓글 내용 = {}", comment.getContent());
 		log.debug("유저 넘버 = {}", comment.getUserNo());
 		
+		Board board = boardService.boardDetail(boardNo);
+		
+		alarmService.createAndSendAlarm(board.getUserNo() , comment.getUserNo() , 'L' , comment.getCommentNo());
 		userService.insertPointHistory(comment.getUserNo() , 50 , 'C');
 		
 		return map;
 	}
 	
 	@PostMapping("/updateLikeCount")
-	public ResponseEntity<Map<String, Object>> updateLikeCount(@RequestPart String updateSendData) {
+	public ResponseEntity<Map<String, Object>> updateLikeCount(@RequestBody String updateSendData) {
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
@@ -246,7 +251,7 @@ public class BoardController {
 		    int likeUser = likeUserNode.asInt();
 
 			int result = boardService.updateLikeCount(board);
-			//result *= userService.
+			result *= alarmService.createAndSendAlarm(board.getUserNo() , likeUser , 'L' , board.getBoardNo());
 
 			if (result > 0) {
 				response.put("msg", "좋아요 작업이 정상적으로 완료 되었습니다.");

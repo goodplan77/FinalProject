@@ -7,6 +7,7 @@ import reportSlice from "../features/reportSlice";
 import adminSlice from "../features/adminSlice";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import alarmSlice from "../features/alarmSlice";
 
 const reducers = combineReducers({
     users : userSlice,
@@ -14,13 +15,14 @@ const reducers = combineReducers({
     products : productSlice,
     asks : askSlice,
     reports : reportSlice,
-    admins : adminSlice
+    admins : adminSlice,
+    alarm: alarmSlice
 });
 
 const persistConfig = {
     key : "root",
     storage,
-    whitelist : ["users" , "boards" , "products" , "asks" , "reports" , "admins"]
+    whitelist : ["users" , "boards" , "products" , "asks" , "reports" , "admins" , "alarm"]
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers)
