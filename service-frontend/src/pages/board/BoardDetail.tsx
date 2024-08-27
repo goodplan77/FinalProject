@@ -158,9 +158,8 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
             return;
         } else {
             const commentData = {
-                fromUserNo: loginUser.userNo,
-                toUserNo: board.userNo,
-                bordNo: boardNo,
+                boardNo,
+                userNo: loginUser.userNo,
                 content: comment
             }
 

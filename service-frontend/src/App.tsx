@@ -95,7 +95,7 @@ const App = () => {
           <Route path='/missingList' element={<MissingList />} />
           <Route path='/insertBoard' element={<InsertBoard />} />
           <Route path='/chatlist' element={<ChatList />} />
-          <Route path='/chatRoom/:chatRoomNo' element={<ChatRoom setChatRoomNo={setChatRoomNo} />} />
+          <Route path='/chatRoom/:chatRoomNo' element={<ChatRoom />} />
           <Route path='/signup' element={<SignUpPage />} />
           <Route path='/petPlace' element={<PetPlace />} />
           <Route path='/weather' element={<Weather />} />
