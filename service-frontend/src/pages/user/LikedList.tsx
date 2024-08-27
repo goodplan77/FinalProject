@@ -1,53 +1,42 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import styles from './styles/BoardList.module.css';
-import { useEffect } from 'react';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { selectAllBoard } from '../../features/boardSlice';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { RootState } from "../../store/store";
+import { useEffect } from "react";
+import axios from "axios";
+import { selectAllBoard } from "../../features/boardSlice";
+import styles from './styles/PostedPage.module.css';
 
-export default function BoardList() {
+
+interface LoginUserNoProps {
+    setUserNo: React.Dispatch<React.SetStateAction<string | undefined>>;
+}
+
+
+export default function LikedList({ setUserNo }: LoginUserNoProps) {
+
     const navi = useNavigate();
-
     const dispatch = useDispatch();
-
     const boards = useSelector((state: RootState) => state.boards);
+    const loginUser = useSelector((state: RootState) => state.user);
 
     const handleClick = (boardNo: number) => {
         navi(`/boardDetail/${boardNo}`);
     };
 
     useEffect(() => {
-        axios.get("http://localhost:8013/banju/board/boardList")
-            .then((response) => {
-                console.log(response);
-                dispatch(selectAllBoard(response.data));
-            }).catch((response) => {
+        axios.get(`http://localhost:8013/banju/board/likedList/${loginUser.userNo}`)
+            .then((reponse) => {
+                console.log(reponse);
+                dispatch(selectAllBoard(reponse.data));
+            })
+            .catch((response) => {
                 console.log(response);
             })
     }, [])
 
     return (
         <>
-            {/* 헤더아래에 보드 카테고리 바 입니다. */}
-            <div className={styles.categorys}>
-                <div className={styles.cateClassic} onClick={() => navi('/BoardList')}>
-                    <p>일반</p>
-                </div>
-                <div className={styles.cateUsed} onClick={() => navi('/usedList')}>
-                    <p>중고</p>
-                </div>
-                <div className={styles.cateBuy} onClick={() => navi('/adoptList')}>
-                    <p>입양</p>
-                </div>
-                <div className={styles.cateLost} onClick={() => navi('/missingList')}>
-                    <p>실종</p>
-                </div>
-                <div className={styles.cateLine}>
-                    <p>... </p>
-                </div>
-            </div>
             {
                 boards.map((board) => {
                     return (
@@ -91,26 +80,6 @@ export default function BoardList() {
 
 
             }
-
-
-            {/* isnertBoard 페이지로 이동하는 버튼(fixed) */}
-            <div className='plus' style={{
-                backgroundColor: "#02CCFE",
-                width: "70px",
-                height: "70px",
-                borderRadius: "35px",
-                opacity: "50%",
-                position: "fixed",
-                bottom: "70px",
-                right: "10px",
-            }} onClick={() => navi('/insertBoard')}>
-                <img className='plus-pen' src={`${process.env.PUBLIC_URL}/images/pen.png`} alt="글쓰기" style={{
-                    marginTop: "10px",
-                    marginLeft: "10px",
-                    width: "50px",
-                    height: "50px"
-                }} />
-            </div>
         </>
-    );
+    )
 }

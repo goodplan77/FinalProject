@@ -263,5 +263,24 @@ public class BoardController {
 		return list;
 	}
 	
+	@GetMapping("/postedList/{userNo}")
+	public List<Board> postedList(
+			@PathVariable int userNo
+			){
+		
+		List<Board> list = boardService.postedList(userNo);
+		
+		return list;
+	}
+	
+	@GetMapping("/likedList/{userNo}")
+	public List<Board> likedList(
+			@PathVariable int userNo
+			){
+		
+		List<Board> list = boardService.likedList(userNo);
+		
+		return list;
+	}
 	
 }

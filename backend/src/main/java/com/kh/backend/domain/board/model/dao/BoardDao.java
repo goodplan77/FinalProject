@@ -34,4 +34,8 @@ public interface BoardDao {
 
 	int increaseCount(int boardNo);
 
+	List<Board> postedList(int userNo);
+
+	List<Board> likedList(int userNo);
+
 }

@@ -38,6 +38,18 @@ export default function ChatHeaderbar({ chatRoomNo }: ChatHeaderbarProps) {
         setShowModal(2); // 신고 내용 입력 단계로 이동
     };
 
+    const handleCloseChat = () => {
+        axios.post(`http://localhost:8013/banju/closeChat/${chatRoomNo}`)
+            .then((reponse) => {
+                console.log(reponse);
+            })
+            .catch((response) => {
+                console.log(response);
+            })
+
+        setShowModal(0);
+    }
+
     const handleCloseModal = () => {
         setShowModal(0); // 모달을 닫음
         setReport("");
@@ -106,6 +118,7 @@ export default function ChatHeaderbar({ chatRoomNo }: ChatHeaderbarProps) {
                 <div className={style.modalOverlay}>
                     <div className={style.modalContent}>
                         <button onClick={handleOpenReport}>신고하기</button>
+                        <button onClick={handleCloseChat}>채팅방 나가기</button>
                     </div>
                 </div>
             )}

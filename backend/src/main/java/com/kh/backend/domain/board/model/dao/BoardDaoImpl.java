@@ -78,4 +78,14 @@ public class BoardDaoImpl implements BoardDao{
 		return session.update("board.increaseCount", boardNo);
 	}
 
+	@Override
+	public List<Board> postedList(int userNo) {
+		return session.selectList("board.postedList", userNo);
+	}
+
+	@Override
+	public List<Board> likedList(int userNo) {
+		return session.selectList("board.likedList", userNo);
+	}
+
 }

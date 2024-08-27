@@ -8,17 +8,18 @@ import { RootState } from '../../store/store';
 import { logout } from '../../features/userSlice';
 
 const MyPage = () => {
-    let loginUser = useSelector((state:RootState)=>state.user);
+    let loginUser = useSelector((state: RootState) => state.user);
     const dispatch = useDispatch();
     const navi = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [ask, setAsk] = useState("");
     const [title, setTitle] = useState("");
+    const [activeTab, setActiveTab] = useState<'myPosts' | 'likedPosts' | null>(null);
 
     const filePath = "http://localhost:8013/banju/images";
 
     // 로그아웃 함수
-    const logoutApp = ()=>{
+    const logoutApp = () => {
         alert("로그아웃합니다.");
         dispatch(logout());
         navi('/');
@@ -77,6 +78,14 @@ const MyPage = () => {
         setTitle(event.target.value);
     };
 
+    const handlePost = (userNo: number) => {
+        navi(`/postedPage/${userNo}`);
+    };
+
+    const handleLike = (userNo: number) => {
+        navi(`/likedList/${userNo}`);
+    };
+
     return (
         <>
             <div className={styles.mypage}>
@@ -86,9 +95,9 @@ const MyPage = () => {
                             <div className={styles.profilePictureFrame}>
                                 <img src={
                                     loginUser.imgUser == null ?
-                                    '/images/icon.png' : 
-                                    filePath + '/user/' + loginUser.imgUser.changeName
-                                } alt="프사" className={styles.img}/>
+                                        '/images/icon.png' :
+                                        filePath + '/user/' + loginUser.imgUser.changeName
+                                } alt="프사" className={styles.img} />
                             </div>
                             <div className={styles.nicknameFrame}>
                                 <div className={styles.nickname}>{loginUser.nickName}</div>
@@ -114,22 +123,22 @@ const MyPage = () => {
                             <div className={styles.additionalNicknameFrame}>
                                 <img src={
                                     loginUser.dogs.length == 0 ?
-                                    '/images/icon.png' :
-                                    filePath + '/dog/' + (loginUser.dogs[0].imgDog && loginUser.dogs[0].imgDog.changeName)
+                                        '/images/icon.png' :
+                                        filePath + '/dog/' + (loginUser.dogs[0].imgDog && loginUser.dogs[0].imgDog.changeName)
                                 } alt="개프사" />
                                 <div className={styles.additionalNickname}>{
-                                        loginUser.dogs.length == 0 ?
-                                        '등록된 반려견이 없습니다.' : 
+                                    loginUser.dogs.length == 0 ?
+                                        '등록된 반려견이 없습니다.' :
                                         loginUser.dogs[0].dogName
-                                    }</div>
+                                }</div>
                             </div>
                         </div>
                     </div>
                     <div className={styles.petButton}>
-                        <div className={styles.petButtonText} onClick={()=>navi('/insertDog')}>반려견 추가</div>
+                        <div className={styles.petButtonText} onClick={() => navi('/insertDog')}>반려견 추가</div>
                     </div>
                     <div className={styles.petButton}>
-                        <div className={styles.petButtonText} onClick={()=>navi('/dogList')}>나의 반려견</div>
+                        <div className={styles.petButtonText} onClick={() => navi('/dogList')}>나의 반려견</div>
                     </div>
                 </div>
 
@@ -138,10 +147,10 @@ const MyPage = () => {
                         <div className={styles.buttonText1} onClick={() => navi('/calendarPage')}>캘린더</div>
                     </div>
                     <div className={styles.buttonFrame2}>
-                        <div className={styles.buttonText2}>내가 쓴 글 목록</div>
+                        <div className={styles.buttonText2} onClick={() => handlePost(loginUser.userNo)}>내가 쓴 글 목록</div>
                     </div>
                     <div className={styles.buttonFrame3}>
-                        <div className={styles.buttonText3}>좋아요 목록</div>
+                        <div className={styles.buttonText3} onClick={() => handleLike(loginUser.userNo)}>좋아요 목록</div>
                     </div>
                 </div>
 
