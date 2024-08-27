@@ -40,8 +40,11 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
     const [comment, setComment] = useState('');
 
     const nick = (event: React.MouseEvent<HTMLDivElement>) => {
-        if (loginUser.userNo === 10) {
-            alert("로그인 후 이용해주세요");
+        console.log(loginUser.userNo);
+        console.log(board.userNo);
+
+        // 글쓴이와 로그인 유저가 같은경우
+        if (loginUser.userNo === board.userNo) {
             return;
         }
 
@@ -84,7 +87,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                     console.error('좋아요 상태를 불러오는데 실패했습니다:', secondResponse.reason);
                     setIsLike(false); // 기본적으로 좋아요를 누르지 않은 상태로 설정
                 }
-    
+
                 // 이미지 불러오기 처리
                 if (thirdResponse.status === "fulfilled") {
                     console.log(thirdResponse.value.data);
@@ -93,6 +96,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                     console.error('이미지를 불러오는데 실패했습니다:', thirdResponse.reason);
                     setBoardImgUrl([]); // 이미지가 없는 경우 빈 배열로 설정
                 }
+
 
             } catch (error) {
                 console.error('게시판 정보를 불러오는데 실패했습니다.:', error);
@@ -154,7 +158,8 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
             return;
         } else {
             const commentData = {
-                userNo: loginUser.userNo,
+                fromUserNo: loginUser.userNo,
+                toUserNo: board.userNo,
                 bordNo: boardNo,
                 content: comment
             }
@@ -194,8 +199,39 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
         };
     }, [showModal]);
 
-    const makeChatRoom = (e: React.FormEvent) => {
+    const checkChatRoom = async (): Promise<number> => {
+        const chatRoom :{toUserNo:number; fromUserNo:number}= {
+            toUserNo: board.userNo,
+            fromUserNo: loginUser.userNo
+        };
+        
+        try {
+            const response = await axios.get('http://localhost:8013/banju/chat/checkChatRoom', {
+                params :chatRoom
+            });
+            console.log("채팅방이 있음");
+            console.log("zzzz" + response.data);
+            return response.data; // true 또는 false 반환한다고 가정
+        } catch (error) {
+            return 1; // 오류 발생 시 false 반환
+        }
+    };
+
+    const makeChatRoom = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // 로그인이 안되어 있는 경우
+        if (loginUser.userNo === 10) {
+            alert("로그인 후 이용해주세요");
+            return;
+        }
+
+        const chatRoomExists = await checkChatRoom();
+        // 그 사람과 내가 같이 있는 채팅방이 이미 있는 경우
+        if(chatRoomExists > 0) {
+            alert("채팅방이 이미 있습니다.")
+            return;
+        }
 
         const chatRoom = {
             toUserNo: board.userNo,
@@ -212,8 +248,8 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
             })
             .catch((error) => {
                 alert("채팅방 생성에 실패했습니다.");
-                console.log('요청을 보낸 사람' + loginUser.userNo);
-                console.log('요청을 받을 사람' + board.userNo);
+                console.log('요청을 보낸 사람 = ' + loginUser.userNo);
+                console.log('요청을 받을 사람 = ' + board.userNo);
                 console.log(error);
                 console.log('생성 실패');
             })

@@ -1,0 +1,31 @@
+.meChat {
+    display: flex;
+    justify-content: flex-end; /* 자식 요소를 오른쪽으로 정렬 */
+}
+.myChat {
+    background-color: #E4FAFF;
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    padding: 5px;
+    max-width: 380px; /* 최대 너비 설정 */
+    width: auto; /* 부모 요소의 너비에 맞춤 */
+    margin-right: 10px;
+}
+
+.myChat .chat {
+    font-size: 20px;
+    font-weight: 600;
+    text-align: right;
+    margin: 0;
+    max-width: 345px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.myChat .chatDate {
+    font-size: 12px;
+    margin: 0;
+    text-align: right;
+}

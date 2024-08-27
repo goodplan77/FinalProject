@@ -18,4 +18,6 @@ public class Message {
 	private String messageDate; // 일단 String
 	
 	private User user;
+	
+	private String nickName;
 }
