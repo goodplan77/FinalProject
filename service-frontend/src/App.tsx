@@ -103,7 +103,7 @@ const App = () => {
           <Route path='findUserPassword' element={<FindUserPassword />} />
           <Route path='successUserId' element={<SuccessUserId />} />
           <Route path='changePassword' element={<ChangePassword />} />
-          <Route path='calendarPage' element={<CalendarPage />} />
+          <Route path='calendarPage/:userNo' element={<CalendarPage setUserNo={setUserNo} />} />
           <Route path='/boardDetail/:boardNo' element={<BoardDetail setBoardNo={setBoardNo} />} />
           <Route path='/clause' element={<Clause />} />
           <Route path='/alarm' element={<Alarm />} />

@@ -11,7 +11,11 @@ import { selectedMemo } from "../../features/memoSlice";
 
 type Value = Date | null | [Date | null, Date | null];
 
-export default function CalendarPage() {
+interface LoginUserNoProps {
+    setUserNo: React.Dispatch<React.SetStateAction<string | undefined>>;
+}
+
+export default function CalendarPage({ setUserNo }: LoginUserNoProps) {
     const dispatch = useDispatch();
     const today = new Date();
     const [date, setDate] = useState<Value>(today);
@@ -26,7 +30,7 @@ export default function CalendarPage() {
     const memos = useSelector((state: RootState) => state.memos);
 
     useEffect(() => {
-        axios.get("http://localhost:8013/banju/calendarPage/memoList")
+        axios.get(`http://localhost:8013/banju/calendarPage/memoList/${loginUser.userNo}`)
             .then((response) => {
                 console.log(response);
                 dispatch(selectedMemo(response.data));
@@ -80,7 +84,7 @@ export default function CalendarPage() {
         })
             .then((response) => {
                 console.log(response);
-                axios.get("http://localhost:8013/banju/calendarPage/memoList")
+                axios.get(`http://localhost:8013/banju/calendarPage/memoList/${loginUser.userNo}`)
                     .then((response) => {
                         console.log(response);
                         dispatch(selectedMemo(response.data));

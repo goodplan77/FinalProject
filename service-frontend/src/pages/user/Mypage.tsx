@@ -86,6 +86,10 @@ const MyPage = () => {
         navi(`/likedList/${userNo}`);
     };
 
+    const handleCalendar = (userNo: number) => {
+        navi(`/calendarPage/${userNo}`);
+    }
+
     return (
         <>
             <div className={styles.mypage}>
@@ -144,7 +148,7 @@ const MyPage = () => {
 
                 <div className={styles.buttonContainer}>
                     <div className={styles.buttonFrame1}>
-                        <div className={styles.buttonText1} onClick={() => navi('/calendarPage')}>캘린더</div>
+                        <div className={styles.buttonText1} onClick={() => handleCalendar(loginUser.userNo)}>캘린더</div>
                     </div>
                     <div className={styles.buttonFrame2}>
                         <div className={styles.buttonText2} onClick={() => handlePost(loginUser.userNo)}>내가 쓴 글 목록</div>
