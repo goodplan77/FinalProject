@@ -29,7 +29,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
     const modalRef = useRef<HTMLDivElement | null>(null);
 
     const [board, setBoard] = useState<Board>(initialBoard);
-    const[boardImgUrl , setBoardImgUrl] = useState<string[]>([]);
+    const [boardImgUrl, setBoardImgUrl] = useState<string[]>([]);
 
     const boards = useSelector((state: RootState) => state.boards);
 
@@ -40,12 +40,9 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
     const nick = (event: React.MouseEvent<HTMLDivElement>) => {
         console.log(loginUser.userNo);
         console.log(board.userNo);
-        if(loginUser.userNo === board.userNo){
-            return;
-        }
 
-        if (loginUser.userNo === 10) {
-            alert("로그인 후 이용해주세요");
+        // 글쓴이와 로그인 유저가 같은경우
+        if (loginUser.userNo === board.userNo) {
             return;
         }
 
@@ -74,14 +71,14 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                 } else {
                     console.log('게시판 정보를 연결하는데 실패했습니다.');
                 }
-    
+
             } catch (error) {
                 console.error('게시판 정보를 불러오는데 실패했습니다.:', error);
             }
         };
-        fetchBoardDetails(); 
+        fetchBoardDetails();
     }, [boardNo, setBoardNo]);
-    
+
     const insertComment = (e: FormEvent) => {
         e.preventDefault();
         if (loginUser.nickName === '') {
@@ -90,11 +87,11 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
         } else {
             const commentData = {
                 fromUserNo: loginUser.userNo,
-                toUserNo : board.userNo,
+                toUserNo: board.userNo,
                 bordNo: boardNo,
                 content: comment
             }
-    
+
             axios
                 .post(`http://localhost:8013/banju/board/boardDetail/${boardNo}`, commentData)
                 .then((response) => {
@@ -111,7 +108,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
         }
 
     }
-    
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -129,19 +126,50 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
             window.removeEventListener('click', handleClickOutside);
         };
     }, [showModal]);
-                
-      const makeChatRoom = (e:React.FormEvent) => {
+
+    const checkChatRoom = async (): Promise<number> => {
+        const chatRoom :{toUserNo:number; fromUserNo:number}= {
+            toUserNo: board.userNo,
+            fromUserNo: loginUser.userNo
+        };
+        
+        try {
+            const response = await axios.get('http://localhost:8013/banju/chat/checkChatRoom', {
+                params :chatRoom
+            });
+            console.log("채팅방이 있음");
+            console.log("zzzz" + response.data);
+            return response.data; // true 또는 false 반환한다고 가정
+        } catch (error) {
+            return 1; // 오류 발생 시 false 반환
+        }
+    };
+
+    const makeChatRoom = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        // 로그인이 안되어 있는 경우
+        if (loginUser.userNo === 10) {
+            alert("로그인 후 이용해주세요");
+            return;
+        }
+
+        const chatRoomExists = await checkChatRoom();
+        // 그 사람과 내가 같이 있는 채팅방이 이미 있는 경우
+        if(chatRoomExists > 0) {
+            alert("채팅방이 이미 있습니다.")
+            return;
+        }
+
         const chatRoom = {
-            toUserNo : board.userNo,
-            fromUserNo : loginUser.userNo
+            toUserNo: board.userNo,
+            fromUserNo: loginUser.userNo
         }
 
         axios
             .post(`http://localhost:8013/banju/chat/makeChatRoom`, chatRoom)
             .then((response) => {
-                
+
                 console.log(loginUser.userNo + "가 " + board.userNo + "에게 채팅방 생성");
                 console.log('성공')
                 alert("채팅방을 만들었습니다.")
@@ -160,7 +188,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
             <div className={styles.detail}>
                 <div key={board.boardNo}>
                     <div className={styles.top}>
-                        <div className={styles.user}  onClick={nick} >
+                        <div className={styles.user} onClick={nick} >
                             <div className={styles.profileImg}></div>
                             <p className={styles.nick}>닉네임</p>
                         </div>
@@ -174,7 +202,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                                     || board.boardCode === 'A' && '입양'
                                     || board.boardCode === 'M' && '실종'}
                             </p>
-                        </div>  
+                        </div>
                     </div>
                     <div className={styles.text}>
                         <p className={styles.title}>{board.title}</p>

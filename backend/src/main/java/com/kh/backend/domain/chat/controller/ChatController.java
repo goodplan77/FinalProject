@@ -70,7 +70,36 @@ public class ChatController {
 		return messages;
 	}
 	
+	
+	// 채팅방에 있는 유저 확인하기
+	@GetMapping("/chatRoomJoin/chatRoomNo/{chatRoomNo}")
+	public List<User> selectChatRoomUser(
+			@PathVariable int chatRoomNo
+			){
+		return chatService.selectChatRoomUser(chatRoomNo);
+	}
 
+	// 이미 있는 채팅방이 있는지 체크
+	@GetMapping("/checkChatRoom")
+	public int checkChatRoom(
+	        @RequestParam("toUserNo") int toUserNo,
+	        @RequestParam("fromUserNo") int fromUserNo
+	) {
+		
+	    log.debug("도달 성공");
+	    log.debug("toUserNo == {}", toUserNo);
+	    log.debug("fromUserNo == {}", fromUserNo);
+	    
+	    ChatRoom users = new ChatRoom();
+	    users.setToUserNo(toUserNo);
+	    users.setFromUserNo(fromUserNo);
+
+	    List<ChatRoom> list = chatService.checkChatRoom(users);
+	    
+	    log.debug("list == {}", list);
+	    
+	    return list.size();
+	}
 	
 	
 }

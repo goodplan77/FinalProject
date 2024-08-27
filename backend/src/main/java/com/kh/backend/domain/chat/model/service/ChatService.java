@@ -18,4 +18,8 @@ public interface ChatService {
 
 	User selectUser(int userNo);
 
+	List<User> selectChatRoomUser(int chatRoomNo);
+
+	List<ChatRoom> checkChatRoom(ChatRoom users);
+
 }

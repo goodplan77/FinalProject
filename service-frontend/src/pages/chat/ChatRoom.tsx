@@ -8,6 +8,7 @@ import SockJs from 'sockjs-client';
 import { Client } from "@stomp/stompjs";
 import { Message } from "../../type/chat";
 import Messages from "./Messages";
+import { User } from "../../type/user";
 
 export default function ChatRoom() {
 
@@ -28,6 +29,8 @@ export default function ChatRoom() {
     const [chatMessage, setChatMessage] = useState<Message[]>([]);
     // 현재 접속중인 url앞부분
     const url = 'http://localhost:8013/banju';
+    // 현재 채팅방의 상대방을 저장할 state
+    const [chatRoomUser, setChatRoomUser] = useState<User[]>([]);
     // 웹소켓 연결
     useEffect(() => {
         // npm i --save @types/sockjs-client
@@ -53,8 +56,13 @@ export default function ChatRoom() {
                     })
                 });
 
-                // 구독 2 채팅방에 새로운 사용자가 입장하는 경우...?는 없지만 일단 작성
-                stompClient.subscribe(`/chat/chatRoomNo/${chatRoomNo}/userNo/${user.userNo}/newUser`, (frame) => {
+                // 구독 2 채팅방의 상대방 닉네임
+                stompClient.subscribe(`/chat/chatRoomNo/${chatRoomNo}/newUser`, (frame) => {
+                    const user = JSON.parse(frame.body);
+                    setChatRoomUser((prevState) => {
+                        let filterArr = prevState.filter((u) => u.userNo !== user.userNo);
+                        return [...filterArr, user];
+                    })
                     console.log('뜨는지 테스트');
                     console.log(frame.body);
                 })
@@ -77,6 +85,12 @@ export default function ChatRoom() {
             .then((res) => {
                 setChatMessage(res.data);
             })
+
+        // 채팅방 참여자 목록 가져오기
+        // axios.get(`${url}/chatRoomJoin/chatRoomNo/${chatRoomNo}`)
+        //     .then((res) => {
+        //         setChatRoomUser(res.data);
+        //     })
 
         return () => {
             // 컴포넌트 소멸시 웹소켓 해제
@@ -134,8 +148,6 @@ export default function ChatRoom() {
                     <Messages chatMessages = {chatMessage}/>
 
                 </div>
-
-
 
                 <div className={styles.chatPost}>
                     <textarea className={styles.postBox}

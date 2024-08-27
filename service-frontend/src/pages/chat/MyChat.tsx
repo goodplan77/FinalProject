@@ -1,10 +1,13 @@
 import { Message } from "../../type/chat";
+import styles from './styles/MyChat.module.css';
 
-export default function MyChat({chat}:{chat:Message}){
+export default function MyChat({ chat }: { chat: Message }) {
     return (
-        <div className="myChat">
-            <p className="chat">{chat.content}</p>
-            <span className="chatDate">{chat.messageDate}</span>
+        <div className={styles.meChat}>
+            <div className={styles.myChat}>
+                <p className={styles.chat}>{chat.content}</p>
+                <p className={styles.chatDate}>{chat.messageDate}</p>
+            </div>
         </div>
     )
 }

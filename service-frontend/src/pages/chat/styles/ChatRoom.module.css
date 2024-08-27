@@ -37,7 +37,8 @@
     margin-left: 10px;
 }
 .chatRoom{
-    padding-top: 50px;
+    padding-top: 10px;
+    margin-bottom: 60px;
 }
 
 
@@ -54,11 +55,12 @@
     outline: none;
     width: 340px;
     height: 40px;
-    font-size: 22px;
+    font-size: 35px;
     margin-left: 10px;
     margin-top: 5px;
     border-radius: 10px;
     background-color: #E4FAFF;
+
 }
 
 .postBtn{

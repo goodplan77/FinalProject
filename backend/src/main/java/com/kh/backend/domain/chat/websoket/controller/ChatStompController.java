@@ -38,7 +38,7 @@ public class ChatStompController {
 	}
 	
 	@MessageMapping("/chatRoomJoin/{chatRoomNo}/{userNo}newMember")
-	@SendTo("/chat/chatRoomNo/{chatRoomNo}/userNo/{userNo}/newUser")
+	@SendTo("/chat/chatRoomNo/{chatRoomNo}/newUser")
 	public User newUser(
 			@DestinationVariable int chatRoomNo,
 			@DestinationVariable int userNo,

@@ -69,23 +69,24 @@
 	
 	
 	<select id="selectChatMessage" resultType="message">
-		SELECT CONTENT, TO_CHAR(MESSAGE_DATE, 'HH24:SS') AS MESSAGE_DATE, USER_NO, NICK_NAME
+		SELECT CONTENT, TO_CHAR(MESSAGE_DATE, 'HH24:MI') AS MESSAGE_DATE, USER_NO, NICK_NAME
 		FROM MESSAGE
 		LEFT JOIN "USER" USING (USER_NO)
 		WHERE MESSAGE_NO = #{messageNo}
 	</select>
 	
+	<select id="selectChatRoomUser" resultType="user">
+		SELECT USER_NO, NICK_NAME
+		FROM CHAT_ROOM
+		LEFT JOIN USER USING (USER_NO)
+		WHERE CHAT_ROOM_NO = #{chatRoomNo}
+	</select>
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	<select id="checkChatRoom" parameterType="Map" resultType="chatRoom">
+	    SELECT CHAT_ROOM_NO
+	    FROM CHAT_ROOM
+	    WHERE (TO_USER_NO = #{toUserNo} AND FROM_USER_NO = #{fromUserNo})
+	           OR (TO_USER_NO = #{fromUserNo} AND FROM_USER_NO = #{toUserNo})
+	</select>
+
 </mapper>

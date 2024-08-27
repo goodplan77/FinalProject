@@ -43,6 +43,16 @@ public class ChatServiceImpl implements ChatService{
 		return chatDao.selectUser(userNo);
 	}
 
+	@Override
+	public List<User> selectChatRoomUser(int chatRoomNo) {
+		return chatDao.selectChatRoomUser(chatRoomNo);
+	}
+
+	@Override
+	public List<ChatRoom> checkChatRoom(ChatRoom users) {
+		return chatDao.checkChatRoom(users);
+	}
+
 	
 	
 }

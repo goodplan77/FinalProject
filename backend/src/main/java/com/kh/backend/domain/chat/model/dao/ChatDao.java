@@ -20,4 +20,8 @@ public interface ChatDao {
 
 	Message selectChatMessage(int messageNo);
 
+	List<User> selectChatRoomUser(int chatRoomNo);
+
+	List<ChatRoom> checkChatRoom(ChatRoom users);
+
 }
