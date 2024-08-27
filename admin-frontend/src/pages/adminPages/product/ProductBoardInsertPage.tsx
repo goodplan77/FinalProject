@@ -45,10 +45,14 @@ export default function ProductBoardInsertPage() {
       const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // 폼 제출 방지
         const formData = new FormData();
+        console.log(product);
         formData.append('productJson', JSON.stringify(product));
         if(selectedImage){
             formData.append('file' , selectedImage);
-            axios.post("http://localhost:8013/banju/admin/board/insertProductBoard" , formData)
+            axios.post("http://localhost:8013/banju/admin/board/insertProductBoard" , formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data; charset=UTF-8',
+                }})
                 .then((response) => {
                     alert(response.data.msg);
                     navi('../productBoardManagePage');

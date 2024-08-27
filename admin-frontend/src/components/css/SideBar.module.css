@@ -244,8 +244,15 @@
     font-weight: bold;
 }
 
-.alarmTime {
+.alarmCount {
     font-size: 0.8em;
+}
+
+.hasCount {
+    color: red;
+}
+
+.NoCount{
     color: #777;
 }
 

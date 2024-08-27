@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, CompositionEvent, KeyboardEvent, CompositionEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import DaumPostcode from "react-daum-postcode";
@@ -14,18 +14,9 @@ Modal.setAppElement('#root'); // 모달의 접근성 설정
 
 const SignUpPage: React.FC = () => {
 
+    const navi = useNavigate();
+
     const [user, setUser] = useState<User>(initUser);
-
-    const setUserChange = (e:ChangeEvent) => {
-
-        let {name, value} = e.target as HTMLInputElement;
-        
-        setUser({
-            ...user,
-            [name] : value
-        });
-    }
-
     const [modal, setModal] = useState(false);
     const [code, setCode] = useInput<Code>(initCode);
     const [address, setAddress] = useState({
@@ -33,9 +24,25 @@ const SignUpPage: React.FC = () => {
         mainAddress : '',
         detailAddress : ''
     });
-    
+    const [signup, setSignup] = useState({
+        email : false,
+        verification : false,
+        name : false,
+        nickName : false,
+        pwd : false,
+        pwdCheck : false,
+        phone : false
+    })
 
-    const navi = useNavigate();
+    const setUserChange = (e:ChangeEvent) => {
+        let {name, value} = e.target as HTMLInputElement;
+
+        setUser({
+            ...user,
+            [name] : value
+        });
+    }
+
 
     // 이메일 중복체크 & 발송
     const sendEmail = () => {
@@ -49,6 +56,11 @@ const SignUpPage: React.FC = () => {
             const verificationCode = res.data.verificationCode;
 
             alert(msg);
+
+            setSignup({
+                ...signup,
+                email : true
+            });
 
             setCookie("verificationCode", verificationCode);
         })
@@ -65,6 +77,10 @@ const SignUpPage: React.FC = () => {
 
         if(code.verificationCode == userCode){
             alert("인증번호가 확인되었습니다.");
+            setSignup({
+                ...signup,
+                verification : true
+            });
         }else{
             alert("인증번호가 다릅니다.");
         }
@@ -72,6 +88,9 @@ const SignUpPage: React.FC = () => {
 
     // 닉네임 중복체크
     const checkNickName = ()=>{
+        if(user.nickName.length < 2 || user.nickName.length > 10) {
+            alert("닉네임은 2~10자로 입력해주세요.");
+        }
         axios({
             method : 'get',
             url : "http://localhost:8013/banju/user/checkNickName",
@@ -79,8 +98,13 @@ const SignUpPage: React.FC = () => {
                 nickName : user.nickName
             }
         }).then(res =>{
-            console.log(res);
-            alert(res.data);
+            alert(res.data.msg);
+            setSignup({
+                ...signup,
+                nickName : true
+            });
+        }).catch(err=>{
+            alert(err.response.data.msg);
         })
     }
 
@@ -109,7 +133,14 @@ const SignUpPage: React.FC = () => {
     };
 
     // 회원가입 메서드
-    const signup = ()=>{
+    const insertUser = ()=>{
+
+        console.log(user);
+
+        if(!user.email){
+            alert("입력해라");
+            return;
+        }
 
         axios.post("http://localhost:8013/banju/user/insertUser", user)
             .then(res=>{
@@ -139,6 +170,7 @@ const SignUpPage: React.FC = () => {
                         value={user.email}
                         onChange={setUserChange}
                         className={styles.email} 
+                        required
                     />
                     <button type="button" className={styles.button} onClick={sendEmail}>
                         인증번호 받기
@@ -160,6 +192,9 @@ const SignUpPage: React.FC = () => {
                     <button type="button" className={styles.button} onClick={checkCode}>
                         인증번호 확인
                     </button>
+                    {
+                        signup.verification ? <span>인증번호가 확인되었습니다</span> : <span>인증번호가 확인되지 않았습니다.</span>
+                    }
                 </div>
 
                 <label htmlFor="userName" className={styles.label}>이름</label>
@@ -173,6 +208,9 @@ const SignUpPage: React.FC = () => {
                         placeholder="이름"
                         className={styles.userName}
                     />
+                    {
+                        !signup.name && <span>이름은 필수 입력값입니다.</span>
+                    }
                 </div>
 
                 <label htmlFor="nickName" className={styles.label}>닉네임(2~10글자)</label>
@@ -286,7 +324,7 @@ const SignUpPage: React.FC = () => {
                         alignSelf : 'center',
                         marginTop : '50px'
                     }}
-                    onClick={signup}
+                    onClick={insertUser}
                 >회원가입</button>
 
                 <Modal 

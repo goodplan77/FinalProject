@@ -12,8 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kh.backend.domain.user.model.dao.UserDao;
 import com.kh.backend.domain.user.model.dto.KakaoUserInfoResponse;
 import com.kh.backend.domain.user.model.vo.Dog;
+import com.kh.backend.domain.user.model.vo.History;
 import com.kh.backend.domain.user.model.vo.ImgDog;
 import com.kh.backend.domain.user.model.vo.ImgUser;
+import com.kh.backend.domain.user.model.vo.Like;
 import com.kh.backend.domain.user.model.vo.User;
 
 import lombok.RequiredArgsConstructor;
@@ -154,6 +156,46 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int insertImgUser(ImgUser iu) {
 		return dao.insertImgUser(iu);
+	}
+
+	@Override
+	public int hasUserLike(Like userLike) {
+		return dao.hasUserLike(userLike);
+	}
+
+	@Override
+	public int insertBoardLike(Like like) {
+		return dao.insertBoardLike(like);
+	}
+
+	@Override
+	@Transactional
+	public int insertPointHistory(int userNo, int point, char pointType) {
+		History history = new History();
+		history.setUserNo(userNo);
+		history.setPoint(point);
+		String content = "";
+		switch(pointType) {
+		case 'J' : content = "회원가입"; break;
+		case 'L' : content = "로그인"; break;
+		case 'B' : content = "게시글 작성"; break;
+		case 'C' : content = "댓글 작성"; break;
+		case 'E' : content = "이벤트 보상"; break;
+		}
+		history.setContent(content);
+		
+        int result = dao.insertPointHistory(history);
+        
+        if (result > 0) {
+        	result *= dao.updateUserPoint(userNo, point);
+        }
+
+        return result;
+	}
+
+	@Override
+	public int updateLoginDate(User user) {
+		return dao.updateLoginDate(user);
 	}
 
 	

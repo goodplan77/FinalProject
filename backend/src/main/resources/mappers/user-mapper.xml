@@ -247,7 +247,56 @@
 		)
 	</insert>
 	
+	<select id="hasUserLike" resultType="int">
+		SELECT COUNT(*)
+		FROM "LIKE"
+		WHERE USER_NO = #{userNo} AND TYPE_CODE=#{typeCode} AND REF_NO=#{refNo}
+	</select>
 	
+	<insert id="insertBoardLike">
+		<selectKey order="BEFORE" keyProperty="likeNo" resultType="int">
+			SELECT SEQ_LIKE.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO "LIKE"
+		VALUES(
+			#{likeNo},
+			#{userNo},
+			#{typeCode},
+			#{refNo}
+		)
+	</insert>
+	
+	<insert id="insertPointHistory">
+    <selectKey order="BEFORE" keyProperty="historyNo" resultType="int">
+        SELECT SEQ_HISTORY.NEXTVAL FROM DUAL
+    </selectKey>
+	    INSERT INTO "HISTORY" 
+	    (
+	        HISTORY_NO, 
+	        USER_NO, 
+	        POINT, 
+	        POINT_DATE, 
+	        CONTENT
+	    ) VALUES (
+	        #{historyNo}, 
+	        #{userNo}, 
+	        #{point}, 
+	        SYSDATE, 
+	        #{content}
+	    )
+	</insert>
+	
+	<update id="updateUserPoint">
+	    UPDATE "USER"
+	    	SET POINTS = POINTS + #{point}
+	    WHERE USER_NO = #{userNo}
+	</update>
+	
+	<update id="updateLoginDate">
+		UPDATE "USER"
+	    	SET LAST_LOGIN_DATE = SYSDATE
+	    WHERE USER_NO = #{userNo}
+	</update>
 	
 	
 	

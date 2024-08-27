@@ -63,30 +63,6 @@ INSERT INTO "USER" (
     SEQ_USER.NEXTVAL,
     'goodplan10@gmail.com',
     '$2a$10$ASFGJTUXwaqCzKXSUHOOv.0ItvHmLoUxtKvth45qvhoHPFZpwBdC2',
-    '강경호10',
-    '곰탱이10',
-    '010-2603-7528',
-    '경기도 시흥시 은행동 아파트',
-    'Y',
-    500,
-    DEFAULT
-);
-
-INSERT INTO "USER" (
-    "USER_NO",	
-	"EMAIL",
-	"PWD",
-	"USER_NAME",
-	"NICK_NAME",
-	"PHONE",
-	"ADDRESS",
-	"STATUS",
-	"POINTS",
-	"ENROLL_DATE"
-) VALUES (
-    SEQ_USER.NEXTVAL,
-    'goodplan11@gmail.com',
-    '$2a$10$ASFGJTUXwaqCzKXSUHOOv.0ItvHmLoUxtKvth45qvhoHPFZpwBdC2',
     '강경호11',
     '곰탱이11',
     '010-2603-7528',
@@ -109,10 +85,34 @@ INSERT INTO "USER" (
 	"ENROLL_DATE"
 ) VALUES (
     SEQ_USER.NEXTVAL,
-    'goodplan12@gmail.com',
+    'goodplan11@gmail.com',
     '$2a$10$ASFGJTUXwaqCzKXSUHOOv.0ItvHmLoUxtKvth45qvhoHPFZpwBdC2',
     '강경호12',
     '곰탱이12',
+    '010-2603-7528',
+    '경기도 시흥시 은행동 아파트',
+    'Y',
+    500,
+    DEFAULT
+);
+
+INSERT INTO "USER" (
+    "USER_NO",	
+	"EMAIL",
+	"PWD",
+	"USER_NAME",
+	"NICK_NAME",
+	"PHONE",
+	"ADDRESS",
+	"STATUS",
+	"POINTS",
+	"ENROLL_DATE"
+) VALUES (
+    SEQ_USER.NEXTVAL,
+    'goodplan12@gmail.com',
+    '$2a$10$ASFGJTUXwaqCzKXSUHOOv.0ItvHmLoUxtKvth45qvhoHPFZpwBdC2',
+    '강경호13',
+    '곰탱이14',
     '010-2603-7528',
     '경기도 시흥시 은행동 아파트',
     'Y',
