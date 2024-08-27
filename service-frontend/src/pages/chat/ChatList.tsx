@@ -42,6 +42,10 @@ export default function ChatList() {
         return <p>Loading...</p>;
     }
 
+    const handleClick = (chatRoomNo: number) => {
+        navi(`/chatRoom/${chatRoomNo}`);
+    };
+
     return (
         <>
             <div className={styles.mainHeader}>

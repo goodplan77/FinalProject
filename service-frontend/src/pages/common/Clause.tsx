@@ -18,7 +18,7 @@ export default function Clause() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isNextEnabled, setIsNextEnabled] = useState(false);
 
-    const [currentCheckbox, setCurrentCheckbox] = useState<React.Dispatch<React.SetStateAction<boolean>> | null>(null); // 현재 체크박스 설정 핸들러
+    const [currentCheckbox, setCurrentCheckbox] = useState<React.Dispatch<React.SetStateAction<boolean>> | null>(null);
 
     // 전체 동의 핸들러
     const handleAllChecked = () => {
@@ -28,7 +28,7 @@ export default function Clause() {
         setPrivacyPolicy(newState);
         setLocationService(newState);
         setOver14(newState);
-        setMarketing(newState); // 선택사항인 경우에도 전체 동의에 포함
+        setMarketing(newState);
     };
 
     // 개별 체크박스 업데이트 핸들러
@@ -42,27 +42,32 @@ export default function Clause() {
     // 모달 핸들러
     const handleOpenModal = (content: string, checkboxHandler: React.Dispatch<React.SetStateAction<boolean>>) => {
         setModalContent(content);
-        setCurrentCheckbox(() => checkboxHandler); // 현재 모달에 해당하는 체크박스 핸들러 설정
+        setCurrentCheckbox(() => checkboxHandler);
         setIsModalOpen(true);
     };
 
-
     const handleCloseModal = () => {
         if (currentCheckbox) {
-            currentCheckbox(true); // 모달을 닫을 때 해당 체크박스를 체크함
+            currentCheckbox(true);
         }
         setIsModalOpen(false);
     };
 
     // 모든 필수 체크박스가 선택되었는지 확인
     useEffect(() => {
-        if (serviceTerms && privacyPolicy && locationService && over14) {
-            setIsNextEnabled(true);
-        } else {
-            setIsNextEnabled(false);
-        }
+        const isAllRequiredChecked = serviceTerms && privacyPolicy && locationService && over14;
+        setIsNextEnabled(isAllRequiredChecked);
     }, [serviceTerms, privacyPolicy, locationService, over14]);
 
+    const hendleChek = () => {
+        if (isNextEnabled) {
+            // 모든 필수 약관이 동의된 경우에만 다음 페이지로 이동
+            navi('/signup');
+        } else {
+            // 필수 약관이 동의되지 않은 경우 사용자에게 경고 메시지를 표시
+            alert("모든 필수 약관에 동의해야 다음 단계로 진행할 수 있습니다.");
+        }
+    };
 
 
     return (
@@ -268,7 +273,7 @@ export default function Clause() {
                         cursor: isNextEnabled ? 'pointer' : 'not-allowed', // 활성화 상태에 따라 커서 모양 변경
                     }}
                 >
-                    <span className={styles.nextButtonText}>다음</span>
+                    <span className={styles.nextButtonText} onClick={hendleChek}>다음</span>
                 </div>
             </div >
 

@@ -11,14 +11,14 @@ import { loginUser } from '../../features/userSlice';
 const LoginPage = () => {
 
     const [user, setUser] = useState({
-        email : '',
-        pwd : '',
+        email: '',
+        pwd: '',
     });
-    const setUserChange = (e:ChangeEvent) => {
-        let {name, value} = e.target as HTMLInputElement;
+    const setUserChange = (e: ChangeEvent) => {
+        let { name, value } = e.target as HTMLInputElement;
         setUser({
             ...user,
-            [name] : value
+            [name]: value
         });
     }
     const kakaoJavascriptKey = process.env.REACT_APP_KAKAO_API_KEY as string;
@@ -26,7 +26,7 @@ const LoginPage = () => {
     const dispatch = useDispatch();
 
     // 카카오 로그인 메서드
-    const kakaoOnSucess = (data : {response : LoginResponse})=>{
+    const kakaoOnSucess = (data: { response: LoginResponse }) => {
 
         const ACCESS_TOKEN = data.response.access_token;
 
@@ -34,7 +34,7 @@ const LoginPage = () => {
             .post("http://localhost:8013/banju/user/login/kakao", {
                 accessToken: ACCESS_TOKEN
             })
-            .then(res=>{
+            .then(res => {
                 const JwtToken = res.data.jwtToken;
                 const msg = res.data.msg;
 
@@ -48,21 +48,21 @@ const LoginPage = () => {
 
                 alert(msg);
                 navi('/');
-            }).catch((err)=>{
+            }).catch((err) => {
                 const msg = err.response.data.msg;
                 console.log(msg);
             })
     }
 
-    const kakaoOnFail = (error : any) =>{
+    const kakaoOnFail = (error: any) => {
         console.log(error);
         alert('에러...');
     }
 
     // 일반 로그인 메서드
-    const login = ()=>{
+    const login = () => {
         axios.post("http://localhost:8013/banju/user/login/none", user)
-            .then(res=>{
+            .then(res => {
                 const msg = res.data.msg
                 const jwtToken = res.data.jwtToken;
                 alert(msg);
@@ -75,7 +75,7 @@ const LoginPage = () => {
 
                 navi('/');
             })
-            .catch(err=>{
+            .catch(err => {
                 console.log(err)
 
                 const msg = err.response.data.msg
@@ -98,7 +98,7 @@ const LoginPage = () => {
             <div className={styles.loginInputContainer}>
                 <div className={styles.emailInput}>
                     <div className={styles.emailPlaceholder}>이메일을 입력하세요.</div>
-                    <input 
+                    <input
                         type="text"
                         id='email'
                         name='email'
@@ -109,7 +109,7 @@ const LoginPage = () => {
                 </div>
                 <div className={styles.passwordInput}>
                     <div className={styles.passwordPlaceholder}>비밀번호를 입력하세요.</div>
-                    <input 
+                    <input
                         type="password"
                         id='pwd'
                         name='pwd'
@@ -123,7 +123,7 @@ const LoginPage = () => {
                 <div className={styles.loginButton}>
                     <div className={styles.loginText} onClick={login}>로그인</div>
                 </div>
-                <div className={styles.signupButton} onClick={() => navi('/signup')}>
+                <div className={styles.signupButton} onClick={() => navi('/clause')}>
                     <div className={styles.signupText}>회원가입</div>
                 </div>
             </div>

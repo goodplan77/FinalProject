@@ -32,8 +32,8 @@ export default function AdminLoginPage(){
                 setData(initLoginData);
                 setCookie("accessToken", jwtToken);
                 setCookie("admin", res.data.user);
-                dispatch(loginAdminUser(res.data.user));
-                console.log(res.data.user);
+                dispatch(loginAdminUser(res.data.admin));
+                console.log(res.data.admin);
                 navi('./adminPage');
             })
             .catch(err=>{

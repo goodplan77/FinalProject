@@ -1,13 +1,30 @@
 import axios from "axios";
 import styles from "./css/DetailModal.module.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ask } from "../type/ask";
+import { useDispatch } from "react-redux";
+import { decrementAskCount } from "../features/alarmSlice";
 
 export default function AskDetailModal ({ask , hideModal} : {ask:ask|undefined|null , hideModal: () => void}) {
     
     const navi = useNavigate();
+    const dispatch = useDispatch();
     const [askContent , setAskContent] = useState(ask);
+
+    useEffect(() => {
+        if(ask){
+            const askRefNo = ask.askNo;
+            axios.post(`http://localhost:8013/banju/admin/alarm/updateReadStatus/A/${askRefNo}`)
+                .then((response) => {
+                    console.log(response.data);
+                    dispatch(decrementAskCount())
+                })
+                .catch((error) =>{
+                    console.log(error.response.data);
+                })
+        }
+      }, []);
 
     function handleInputChange(e:React.ChangeEvent<HTMLTextAreaElement>) {
         let {name , value} = e.target;
@@ -24,6 +41,7 @@ export default function AskDetailModal ({ask , hideModal} : {ask:ask|undefined|n
             axios.post("http://localhost:8013/banju/admin/ask/updateAsk" , askContent)
             .then((response) => {
                 alert(response.data.msg);
+                hideModal();
                 navi('../askManagePage');
             })
             .catch((error) => {
@@ -81,7 +99,7 @@ export default function AskDetailModal ({ask , hideModal} : {ask:ask|undefined|n
                             </div>
                         </div>
                         {
-                            ask.resContent.length>0 ? '' : (
+                            ask.resContent?.length>0 ? '' : (
                                 <div className={styles.modalFooter}>
                                 <button className={styles.cancelButton} onClick={hideModal}>취소</button>
                                 <button className={styles.confirmButton} onClick={updateask}>답변</button>

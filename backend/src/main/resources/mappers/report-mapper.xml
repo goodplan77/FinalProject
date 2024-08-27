@@ -35,4 +35,19 @@
 		ORDER BY R.REPORT_DATE DESC
 	</select>
 	
+	<select id="userReportList" resultType="Report">
+		SELECT 
+			R.REPORT_NO, 
+			R.USER_NO, 
+			R.CATEGORY, 
+			R.CONTENT, 
+			R.REPORT_DATE, 
+			R.TYPE_CODE, 
+			R.REF_NO,
+			U.NICK_NAME
+		FROM REPORT R
+		WHERE USER_NO = #{userNo}
+		ORDER BY R.REPORT_DATE DESC
+	</select>
+	
 </mapper>

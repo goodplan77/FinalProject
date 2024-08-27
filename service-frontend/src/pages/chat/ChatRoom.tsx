@@ -10,8 +10,8 @@ import { Message } from "../../type/chat";
 import Messages from "./Messages";
 import { User } from "../../type/user";
 
-export default function ChatRoom() {
 
+export default function ChatRoom() {
 
     // 웹소켓 state
     const loginUser = useSelector((state: RootState) => state.user);

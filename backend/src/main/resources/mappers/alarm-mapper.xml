@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="alarm">
+
+	<!--회원용 알림 DB 테이블-->
+
+	<insert id="insertAlarm" parameterType="alarm"
+		useGeneratedKeys="true">
+		<selectKey keyProperty="alarmNo" resultType="int" order="BEFORE">
+			SELECT SEQ_ALARM.NEXTVAL
+			FROM DUAL
+		</selectKey> INSERT INTO
+		ALARM VALUES( #{alarmNo}, #{userNo}, #{fromUserNo}, DEFAULT , DEFAULT ,
+		SYSDATE ,#{typeCode}, #{refNo} ) </insert>
+
+	<update id="updateReadStatus">
+		UPDATE ALARM SET
+		STATUS='Y'
+		WHERE TYPE_CODE = #{typeCode} AND REF_NO = #{refNo} AND STATUS != 'Y'
+	</update>
+
+	<select id="unReadList" resultType="alarm">
+		SELECT *
+		FROM ALARM
+		WHERE STATUS = 'N' AND USER_NO = #{userNo}
+	</select>
+
+
+	<!--관리자용 알림 DB 테이블-->
+
+	<insert id="insertAdminAlarm" parameterType="adminAlarm"
+		useGeneratedKeys="true">
+		<selectKey keyProperty="alarmNo" resultType="int" order="BEFORE">
+			SELECT SEQ_ADMIN_ALARM.NEXTVAL
+			FROM DUAL
+		</selectKey> INSERT
+		INTO ADMIN_ALARM VALUES( #{alarmNo}, DEFAULT, SYSDATE, #{typeCode},
+		#{refNo} ) </insert>
+
+	<update id="updateAdminReadStatus">
+		UPDATE ADMIN_ALARM SET
+		STATUS='Y'
+		WHERE TYPE_CODE = #{typeCode} AND REF_NO = #{refNo} AND STATUS != 'Y'
+	</update>
+
+	<select id="unReadAdminList" resultType="adminAlarm">
+		SELECT *
+		FROM ADMIN_ALARM
+		WHERE STATUS = 'N'
+	</select>
+
+
+</mapper>

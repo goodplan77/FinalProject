@@ -14,19 +14,9 @@ export default function BoardList() {
 
     const boards = useSelector((state: RootState) => state.boards);
 
-    const ScrollToTop = () => {
-        const { pathname } = useLocation();
-
-        useEffect(() => {
-            window.scrollTo(0, 0);
-        }, [pathname]);
-
-        return null;
-    };
-
     const handleClick = (boardNo: number) => {
         navi(`/boardDetail/${boardNo}`);
-      };
+    };
 
     useEffect(() => {
         axios.get("http://localhost:8013/banju/board/boardList")
@@ -37,6 +27,7 @@ export default function BoardList() {
                 console.log(response);
             })
     }, [])
+
     return (
         <>
             {/* 헤더아래에 보드 카테고리 바 입니다. */}
@@ -101,7 +92,7 @@ export default function BoardList() {
 
             }
 
-            
+
             {/* isnertBoard 페이지로 이동하는 버튼(fixed) */}
             <div className='plus' style={{
                 backgroundColor: "#02CCFE",

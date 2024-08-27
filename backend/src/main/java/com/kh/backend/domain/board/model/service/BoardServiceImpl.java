@@ -84,4 +84,24 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.selectBoardImages(boardNo);
 	}
 
+	@Override
+	public int updateLikeCount(Board board) {
+		return boardDao.updateLikeCount(board);
+  }
+  
+  @Override
+	public int increaseCount(int boardNo) {
+		return boardDao.increaseCount(boardNo);
+	}
+
+	@Override
+	public List<Board> postedList(int userNo) {
+		return boardDao.postedList(userNo);
+	}
+
+	@Override
+	public List<Board> likedList(int userNo) {
+		return boardDao.likedList(userNo);
+	}
+
 }

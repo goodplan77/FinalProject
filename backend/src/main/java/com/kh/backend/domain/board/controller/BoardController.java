@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,13 +23,19 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.backend.domain.alarm.model.service.AlarmService;
 import com.kh.backend.domain.board.model.service.BoardService;
 import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.board.model.vo.BoardImg;
 import com.kh.backend.domain.comment.model.vo.Comment;
+import com.kh.backend.domain.user.model.service.UserService;
+import com.kh.backend.domain.user.model.vo.History;
 
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,10 +44,12 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/board")
-@CrossOrigin(origins = { "http://localhost:3013" })
+@CrossOrigin(origins = { "http://localhost:3013" }, allowCredentials = "true")
 public class BoardController {
 
 	private final BoardService boardService;
+	private final UserService userService;
+	private final AlarmService alarmService;
 	private final ServletContext application;
 	
 	@GetMapping("/boardList")
@@ -127,7 +137,9 @@ public class BoardController {
 	            }
 	        }
 	    }
-
+	    
+	    userService.insertPointHistory(board.getUserNo() , 100 , 'B');
+	    
 	    map.put("board", board);
 	    return map;
 	}
@@ -135,7 +147,9 @@ public class BoardController {
 	
 	@GetMapping("/boardDetail/{boardNo}")
 	public Board boardDetail(
-			@PathVariable int boardNo
+			@PathVariable int boardNo,
+			HttpServletRequest req,
+			HttpServletResponse res
 			) {
 		
 		log.debug("boardNo = {}", boardNo);
@@ -143,6 +157,52 @@ public class BoardController {
 		Board board =  boardService.boardDetail(boardNo);
 		
 		log.debug("board = {}", board);
+		
+		if(board != null) {
+			Cookie cookie = null;
+			
+			Cookie[] cookies = req.getCookies();
+			
+			if(cookies != null && cookies.length > 0) {
+				for(Cookie c : cookies) {
+					log.debug("Existing cookie: {} = {}", c.getName(), c.getValue());
+					if("readBoardNo".equals(c.getName())) {
+						cookie = c;
+						break;
+					}
+				}
+			}
+			
+			int result = 0;
+			if(cookie == null) {
+				//readBoardNo쿠키 생성
+				cookie = new Cookie("readBoardNo", boardNo+"" );
+				log.debug("New cookie created: {} = {}", cookie.getName(), cookie.getValue());
+				// 조회수 증가서비스 호출
+				result = boardService.increaseCount(boardNo);
+			} else {
+				// 기존 쿠키값중에 중복되는 게시글번호가 없는 경우 조회수 증가서비스 호출,
+				// readBoardNo에 현재 게시글번호 추가
+				String[] arr = cookie.getValue().split("/");
+				List<String> list = Arrays.asList(arr); // 메서드 사용을 위한 변환
+				if(list.indexOf(boardNo+"" ) == -1) { // 조회결과가 없다면
+					// 조회수 증가서비스호출
+					result = boardService.increaseCount(boardNo);
+					// 쿠키값에 현재 게시글번호 추차
+					cookie.setValue(cookie.getValue()+"/"+boardNo);
+					log.debug("Updated cookie value: {} = {}", cookie.getName(), cookie.getValue());
+				}
+				// 중복되는 게시글번호가 이미 존재하는경우 종료
+			}
+			if(result > 0) {
+				board.setViews(board.getViews()+1);
+				cookie.setPath(req.getContextPath());
+				cookie.setMaxAge(24 * 60 * 60);
+				res.addCookie(cookie);
+				log.debug("Updated cookie value2: {} = {}", cookie.getName(), cookie.getValue());
+			}
+		}
+		
 		
 		return board;
 	}
@@ -166,23 +226,47 @@ public class BoardController {
 		log.debug("댓글 내용 = {}", comment.getContent());
 		log.debug("유저 넘버 = {}", comment.getUserNo());
 		
+		Board board = boardService.boardDetail(boardNo);
+		
+		alarmService.createAndSendAlarm(board.getUserNo() , comment.getUserNo() , 'L' , comment.getCommentNo());
+		userService.insertPointHistory(comment.getUserNo() , 50 , 'C');
+		
 		return map;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@PostMapping("/updateLikeCount")
+	public ResponseEntity<Map<String, Object>> updateLikeCount(@RequestBody String updateSendData) {
+		Map<String, Object> response = new HashMap<>();
+		
+		try {
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+		    JsonNode rootNode = objectMapper.readTree(updateSendData);
+
+		    // JSON에서 board와 likeUser 속성 추출
+		    JsonNode boardNode = rootNode.path("board");
+		    JsonNode likeUserNode = rootNode.path("likeUser");
+		    
+		    Board board = objectMapper.treeToValue(boardNode, Board.class);
+		    int likeUser = likeUserNode.asInt();
+
+			int result = boardService.updateLikeCount(board);
+			result *= alarmService.createAndSendAlarm(board.getUserNo() , likeUser , 'L' , board.getBoardNo());
+
+			if (result > 0) {
+				response.put("msg", "좋아요 작업이 정상적으로 완료 되었습니다.");
+				return ResponseEntity.ok(response);
+			} else {
+				response.put("msg", "데이터 처리중 문제가 발생했습니다.");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.put("msg", "에러가 발생했습니다.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
 	
 	
 	
@@ -197,5 +281,24 @@ public class BoardController {
 		return list;
 	}
 	
+	@GetMapping("/postedList/{userNo}")
+	public List<Board> postedList(
+			@PathVariable int userNo
+			){
+		
+		List<Board> list = boardService.postedList(userNo);
+		
+		return list;
+	}
+	
+	@GetMapping("/likedList/{userNo}")
+	public List<Board> likedList(
+			@PathVariable int userNo
+			){
+		
+		List<Board> list = boardService.likedList(userNo);
+		
+		return list;
+	}
 	
 }

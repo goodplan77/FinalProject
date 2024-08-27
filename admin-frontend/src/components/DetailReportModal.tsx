@@ -5,14 +5,27 @@ import { useNavigate } from "react-router-dom";
 import { report } from "../type/report";
 import { Board, Comment } from "../type/board";
 import { User } from "../type/user";
+import { useDispatch } from "react-redux";
+import { decrementReportCount } from "../features/alarmSlice";
 
 export default function DetailReportModal ({report , hideModal} : {report:report|undefined|null , hideModal: () => void}) {
     
     const navi = useNavigate();
+    const dispatch = useDispatch();
     const [data , setData] = useState<Board|Comment|User|null>(null);
 
     useEffect(() => {
         if(report){
+            const reportRefNo = report.reportNo;
+            axios.post(`http://localhost:8013/banju/admin/alarm/updateReadStatus/R/${reportRefNo}`)
+                .then((response) => {
+                    console.log(response.data);
+                    dispatch(decrementReportCount());
+                })
+                .catch((error) =>{
+                    console.log(error.response.data);
+                })
+
             switch(report.typeCode){
                 case 'B': searchBoard(report.refNo); break;
                 case 'C': searchComment(report.refNo); break;

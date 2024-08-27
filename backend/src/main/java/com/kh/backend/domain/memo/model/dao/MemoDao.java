@@ -7,7 +7,7 @@ import com.kh.backend.domain.user.model.vo.Memo;
 
 public interface MemoDao {
 
-	List<Memo> selectMemo();
+	List<Memo> selectMemo(int userNo);
 
 	int insertMemo(Memo memo);
 

@@ -288,4 +288,11 @@
     	WHERE PRODUCT_NO = #{productNo}
 	</update>
 	
+	<select id="userCommentList" resultType="Comment">
+		SELECT COMMENT_NO, BOARD_NO, USER_NO, CONTENT, COMMENT_DATE, MODIFY_DATE, STATUS, REF_NO
+		FROM COMMENT
+		WHERE USER_NO = #{userNo}
+		ORDER BY COMMENT_NO DESC
+	</select>
+	
 </mapper>

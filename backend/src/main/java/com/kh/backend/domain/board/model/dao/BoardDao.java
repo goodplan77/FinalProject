@@ -30,4 +30,12 @@ public interface BoardDao {
 
 	List<BoardImg> selectBoardImages(int boardNo);
 
+	int updateLikeCount(Board board);
+
+	int increaseCount(int boardNo);
+
+	List<Board> postedList(int userNo);
+
+	List<Board> likedList(int userNo);
+
 }
