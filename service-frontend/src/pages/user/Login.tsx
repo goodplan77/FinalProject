@@ -78,9 +78,11 @@ const LoginPage = () => {
             .catch(err=>{
                 console.log(err)
 
-                const msg = err.response.data.msg
+                alert("에러");
 
-                alert(msg);
+                // const msg = err.response.data.msg
+
+                // alert(msg);
             })
     }
 

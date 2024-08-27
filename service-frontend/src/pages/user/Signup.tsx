@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, CompositionEvent, KeyboardEvent, CompositionEventHandler } from 'react';
+import React, { useState, ChangeEvent, CompositionEvent, KeyboardEvent, CompositionEventHandler, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'react-datepicker/dist/react-datepicker.css';
 import DaumPostcode from "react-daum-postcode";
@@ -9,12 +9,17 @@ import { Code, initCode } from '../../type/signup';
 import axios from 'axios';
 import { getCookie, setCookie } from '../../utils/Cookie';
 import { initUser, User } from '../../type/user';
+import { useDispatch } from 'react-redux';
+import { loginUser } from '../../features/userSlice';
 
 Modal.setAppElement('#root'); // 모달의 접근성 설정
 
 const SignUpPage: React.FC = () => {
 
     const navi = useNavigate();
+    const dispatch = useDispatch();
+
+    const inputElement = useRef<HTMLInputElement>(null);
 
     const [user, setUser] = useState<User>(initUser);
     const [modal, setModal] = useState(false);
@@ -27,12 +32,11 @@ const SignUpPage: React.FC = () => {
     const [signup, setSignup] = useState({
         email : false,
         verification : false,
-        name : false,
         nickName : false,
         pwd : false,
-        pwdCheck : false,
-        phone : false
-    })
+        pwdCheck : false
+    });
+    const [pwdCheck, setPwdCheck] = useState('');
 
     const setUserChange = (e:ChangeEvent) => {
         let {name, value} = e.target as HTMLInputElement;
@@ -43,10 +47,10 @@ const SignUpPage: React.FC = () => {
         });
     }
 
-
     // 이메일 중복체크 & 발송
     const sendEmail = () => {
-
+        console.log(inputElement.current)
+        
         // 이메일 중복 체크 메서드
         axios.post("http://localhost:8013/banju/user/sendEmail", {
             email : user.email
@@ -62,11 +66,20 @@ const SignUpPage: React.FC = () => {
                 email : true
             });
 
+            if(inputElement.current){
+                inputElement.current.readOnly = true;
+                inputElement.current.style.backgroundColor = 'lightgray';
+            }
+
             setCookie("verificationCode", verificationCode);
         })
         .catch(error=>{
             const msg = error.response.data.msg;
             alert(msg);
+            if(inputElement.current){
+                inputElement.current.readOnly = false;
+                inputElement.current.style.backgroundColor = 'white';
+            }
         })
     }
 
@@ -83,6 +96,10 @@ const SignUpPage: React.FC = () => {
             });
         }else{
             alert("인증번호가 다릅니다.");
+            setSignup({
+                ...signup,
+                verification : false
+            })
         }
     }
 
@@ -90,6 +107,7 @@ const SignUpPage: React.FC = () => {
     const checkNickName = ()=>{
         if(user.nickName.length < 2 || user.nickName.length > 10) {
             alert("닉네임은 2~10자로 입력해주세요.");
+            return;
         }
         axios({
             method : 'get',
@@ -106,6 +124,52 @@ const SignUpPage: React.FC = () => {
         }).catch(err=>{
             alert(err.response.data.msg);
         })
+    }
+
+    // 비밀번호 유효성 검사
+    const pwdVerify = (e:ChangeEvent)=>{
+        let target = e.target as HTMLInputElement;
+        let pwd = target.value;
+        console.log(pwd);
+
+        setUser({
+            ...user,
+            pwd : pwd
+        })
+
+        const re = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/;
+
+        if(re.test(pwd)){
+            setSignup({
+                ...signup,
+                pwd : true
+            })
+        }else{
+            setSignup({
+                ...signup,
+                pwd : false
+            })
+        }
+    }
+
+    // 비밀번호 일치 확인 메서드
+    const pwdCheckFnc = (e:ChangeEvent)=>{
+        let target = e.target as HTMLInputElement;
+        let pwdCheck = target.value;
+
+        setPwdCheck(pwdCheck);
+
+        if(pwdCheck == user.pwd){
+            setSignup({
+                ...signup,
+                pwdCheck: true
+            })
+        }else if(pwdCheck != user.pwd){
+            setSignup({
+                ...signup,
+                pwdCheck : false
+            })
+        }
     }
 
     // 우편번호 찾기 모달 
@@ -137,8 +201,8 @@ const SignUpPage: React.FC = () => {
 
         console.log(user);
 
-        if(!user.email){
-            alert("입력해라");
+        if(!(signup.email || signup.verification || signup.nickName || signup.pwd || signup.pwdCheck)){
+            alert("필수 입력사항을 모두 입력해주세요.");
             return;
         }
 
@@ -146,6 +210,7 @@ const SignUpPage: React.FC = () => {
             .then(res=>{
                 const msg = res.data.msg;
                 alert(msg);
+                dispatch(loginUser(res.data.user));
             })
             .catch(err=>{
                 const msg = err.response.data.msg;
@@ -160,7 +225,7 @@ const SignUpPage: React.FC = () => {
         <>
             <div className={styles.elem_container}>
                 
-                <label htmlFor="email" className={styles.label}>이메일</label>
+                <label htmlFor="email" className={styles.label}>* 이메일</label>
                 <div className={styles.email_container}>
                     <input 
                         type='email' 
@@ -170,14 +235,14 @@ const SignUpPage: React.FC = () => {
                         value={user.email}
                         onChange={setUserChange}
                         className={styles.email} 
-                        required
+                        ref={inputElement}
                     />
                     <button type="button" className={styles.button} onClick={sendEmail}>
                         인증번호 받기
                     </button>
                 </div>
 
-                <label htmlFor='verificationCode' className={styles.label}>인증번호</label>
+                <label htmlFor='verificationCode' className={styles.label}>* 인증번호</label>
                 <div className={styles.code_container}>
                     <input 
                         type="number"
@@ -197,23 +262,9 @@ const SignUpPage: React.FC = () => {
                     }
                 </div>
 
-                <label htmlFor="userName" className={styles.label}>이름</label>
-                <div className={styles.userName_container}>
-                    <input
-                        type="text"
-                        id="userName"
-                        name="userName"
-                        value={user.userName}
-                        onChange={setUserChange}
-                        placeholder="이름"
-                        className={styles.userName}
-                    />
-                    {
-                        !signup.name && <span>이름은 필수 입력값입니다.</span>
-                    }
-                </div>
+                
 
-                <label htmlFor="nickName" className={styles.label}>닉네임(2~10글자)</label>
+                <label htmlFor="nickName" className={styles.label}>* 닉네임(2~10글자)</label>
                 <div className={styles.nickName_container}>
                     <input
                         type="text"
@@ -230,30 +281,48 @@ const SignUpPage: React.FC = () => {
                     </button>
                 </div>
 
-                <label htmlFor='pwd' className={styles.label}>비밀번호</label>
+                <label htmlFor='pwd' className={styles.label}>* 비밀번호</label>
                 <div className={styles.pwd_container}>
                     <input
                         type="password"
                         id="pwd"
                         name="pwd"
                         value={user.pwd}
-                        onChange={setUserChange}
+                        onChange={pwdVerify}
                         placeholder="영문/숫자/특수문자 혼합 8~20자"
                         className={styles.pwd}
                     />
+                    {
+                        signup.pwd ? <span>안전한 비밀번호 입니다.</span> : <span>영문/숫자/특수문자(@$!%*#?&) 혼합 8~20자로 만들어주세요.</span>
+                    }
                 </div>
 
-                <label htmlFor='pwdCheck' className={styles.label}>비밀번호 확인</label>
+                <label htmlFor='pwdCheck' className={styles.label}>* 비밀번호 확인</label>
                 <div className={styles.pwdCheck_container}>
                     <input
                         type="password"
                         id="pwdCheck"
                         name="pwdCheck"
-                        // onChange={(e) => {
-                        //     let {value} = e.target as HTMLInputElement;
-                        // }}
+                        value={pwdCheck}
+                        onChange={pwdCheckFnc}
                         placeholder="비밀번호를 한번 더 입력해주세요."
                         className={styles.pwdCheck}
+                    />
+                    {
+                        signup.pwdCheck ? <span>비밀번호가 일치합니다.</span> : <span>비밀번호가 일치하지 않습니다.</span>
+                    }
+                </div>
+
+                <label htmlFor="userName" className={styles.label}>이름</label>
+                <div className={styles.userName_container}>
+                    <input
+                        type="text"
+                        id="userName"
+                        name="userName"
+                        value={user.userName}
+                        onChange={setUserChange}
+                        placeholder="이름"
+                        className={styles.userName}
                     />
                 </div>
 
@@ -315,6 +384,8 @@ const SignUpPage: React.FC = () => {
                         }}
                     />
                 </div>
+
+                <span>*은 필수 입력사항입니다.</span>
 
                 <button 
                     type='button' 

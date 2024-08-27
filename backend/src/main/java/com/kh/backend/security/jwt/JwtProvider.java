@@ -84,7 +84,12 @@ public class JwtProvider {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("userNo", userNo);
 		
-		return new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities());
+		if(user != null) {
+			return new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities());
+		}else {
+			return null;
+		}
+		
 	}
 	
 	// 토큰에서 userPk값을 꺼내는 메서드
