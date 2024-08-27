@@ -39,7 +39,7 @@ export default function Navibar() {
             <img src='/images/hamburger.png' alt='게시판 목록' style={{ height: "30px" }} onClick={handleHamburgerClick} />
             <img src='/images/message.png' alt='메세지' style={{ height: "28px" }} onClick={() => navi('chatList')} />
             <img src='/images/login.png' alt='마이페이지' style={{ height: "32px" }} onClick={() => {
-                if (loginUser == initUser) {
+                if (loginUser.userNo == 10) {
                     navi('login');
                 } else {
                     navi('mypage')

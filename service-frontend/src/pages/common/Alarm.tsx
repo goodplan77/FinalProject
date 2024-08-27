@@ -1,23 +1,58 @@
+import { useSelector } from 'react-redux';
 import styles from './styles/Alarm.module.css';
+import { RootState } from '../../store/store';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { alarm } from '../../type/alarm';
+import { deleteSelectedAlarm } from '../../features/alarmSlice';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Alarm() {
 
-    const notifications = [
-        "닉네임님이 회원님의 게시글을 좋아합니다",
-        "닉네임님이 회원님의 게시글에 댓글을 달았습니다",
-        "닉네임님이 회원님의 댓글에 답글을 달았습니다",
-        // 추가적인 알림들...
-    ];
+    const navi = useNavigate();
+    const dispatch = useDispatch();
+    const alarm = useSelector((state:RootState) => state.alarm);
+    const [alarmList , setAlarmList] = useState(alarm);
+    useEffect(() => {
+        setAlarmList(alarm);
+    },[alarm])
+
+    const readAlarm = (e:React.MouseEvent<HTMLDivElement> , alarm:alarm) => {
+        axios.post(`http://localhost:8013/banju/alarm/updateReadStatus/${alarm.userNo}/${alarm.typeCode}/${alarm.refNo}`)
+                .then((response) => {
+                    console.log(response.data);
+                    switch(alarm.typeCode){
+                        case 'B' : 
+                        case 'L' : 
+                        case 'C' : 
+                            navi(`/boardDetail/${alarm.refNo}`);
+                            break;
+                        case 'M' : break;
+                        case 'R' : break;
+                        case 'P' : break;
+                            default: break;
+                    }
+                    dispatch(deleteSelectedAlarm(alarm));
+                })
+                .catch((error) =>{
+                    console.log(error.response.data);
+                })
+        
+    }
 
     return (
         <>
             <div className={styles.container}>
-                {notifications.map((notification, index) => (
-                    <div key={index} className={styles.notificationItem}>
+                {alarmList.map((alarm, index) => (
+                    <div key={index} className={styles.notificationItem} onClick={(e) =>{readAlarm(e,alarm)}}>
                         <div className={styles.icon}></div>
                         <div className={styles.notificationText}>
-                            <span>{notification}</span>
-                            <span className={styles.date}>2024-07-29</span>
+                            <span>{alarm.fromUserNo}</span>
+                            <span>{alarm.typeCode}</span>
+                            <span>{alarm.refNo}</span>
+                            <span>{alarm.content}</span>
+                            <span className={styles.date}>{alarm.alaramDate}</span>
                         </div>
                     </div>
                 ))}
