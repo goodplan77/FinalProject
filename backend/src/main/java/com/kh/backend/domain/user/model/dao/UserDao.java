@@ -5,8 +5,10 @@ import java.util.HashMap;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.kh.backend.domain.user.model.vo.Dog;
+import com.kh.backend.domain.user.model.vo.History;
 import com.kh.backend.domain.user.model.vo.ImgDog;
 import com.kh.backend.domain.user.model.vo.ImgUser;
+import com.kh.backend.domain.user.model.vo.Like;
 import com.kh.backend.domain.user.model.vo.User;
 
 public interface UserDao {
@@ -40,6 +42,16 @@ public interface UserDao {
 
 	// 회원 프사 등록 메서드
 	int insertImgUser(ImgUser iu);
+
+	int hasUserLike(Like userLike);
+
+	int insertBoardLike(Like like);
+
+	int insertPointHistory(History history);
+
+	int updateUserPoint(int userNo, int point);
+
+	int updateLoginDate(User user);
 
 
 	

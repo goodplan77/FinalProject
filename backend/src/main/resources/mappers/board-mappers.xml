@@ -162,6 +162,13 @@
 		WHERE BOARD_NO = #{boardNo}
 	</select>
 	
+
+	<update id="updateLikeCount">
+		UPDATE BOARD SET
+		 	LIKES = LIKES + 1
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+
 	<update id="increaseCount">
 		UPDATE BOARD SET
 		VIEWS = VIEWS + 1
@@ -175,6 +182,7 @@
 		ORDER BY BOARD_NO DESC
 	</select>
 	
+
 	<select id="likedList" resultType="Board">
 	    SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, 
 	           TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, 
@@ -189,5 +197,4 @@
 	    ORDER BY BOARD_NO DESC
 	</select>
 
-	
 </mapper>

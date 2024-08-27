@@ -30,6 +30,7 @@ public class User implements UserDetails{
 	private int points;
 	private String enrollDate; // 일단 String
 	private String modifyDate; // 일단 String
+	private String lastLoginDate;
 	
 	private String socialId;
 	private String socialType;

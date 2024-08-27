@@ -14,7 +14,8 @@
 			U.STATUS,
 			U.POINTS,
 			U.ENROLL_DATE,
-			U.MODIFY_DATE
+			U.MODIFY_DATE,
+			U.LAST_LOGIN_DATE
 		FROM "USER" U
 		WHERE USER_NO <![CDATA[>=]]> 10
 		ORDER BY USER_NO DESC
@@ -32,6 +33,7 @@
 			U.STATUS,
 			U.POINTS,
 			U.ENROLL_DATE,
+			U.LAST_LOGIN_DATE,
 			U.MODIFY_DATE,
 			I.ORIGIN_NAME,
 			I.CHANGE_NAME,
@@ -76,6 +78,7 @@
 		<result property="points" column="POINTS"/>
 		<result property="enrollDate" column="ENROLL_DATE"/>
 		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="lastLoginDate" column="LAST_LOGIN_DATE"/>
 		
 		<association property="imgUser" javaType="ImgUser">
             <id property="userNo" column="USER_NO"/>

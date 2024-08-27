@@ -1,5 +1,7 @@
 package com.kh.backend.domain.board.controller;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -151,8 +153,10 @@ public class AdminBoardController {
 	public ResponseEntity<Map<String, Object>> insertProductBoard(@RequestPart String productJson,
 			@RequestPart MultipartFile file) throws Exception {
 
+		String decodedJson = URLDecoder.decode(productJson, StandardCharsets.UTF_8.toString());
+		log.debug("data : {}" , decodedJson);
 		ObjectMapper objectMapper = new ObjectMapper();
-		Product product = objectMapper.readValue(productJson, Product.class);
+		Product product = objectMapper.readValue(decodedJson, Product.class);
 
 		Map<String, Object> response = new HashMap<>();
 

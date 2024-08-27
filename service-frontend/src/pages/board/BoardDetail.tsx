@@ -26,6 +26,8 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
 
     const [report, setReport] = useState("");
 
+    const [isLike , setIsLike] = useState(false);
+
     const modalRef = useRef<HTMLDivElement | null>(null);
 
     const [board, setBoard] = useState<Board>(initialBoard);
@@ -56,27 +58,84 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
         const fetchBoardDetails = async () => {
             try {
                 setBoardNo(boardNo);
+              
                 // 첫 번째 비동기 요청
                 const response = await axios.get(`http://localhost:8013/banju/board/boardDetail/${boardNo}`, {
                     withCredentials: true  // 쿠키를 포함하여 요청
                 });
-                setBoard(response.data);
+              
                 console.log(response.data);
-                // 첫 번째 요청이 성공한 후에 두 번째 비동기 요청
-                if (response.data.boardCode && response.data.boardNo) {
-                    const secondResponse = await axios.get(`http://localhost:8013/banju/api/board/${response.data.boardCode}/${boardNo}`);
-                    console.log(secondResponse.data);
-                    setBoardImgUrl(secondResponse.data.imageList);
+                setBoard(response.data);
+    
+                // 병렬로 두 개의 비동기 요청 수행: 좋아요 상태와 이미지 불러오기
+                const [secondResponse, thirdResponse] = await Promise.allSettled([
+                    axios.get(`http://localhost:8013/banju/user/${loginUser.userNo}/like/${boardNo}`),
+                    axios.get(`http://localhost:8013/banju/api/board/${response.data.boardCode}/${boardNo}`)
+                ]);
+    
+                // 좋아요 상태 처리
+                if (secondResponse.status === "fulfilled") {
+                    if (secondResponse.value.data) {
+                        setIsLike(true);
+                    } else {
+                        setIsLike(false);
+                    }
                 } else {
-                    console.log('게시판 정보를 연결하는데 실패했습니다.');
+                    console.error('좋아요 상태를 불러오는데 실패했습니다:', secondResponse.reason);
+                    setIsLike(false); // 기본적으로 좋아요를 누르지 않은 상태로 설정
+                }
+    
+                // 이미지 불러오기 처리
+                if (thirdResponse.status === "fulfilled") {
+                    console.log(thirdResponse.value.data);
+                    setBoardImgUrl(thirdResponse.value.data.imageList);
+                } else {
+                    console.error('이미지를 불러오는데 실패했습니다:', thirdResponse.reason);
+                    setBoardImgUrl([]); // 이미지가 없는 경우 빈 배열로 설정
                 }
 
             } catch (error) {
                 console.error('게시판 정보를 불러오는데 실패했습니다.:', error);
             }
         };
+      
         fetchBoardDetails();
     }, [boardNo, setBoardNo]);
+    
+
+    const checkLikes = () => {
+        if (loginUser.userNo === 10) {
+            alert("로그인 후 이용해주세요");
+            return;
+        }
+
+        if(isLike){
+            alert("이미 좋아요한 게시글 입니다.");
+            return;
+        } else {
+            const updateLike = async () => {
+                try {
+                    setBoard({
+                        ...board,
+                        likes : (board.likes)+1
+                    })
+                    const updateBoardLike = await axios.post(`http://localhost:8013/banju/board/updateLikeCount` , board)
+                    if(updateBoardLike){
+                        console.log(updateBoardLike.data.msg);
+                        const updateLikeList = await axios.post(`http://localhost:8013/banju/user/insertLike/board/${loginUser.userNo}` , board)
+                        if(updateLikeList){
+                            console.log(updateLikeList.data.msg);
+                            setIsLike(true);
+                        }
+                    }
+        
+                } catch (error) {
+                    console.error('게시판 정보를 불러오는데 실패했습니다.:', error);
+                }
+            };
+            updateLike(); 
+        }
+    }
 
     const insertComment = (e: FormEvent) => {
         e.preventDefault();
@@ -185,9 +244,13 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                         ) : (<></>)}
                     </div>
 
-                    <div className={styles.likeBox}>
-                        <img className={styles.like} src={`${process.env.PUBLIC_URL}/images/like.png`} alt="view" />
-                        <p className={styles.likeNo}>9999</p>
+                    <div className={styles.likeBox} onClick={checkLikes}>
+                        {
+                            isLike ? 
+                            (<img className={styles.like} src={`${process.env.PUBLIC_URL}/images/heart.png`} alt="view" />) 
+                            : (<img className={styles.like} src={`${process.env.PUBLIC_URL}/images/emptyheart.png`} alt="view" />)
+                        }
+                        <p className={styles.likeNo}>{board.likes}</p>
                     </div>
 
                     <div className={styles.commentBox}>
