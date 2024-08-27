@@ -3,21 +3,55 @@ import styles from './styles/UserDetailPage.module.css';
 import { RootState } from '../../../store/store';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Board, Comment } from '../../../type/board';
+import { report } from '../../../type/report';
+
+type CategoryData = Board[] | Comment[] | report[];
 
 export default function UserDetailPage() {
 
     const dispatch = useDispatch();
     const users = useSelector((state: RootState) => state.users);
     const [user, setUser] = useState(users.oneUser);
+    const [selectedCategory, setSelectedCategory] = useState('게시글'); // 선택된 카테고리 상태 추가
+    const [categoryData, setCategoryData] = useState<CategoryData>([]); // 선택된 카테고리의 데이터 상태
 
     useEffect(() => {
         axios.get(`http://localhost:8013/banju/admin/user/UserDetail/${user.userNo}`)
             .then((response) => {
                 setUser(response.data.user);
+                console.log(response);
             }).catch((response) => {
                 console.log(response);
             })
-    }, [])
+    }, []);
+
+    const selectUserBoard = () => {
+        setSelectedCategory('게시글');
+        axios.get<Board[]>(`http://localhost:8013/banju/board/postedList/${user.userNo}`)
+            .then((response) => {
+                setCategoryData(response.data); // 데이터를 상태에 저장
+                console.log(response);
+            });
+    };
+
+    const selectUserComment = () => {
+        setSelectedCategory('댓글');
+        axios.get<Comment[]>(`http://localhost:8013/banju/admin/board/comment/${user.userNo}`)
+            .then((response) => {
+                setCategoryData(response.data); // 데이터를 상태에 저장
+                console.log(response);
+            });
+    };
+
+    const selectUserReport = () => {
+        setSelectedCategory('신고');
+        axios.get<report[]>(`http://localhost:8013/banju/admin/report/userReportList/${user.userNo}`)
+            .then((response) => {
+                setCategoryData(response.data); // 데이터를 상태에 저장
+                console.log(response);
+            });
+    };
 
     return (
         <div className={styles.userProfileContainer}>
@@ -97,27 +131,14 @@ export default function UserDetailPage() {
                         </div>
                         <div className={styles.pointInfoBoxScllor}>
                             {
-                                user.historyList?.map((item,index) => (
-                                <div key={index} className={styles.pointInfoBox}>
-                                    <span className={styles.pointInfoText}>{item.point}</span>
-                                    <span className={styles.pointInfoText}>{item.content}</span>
-                                    <span className={styles.pointInfoText}>{item.pointDate}</span>
-                                </div>
+                                user.historyList?.map((item, index) => (
+                                    <div key={index} className={styles.pointInfoBox}>
+                                        <span className={styles.pointInfoText}>{item.point}</span>
+                                        <span className={styles.pointInfoText}>{item.content}</span>
+                                        <span className={styles.pointInfoText}>{item.pointDate}</span>
+                                    </div>
                                 ))
                             }
-                            {/* {[
-                                { point: "2040P", change: "- 500P", date: "2024.08.09" },
-                                { point: "2040P", change: "- 500P", date: "2024.08.09" },
-                                { point: "2040P", change: "- 500P", date: "2024.08.09" },
-                                { point: "2040P", change: "- 500P", date: "2024.08.09" },
-                                { point: "2040P", change: "- 500P", date: "2024.08.09" },
-                            ].map((item, index) => (
-                                <div key={index} className={styles.pointInfoBox}>
-                                    <span className={styles.pointInfoText}>{item.point}</span>
-                                    <span className={styles.pointInfoText}>{item.change}</span>
-                                    <span className={styles.pointInfoText}>{item.date}</span>
-                                </div>
-                            ))} */}
                         </div>
                     </div>
                 </div>
@@ -129,17 +150,54 @@ export default function UserDetailPage() {
                     <div className={styles.recentActivity}>최근 활동: 10분 전</div>
                     <div className={styles.category}>
                         <div className={styles.usedCategory}>
-                            <div className={styles.categoryRect}>
-                                <div className={styles.categoryText}>게시글</div>
+                            <div className={`${styles.categoryRect} ${selectedCategory === '게시글' ? styles.active : ''}`}>
+                                <div className={styles.categoryText} onClick={selectUserBoard}>게시글</div>
                             </div>
-                            <div className={styles.categoryRect}>
-                                <div className={styles.categoryText}>댓글</div>
+                            <div className={`${styles.categoryRect} ${selectedCategory === '댓글' ? styles.active : ''}`}>
+                                <div className={styles.categoryText} onClick={selectUserComment}>댓글</div>
                             </div>
-                            <div className={styles.categoryRect}>
-                                <div className={styles.categoryText}>신고</div>
+                            <div className={`${styles.categoryRect} ${selectedCategory === '신고' ? styles.active : ''}`}>
+                                <div className={styles.categoryText} onClick={selectUserReport}>신고</div>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div className={styles.categoryContent}>
+                    {/* 선택된 카테고리에 따라 데이터를 렌더링 */}
+                    {selectedCategory === '게시글' && (
+                        <div>
+                            {/* 게시글 데이터 렌더링 */}
+                            {(categoryData as Board[]).map((item, index) => (
+                                <div key={index} className={styles.dataItem}>
+                                    <div>{item.title}</div>
+                                    <div>{item.enrollDate}</div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                    {selectedCategory === '댓글' && (
+                        <div>
+                            {/* 댓글 데이터 렌더링 */}
+                            {(categoryData as Comment[]).map((item, index) => (
+                                <div key={index} className={styles.dataItem}>
+                                    <div>{item.content}</div>
+                                    <div>{item.commentData}</div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                    {selectedCategory === '신고' && (
+                        <div>
+                            {/* 신고 데이터 렌더링 */}
+                            {(categoryData as report[]).map((item, index) => (
+                                <div key={index} className={styles.dataItem}>
+                                    <div>{item.content}</div>
+                                    <div>{item.reportDate}</div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

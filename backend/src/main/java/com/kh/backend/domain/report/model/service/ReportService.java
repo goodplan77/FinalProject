@@ -10,4 +10,6 @@ public interface ReportService {
 
 	List<Report> selectList();
 
+	List<Report> userReportList(int userNo);
+
 }

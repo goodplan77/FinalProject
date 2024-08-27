@@ -13,6 +13,7 @@ import com.kh.backend.domain.board.model.dao.AdminBoardDao;
 import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.board.model.vo.BoardImg;
 import com.kh.backend.domain.board.model.vo.Product;
+import com.kh.backend.domain.comment.model.vo.Comment;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -229,6 +230,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 			return boardDao.updateProduct(product);
 		}
 		
+	}
+
+	@Override
+	public List<Comment> userCommentList(int userNo) {
+		return boardDao.userCommentList(userNo);
 	}
 
 }

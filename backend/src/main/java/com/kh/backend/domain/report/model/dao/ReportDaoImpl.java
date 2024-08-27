@@ -24,5 +24,10 @@ public class ReportDaoImpl implements ReportDao{
 	public List<Report> selectList() {
 		return session.selectList("report.selectList");
 	}
+
+	@Override
+	public List<Report> userReportList(int userNo) {
+		return session.selectList("report.userReportList",userNo);
+	}
 	
 }

@@ -10,4 +10,6 @@ public interface ReportDao {
 
 	List<Report> selectList();
 
+	List<Report> userReportList(int userNo);
+
 }

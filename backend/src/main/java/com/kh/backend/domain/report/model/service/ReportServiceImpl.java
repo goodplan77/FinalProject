@@ -35,4 +35,9 @@ public class ReportServiceImpl implements ReportService {
 		return reportDao.selectList();
 	}
 
+	@Override
+	public List<Report> userReportList(int userNo) {
+		return reportDao.userReportList(userNo);
+	}
+
 }

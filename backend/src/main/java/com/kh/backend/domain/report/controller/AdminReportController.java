@@ -30,4 +30,13 @@ private final ReportService reportService;
 		return list;
 	}
 	
+	@GetMapping("/userReportList/{userNo}")
+	public List<Report> userReportList(
+			@PathVariable int userNo
+			){
+		List<Report> list = reportService.userReportList(userNo);
+		return list;
+	}
+	
+	
 }
