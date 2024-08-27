@@ -32,4 +32,8 @@ public interface BoardService {
 
 	int increaseCount(int boardNo);
 
+	List<Board> postedList(int userNo);
+
+	List<Board> likedList(int userNo);
+
 }

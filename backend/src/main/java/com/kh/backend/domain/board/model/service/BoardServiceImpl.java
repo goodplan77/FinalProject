@@ -89,4 +89,14 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.increaseCount(boardNo);
 	}
 
+	@Override
+	public List<Board> postedList(int userNo) {
+		return boardDao.postedList(userNo);
+	}
+
+	@Override
+	public List<Board> likedList(int userNo) {
+		return boardDao.likedList(userNo);
+	}
+
 }
