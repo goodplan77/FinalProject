@@ -22,7 +22,7 @@
 	<select id="unReadList" resultType="alarm">
 		SELECT *
 		FROM ALARM
-		WHERE STATUS = 'N'
+		WHERE STATUS = 'N' AND USER_NO = #{userNo}
 	</select>
 
 

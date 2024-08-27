@@ -5,12 +5,14 @@ import userSlice from "../features/userSlice";
 import modalSlice from "../features/modalSlice";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import alarmSlice from "../features/alarmSlice";
 
 const reducers = combineReducers({
     boards: boardSlice,
     memos: memoSlice,
     user : userSlice,
-    modal : modalSlice
+    modal : modalSlice,
+    alarm : alarmSlice
 })
 
 const persistConfig = {

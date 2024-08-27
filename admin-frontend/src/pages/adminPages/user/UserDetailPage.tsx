@@ -19,6 +19,7 @@ export default function UserDetailPage() {
     useEffect(() => {
         axios.get(`http://localhost:8013/banju/admin/user/UserDetail/${user.userNo}`)
             .then((response) => {
+                console.log(response.data.user);
                 setUser(response.data.user);
                 console.log(response);
             }).catch((response) => {
