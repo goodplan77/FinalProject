@@ -120,6 +120,13 @@
     vertical-align: auto;
 }
 
+.postTitle {
+    display : block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .checkbox {
     width: 20px;
     height: 20px;

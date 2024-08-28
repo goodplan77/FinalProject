@@ -111,6 +111,12 @@
     vertical-align: auto;
 }
 
+.headerItem{
+    display : block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .checkbox {
     width: 20px;
@@ -196,17 +202,13 @@
 }
 
 .addButton {
-    position: fixed;
-    right: 40px;
-    bottom: 40px;
-    width: 60px;
-    height: 60px;
-    background-color: #2C2C2C;
-    border-radius: 50%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #F5F5F5;
-    font-size: 24px;
+    background-color: #2C2C2C;
+    color: #FFF;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
     cursor: pointer;
+    margin-left: auto;
+    margin-top: 20px;
 }

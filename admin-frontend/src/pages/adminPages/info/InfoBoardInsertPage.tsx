@@ -51,7 +51,7 @@ export default function InfoBoardInsertPage() {
             boardCode: 'I'
         };
 
-        formData.append('boardJson', JSON.stringify(updatedBoard));
+        formData.append('boardJson', encodeURIComponent(JSON.stringify(updatedBoard)));
         if(selectedImage){
             formData.append('file' , selectedImage);
         }

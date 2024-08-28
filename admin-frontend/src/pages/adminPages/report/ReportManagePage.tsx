@@ -28,7 +28,6 @@ export default function ReportManagePage() {
     useEffect(() => {
         axios.get("http://localhost:8013/banju/admin/report/reportList")
             .then((response) => {
-                console.log(response.data);
                 dispatch(selectAllReport(response.data));
             }).catch((response) => {
                 console.log(response);

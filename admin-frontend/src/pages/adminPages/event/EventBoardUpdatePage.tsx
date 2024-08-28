@@ -67,7 +67,7 @@ export default function EventBoardUpdatePage() {
             boardCode: 'E'
         };
 
-        formData.append('boardJson', JSON.stringify(updatedBoard));
+        formData.append('boardJson', encodeURIComponent(JSON.stringify(updatedBoard)));
         if(selectedImage){
             formData.append('file' , selectedImage);
         }
