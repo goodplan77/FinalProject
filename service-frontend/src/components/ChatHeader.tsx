@@ -1,23 +1,32 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import style from './styles/BoardHeader.module.css';
 import { getCookie } from '../utils/Cookie';
 import axios from '../utils/CustomAxios';
 import { useEffect, useRef, useState } from 'react';
-import { Board, initialBoard } from '../type/board';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/store';
+import { User } from '../type/user';
 
 interface ChatHeaderbarProps {
     chatRoomNo: string | undefined;
+    chatRoomUser?: User[]; // chatRoomUser를 선택적 prop으로 변경
 }
 
-export default function ChatHeaderbar({ chatRoomNo }: ChatHeaderbarProps) {
+export default function ChatHeaderbar({ chatRoomNo, chatRoomUser }: ChatHeaderbarProps) {
     const navi = useNavigate();
     const [showModal, setShowModal] = useState<number>(0);
     const [report, setReport] = useState("");
     const modalRef = useRef<HTMLDivElement | null>(null);
     const [selectedOption, setSelectedOption] = useState("");
     const loginUser = useSelector((state: RootState) => state.user);
+
+    // 현재 로그인한 사용자를 제외한 상대방 찾기
+    const opponent = chatRoomUser?.find((user) => user.userNo !== loginUser.userNo);
+
+    // 상대방이 나간 경우 
+    const nickname = opponent ? opponent.nickName : "채팅방";
+
+    useEffect(() => {}, [showModal]);
 
     const test = () => {
         const data = {
@@ -34,33 +43,31 @@ export default function ChatHeaderbar({ chatRoomNo }: ChatHeaderbarProps) {
         setShowModal(1);
     };
 
-    const handleOpenReport = () => {
+    const handleOpenReport = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation(); // 이벤트 전파 중단
         setShowModal(2); // 신고 내용 입력 단계로 이동
     };
 
-    const handleCloseChat = () => {
+    const handleCloseChat = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation(); // 이벤트 전파 중단
         axios.post(`http://localhost:8013/banju/closeChat/${chatRoomNo}`)
-            .then((reponse) => {
-                console.log(reponse);
+            .then((response) => {
+                console.log(response);
             })
             .catch((response) => {
                 console.log(response);
-            })
+            });
 
         setShowModal(0);
-    }
+    };
 
     const handleCloseModal = () => {
         setShowModal(0); // 모달을 닫음
-        setReport("");
+        setReport(""); // 신고 내용 초기화
     };
 
-    const handleSubmitReport = () => {
-
-        // if (loginUser.userNo === 10) {
-        //     alert("로그인 후 이용해주세요");
-        //     return;
-        // }
+    const handleSubmitReport = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.stopPropagation(); // 이벤트 전파 중단
 
         const reportData = {
             userNo: loginUser.userNo,
@@ -69,8 +76,6 @@ export default function ChatHeaderbar({ chatRoomNo }: ChatHeaderbarProps) {
             typeCode: 'C',
             refNo: chatRoomNo
         };
-
-        console.log(reportData);
 
         axios.post(`http://localhost:8013/banju/report/insertReport`, reportData, {
             headers: {
@@ -107,16 +112,15 @@ export default function ChatHeaderbar({ chatRoomNo }: ChatHeaderbarProps) {
             <div className={style.back} onClick={() => navi(-1)}>
                 <img className={style.backImg} src="/images/back-arrow.png" alt="뒤로가기" />
             </div>
-            <div className={style.logo} >
-                <img className={style.logoImg} src='/images/logo.png' alt='메인 로고' onClick={test} />
-                <h3 onClick={() => navi('/')}>반주 한상</h3>
+            <div className={style.nick}>
+                <h3>{nickname}</h3> {/* 상대방 닉네임 표시 */}
             </div>
             <div className={style.button}>
                 <img className={style.exImg} src='/images/ex.png' alt='신고' onClick={ex} />
             </div>
             {showModal === 1 && (
                 <div className={style.modalOverlay}>
-                    <div className={style.modalContent}>
+                    <div className={style.modalContent} ref={modalRef}>
                         <button onClick={handleOpenReport}>신고하기</button>
                         <button onClick={handleCloseChat}>채팅방 나가기</button>
                     </div>
@@ -124,7 +128,7 @@ export default function ChatHeaderbar({ chatRoomNo }: ChatHeaderbarProps) {
             )}
             {showModal === 2 && (
                 <div className={style.modalOverlayCenter}>
-                    <div className={style.modalContentReport}>
+                    <div className={style.modalContentReport} ref={modalRef}>
                         <h4>신고</h4>
                         <select
                             className={style.reportSelect}
@@ -150,8 +154,6 @@ export default function ChatHeaderbar({ chatRoomNo }: ChatHeaderbarProps) {
                     </div>
                 </div>
             )}
-
-
         </div>
     );
 }
