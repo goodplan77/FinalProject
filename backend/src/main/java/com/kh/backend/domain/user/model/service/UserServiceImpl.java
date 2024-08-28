@@ -3,6 +3,7 @@ package com.kh.backend.domain.user.model.service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -196,6 +197,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int updateLoginDate(User user) {
 		return dao.updateLoginDate(user);
+	}
+
+	// 회원의 반려견 목록 조회
+	@Override
+	public List<Dog> selectDogs(int userNo) {
+		return dao.selectDogs(userNo);
 	}
 
 	

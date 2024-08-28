@@ -1,6 +1,7 @@
 package com.kh.backend.domain.user.model.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -119,6 +120,12 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public int updateLoginDate(User user) {
 		return session.update("user.updateLoginDate", user);
+	}
+
+	// 회원의 반려견 목록 조회
+	@Override
+	public List<Dog> selectDogs(int userNo) {
+		return session.selectList("user.selectDogs", userNo);
 	}
 	
 	

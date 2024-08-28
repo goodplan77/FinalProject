@@ -1,6 +1,7 @@
 package com.kh.backend.domain.user.model.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -52,6 +53,9 @@ public interface UserDao {
 	int updateUserPoint(int userNo, int point);
 
 	int updateLoginDate(User user);
+
+	// 회원의 반려견 목록 조회
+	List<Dog> selectDogs(int userNo);
 
 
 	

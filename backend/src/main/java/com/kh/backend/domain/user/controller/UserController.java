@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -389,17 +390,21 @@ public class UserController {
 			res = "실패";
 		}
 		
-		
 		return res;
 	}
 	
-//	// 반려견 목록 조회 메서드
-//	@GetMapping("/selectDogs/{userNo}")
-//	public void selectDogs() {
-//		int userNo = 
-//		
-//		System.err.println(userNo);
-//	}
+	// 반려견 목록 조회 메서드
+	@GetMapping("/selectDogs/{userNo}")
+	public List<Dog> selectDogs(
+			@PathVariable int userNo
+			) {
+		List<Dog> dogList = service.selectDogs(userNo);
+		System.err.println(userNo);
+		
+		System.err.println(dogList);
+		
+		return dogList;
+	}
 	
 	
 	@GetMapping("/{userNo}/like/{boardNo}")

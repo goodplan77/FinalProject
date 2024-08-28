@@ -1,6 +1,7 @@
 package com.kh.backend.domain.user.model.service;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -50,6 +51,9 @@ public interface UserService extends UserDetailsService{
 	int insertPointHistory(int userNo, int point, char pointType);
 
 	int updateLoginDate(User user);
+
+	// 회원의 반려견 목록 조회
+	List<Dog> selectDogs(int userNo);
 
 
 }
