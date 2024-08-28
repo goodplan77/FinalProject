@@ -1,5 +1,5 @@
 import axios from "axios";
-import styles from "./css/DetailModal.module.css"
+import styles from "./css/AskDetailModal.module.css"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ask } from "../type/ask";
@@ -82,9 +82,9 @@ export default function AskDetailModal ({ask , hideModal} : {ask:ask|undefined|n
                             </div>
                             <div>
                                 <th>답변 내용</th>
-                                <td>{ask.resContent ? ask.resContent: (
+                                <br/>
+                                <div>{ask.resContent ? ask.resContent: (
                                     <>
-                                        <label>내용 작성</label>
                                         <textarea
                                         placeholder="내용을 입력하세요."
                                         className={styles.textArea}
@@ -93,16 +93,15 @@ export default function AskDetailModal ({ask , hideModal} : {ask:ask|undefined|n
                                         value={askContent?.resContent}
                                         />
                                     </>
-                                )}</td>
+                                )}</div>
                             </div>
                             <div>                
                             </div>
                         </div>
                         {
                             ask.resContent?.length>0 ? '' : (
-                                <div className={styles.modalFooter}>
-                                <button className={styles.cancelButton} onClick={hideModal}>취소</button>
-                                <button className={styles.confirmButton} onClick={updateask}>답변</button>
+                            <div className={styles.modalFooter}>
+                                <button className={styles.modifyButton} onClick={updateask}>수정</button>
                             </div>
                             )
                         }     

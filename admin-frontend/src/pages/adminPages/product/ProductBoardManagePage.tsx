@@ -13,8 +13,10 @@ export default function ProductBoardManagePage() {
     const navi = useNavigate();
     const dispatch = useDispatch();
     const products = useSelector((state: RootState) => state.products);
+    const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
     const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
     const [filterTerm, setFilterTerm] = useState(''); // 실제 검색에 사용될 필터 상태
+    const [itemsPerPage] = useState(4); // 페이지당 항목 수
 
     const [productImgUrl, setProductImgUrl] = useState<string[]>([]);
 
@@ -35,7 +37,6 @@ export default function ProductBoardManagePage() {
                 const imageUrls = await Promise.all(
                     response.data.map(async (value: Product) => {
                         const imgResponse = await axios.get(`http://localhost:8013/banju/api/board/admin/product/${value.productNo}`);
-                        console.log(imgResponse.data);
                         return imgResponse.data; // 각 이미지 URL을 배열로 반환
                     })
                 );
@@ -50,6 +51,24 @@ export default function ProductBoardManagePage() {
         fetchImagePath();
     }, []);
 
+    useEffect(() => {
+        const fetchImagePath = async () => {
+            try {
+                const imageUrls = await Promise.all(
+                    currentItems.map(async (value: Product) => {
+                        const imgResponse = await axios.get(`http://localhost:8013/banju/api/board/admin/product/${value.productNo}`);
+                        return imgResponse.data; // 각 이미지 URL을 배열로 반환
+                    })
+                );
+                setProductImgUrl(imageUrls); // 상태를 한 번에 업데이트
+            } catch (error) {
+                console.error('이미지 경로를 불러오는데 실패했습니다.', error);
+            }
+        };
+
+        fetchImagePath();
+    },[currentPage]);
+
     // 1. 제목 검색 기능
     const handleSearch = () => {
         setFilterTerm(searchTerm); // 검색어를 실제 필터링에 사용될 상태로 설정
@@ -63,7 +82,7 @@ export default function ProductBoardManagePage() {
         }
     };
 
-    // 4. 상세 보기 모달
+    // 2. 상세 보기 모달
     const setDetailModal = (e: React.MouseEvent<HTMLDivElement>, product: Product) => {
         e.stopPropagation();
         const oneProduct = dispatch(selectOneProduct(product));
@@ -73,6 +92,32 @@ export default function ProductBoardManagePage() {
 
     const hideDetailModal = () => {
         setShowDetailModal(false);
+    };
+
+    // 3. 페이지네이션 통합 데이터 확인용 기능
+    const totalItems = products.filteredProducts.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = Math.max(0, indexOfLastItem - itemsPerPage);
+    const currentItems = filteredproducts.slice(indexOfFirstItem, Math.min(indexOfLastItem, totalItems));
+
+    const renderPageNumbers = () => {
+        const pageNumbers = [];
+        for (let i = 1; i <= totalPages; i++) {
+            pageNumbers.push(
+                <span
+                    key={i}
+                    className={`${styles.page} ${currentPage === i ? styles.activePage : ''}`}
+                    onClick={() => {
+                        setCurrentPage(i);
+                    }}
+                >
+                    {i}
+                </span>
+            );
+        }
+        return pageNumbers;
     };
 
     return (
@@ -89,35 +134,45 @@ export default function ProductBoardManagePage() {
                 />
                 <button className={styles.searchButton} onClick={handleSearch}>검색</button>
             </div>
-            <div className={styles.addProductButton} >
-                <button className={styles.addButton} onClick={() => navi('/adminPage/productBoardInsertPage')}>포인트 상품 추가</button>
+            <div className={styles.ProductModifyArea}>
+                <div className={styles.pagination}>
+                    {renderPageNumbers()}
+                </div>
+                <div className={styles.addProductButton} >
+                    <button className={styles.addButton} onClick={() => navi('/adminPage/productBoardInsertPage')}>포인트 상품 추가</button>
+                </div>
             </div>
             <div className={styles.productGrid}>
-                {filteredproducts.map((product, index) => {
+                {currentItems.map((product, index) => {
                     return (
                         <div key={index} className={styles.productCard}
                             onClick={(e) => setDetailModal(e, product)}
                         >
+                            <div className={styles.deleteButtonArea}>
+                                <button className={styles.deleteButton}>X</button>
+                            </div>
                             <img
                                 src={`http://localhost:8013/banju${productImgUrl[index]}`}
                                 alt="상품 이미지"
                                 className={styles.productImage}
                             />
-                            <div className={styles.productDetails}>
-                                <div className={styles.productPoints}>
-                                    <span>P</span>
-                                    <span>{product.price}</span>
+                            <div className={styles.productDetailsCotainer}>
+                                <div className={styles.productDetails}>
+                                    <div className={styles.productPoints}>
+                                        <span>P</span>
+                                        <span>{product.price}</span>
+                                    </div>
+                                    <div className={styles.productLikes}>
+                                        ❤<span>{product.likes}</span>
+                                    </div>
                                 </div>
-                                <div className={styles.productLikes}>
-                                    ❤<span>{product.likes}</span>
-                                </div>
-                            </div>
-                            <div className={styles.footer}>
-                                <div className={styles.footerItem}>
-                                    🎁<span>{product.qty}</span>
-                                </div>
-                                <div className={styles.footerItem}>
-                                    📆<span>????</span>
+                                <div className={styles.footer}>
+                                    <div className={styles.footerItem}>
+                                        🎁<span>{product.qty}</span>
+                                    </div>
+                                    <div className={styles.footerItem}>
+                                        📆<span>????</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

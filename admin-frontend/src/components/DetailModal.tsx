@@ -79,6 +79,10 @@ export default function DetailModal({ board, hideModal }: { board: Board | undef
         }
     }
 
+    const handleImageClick = (imageUrl:string) => {
+          window.open(imageUrl, '_blank', 'noopener,noreferrer');
+    }
+
     return (
         <div className={styles.modalBackground}>
             <div className={styles.modalContainer}>
@@ -89,20 +93,23 @@ export default function DetailModal({ board, hideModal }: { board: Board | undef
                         <button className={styles.closeButton} onClick={hideModal}>X</button>
                     </div>
                     <div className={styles.modalBody}>
+                        <div className={styles.imageArea}>
+                            {imageArea && imageUrls && (
+                                imageUrls.map((url, index) => (
+                                    <img
+                                        key={index}
+                                        src={`http://localhost:8013/banju${url}`}
+                                        alt={`게시글 이미지 ${index + 1}`}
+                                        style={{ maxWidth: '100%', maxHeight: '300px', marginBottom: '10px' }}
+                                        onClick={() => handleImageClick(`http://localhost:8013/banju${url}`)}
+                                        onError={(e) => {
+                                            e.currentTarget.src = `${process.env.PUBLIC_URL}/images/upload.png`;
+                                        }}
+                                    />
+                                ))
+                            )}
+                        </div>
                         <p>{board.content}</p>
-                        {imageArea && imageUrls && (
-                            imageUrls.map((url, index) => (
-                                <img
-                                    key={index}
-                                    src={`http://localhost:8013/banju${url}`}
-                                    alt={`게시글 이미지 ${index + 1}`}
-                                    style={{ maxWidth: '100%', maxHeight: '300px', marginBottom: '10px' }}
-                                    onError={(e) => {
-                                        e.currentTarget.src = `${process.env.PUBLIC_URL}/images/upload.png`;
-                                    }}
-                                />
-                            ))
-                        )}
                     </div>
                     <div className={styles.modalFooter}>
                         <div className={styles.footerItem}>
@@ -114,7 +121,6 @@ export default function DetailModal({ board, hideModal }: { board: Board | undef
                         {buttonArea && (
                             <div className={styles.buttonGroup}>
                                 <button className={styles.modifyButton} onClick={updateBoard}>수정</button>
-                                <button className={styles.deleteButton} onClick={() => alert('삭제 기능은 구현되지 않았습니다.')}>삭제</button>
                             </div>
                         )}
                     </div>

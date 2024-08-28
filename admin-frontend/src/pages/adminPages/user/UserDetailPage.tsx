@@ -19,9 +19,7 @@ export default function UserDetailPage() {
     useEffect(() => {
         axios.get(`http://localhost:8013/banju/admin/user/UserDetail/${user.userNo}`)
             .then((response) => {
-                console.log(response.data.user);
                 setUser(response.data.user);
-                console.log(response);
             }).catch((response) => {
                 console.log(response);
             })
@@ -105,19 +103,16 @@ export default function UserDetailPage() {
                         <span className={styles.dogInfoText}>성별</span>
                         <span className={styles.dogInfoText}>생년월일</span>
                     </div>
-                    {[
-                        { id: "대표", name: "뽀삐", breed: "강아지종", gender: "수컷", date: "2024.01.11", image: `${process.env.PUBLIC_URL}/images/dog1.png` },
-                        { id: "--", name: "삐뽀", breed: "강아지종", gender: "암컷", date: "2024.01.12", image: `${process.env.PUBLIC_URL}/images/dog2.png` }
-                    ].map((dog, index) => (
+                    {user.dogs?.map((dog, index) => (
                         <div key={index} className={styles.dogInfoBox}>
-                            <span className={styles.dogInfoText}>{dog.id}</span>
+                            <span className={styles.dogInfoText}>{dog.isMain ? '대표' : ''}</span>
                             <div className={styles.dogInfoImage}>
-                                <img src={dog.image} alt="강아지 이미지" />
+                                <img src={dog.imgDog.changeName} alt="강아지 이미지" />
                             </div>
-                            <span className={styles.dogInfoText}>{dog.name}</span>
+                            <span className={styles.dogInfoText}>{dog.dogName}</span>
                             <span className={styles.dogInfoText}>{dog.breed}</span>
                             <span className={styles.dogInfoText}>{dog.gender}</span>
-                            <span className={styles.dogInfoText}>{dog.date}</span>
+                            <span className={styles.dogInfoText}>{dog.birthday}</span>
                         </div>
                     ))}
                 </div>

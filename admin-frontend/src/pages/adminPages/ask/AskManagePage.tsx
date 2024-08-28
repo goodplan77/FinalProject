@@ -25,7 +25,6 @@ export default function InquiryManagePage() {
     useEffect(() => {
         axios.get("http://localhost:8013/banju/admin/ask/askList")
             .then((response) => {
-                console.log(response.data);
                 dispatch(selectAllAsk(response.data));
             }).catch((response) => {
                 console.log(response);

@@ -45,8 +45,7 @@ export default function ProductBoardInsertPage() {
       const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // 폼 제출 방지
         const formData = new FormData();
-        console.log(product);
-        formData.append('productJson', JSON.stringify(product));
+        formData.append('productJson', encodeURIComponent(JSON.stringify(product)));
         if(selectedImage){
             formData.append('file' , selectedImage);
             axios.post("http://localhost:8013/banju/admin/board/insertProductBoard" , formData, {

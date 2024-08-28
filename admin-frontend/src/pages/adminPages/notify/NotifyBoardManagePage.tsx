@@ -235,7 +235,7 @@ export default function NotifyBoardManagePage() {
             {
                 showDetailModal && <DetailModal board={data} hideModal={hideDetailModal}></DetailModal>
             }
-            <div className={styles.addButton} onClick={() => navi('/adminPage/notifyBoardInsert')}>+</div>
+            <button className={styles.addButton} onClick={() => navi('/adminPage/notifyBoardInsert')}>추가</button>
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import styles from "./css/DetailModal.module.css"
+import styles from "./css/DetailProductModal.module.css"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Product } from "../type/product";
@@ -63,8 +63,7 @@ export default function DetailProductModal ({product , hideModal} : {product:Pro
                             </div>
                         </div>
                         <div className={styles.modalFooter}>
-                                <button className={styles.cancelButton} onClick={hideModal}>취소</button>
-                                <button className={styles.confirmButton} onClick={() => navi('../productBoardUpdatePage')}>수정</button>
+                                <button className={styles.modifyButton} onClick={() => navi('../productBoardUpdatePage')}>수정</button>
                         </div>
                     </>)}
                 </div>

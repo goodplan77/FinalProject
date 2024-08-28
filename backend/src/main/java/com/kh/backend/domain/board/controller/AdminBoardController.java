@@ -94,7 +94,7 @@ public class AdminBoardController {
 			@RequestPart(required = false) MultipartFile file) throws Exception {
 
 		ObjectMapper objectMapper = new ObjectMapper();
-		Board board = objectMapper.readValue(boardJson, Board.class);
+		Board board = objectMapper.readValue(URLDecoder.decode(boardJson, StandardCharsets.UTF_8.name()), Board.class);
 
 		Map<String, Object> response = new HashMap<>();
 
@@ -126,7 +126,7 @@ public class AdminBoardController {
 			@RequestPart(required = false) MultipartFile file) throws Exception {
 
 		ObjectMapper objectMapper = new ObjectMapper();
-		Board board = objectMapper.readValue(boardJson, Board.class);
+		Board board = objectMapper.readValue(URLDecoder.decode(boardJson, StandardCharsets.UTF_8.name()), Board.class);
 
 		Map<String, Object> response = new HashMap<>();
 
@@ -155,10 +155,8 @@ public class AdminBoardController {
 	public ResponseEntity<Map<String, Object>> insertProductBoard(@RequestPart String productJson,
 			@RequestPart MultipartFile file) throws Exception {
 
-		String decodedJson = URLDecoder.decode(productJson, StandardCharsets.UTF_8.toString());
-		log.debug("data : {}" , decodedJson);
 		ObjectMapper objectMapper = new ObjectMapper();
-		Product product = objectMapper.readValue(decodedJson, Product.class);
+		Product product = objectMapper.readValue(URLDecoder.decode(productJson, StandardCharsets.UTF_8.name()), Product.class);
 
 		Map<String, Object> response = new HashMap<>();
 
