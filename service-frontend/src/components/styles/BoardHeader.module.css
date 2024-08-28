@@ -18,17 +18,20 @@
     background-color: white;
 }
 
-.nick {
+.logo {
     display: flex;
 
     justify-content: center;
     align-items: center;
 
     flex-basis: 50%;
-
-    margin-left: 45px;
 }
 
+.logoImg {
+    height: 45px;
+
+    margin-right: 2%;
+}
 
 .button {
     display: flex;
@@ -197,4 +200,15 @@
 .modalButtonGroup {
     display: flex;
     justify-content: space-around;
+}
+
+.nick {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    flex-basis: 50%;
+
+    margin-left: 45px;
 }
