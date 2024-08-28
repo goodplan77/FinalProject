@@ -122,6 +122,16 @@ public class UserServiceImpl implements UserService {
 	public User selectUser(HashMap<String, Object> map) {
 		return dao.selectUser(map);
 	}
+	
+	@Override
+	public ImgUser selectImgUser(int userNo) {
+		return dao.selectImgUser(userNo);
+	}
+	
+	@Override
+	public ImgDog selectImgDog(int dogNo) {
+		return dao.selectImgDog(dogNo);
+	}
 
 	// 회원 조회 메서드(UserDetails)
 	@Override
@@ -204,7 +214,6 @@ public class UserServiceImpl implements UserService {
 	public List<Dog> selectDogs(int userNo) {
 		return dao.selectDogs(userNo);
 	}
-
 	
 }
 

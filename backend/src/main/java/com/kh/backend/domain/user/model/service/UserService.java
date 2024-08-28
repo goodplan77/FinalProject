@@ -31,6 +31,10 @@ public interface UserService extends UserDetailsService{
 	
 	// 회원 조회 메서드
 	User selectUser(HashMap<String, Object> map);
+	
+	ImgUser selectImgUser(int userNo);
+	
+	ImgDog selectImgDog(int userNo);
 
 	// 반려견 등록 메서드
 	int insertDog(Dog dog, ImgDog id);
@@ -54,6 +58,5 @@ public interface UserService extends UserDetailsService{
 
 	// 회원의 반려견 목록 조회
 	List<Dog> selectDogs(int userNo);
-
 
 }

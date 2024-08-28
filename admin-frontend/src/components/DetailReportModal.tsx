@@ -76,31 +76,27 @@ export default function DetailReportModal ({report , hideModal} : {report:report
                         </div>
                         <div className={styles.modalBody}>
                             <div>
-                                <th>RID</th>
+                                <th>RID </th>
                                 <td>{report.reportNo}</td>
                             </div>
                             <div>
-                                <th>회원 닉네임</th>
+                                <th>회원 닉네임 </th>
                                 <td>{report.nickName}</td>
                             </div>
                             <div>
-                                <th>신고 분류</th>
+                                <th>신고 분류 </th>
                                 <td>{report.category}</td>
                             </div>
                             <div>
-                                <th>내용</th>
+                                <th>내용 </th>
                                 <td>{report.content}</td>
                             </div>
                             <div>
-                                <th>신고 날짜</th>
+                                <th>신고 날짜 </th>
                                 <td>{report.reportDate}</td>
                             </div>
                             <div>
-                                <th>신고 타입</th>
-                                <td>{report.typeCode}</td>
-                            </div>
-                            <div>
-                                <th>신고 타겟 고유 ID</th>
+                                <th>신고 타겟 고유 ID </th>
                                 <td>{report.refNo}</td>
                             </div>
                         </div>

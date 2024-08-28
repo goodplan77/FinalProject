@@ -317,6 +317,22 @@
     /* 긴 텍스트 줄바꿈 */
 }
 
+.categoryDataTitle{
+    flex: 1;
+    /* 각 항목이 동일한 너비를 가지도록 설정 */
+    text-align: center;
+    /* 텍스트를 왼쪽 정렬 */
+    padding: 0 0px;
+    box-sizing: border-box;
+    word-break: break-word;
+    /* 긴 텍스트 줄바꿈 */
+
+    display : block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /* 카테고리별 컨텐츠 스타일 */
 .categoryBoard,
 .categoryComment,

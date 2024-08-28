@@ -64,6 +64,7 @@
 		LEFT JOIN "LIKE" L ON (U.USER_NO=L.USER_NO)
 		LEFT JOIN "MEMO" M ON (U.USER_NO=M.USER_NO)
 		WHERE U.USER_NO = #{userNo}
+		ORDER BY D.IS_MAIN DESC, H.POINT_DATE DESC, M.TARGET_DATE DESC
 	</select>
 	
 	<resultMap id="UserMap" type="User">

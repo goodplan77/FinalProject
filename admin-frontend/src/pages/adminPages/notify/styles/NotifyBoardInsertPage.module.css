@@ -23,7 +23,7 @@
 
 .formContainer {
     position: absolute;
-    width: 1500px;
+    width: 1400px;
     height: 700px;
     left: 48px;
     top: 124px;
@@ -47,7 +47,7 @@
 }
 
 .textInput {
-    width: 1450px;
+    width: 1350px;
     height: 35px;
     padding: 12px 16px;
     border: 1px solid #D9D9D9;
@@ -73,7 +73,7 @@
 }
 
 .textArea {
-    width: 1450px;
+    width: 1350px;
     height: 354px;
     padding: 12px 16px;
     border: 1px solid #D9D9D9;

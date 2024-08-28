@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Board, Comment } from '../../../type/board';
 import { report } from '../../../type/report';
+import { Dog } from '../../../type/dog';
+import DetailModal from '../../../components/DetailModal';
 
 type CategoryData = Board[] | Comment[] | report[];
 
@@ -13,16 +15,44 @@ export default function UserDetailPage() {
     const dispatch = useDispatch();
     const users = useSelector((state: RootState) => state.users);
     const [user, setUser] = useState(users.oneUser);
+    const [userImg , setUserImg] = useState('');
+    const [dogImgUrl, setDogImgUrl] = useState<string[]>([]);
     const [selectedCategory, setSelectedCategory] = useState('게시글'); // 선택된 카테고리 상태 추가
     const [categoryData, setCategoryData] = useState<CategoryData>([]); // 선택된 카테고리의 데이터 상태
 
+    const [data , setData] = useState<Board|null>();
+    const [showDetailModal , setShowDetailModal] = useState(false);
+
     useEffect(() => {
-        axios.get(`http://localhost:8013/banju/admin/user/UserDetail/${user.userNo}`)
-            .then((response) => {
+        const fetchUserDetail = async () => {
+            try{
+                const response = await axios.get(`http://localhost:8013/banju/admin/user/UserDetail/${user.userNo}`)
                 setUser(response.data.user);
-            }).catch((response) => {
-                console.log(response);
-            })
+
+                if(response.data.user){
+                    const secondResponse = await axios.get(`http://localhost:8013/banju/api/user/${user.userNo}`);
+                    console.log(secondResponse);
+                    setUserImg(secondResponse.data);
+                }
+
+                if(response.data.user){
+                    const thirdResponse = await axios.get<Board[]>(`http://localhost:8013/banju/board/postedList/${user.userNo}`)
+                    console.log(thirdResponse);
+                    setCategoryData(thirdResponse.data);
+                }
+
+                if(response.data.user.dogs){
+                    const fourResponse = await axios.get(`http://localhost:8013/banju/api/user/dog/${user.userNo}`);
+                    console.log(fourResponse);
+                    setDogImgUrl(fourResponse.data.imageList);
+                }
+ 
+            } catch (error) {
+                console.error('에러가 발생했습니다.', error);
+            }
+        }
+       
+        fetchUserDetail();
     }, []);
 
     const selectUserBoard = () => {
@@ -52,11 +82,31 @@ export default function UserDetailPage() {
             });
     };
 
+    // 4. 상세 보기 모달
+    const setDetailModal = (e:React.MouseEvent<HTMLDivElement> , board:Board) => {
+        e.stopPropagation();
+        setData(board);
+        setShowDetailModal(true);
+    };
+
+    const hideDetailModal = () => {
+        setShowDetailModal(false);
+    };
+
+    const categoryConvert = (type:string) =>{ 
+        switch(type){
+            case 'C': return '일반';
+            case 'S': return '중고';
+            case 'A': return '분양';
+            case 'M': return '실종';
+        }
+    };
+
     return (
         <div className={styles.userProfileContainer}>
             <div className={styles.profileContainer}>
                 <div className={styles.profileImage}>
-                    <img src={`${process.env.PUBLIC_URL}/images/admin_profile.jpg`} alt="프로필 이미지" />
+                    <img src={`http://localhost:8013/banju${userImg}`} alt="프로필 이미지" />
                 </div>
                 <div className={styles.profileText}>{user.nickName}</div>
                 <div className={styles.profileValue}>UID : {user.userNo}</div>
@@ -107,12 +157,12 @@ export default function UserDetailPage() {
                         <div key={index} className={styles.dogInfoBox}>
                             <span className={styles.dogInfoText}>{dog.isMain ? '대표' : ''}</span>
                             <div className={styles.dogInfoImage}>
-                                <img src={dog.imgDog.changeName} alt="강아지 이미지" />
+                                <img src={`http://localhost:8013/banju${dogImgUrl[index]}`} alt="" />
                             </div>
                             <span className={styles.dogInfoText}>{dog.dogName}</span>
                             <span className={styles.dogInfoText}>{dog.breed}</span>
                             <span className={styles.dogInfoText}>{dog.gender}</span>
-                            <span className={styles.dogInfoText}>{dog.birthday}</span>
+                            <span className={styles.dogInfoText}>{dog.birthday.substring(2,10)}</span>
                         </div>
                     ))}
                 </div>
@@ -143,7 +193,7 @@ export default function UserDetailPage() {
             <div className={styles.userAction}>
                 <div className={styles.userActionContent}>
                     <div className={styles.activityList}>활동 목록</div>
-                    <div className={styles.recentActivity}>최근 활동: 10분 전</div>
+                    <div className={styles.recentActivity}>최근 로그인: {user.lastLoginDate}</div>
                     <div className={styles.category}>
                         <div className={styles.usedCategory}>
                             <div className={`${styles.categoryRect} ${selectedCategory === '게시글' ? styles.active : ''}`}>
@@ -164,18 +214,18 @@ export default function UserDetailPage() {
                     {selectedCategory === '게시글' && (
                         <div className={styles.categoryBoard}>
                             <div className={styles.headerItem}>
-                                <div className={styles.categoryData}>boardCode</div>
-                                <div className={styles.categoryData}>boardNo</div>
-                                <div className={styles.categoryData}>title</div>
-                                <div className={styles.categoryData}>enrollDate</div>
-                                <div className={styles.categoryData}>status</div>
+                                <div className={styles.categoryData}>타입</div>
+                                <div className={styles.categoryData}>BID</div>
+                                <div className={styles.categoryData}>제목</div>
+                                <div className={styles.categoryData}>작성일</div>
+                                <div className={styles.categoryData}>상태</div>
                             </div>
                             {/* 게시글 데이터 렌더링 */}
                             {(categoryData as Board[]).map((item, index) => (
-                                <div key={index} className={styles.dataItem}>
-                                    <div className={styles.categoryData}>{item.boardCode}</div>
+                                <div key={index} className={styles.dataItem} onClick={(e) => setDetailModal(e, item)}>
+                                    <div className={styles.categoryData}>{categoryConvert(item.boardCode)}</div>
                                     <div className={styles.categoryData}>{item.boardNo}</div>
-                                    <div className={styles.categoryData}>{item.title}</div>
+                                    <div className={styles.categoryDataTitle}>{item.title}</div>
                                     <div className={styles.categoryData}>{item.enrollDate}</div>
                                     <div className={styles.categoryData}>{item.status}</div>
                                 </div>
@@ -185,18 +235,18 @@ export default function UserDetailPage() {
                     {selectedCategory === '댓글' && (
                         <div className={styles.categoryComment}>
                             <div className={styles.headerItem}>
-                                <div className={styles.categoryData}>commentNo</div>
-                                <div className={styles.categoryData}>boardNo</div>
-                                <div className={styles.categoryData}>commentData</div>
-                                <div className={styles.categoryData}>status</div>
-                                <div className={styles.categoryData}>refNo</div>
+                                <div className={styles.categoryData}>CID</div>
+                                <div className={styles.categoryData}>BID</div>
+                                <div className={styles.categoryData}>내용</div>
+                                <div className={styles.categoryData}>상태</div>
+                                <div className={styles.categoryData}>원댓글ID</div>
                             </div>
                             {/* 댓글 데이터 렌더링 */}
                             {(categoryData as Comment[]).map((item, index) => (
                                 <div key={index} className={styles.dataItem}>
                                     <div className={styles.categoryData}>{item.commentNo}</div>
                                     <div className={styles.categoryData}>{item.boardNo}</div>
-                                    <div className={styles.categoryData}>{item.commentData}</div>
+                                    <div className={styles.categoryDataTitle}>{item.content}</div>
                                     <div className={styles.categoryData}>{item.status}</div>
                                     <div className={styles.categoryData}>{item.refNo}</div>
                                 </div>
@@ -206,11 +256,11 @@ export default function UserDetailPage() {
                     {selectedCategory === '신고' && (
                         <div className={styles.categoryReport}>
                             <div className={styles.headerItem}>
-                                <div className={styles.categoryData}>reportNo</div>
-                                <div className={styles.categoryData}>category</div>
-                                <div className={styles.categoryData}>reportDate</div>
-                                <div className={styles.categoryData}>typeCode</div>
-                                <div className={styles.categoryData}>refNo</div>
+                                <div className={styles.categoryData}>RID</div>
+                                <div className={styles.categoryData}>타입</div>
+                                <div className={styles.categoryData}>신고일</div>
+                                <div className={styles.categoryData}>신고타입</div>
+                                <div className={styles.categoryData}>참조ID</div>
                             </div>
                             {/* 신고 데이터 렌더링 */}
                             {(categoryData as report[]).map((item, index) => (
@@ -226,6 +276,10 @@ export default function UserDetailPage() {
                     )}
                 </div>
             </div>
+            {
+                showDetailModal && <DetailModal board={data} hideModal={hideDetailModal}></DetailModal>
+            }
         </div>
+        
     )
 }
