@@ -214,12 +214,15 @@ public class UserController {
 		// 일반 로그인 메서드
 		}else {
 			user = service.selectUser(param);
+			System.err.println(user);
 
 			if(user == null) {
 				resMap.put("msg", "존재하지 않는 회원입니다.");
+				System.err.println("1번");
 				return ResponseEntity.badRequest().body(resMap);
 			}else if(user != null && !encoder.matches((CharSequence) param.get("pwd"), user.getPwd())) {
 				resMap.put("msg", "비밀번호가 다릅니다.");
+				System.err.println("2번");
 				return ResponseEntity.badRequest().body(resMap);
 			}else if(user != null && encoder.matches((CharSequence) param.get("pwd"), user.getPwd())) {
 				resMap = loginResponse(user);
@@ -230,7 +233,7 @@ public class UserController {
 		}
 		
 		resMap.put("msg", "몰라 에러남");
-		return ResponseEntity.badRequest().body(resMap);
+		return ResponseEntity.status(500).body(resMap);
 	}
 	
 	// 로그인 세부 메서드
@@ -246,10 +249,15 @@ public class UserController {
 		resMap.put("user", user);
 		
 		int result = service.updateLoginDate(user);
+		
 		if(result > 0) {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date lastLoginDate = null;
+			if(user.getLastLoginDate() == null) {
+				return resMap;
+			}
 			try {
-				Date lastLoginDate = dateFormat.parse(user.getLastLoginDate());
+				lastLoginDate = dateFormat.parse(user.getLastLoginDate());
 				
 				String todayStr = dateFormat.format(new Date());
 		        Date todayDate = dateFormat.parse(todayStr);
@@ -263,7 +271,6 @@ public class UserController {
 			}
 			
 		}
-		System.err.println(user);
 		
 		return resMap;
 	}

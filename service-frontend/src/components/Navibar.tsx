@@ -42,7 +42,7 @@ export default function Navibar() {
                 if (loginUser.userNo == 10) {
                     navi('login');
                 } else {
-                    navi('mypage')
+                    navi('/mypage')
                 }
             }} />
 
