@@ -65,4 +65,9 @@ public class ChatDaoImpl implements ChatDao{
 		return session.selectList("chat.checkChatRoom", users);
 	}
 
+	@Override
+	public int closeChatRoom(ChatRoom chatRoomData) {
+		return session.update("chat.closeChatRoom", chatRoomData);
+	}
+
 }

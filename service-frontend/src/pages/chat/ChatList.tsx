@@ -62,7 +62,7 @@ export default function ChatList() {
             ) : (
                 chatRoomList.map((chatRoom) => (
                     <div className={styles.chatRoomList} key={chatRoom.chatRoomNo}>
-                        <div className={styles.chatStroke} onClick={() => navi(`/chatRoom/${chatRoom.chatRoomNo}`)}>
+                        <div className={styles.chatStroke} onClick={() => handleClick(chatRoom.chatRoomNo)}>
                             <div className={styles.chatBox}>
                                 <img className={styles.picture} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                                 <p className={styles.nick}>{chatRoom.toNickName}</p>
