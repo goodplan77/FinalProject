@@ -18,9 +18,9 @@ public class ChatServiceImpl implements ChatService{
 	private final ChatDao chatDao;
 
 	@Override
-	public List<ChatRoom> chatList() {
-		return chatDao.chatList();
-	}
+    public List<ChatRoom> chatList(Long fromUserNo, Long toUserNo) {
+        return chatDao.chatList(fromUserNo, toUserNo);
+    }
 	
 	@Override
 	public List<Message> messageSelect(int chatRoomNo) {
@@ -30,6 +30,27 @@ public class ChatServiceImpl implements ChatService{
 	@Override
 	public int makeChatRoom(ChatRoom users) {
 		return chatDao.makeChatRoom(users);
+	}
+
+	@Override
+	public Message insertChatMessage(Message message) {
+		chatDao.insertChatMessage(message);
+		return chatDao.selectChatMessage(message.getMessageNo());
+	}
+
+	@Override
+	public User selectUser(int userNo) {
+		return chatDao.selectUser(userNo);
+	}
+
+	@Override
+	public List<User> selectChatRoomUser(int chatRoomNo) {
+		return chatDao.selectChatRoomUser(chatRoomNo);
+	}
+
+	@Override
+	public List<ChatRoom> checkChatRoom(ChatRoom users) {
+		return chatDao.checkChatRoom(users);
 	}
 
 	

@@ -6,9 +6,9 @@ import com.kh.backend.domain.alarm.model.vo.AdminAlarm;
 
 public interface AdminAlarmService {
 
-	void createAndSendAlarm(char type, int reportNo);
+	void createAndSendAlarm(char type, int refNo);
 
-	int updateReadStatus(String alarmType, int reportRefNo);
+	int updateReadStatus(String alarmType, int refNo);
 
 	List<AdminAlarm> unReadList();
 

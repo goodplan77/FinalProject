@@ -30,9 +30,12 @@ public class MemoController {
 	
 	private final MemoService memoService;
 	
-	@GetMapping("/memoList")
-	public List<Memo> memoList(HttpServletResponse response){
-		List<Memo> list = memoService.selectMemo();
+	@GetMapping("/memoList/{userNo}")
+	public List<Memo> memoList(
+			HttpServletResponse response,
+			@PathVariable int userNo
+			){
+		List<Memo> list = memoService.selectMemo(userNo);
 		log.debug("list = {}", list);
 		return list;
 	}

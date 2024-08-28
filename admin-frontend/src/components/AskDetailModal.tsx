@@ -3,21 +3,25 @@ import styles from "./css/DetailModal.module.css"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ask } from "../type/ask";
+import { useDispatch } from "react-redux";
+import { decrementAskCount } from "../features/alarmSlice";
 
 export default function AskDetailModal ({ask , hideModal} : {ask:ask|undefined|null , hideModal: () => void}) {
     
     const navi = useNavigate();
+    const dispatch = useDispatch();
     const [askContent , setAskContent] = useState(ask);
 
     useEffect(() => {
         if(ask){
             const askRefNo = ask.askNo;
-            axios.post(`http://localhost:8013/banju/alarm/updateReadStatus/A/${askRefNo}`)
+            axios.post(`http://localhost:8013/banju/admin/alarm/updateReadStatus/A/${askRefNo}`)
                 .then((response) => {
-                    console.log(response);
+                    console.log(response.data);
+                    dispatch(decrementAskCount())
                 })
-                .catch((response) =>{
-                    console.log(response);
+                .catch((error) =>{
+                    console.log(error.response.data);
                 })
         }
       }, []);

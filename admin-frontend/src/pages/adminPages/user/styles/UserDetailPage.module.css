@@ -1,17 +1,15 @@
 /* 전체 컨테이너 스타일 */
 .userProfileContainer {
     display: grid;
-    grid-template-columns: 1fr 2fr 2fr;
+    grid-template-columns: 0.8fr 2.2fr 2fr;
+    /* profileContainer를 80%로 줄이고 나머지 컨테이너의 비율 조정 */
     gap: 20px;
     background: #FFFFFF;
     padding: 20px;
     border-radius: 12px;
     align-items: flex-start;
-    /* 아이템을 상단 정렬 */
     height: 100vh;
-    /* 전체 높이를 화면에 맞게 설정 */
     box-sizing: border-box;
-    /* 패딩을 포함한 높이 계산 */
 }
 
 /* 프로필 컨테이너 */
@@ -23,12 +21,9 @@
     text-align: left;
     width: 100%;
     height: auto;
-    /* 높이를 자동으로 조정 */
     display: flex;
     flex-direction: column;
-    /* 세로 정렬 */
     justify-content: space-between;
-    /* 내용 간의 균형을 맞춤 */
 }
 
 /* 프로필 이미지 스타일 */
@@ -83,6 +78,15 @@
     transform: scale(1.2);
 }
 
+.profileValue {
+    margin-top: 10px;
+    font-weight: bolder;
+}
+
+.infoEditContainer {
+    margin-top: 10px;
+}
+
 /* 오른편 컨테이너 */
 .rightContainer {
     display: flex;
@@ -90,9 +94,7 @@
     margin-left: 40px;
     gap: 20px;
     height: 100%;
-    /* 오른쪽 컨테이너의 높이를 100%로 설정 */
     justify-content: flex-start;
-    /* 내용을 상단 정렬 */
 }
 
 /* 반려견 정보 수정 섹션 */
@@ -103,7 +105,6 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     height: auto;
-    /* 높이를 자동으로 조정 */
 }
 
 .dogInfoHeader {
@@ -146,7 +147,6 @@
     padding: 20px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
     height: auto;
-    /* 높이를 자동으로 조정 */
 }
 
 .pointInfoHeader {
@@ -201,7 +201,7 @@
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 90%;
+    width: 95%;
     height: auto;
     position: relative;
 }

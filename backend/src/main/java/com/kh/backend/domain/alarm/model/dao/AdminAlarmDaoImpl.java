@@ -22,12 +22,12 @@ public class AdminAlarmDaoImpl  implements AdminAlarmDao{
 
 	@Override
 	public int updateReadStatus(AdminAlarm alarm) {
-		return session.update("alarm.updateReadStatus", alarm);
+		return session.update("alarm.updateAdminReadStatus", alarm);
 	}
 
 	@Override
 	public List<AdminAlarm> unReadList() {
-		return session.selectList("alarm.unReadList");
+		return session.selectList("alarm.unReadAdminList");
 	}
 
 }

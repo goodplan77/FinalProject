@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.backend.domain.alarm.model.service.AlarmService;
 import com.kh.backend.domain.board.model.service.BoardService;
 import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.board.model.vo.BoardImg;
@@ -47,6 +49,7 @@ public class BoardController {
 
 	private final BoardService boardService;
 	private final UserService userService;
+	private final AlarmService alarmService;
 	private final ServletContext application;
 	
 	@GetMapping("/boardList")
@@ -223,17 +226,32 @@ public class BoardController {
 		log.debug("댓글 내용 = {}", comment.getContent());
 		log.debug("유저 넘버 = {}", comment.getUserNo());
 		
+		Board board = boardService.boardDetail(boardNo);
+		
+		alarmService.createAndSendAlarm(board.getUserNo() , comment.getUserNo() , 'L' , comment.getCommentNo());
 		userService.insertPointHistory(comment.getUserNo() , 50 , 'C');
 		
 		return map;
 	}
 	
 	@PostMapping("/updateLikeCount")
-	public ResponseEntity<Map<String, Object>> updateLikeCount(@RequestBody Board board) {
+	public ResponseEntity<Map<String, Object>> updateLikeCount(@RequestBody String updateSendData) {
 		Map<String, Object> response = new HashMap<>();
+		
 		try {
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+		    JsonNode rootNode = objectMapper.readTree(updateSendData);
+
+		    // JSON에서 board와 likeUser 속성 추출
+		    JsonNode boardNode = rootNode.path("board");
+		    JsonNode likeUserNode = rootNode.path("likeUser");
+		    
+		    Board board = objectMapper.treeToValue(boardNode, Board.class);
+		    int likeUser = likeUserNode.asInt();
 
 			int result = boardService.updateLikeCount(board);
+			result *= alarmService.createAndSendAlarm(board.getUserNo() , likeUser , 'L' , board.getBoardNo());
 
 			if (result > 0) {
 				response.put("msg", "좋아요 작업이 정상적으로 완료 되었습니다.");
@@ -263,5 +281,24 @@ public class BoardController {
 		return list;
 	}
 	
+	@GetMapping("/postedList/{userNo}")
+	public List<Board> postedList(
+			@PathVariable int userNo
+			){
+		
+		List<Board> list = boardService.postedList(userNo);
+		
+		return list;
+	}
+	
+	@GetMapping("/likedList/{userNo}")
+	public List<Board> likedList(
+			@PathVariable int userNo
+			){
+		
+		List<Board> list = boardService.likedList(userNo);
+		
+		return list;
+	}
 	
 }

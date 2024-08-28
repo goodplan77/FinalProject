@@ -1,5 +1,6 @@
 package com.kh.backend.domain.chat.model.vo;
 
+import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.user.model.vo.User;
 
 import lombok.AllArgsConstructor;
@@ -19,4 +20,5 @@ public class ChatRoom {
 	
 	private User toUser;
 	private User fromUser;
+	
 }

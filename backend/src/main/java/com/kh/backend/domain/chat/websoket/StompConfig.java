@@ -14,7 +14,7 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer{
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		registry
 			.addEndpoint("/stompServer")
-			.setAllowedOrigins("*")
+			.setAllowedOrigins("http://localhost:3013") // 허용된 출처 설정
 			.withSockJS();
 	}
 
@@ -26,6 +26,8 @@ public class StompConfig implements WebSocketMessageBrokerConfigurer{
 		registry
 			.enableSimpleBroker("/chat");
 			
+		
+		registry.setApplicationDestinationPrefixes("/chat");
 		
 	}
 	

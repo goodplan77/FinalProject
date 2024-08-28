@@ -33,6 +33,8 @@ import UpdateUserPage from './pages/user/UpdateUser';
 import LoginPage from './pages/user/Login';
 import SignUpPage from './pages/user/Signup';
 import ChatHeaderbar from './components/ChatHeader';
+import PostedPage from './pages/user/PostedPage';
+import LikedList from './pages/user/LikedList';
 
 
 
@@ -44,6 +46,7 @@ const App = () => {
   const currentLocation = useLocation(); // `location` 대신 `currentLocation`으로 변경
   const [boardNo, setBoardNo] = useState<string | undefined>(undefined);
   const [chatRoomNo, setChatRoomNo] = useState<string | undefined>(undefined);
+  const [userNo, setUserNo] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
@@ -92,7 +95,7 @@ const App = () => {
           <Route path='/missingList' element={<MissingList />} />
           <Route path='/insertBoard' element={<InsertBoard />} />
           <Route path='/chatlist' element={<ChatList />} />
-          <Route path='/chatRoom/:chatRoomNo' element={<ChatRoom setChatRoomNo={setChatRoomNo} />} />
+          <Route path='/chatRoom/:chatRoomNo' element={<ChatRoom />} />
           <Route path='/signup' element={<SignUpPage />} />
           <Route path='/petPlace' element={<PetPlace />} />
           <Route path='/weather' element={<Weather />} />
@@ -100,13 +103,15 @@ const App = () => {
           <Route path='findUserPassword' element={<FindUserPassword />} />
           <Route path='successUserId' element={<SuccessUserId />} />
           <Route path='changePassword' element={<ChangePassword />} />
-          <Route path='calendarPage' element={<CalendarPage />} />
+          <Route path='calendarPage/:userNo' element={<CalendarPage setUserNo={setUserNo} />} />
           <Route path='/boardDetail/:boardNo' element={<BoardDetail setBoardNo={setBoardNo} />} />
           <Route path='/clause' element={<Clause />} />
           <Route path='/alarm' element={<Alarm />} />
           <Route path='/search' element={<SearchPage />} />
           <Route path='/insertDog' element={<InsertDog />} />
           <Route path='/dogList' element={<DogList />} />
+          <Route path='/postedPage/:userNo' element={<PostedPage setUserNo={setUserNo} />} />
+          <Route path='/likedList/:userNo' element={<LikedList setUserNo={setUserNo} />} />
         </Routes>
       </div>
 

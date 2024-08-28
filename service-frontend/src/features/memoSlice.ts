@@ -4,7 +4,7 @@ import { initMemoList, Memo } from "../type/memo";
 
 
 let memoSlice = createSlice({
-    name: 'board',
+    name: 'memo',
     initialState: initMemoList,
     reducers: {
         selectedMemo: (state, action: PayloadAction<Memo[]>) => {

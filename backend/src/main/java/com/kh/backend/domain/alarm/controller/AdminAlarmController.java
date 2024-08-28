@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -28,25 +29,22 @@ public class AdminAlarmController {
     private final AdminAlarmService adminAlarmService;
     private final AlarmSenderService alarmSenderService;
 
-    @GetMapping("/alarm/subscribe")
+    @GetMapping("/admin/alarm/subscribe")
     public SseEmitter subscribe(@RequestHeader(value = "Last-Event-ID", required = false) String lastEventId) {
-        SseEmitter emitter = alarmSenderService.createEmitter();
-
-        if (lastEventId != null) {
-            long lastId = Long.parseLong(lastEventId);
-            alarmSenderService.sendMissedAlarms(emitter, lastId);
-        }
-
+        SseEmitter emitter = alarmSenderService.createEmitter(true);
         log.debug("SSE 연결 확인");
         return emitter;
     }
     
-    @GetMapping("/alarm/unReadList")
+    @GetMapping("/admin/alarm/unReadList")
     public ResponseEntity<Map<String,Object>> unReadList() {
     	Map<String,Object> response = new HashMap<>();
         List<AdminAlarm> list = adminAlarmService.unReadList();
         if(list != null && !list.isEmpty()) {
         	response.put("list", list);
+        	return ResponseEntity.ok().body(response);
+        } else if (list.isEmpty()){
+        	response.put("msg", "알림이 비어있습니다.");
         	return ResponseEntity.ok().body(response);
         } else {
         	response.put("msg", "알람 목록을 불러오는데 실패 했습니다.");
@@ -55,7 +53,7 @@ public class AdminAlarmController {
     }
     
 
-    @PostMapping("/alarm/updateReadStatus/{alarmType}/{reportRefNo}")
+    @PostMapping("/admin/alarm/updateReadStatus/{alarmType}/{reportRefNo}")
     public ResponseEntity<String> updateReadStatus(@PathVariable String alarmType, @PathVariable int reportRefNo) {
         int result = adminAlarmService.updateReadStatus(alarmType, reportRefNo);
         if (result > 0) {
