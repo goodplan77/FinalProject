@@ -38,4 +38,6 @@ public interface BoardService {
 
 	List<Board> likedList(int userNo);
 
+	List<Comment> checkComment(int boardNo);
+
 }

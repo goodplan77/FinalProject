@@ -86,10 +86,6 @@ public class ChatController {
 	        @RequestParam("fromUserNo") int fromUserNo
 	) {
 		
-	    log.debug("도달 성공");
-	    log.debug("toUserNo == {}", toUserNo);
-	    log.debug("fromUserNo == {}", fromUserNo);
-	    
 	    ChatRoom users = new ChatRoom();
 	    users.setToUserNo(toUserNo);
 	    users.setFromUserNo(fromUserNo);
@@ -100,6 +96,9 @@ public class ChatController {
 	    
 	    return list.size();
 	}
+	
+	
+
 	
 	
 }

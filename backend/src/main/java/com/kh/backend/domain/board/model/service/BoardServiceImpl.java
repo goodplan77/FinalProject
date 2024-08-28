@@ -104,4 +104,9 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.likedList(userNo);
 	}
 
+	@Override
+	public List<Comment> checkComment(int boardNo) {
+		return boardDao.checkComment(boardNo);
+	}
+
 }

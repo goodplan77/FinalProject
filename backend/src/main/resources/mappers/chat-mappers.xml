@@ -28,6 +28,7 @@
 		FROM MESSAGE
 		LEFT JOIN "USER" USING (USER_NO)
 		WHERE CHAT_ROOM_NO = #{chatRoomNo}
+		ORDER BY MESSAGE_DATE ASC
 	</select>
 	
 	<!-- 상대방의 닉네임을 눌러서 채팅방 만들기 -->
@@ -73,6 +74,7 @@
 		FROM MESSAGE
 		LEFT JOIN "USER" USING (USER_NO)
 		WHERE MESSAGE_NO = #{messageNo}
+		ORDER BY MESSAGE_DATE ASC
 	</select>
 	
 	<select id="selectChatRoomUser" resultType="user">

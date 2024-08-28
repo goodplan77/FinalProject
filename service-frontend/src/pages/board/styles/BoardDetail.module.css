@@ -1,5 +1,5 @@
 .detail{
-    margin-bottom: 100px;
+    margin-bottom: 50px;
 }
 
 .top{
@@ -105,6 +105,7 @@
     display: grid;
     width: 390px;
     margin-left: 20px;
+    padding-bottom: 20px;
 }
 
 .commentPlus{
@@ -123,9 +124,15 @@
     margin-top: 4px;
     border: none;
     outline: none;
+    font-size: 20px;
+    font-weight: bold;
 }
+.plusBox::placeholder{
+    color: #90EAFF;
+}
+
 .plusBtn{
-    width: 60px;
+    width: 56px;
     height: 40px;
     background-color: white;
     margin-top: 5px;
@@ -251,4 +258,60 @@
     background-color: #E4FAFF;
     color: #02CCFE;
     font-size: 14px;
+}
+
+
+
+
+
+
+/* 댓글영역 */
+.commentComment{
+    width: 350px;
+    height: 70px;
+    background-color: #90EAFF;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.commentUp{
+    width: 340px;
+    height: 28px;
+    background-color: white;
+    margin-left: 4px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.commentNick{
+    text-align: left;
+    font-size: 14px;
+    margin-top: 4px;
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.commentDate{
+    margin-top: 8px;
+    font-size: 10px;
+    margin-right: 5px;
+    font-weight: bold;
+}
+
+
+.commentDown{
+    width: 340px;
+    background-color: white;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.commentContent{
+    margin: 0px;
+    font-size: 16px;
+    margin-left: 5px;
+    padding-top: 2px;
+    font-weight: bold;
+    padding-bottom: 4px;
 }

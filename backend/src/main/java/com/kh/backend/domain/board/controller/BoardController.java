@@ -56,8 +56,8 @@ public class BoardController {
 	public List<Board> boardList(HttpServletResponse response) {
 
 		List<Board> list = boardService.selectBoards();
-		log.debug("list = {}", list);
-
+		log.debug("listzzzzz = {}", list);
+		
 		return list;
 	}
 
@@ -300,5 +300,21 @@ public class BoardController {
 		
 		return list;
 	}
+	
+	@GetMapping("/checkComment/{boardNo}")
+	public List<Comment> checkComment(
+			@PathVariable int boardNo
+			){
+		
+		log.debug("boardNo == {}", boardNo);
+		
+		List<Comment> list = boardService.checkComment(boardNo);
+		
+		log.debug("zzzz list == {}", list);
+		
+		return list;
+	}
+	
+	
 	
 }

@@ -18,6 +18,7 @@ export interface Board{
     boardImg : BoardImg[]
 
     comment : Comment[]
+
     // 전부다 필수 값이다.
 }
 
@@ -35,10 +36,12 @@ export interface Comment{
     boardNo : number,
     userNo : number,
     content : string,
-    commentData : string,
+    commentDate : string,
     modifyDate : string,
     status : string,
-    refNo : number
+    refNo : number,
+
+    nickName : string
 }
 
 
@@ -68,10 +71,12 @@ export const initialComment:Comment = {
     boardNo : 0,
     userNo : 0,
     content : '',
-    commentData : '',
+    commentDate : '',
     modifyDate : '',
     status : 'Y',
-    refNo : 0
+    refNo : 0,
+
+    nickName : ''
 };
 
 // 내보내기

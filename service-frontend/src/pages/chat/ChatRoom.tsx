@@ -10,6 +10,7 @@ import { Message } from "../../type/chat";
 import Messages from "./Messages";
 import { User } from "../../type/user";
 import ChatHeaderbar from "../../components/ChatHeader"; 
+import ChatRoomUser from './ChatRoomUser';
 
 export default function ChatRoom() {
 
@@ -31,11 +32,14 @@ export default function ChatRoom() {
     const url = 'http://localhost:8013/banju';
     // 현재 채팅방의 상대방을 저장할 state
     const [chatRoomUser, setChatRoomUser] = useState<User[]>([]);
+    // chat의 마지막 메세지 참조
+    const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
     // 웹소켓 연결
     useEffect(() => {
         // npm i --save @types/sockjs-client
         const createWebSocket = () => new SockJs(url + "/stompServer");
-
+        
         const stompClient = new Client({
             webSocketFactory : createWebSocket,
             reconnectDelay : 10000,
@@ -46,11 +50,6 @@ export default function ChatRoom() {
                 stompClient.subscribe(`/chat/chatRoomNo/${chatRoomNo}/message`, (frame) => { 
                     console.log(frame.body);
                     const message = JSON.parse(frame.body);
-                    // 의존성배열이 비어있는  useEffect함수 내부에서 
-                    // state값은 항상 "초기 랜더링시의 값을 유지한다."
-                    // setChatMessage(
-                    //     [...chatMessage, message]
-                    // );
                     setChatMessage((prevState) => {
                         return [...prevState, message];
                     })
@@ -67,7 +66,6 @@ export default function ChatRoom() {
                     console.log(frame.body);
                 })
 
-
                 // 1) 참여자 정보 추가
                 stompClient.publish({
                     destination : `/chat/chatRoomJoin/${chatRoomNo}/${user.userNo}/newMember`,
@@ -80,10 +78,11 @@ export default function ChatRoom() {
         stompClient.activate(); // 웹소켓객체 실행하는 구문
         setWebSocket(stompClient);
         console.log("zzzz");
-
+        console.log(chatMessage);
         // 채팅방 메세지 가져오기
         axios.get(`${url}/chat/chatRoom/${chatRoomNo}`)
             .then((res) => {
+                console.log(res);
                 setChatMessage(res.data);
             })
 
@@ -97,19 +96,26 @@ export default function ChatRoom() {
             // 컴포넌트 소멸시 웹소켓 해제
             stompClient.deactivate(); // 비활성화
         }
-    }, [])
+    }, []);
+
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
+    useEffect(() => {
+        scrollToBottom();
+    }, [chatMessage]);
 
     const submitMessage = (e:KeyboardEvent) => {
         if(e.key === 'Enter' && !e.shiftKey){
             e.preventDefault();
             sendMessage();
-            //textareaRef.current.value = "";
-            
         }
     }
 
     const sendMessage = () => {
-
         const chatMessage = {
             content,
             chatRoomNo,
@@ -118,7 +124,7 @@ export default function ChatRoom() {
 
         // 메세지 입력을 안했을 경우
         if(!content){
-            alert("메세지를 입력하세요")
+            alert("메세지를 입력해주세요");
             return;
         }
         // 로그인을 안했을 경우
@@ -137,17 +143,17 @@ export default function ChatRoom() {
                 headers : {},
                 body : JSON.stringify(chatMessage)
             })
+        setContent(''); // 메시지 전송 후 입력 필드 비우기
     }
 
     return (
         <>
-
+            <ChatRoomUser chatRoomUser={chatRoomUser} />
             <div className={styles.chatRoom}>
-
-
                 <div className={styles.messages}>
-                    <Messages chatMessages = {chatMessage}/>
-
+                    <Messages chatMessages={chatMessage} />
+                    {/* 마지막 메시지 위치를 참조하는 div */}
+                    <div ref={messagesEndRef}></div>
                 </div>
 
                 <div className={styles.chatPost}>
@@ -164,8 +170,6 @@ export default function ChatRoom() {
                     </div>
                 </div>
             </div>
-
-
         </>
     )
 }

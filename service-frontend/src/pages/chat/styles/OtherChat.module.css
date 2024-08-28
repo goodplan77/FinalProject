@@ -23,6 +23,7 @@
     max-width: 345px;
     margin-right: 10px;
     margin-left: 10px;
+    text-align: left;
 }
 
 .otherChat .chatDate {
