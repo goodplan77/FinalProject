@@ -101,5 +101,15 @@ public class ChatController {
 	    return list.size();
 	}
 	
-	
+	@PostMapping("/closeChat")
+	public ResponseEntity<String> closeChatRoom(@RequestBody ChatRoom chatRoomData) {
+	    log.debug("fromUserNo : {}", chatRoomData.getFromUserNo());
+	    log.debug("chatRoomNo : {}", chatRoomData.getChatRoomNo());
+
+	    int result = chatService.closeChatRoom(chatRoomData);
+
+	    
+	    return ResponseEntity.ok("Chat room closed successfully");
+	    
+	}
 }

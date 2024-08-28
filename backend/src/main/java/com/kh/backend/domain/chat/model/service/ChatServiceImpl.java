@@ -53,6 +53,11 @@ public class ChatServiceImpl implements ChatService{
 		return chatDao.checkChatRoom(users);
 	}
 
+	@Override
+	public int closeChatRoom(ChatRoom chatRoomData) {
+		return chatDao.closeChatRoom(chatRoomData);
+	}
+
 	
 	
 }
