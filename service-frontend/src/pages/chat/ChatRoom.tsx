@@ -9,7 +9,7 @@ import { Client } from "@stomp/stompjs";
 import { Message } from "../../type/chat";
 import Messages from "./Messages";
 import { User } from "../../type/user";
-
+import ChatHeaderbar from "../../components/ChatHeader"; 
 
 export default function ChatRoom() {
 
@@ -80,6 +80,7 @@ export default function ChatRoom() {
         stompClient.activate(); // 웹소켓객체 실행하는 구문
         setWebSocket(stompClient);
         console.log("zzzz");
+
         // 채팅방 메세지 가져오기
         axios.get(`${url}/chat/chatRoom/${chatRoomNo}`)
             .then((res) => {
@@ -125,7 +126,7 @@ export default function ChatRoom() {
             alert("로그인 후에 이용해주세요");
             return;
         }
-
+        // 웹소켓에 연결중인 경우
         if(!webSocket){
             alert('웹소켓 연결중입니다.');
             return;

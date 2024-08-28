@@ -78,8 +78,8 @@ const App = () => {
         ) : currentLocation.pathname.includes('/chatRoom') ? (
           <ChatHeaderbar chatRoomNo={chatRoomNo} />
         ) : (
-          <Headerbar />
-        )}
+        <Headerbar />
+)}
       </div>
 
 
