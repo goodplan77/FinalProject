@@ -167,34 +167,64 @@ export default function UserDetailPage() {
                 <div className={styles.categoryContent}>
                     {/* 선택된 카테고리에 따라 데이터를 렌더링 */}
                     {selectedCategory === '게시글' && (
-                        <div>
+                        <div className={styles.categoryBoard}>
+                            <div className={styles.headerItem}>
+                                <div className={styles.categoryData}>boardCode</div>
+                                <div className={styles.categoryData}>boardNo</div>
+                                <div className={styles.categoryData}>title</div>
+                                <div className={styles.categoryData}>enrollDate</div>
+                                <div className={styles.categoryData}>status</div>
+                            </div>
                             {/* 게시글 데이터 렌더링 */}
                             {(categoryData as Board[]).map((item, index) => (
                                 <div key={index} className={styles.dataItem}>
-                                    <div>{item.title}</div>
-                                    <div>{item.enrollDate}</div>
+                                    <div className={styles.categoryData}>{item.boardCode}</div>
+                                    <div className={styles.categoryData}>{item.boardNo}</div>
+                                    <div className={styles.categoryData}>{item.title}</div>
+                                    <div className={styles.categoryData}>{item.enrollDate}</div>
+                                    <div className={styles.categoryData}>{item.status}</div>
                                 </div>
                             ))}
                         </div>
                     )}
                     {selectedCategory === '댓글' && (
-                        <div>
+                        <div className={styles.categoryComment}>
+                            <div className={styles.headerItem}>
+                                <div className={styles.categoryData}>commentNo</div>
+                                <div className={styles.categoryData}>boardNo</div>
+                                <div className={styles.categoryData}>commentData</div>
+                                <div className={styles.categoryData}>status</div>
+                                <div className={styles.categoryData}>refNo</div>
+                            </div>
                             {/* 댓글 데이터 렌더링 */}
                             {(categoryData as Comment[]).map((item, index) => (
                                 <div key={index} className={styles.dataItem}>
-                                    <div>{item.content}</div>
-                                    <div>{item.commentData}</div>
+                                    <div className={styles.categoryData}>{item.commentNo}</div>
+                                    <div className={styles.categoryData}>{item.boardNo}</div>
+                                    <div className={styles.categoryData}>{item.commentData}</div>
+                                    <div className={styles.categoryData}>{item.status}</div>
+                                    <div className={styles.categoryData}>{item.refNo}</div>
                                 </div>
                             ))}
                         </div>
                     )}
                     {selectedCategory === '신고' && (
-                        <div>
+                        <div className={styles.categoryReport}>
+                            <div className={styles.headerItem}>
+                                <div className={styles.categoryData}>reportNo</div>
+                                <div className={styles.categoryData}>category</div>
+                                <div className={styles.categoryData}>reportDate</div>
+                                <div className={styles.categoryData}>typeCode</div>
+                                <div className={styles.categoryData}>refNo</div>
+                            </div>
                             {/* 신고 데이터 렌더링 */}
                             {(categoryData as report[]).map((item, index) => (
                                 <div key={index} className={styles.dataItem}>
-                                    <div>{item.content}</div>
-                                    <div>{item.reportDate}</div>
+                                    <div className={styles.categoryData}>{item.reportNo}</div>
+                                    <div className={styles.categoryData}>{item.category}</div>
+                                    <div className={styles.categoryData}>{item.reportDate}</div>
+                                    <div className={styles.categoryData}>{item.typeCode}</div>
+                                    <div className={styles.categoryData}>{item.refNo}</div>
                                 </div>
                             ))}
                         </div>
