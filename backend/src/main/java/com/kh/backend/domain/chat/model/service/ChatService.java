@@ -22,4 +22,6 @@ public interface ChatService {
 
 	List<ChatRoom> checkChatRoom(ChatRoom users);
 
+	int closeChatRoom(ChatRoom chatRoomData);
+
 }

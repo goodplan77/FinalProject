@@ -1,5 +1,5 @@
 import axios from "axios";
-import styles from "./css/DetailModal.module.css"
+import styles from "./css/AskDetailModal.module.css"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ask } from "../type/ask";
@@ -17,7 +17,6 @@ export default function AskDetailModal ({ask , hideModal} : {ask:ask|undefined|n
             const askRefNo = ask.askNo;
             axios.post(`http://localhost:8013/banju/admin/alarm/updateReadStatus/A/${askRefNo}`)
                 .then((response) => {
-                    console.log(response.data);
                     dispatch(decrementAskCount())
                 })
                 .catch((error) =>{
@@ -41,8 +40,7 @@ export default function AskDetailModal ({ask , hideModal} : {ask:ask|undefined|n
             axios.post("http://localhost:8013/banju/admin/ask/updateAsk" , askContent)
             .then((response) => {
                 alert(response.data.msg);
-                hideModal();
-                navi('../askManagePage');
+                window.location.reload();
             })
             .catch((error) => {
                 console.log(error);
@@ -76,33 +74,35 @@ export default function AskDetailModal ({ask , hideModal} : {ask:ask|undefined|n
                                 <th>답변 날짜</th>
                                 <td>{ask.resDate ? ask.resDate : '답변 기록 없음'}</td>
                             </div>
+                            <br/>
                             <div>
                                 <th>문의 내용</th>
-                                <td>{ask.content}</td>
+                                <div>
+                                    <span>{ask.content}</span>
+                                </div>
                             </div>
+                            <br/>
                             <div>
                                 <th>답변 내용</th>
-                                <td>{ask.resContent ? ask.resContent: (
+                                <div className={styles.resInputArea}>{ask.resContent ? ask.resContent: (
                                     <>
-                                        <label>내용 작성</label>
                                         <textarea
-                                        placeholder="내용을 입력하세요."
+                                        placeholder="답변을 입력하세요."
                                         className={styles.textArea}
                                         onChange={handleInputChange}
                                         name = "resContent"
                                         value={askContent?.resContent}
                                         />
                                     </>
-                                )}</td>
+                                )}</div>
                             </div>
                             <div>                
                             </div>
                         </div>
                         {
                             ask.resContent?.length>0 ? '' : (
-                                <div className={styles.modalFooter}>
-                                <button className={styles.cancelButton} onClick={hideModal}>취소</button>
-                                <button className={styles.confirmButton} onClick={updateask}>답변</button>
+                            <div className={styles.modalFooter}>
+                                <button className={styles.modifyButton} onClick={updateask}>수정</button>
                             </div>
                             )
                         }     

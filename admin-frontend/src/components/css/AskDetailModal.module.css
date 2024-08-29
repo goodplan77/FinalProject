@@ -50,35 +50,33 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 20px;
+    width: 100%;
 }
 
-.cancelButton,
-.confirmButton {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.cancelButton {
-    background: #2C2C2C;
-    color: #F5F5F5;
-    margin-right: 10px;
-}
-
-.confirmButton {
-    background: #EC221F;
-    color: #FEE9E7;
-}
-
-.addButton {
-    display: flex;
+.modifyButton {
     background-color: #2C2C2C;
     color: #FFF;
     border: none;
     border-radius: 8px;
-    padding: 5px 10px;
+    padding: 10px 20px;
     cursor: pointer;
-    margin-left: auto;
-    margin-top: 20px;
+}
+
+.resInputArea{
+    width: 95%;
+}
+
+.resInputArea textarea{
+    width: 100%;
+    /* 높이를 줄여 전체 컨테이너에 잘 맞도록 조정 */
+    padding: 8px 12px;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    font-size: 14px;
+    /* 텍스트 크기를 줄여 공간 확보 */
+    font-family: 'Inter', sans-serif;
+    color: #1E1E1E;
+    background: #FFFFFF;
+    outline: none;
+    resize: none;
 }

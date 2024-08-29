@@ -45,5 +45,7 @@ public interface AdminBoardDao {
 
 	List<Comment> userCommentList(int userNo);
 
+	int deleteProduct(Product product);
+
 
 }

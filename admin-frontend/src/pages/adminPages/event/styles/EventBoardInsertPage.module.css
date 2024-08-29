@@ -4,7 +4,7 @@
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 12px;
-    width: 1700px;
+    width: 1530px;
     height: 875px;
     box-sizing: border-box;
     margin: 35px auto;
@@ -27,7 +27,7 @@
 .formContent {
     display: flex;
     justify-content: space-between;
-    width: 1600px;
+    width: 1430px;
     height: 700px;
     padding: 20px;
     background: #F0F0F0;
@@ -45,6 +45,9 @@
 
 /* 오른쪽 섹션 스타일 */
 .rightSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     flex: 0 0 300px;
 }
 
@@ -85,7 +88,7 @@
 /* 텍스트 영역 스타일 */
 .textArea {
     width: 90%;
-    height: 250px;
+    height: 550px;
     /* 높이를 줄여 전체 컨테이너에 잘 맞도록 조정 */
     padding: 8px 12px;
     border: 1px solid #D9D9D9;
@@ -109,7 +112,18 @@
     border-radius: 12px;
     width: 255px;
     height: 255px;
+    margin-top: 30px;
+    margin-left: 30px;
     margin-bottom: 40px;
+}
+
+.initImage{
+    display: flex;
+    flex-direction: column;
+}
+
+.initImage svg{
+    width: 100%;
 }
 
 /* 업로드 텍스트 스타일 */
@@ -181,6 +195,7 @@
     justify-content: flex-end;
     gap: 8px;
     margin-top: 20px;
+    margin-right: 20px;
 }
 
 /* 취소 및 작성 버튼 스타일 */

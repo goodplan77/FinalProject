@@ -231,6 +231,11 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		}
 		
 	}
+	
+	@Override
+	public int deleteProduct(Product product) {
+		return boardDao.deleteProduct(product);
+	}
 
 	@Override
 	public List<Comment> userCommentList(int userNo) {

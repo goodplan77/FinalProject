@@ -201,3 +201,14 @@
     display: flex;
     justify-content: space-around;
 }
+
+.nick {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    flex-basis: 50%;
+
+    margin-left: 45px;
+}

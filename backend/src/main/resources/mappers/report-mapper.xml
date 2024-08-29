@@ -46,7 +46,8 @@
 			R.REF_NO,
 			U.NICK_NAME
 		FROM REPORT R
-		WHERE USER_NO = #{userNo}
+		JOIN "USER" U ON (R.USER_NO=U.USER_NO)
+		WHERE R.USER_NO = #{userNo}
 		ORDER BY R.REPORT_DATE DESC
 	</select>
 	

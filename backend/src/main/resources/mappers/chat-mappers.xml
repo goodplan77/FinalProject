@@ -6,7 +6,9 @@
 	<select id="chatList" parameterType="Map" resultType="ChatRoom">
 	    SELECT CHAT_ROOM_NO, TO_USER_NO, TO_STATUS
 	    FROM CHAT_ROOM
-	    WHERE FROM_USER_NO = #{fromUserNo} OR TO_USER_NO = #{toUserNo}
+	    WHERE (FROM_USER_NO = #{fromUserNo} OR TO_USER_NO = #{toUserNo})
+	    	AND (FROM_STATUS = 'Y' AND TO_STATUS = 'Y')
+	    ORDER BY CHAT_ROOM_NO DESC
 	</select>
 
 	
@@ -90,5 +92,20 @@
 	    WHERE (TO_USER_NO = #{toUserNo} AND FROM_USER_NO = #{fromUserNo})
 	           OR (TO_USER_NO = #{fromUserNo} AND FROM_USER_NO = #{toUserNo})
 	</select>
+
+	<update id="closeChatRoom">
+	    UPDATE CHAT_ROOM
+	    SET 
+	        <if test="fromUserNo != null and fromUserNo == fromUserNo">
+	            FROM_STATUS = 'N'
+	        </if>
+	        <if test="toUserNo != null and toUserNo == fromUserNo">
+	            TO_STATUS = 'N'
+	        </if>
+	    WHERE CHAT_ROOM_NO = #{chatRoomNo}
+	</update>
+
+
+
 
 </mapper>

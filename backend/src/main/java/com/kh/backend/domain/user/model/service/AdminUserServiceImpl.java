@@ -25,4 +25,9 @@ public class AdminUserServiceImpl implements AdminUserService{
 		return userDao.selectUserOne(userNo);
 	}
 
+	@Override
+	public int updateUser(User user) {
+		return userDao.updateUser(user);
+	}
+
 }

@@ -152,7 +152,16 @@
 	    ORDER BY
 	        b.BOARD_NO DESC , bi.IMG_NO ASC
 	</select>
+
+	<select id="petInfoPage" resultType="Board">
+		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
+		FROM BOARD
+		WHERE BOARD_CODE = 'I' AND STATUS ='Y'
+		ORDER BY BOARD_NO DESC
+	</select>
 	
+	
+
 	
 	<!-- 게시글 등록 -->
 	<insert id="insertBoard" useGeneratedKeys="true">

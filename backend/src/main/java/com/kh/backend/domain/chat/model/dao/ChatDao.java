@@ -24,4 +24,6 @@ public interface ChatDao {
 
 	List<ChatRoom> checkChatRoom(ChatRoom users);
 
+	int closeChatRoom(ChatRoom chatRoomData);
+
 }

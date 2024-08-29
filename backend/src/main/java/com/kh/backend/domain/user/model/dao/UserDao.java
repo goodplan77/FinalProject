@@ -1,6 +1,7 @@
 package com.kh.backend.domain.user.model.dao;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -27,6 +28,10 @@ public interface UserDao {
 	
 	// 회원 조회 메서드
 	User selectUser(HashMap<String, Object> map);
+	
+	ImgUser selectImgUser(int userNo);
+
+	ImgDog selectImgDog(int dogNo);
 
 	// 회원 조회 메서드(UserDetails)
 	UserDetails loadUserByUsername(HashMap<String, Object> param);
@@ -53,8 +58,8 @@ public interface UserDao {
 
 	int updateLoginDate(User user);
 
-
-	
+	// 회원의 반려견 목록 조회
+	List<Dog> selectDogs(int userNo);
 	
 	
 //	미사용 -> 추후 삭제 가능

@@ -3,7 +3,7 @@
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 12px;
-    width: 1700px;
+    width: 1530px;
     box-sizing: border-box;
     margin-left: 10px;
     margin-top: 35px;
@@ -111,6 +111,12 @@
     vertical-align: auto;
 }
 
+.headerItem{
+    display : block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .checkbox {
     width: 20px;
@@ -130,15 +136,15 @@
     display: inline-block;
     width: 60px;
     height: 34px;
-  }
-  
-  .switch input {
+}
+
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
-  }
-  
-  .slider {
+}
+
+.slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -148,9 +154,9 @@
     background-color: #ccc;
     transition: .4s;
     border-radius: 34px;
-  }
-  
-  .slider:before {
+}
+
+.slider:before {
     position: absolute;
     content: "";
     height: 26px;
@@ -160,15 +166,15 @@
     background-color: white;
     transition: .4s;
     border-radius: 50%;
-  }
-  
-  input:checked + .slider {
+}
+
+input:checked+.slider {
     background-color: #2196F3;
-  }
-  
-  input:checked + .slider:before {
+}
+
+input:checked+.slider:before {
     transform: translateX(26px);
-  }
+}
 
 .pagination {
     display: flex;
@@ -196,17 +202,13 @@
 }
 
 .addButton {
-    position: fixed;
-    right: 40px;
-    bottom: 40px;
-    width: 60px;
-    height: 60px;
-    background-color: #2C2C2C;
-    border-radius: 50%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #F5F5F5;
-    font-size: 24px;
+    background-color: #2C2C2C;
+    color: #FFF;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
     cursor: pointer;
+    margin-left: auto;
+    margin-top: 20px;
 }

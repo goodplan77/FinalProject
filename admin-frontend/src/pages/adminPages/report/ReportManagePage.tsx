@@ -28,7 +28,6 @@ export default function ReportManagePage() {
     useEffect(() => {
         axios.get("http://localhost:8013/banju/admin/report/reportList")
             .then((response) => {
-                console.log(response.data);
                 dispatch(selectAllReport(response.data));
             }).catch((response) => {
                 console.log(response);
@@ -70,6 +69,18 @@ export default function ReportManagePage() {
     const filteredBoards = reports.filteredReports.filter(report => 
         report.content.toLowerCase().includes(filterTerm.toLowerCase()) // 제목에 검색어 포함 여부
     );
+
+    const convertTargetType = (type:string) => {
+        switch(type){
+            case 'B' : return '게시글';
+            case 'C' : return '댓글';
+            case 'L' : return '좋아요';
+            case 'M' : return '채팅방';
+            case 'R' : return '문의답변';
+            case 'P' : return '상품';
+            default : return '타입오류';
+        }
+    }
 
     // 4. 상세 보기 모달
     const setDetailModal = (e:React.MouseEvent<HTMLDivElement> , report:report) => {
@@ -203,7 +214,7 @@ export default function ReportManagePage() {
                         <span className={styles.postTitle}>{report.category}</span>
                         <span className={styles.postAuthor}>{report.nickName}</span>
                         <span className={styles.postCreatedDate}>{report.content}</span>
-                        <span className={styles.postModifiedDate}>{report.typeCode}</span>
+                        <span className={styles.postModifiedDate}>{convertTargetType(report.typeCode)}</span>
                         <span className={styles.postModifiedDate}>{report.reportDate}</span>
                 </div>
                 )})}

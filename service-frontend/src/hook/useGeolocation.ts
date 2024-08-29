@@ -11,7 +11,7 @@ const useGeolocation = (): LocationType => {
     const cachedLocation = localStorage.getItem('userLocation');
     return cachedLocation
       ? { loaded: true, coordinates: JSON.parse(cachedLocation) }
-      : { loaded: false, coordinates: { lat: 0, lng: 0 } };
+      : { loaded: false, coordinates: { lat: 37.4979, lng: 127.0276 } };
   });
 
   const onSuccess = (location: { coords: { latitude: number; longitude: number } }) => {

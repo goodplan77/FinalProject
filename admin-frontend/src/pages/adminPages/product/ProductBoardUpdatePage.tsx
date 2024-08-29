@@ -26,12 +26,9 @@ export default function ProductBoardUpdatePage() {
 
     // 초기 이미지 불러오기 영역 useEffect
     useEffect(() => {
-        axios.get(`http://localhost:8013/banju/api/board/admin/product/${product.productNo}`, {
-          responseType: 'blob',
-        })
+        axios.get(`http://localhost:8013/banju/api/board/admin/product/${product.productNo}`)
         .then((response) => {
-          const url = URL.createObjectURL(response.data);
-          setImageUrl(url);
+            setImageUrl(response.data);
         })
         .catch((error) => {
           console.error('이미지 로드 중 오류 발생:', error);
@@ -67,7 +64,7 @@ export default function ProductBoardUpdatePage() {
       const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // 폼 제출 방지
         const formData = new FormData();
-        formData.append('productJson', JSON.stringify(product));
+        formData.append('productJson', encodeURIComponent(JSON.stringify(product)));
         if(selectedImage){
             formData.append('file' , selectedImage);
             axios.post("http://localhost:8013/banju/admin/board/updateProduct" , formData)
@@ -146,7 +143,7 @@ export default function ProductBoardUpdatePage() {
                         <div className={styles.uploadIcon} onClick={handleButtonClick}>
                         <input type="file" id='fileInput' accept="image/*" style={{display : 'none'}} onChange={handleImageChange}></input>
                         <img
-                                src={imageUrl || `${process.env.PUBLIC_URL}/images/upload.png`}
+                                src={`http://localhost:8013/banju${imageUrl}` || `${process.env.PUBLIC_URL}/images/upload.png`}
                                 alt="게시글 이미지"
                                 style={{ maxWidth: '100%', maxHeight: '300px' }}
                                 onError={(e) => {

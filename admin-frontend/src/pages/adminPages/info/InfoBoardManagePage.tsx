@@ -20,7 +20,7 @@ export default function InfoBoardManagePage() {
     const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
     const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
     const [filterTerm, setFilterTerm] = useState(''); // 실제 검색에 사용될 필터 상태
-    const [itemsPerPage] = useState(10); // 페이지당 항목 수
+    const [itemsPerPage] = useState(9); // 페이지당 항목 수
     const [checkedList , setCheckedList] = useState<Board[]>([]);
     const [isAllChecked, setIsAllChecked] = useState(false); // 전체 체크박스 상태
 

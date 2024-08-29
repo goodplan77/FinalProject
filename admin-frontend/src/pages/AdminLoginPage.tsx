@@ -8,24 +8,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { loginAdminUser } from "../features/adminSlice";
 
-export default function AdminLoginPage(){
+export default function AdminLoginPage() {
     const navi = useNavigate();
 
     const dispatch = useDispatch();
-    const [data , setData] = useState<LoginData>(initLoginData);
+    const [data, setData] = useState<LoginData>(initLoginData);
 
-    function handleInputChange(e:React.ChangeEvent<HTMLInputElement>) {
-        let {name , value} = e.target;
+    function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+        let { name, value } = e.target;
         setData({
             ...data,
-            [name] : value
+            [name]: value
         })
     }
 
-    function adminLogin (e: React.FormEvent) {
-        e.preventDefault(); 
+    function adminLogin(e: React.FormEvent) {
+        e.preventDefault();
         axios.post("http://localhost:8013/banju/admin/user/login", data)
-            .then(res=>{
+            .then(res => {
                 const msg = res.data.msg
                 const jwtToken = res.data.jwtToken;
                 alert(msg);
@@ -33,44 +33,49 @@ export default function AdminLoginPage(){
                 setCookie("accessToken", jwtToken);
                 setCookie("admin", res.data.user);
                 dispatch(loginAdminUser(res.data.admin));
-                console.log(res.data.admin);
                 navi('./adminPage');
             })
-            .catch(err=>{
+            .catch(err => {
                 console.log(err)
                 const msg = err.response.data.msg
                 alert(msg);
                 setData({
-                   email:'',
-                   pwd:''
+                    email: '',
+                    pwd: ''
                 })
             })
     }
     return (
-        <div className={styles.main}>
-            <form className={styles.loginModal} onSubmit={adminLogin}>
-                <div className={styles.emailInput}>
-                    <div>Email</div>
-                    <input type="text" 
-                    placeholder="관리자 이메일을 입력하세요." 
-                    onChange={handleInputChange}
-                    name = "email"
-                    value={data.email}
-                    required></input>
+        <>
+            <div className={styles.title}>
+                <h2>반주 한상 관리자 페이지</h2>
+                <img src="/images/Banju_Icon2.png" alt="Banju Icon" className={styles.logoImg} />
+                <div className={styles.main}>
+                    <form className={styles.loginModal} onSubmit={adminLogin}>
+                        <div className={styles.emailInput}>
+                            <div>Email</div>
+                            <input type="text"
+                                placeholder="관리자 이메일을 입력하세요."
+                                onChange={handleInputChange}
+                                name="email"
+                                value={data.email}
+                                required></input>
+                        </div>
+                        <div className={styles.pwdInput}>
+                            <div>Password</div>
+                            <input type="password"
+                                placeholder="비밀번호를 입력하세요."
+                                onChange={handleInputChange}
+                                name="pwd"
+                                value={data.pwd}
+                                required></input>
+                        </div>
+                        <div className={styles.buttonArea}>
+                            <button type="submit">이동</button>
+                        </div>
+                    </form>
                 </div>
-                <div className={styles.pwdInput}>
-                    <div>Password</div>
-                    <input type="password" 
-                    placeholder="비밀번호를 입력하세요." 
-                    onChange={handleInputChange}
-                    name = "pwd"
-                    value={data.pwd}
-                    required></input>
-                </div>
-                <div className={styles.buttonArea}>
-                    <button type="submit">이동</button>
-                </div>
-            </form>
-        </div>
+            </div>
+        </>
     )
 }

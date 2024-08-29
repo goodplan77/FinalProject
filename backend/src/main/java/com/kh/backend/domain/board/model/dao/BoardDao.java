@@ -38,6 +38,10 @@ public interface BoardDao {
 
 	List<Board> likedList(int userNo);
 
+
 	List<Comment> checkComment(int boardNo);
+
+	List<Board> petInfoPage();
+
 
 }

@@ -51,6 +51,16 @@
     margin-bottom: 20px;
 }
 
+.imageArea {
+    display: flex;
+    flex-direction: row;
+}
+
+.imageArea img{
+    width: 100px;
+    height: 100px;
+}
+
 .modalFooter {
     display: flex;
     justify-content: space-between;
