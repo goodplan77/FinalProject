@@ -298,6 +298,44 @@
 	    WHERE USER_NO = #{userNo}
 	</update>
 	
+	<select id="findUserId" resultType="string">
+	    SELECT EMAIL
+	    FROM "USER"
+	    <where>
+	        <!-- userName is mandatory -->
+	        USER_NAME = #{userName}
+	        
+	        <!-- email is optional, checked if provided -->
+	        <if test="email != null and email != ''">
+	            AND EMAIL = #{email}
+	        </if>
+	        
+	        <!-- nickname is optional, checked if provided -->
+	        <if test="nickName != null and nickName != ''">
+	            AND NICK_NAME = #{nickName}
+	        </if>
+	        
+	        <!-- If neither email nor nickName is provided, ensure at least one condition is met -->
+	        <if test="(email == null or email == '') and (nickName == null or nickName == '')">
+	            AND 1 = 0
+	        </if>
+	    </where>
+	</select>
+	
+	<select id="findUserPwd" resultType="int">
+	    SELECT NVL(USER_NO, 0)
+	    FROM "USER"
+	    WHERE USER_NAME = #{userName} 
+	      AND PHONE = #{phone} 
+	      AND EMAIL = #{email}
+	</select>
+	
+	<update id="changePassword">
+		UPDATE "USER" SET
+			PWD = #{pwd}
+		WHERE USER_NO = #{userNo}
+	</update>
+	
 	<!-- 미사용 -> 추후 삭제 가능
 	<select id="selectSocialType">
 		SELECT * FROM "USER_SOCIAL"

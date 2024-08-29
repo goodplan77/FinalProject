@@ -214,6 +214,22 @@ public class UserServiceImpl implements UserService {
 	public List<Dog> selectDogs(int userNo) {
 		return dao.selectDogs(userNo);
 	}
+
+	@Override
+	public String findUserId(User user) {
+		return dao.findUserId(user);
+	}
+
+	@Override
+	public int findUserPwd(User user) {
+		return dao.findUserPwd(user);
+	}
+
+	@Override
+	public int changePassword(User user) {
+		return dao.changePassword(user);
+	
+	}
 	
 }
 

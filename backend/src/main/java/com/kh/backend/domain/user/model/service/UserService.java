@@ -59,4 +59,10 @@ public interface UserService extends UserDetailsService{
 	// 회원의 반려견 목록 조회
 	List<Dog> selectDogs(int userNo);
 
+	String findUserId(User user);
+
+	int findUserPwd(User user);
+
+	int changePassword(User user);
+
 }

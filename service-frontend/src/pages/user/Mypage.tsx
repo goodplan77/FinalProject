@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { logout } from '../../features/userSlice';
 import { selectedAllAlarm } from '../../features/alarmSlice';
+import { Dog, initDog } from '../../type/dog';
 
 const MyPage = () => {
     let loginUser = useSelector((state: RootState) => state.user);
@@ -17,8 +18,16 @@ const MyPage = () => {
     const [ask, setAsk] = useState("");
     const [title, setTitle] = useState("");
     const [activeTab, setActiveTab] = useState<'myPosts' | 'likedPosts' | null>(null);
+    const [dog , setDog] = useState<Dog>(initDog);
 
     const filePath = "http://localhost:8013/banju/images";
+
+    useEffect(() => {
+        axios.get(`http://localhost:8013/banju/user/selectDogs/${loginUser.userNo}`)
+        .then((response) => {
+            setDog(response.data[0]);
+        })
+    },[])
 
     // 로그아웃 함수
     const logoutApp = () => {
@@ -126,16 +135,16 @@ const MyPage = () => {
                         <div className={styles.additionalProfileSettingFrame}>
                             <div className={styles.additionalProfilePictureFrame}>
                                 <img src={
-                                    loginUser.dogs.length == 0 ?
+                                    dog.imgDog.changeName.length == 0 ?
                                         '/images/icon.png' :
-                                        filePath + '/dog/' + (loginUser.dogs[0].imgDog && loginUser.dogs[0].imgDog.changeName)
+                                        filePath + '/dog/' + dog.imgDog.changeName
                                 } alt="개프사" className={styles.additionalProfilePicture} />
                             </div>
                             <div className={styles.additionalNicknameFrame}>
                                 <div className={styles.additionalNickname}>{
-                                    loginUser.dogs.length == 0 ?
+                                    dog.dogName.length == 0 ?
                                         '등록된 반려견이 없습니다.' :
-                                        loginUser.dogs[0].dogName
+                                        dog.dogName
                                 }</div>
                             </div>
                         </div>
