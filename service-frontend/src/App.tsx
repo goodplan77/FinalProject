@@ -82,6 +82,8 @@ const App = () => {
           <ChatHeaderbar chatRoomNo={chatRoomNo} />
         ) : currentLocation.pathname.includes('/login') ? (
           <LoginHeader />
+        ) : currentLocation.pathname.includes('/clause') ? (
+          <LoginHeader />
         ) : (
           <Headerbar />
         )}
