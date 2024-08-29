@@ -135,16 +135,16 @@ const MyPage = () => {
                         <div className={styles.additionalProfileSettingFrame}>
                             <div className={styles.additionalProfilePictureFrame}>
                                 <img src={
-                                    dog.imgDog.changeName.length == 0 ?
-                                        '/images/icon.png' :
-                                        filePath + '/dog/' + dog.imgDog.changeName
+                                    dog && dog.imgDog && dog.imgDog.changeName ?
+                                        `${filePath}/dog/${dog.imgDog.changeName}` :
+                                        '/images/icon.png'
                                 } alt="개프사" className={styles.additionalProfilePicture} />
                             </div>
                             <div className={styles.additionalNicknameFrame}>
                                 <div className={styles.additionalNickname}>{
-                                    dog.dogName.length == 0 ?
-                                        '등록된 반려견이 없습니다.' :
-                                        dog.dogName
+                                    dog && dog.dogName ?
+                                        dog.dogName :
+                                        '등록된 반려견이 없습니다.'
                                 }</div>
                             </div>
                         </div>

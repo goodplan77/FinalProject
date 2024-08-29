@@ -4,12 +4,14 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import axios from "axios";
 import styles from './styles/InsertDog.module.css';
+import { useNavigate } from "react-router-dom";
 
 export default function InsertDog() {
 
     let [imgDog, setImgDog] = useState<File>();
     let [dog, setDog] = useState<Dog>(initDog);
 
+    const navi = useNavigate();
 
     let user = useSelector((state: RootState) => state.user);
 
@@ -57,11 +59,13 @@ export default function InsertDog() {
         formData.append("dog", JSON.stringify(dog));
 
         axios.post("http://localhost:8013/banju/user/insertDog", formData)
-            .then(res => {
-                console.log(res);
+            .then(() => {
+                alert('반려견 추가 작업이 완료 되었습니다.');
+                navi('/mypage');
             })
-
-        console.log(user);
+            .catch(() => {
+                alert('에러가 발생했습니다.');
+            })
 
     }
 

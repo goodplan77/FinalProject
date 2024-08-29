@@ -77,7 +77,7 @@ export default function MainPage() {
                             <img className={styles.icon} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>펫플레이스</p>
                         </div>
-                        <div className={styles.buttons}>
+                        <div className={styles.buttons} onClick={() => navi('/eventPage')}>
                             <img className={styles.icon} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                             <p>이벤트</p>
                         </div>

@@ -13,8 +13,6 @@ export default function DogList(){
         axios.get(`http://localhost:8013/banju/user/selectDogs/${user.userNo}`)
             .then(res=>{
                 setDogs(res.data)
-                console.log(dogs);
-                console.log(dogs.length);
             })
     },[])
 
