@@ -260,7 +260,7 @@ export default function BoardManagePage() {
                         <span className={styles.postModifiedDate}>{board.modifyDate}</span>
                         <span className={styles.postViews}>{board.views}</span>
                         <span className={styles.postLikes}>{board.likes}</span>
-                        <span className={styles.postReports}>0</span>
+                        <span className={board.reportCount>0 ? styles.postReportsTrue : styles.postReports}>{board.reportCount}</span>
                         <div className={styles.toggleContainer} onClick={(e) => e.stopPropagation()}>
                         <label className={styles.switch}>
                                     {board.status === 'Y' ? (

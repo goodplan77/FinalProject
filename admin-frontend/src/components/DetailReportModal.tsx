@@ -149,12 +149,6 @@ export default function DetailReportModal ({report , hideModal} : {report:report
                                             <div>Comment: {data.commentNo}</div>
                                         )
                                     }
-                                    {
-                                        ('userName' in data) && (
-                                            // 이 블록은 `data`가 `User` 타입일 때만 실행됩니다.
-                                            <div>User: {data.userName}</div>
-                                        )
-                                    }
                                 </>
                             )
                         }

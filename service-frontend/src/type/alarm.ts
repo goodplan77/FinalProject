@@ -6,7 +6,9 @@ export interface alarm {
     status : string,
     alaramDate : string,
     typeCode : string,
-    refNo : number
+    refNo : number,
+
+    fromUserNickName : string
 }
 
 export const initialAlarm: alarm = {
@@ -17,7 +19,8 @@ export const initialAlarm: alarm = {
     status : '',
     alaramDate : '',
     typeCode : '',
-    refNo : 0
+    refNo : 0,
+    fromUserNickName : ''
 }
 
 export const initialAlarmList: alarm[] = [];

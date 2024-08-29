@@ -4,22 +4,31 @@
 	
 	<select id="selectUserBoards" resultType="Board">
 		SELECT
-			B.BOARD_NO,
-			B.USER_NO,
-			B.TITLE,
-			B.CONTENT,
-			B.BOARD_CODE,
-			B.ENROLL_DATE,
-			B.MODIFY_DATE,
-			B.VIEWS,
-			B.STATUS,
-			B.DETAIL_STATUS,
-			B.LIKES,
-			U.NICK_NAME
+		    B.BOARD_NO,
+		    B.USER_NO,
+		    B.TITLE,
+		    B.CONTENT,
+		    B.BOARD_CODE,
+		    B.ENROLL_DATE,
+		    B.MODIFY_DATE,
+		    B.VIEWS,
+		    B.STATUS,
+		    B.DETAIL_STATUS,
+		    B.LIKES,
+		    U.NICK_NAME,
+		    COALESCE(R.REPORT_COUNT, 0) AS REPORT_COUNT 
 		FROM BOARD B
-		JOIN "USER" U ON (B.USER_NO=U.USER_NO)
-		WHERE BOARD_CODE IN ('C','S','A','M')
-		ORDER BY BOARD_NO DESC
+		JOIN "USER" U ON B.USER_NO = U.USER_NO
+		LEFT JOIN (
+		    SELECT
+		        REF_NO,
+		        COUNT(*) AS REPORT_COUNT
+		    FROM REPORT
+		    WHERE TYPE_CODE = 'B'
+		    GROUP BY REF_NO
+		) R ON B.BOARD_NO = R.REF_NO
+		WHERE B.BOARD_CODE IN ('C', 'S', 'A', 'M')
+		ORDER BY B.BOARD_NO DESC
 	</select>
 	
 	<select id="selectNotifyBoards" resultType="Board">

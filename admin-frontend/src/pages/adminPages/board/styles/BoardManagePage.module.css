@@ -120,6 +120,13 @@
     vertical-align: auto;
 }
 
+.postReportsTrue{
+    flex: 1;
+    text-align: center;
+    vertical-align: auto;
+    color: red;
+}
+
 .postTitle {
     display : block;
     white-space: nowrap;
