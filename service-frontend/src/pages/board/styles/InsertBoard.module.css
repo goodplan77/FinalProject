@@ -82,8 +82,6 @@
     text-align: center;
 }
 
-
-
 /* 라디오 버튼 앞에 이상한 동그라미 없애기 */
 input[type="radio"] {
     appearance: none;

@@ -66,7 +66,7 @@ export default function ChatList() {
                             <div className={styles.chatBox}>
                                 <img className={styles.picture} src={`${process.env.PUBLIC_URL}/images/icon.png`} alt="icon" />
                                 <p className={styles.nick}>{chatRoom.toNickName}</p>
-                                <p className={styles.message}>새 채팅 0개</p>
+                                {/* <p className={styles.message}>새 채팅 0개</p> */}
                             </div>
                         </div>
                     </div>

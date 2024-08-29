@@ -69,7 +69,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
             // 추가적인 동작을 여기에 작성
             setShowModal(2);
             setComData(comment);
-        } else { 
+        } else {
             console.log("이 댓글은 다른 사용자가 작성한 댓글입니다.");
             // 다른 사용자의 댓글에 대해 수행할 동작 작성
             setShowModal(3);
@@ -256,7 +256,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
         }
     };
 
-    const deleteComment = (e:React.MouseEvent<HTMLButtonElement> , commentData: Comment) => {
+    const deleteComment = (e: React.MouseEvent<HTMLButtonElement>, commentData: Comment) => {
 
         axios
             .post('http://localhost:8013/banju/comment/deleteComment', commentData)
@@ -264,6 +264,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                 console.log(res.data);
                 console.log("댓글 삭제 성공");
                 setShowModal(0);
+                checkComment();
             })
             .catch((res) => {
                 console.log(res.data);
@@ -357,7 +358,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                         <form id="commentEnrollForm">
                             <div className={styles.commentPlus}>
                                 <input type="text" className={styles.plusBox} name="content" value={comment}
-                                    required onChange={(e) => setComment(e.target.value)} placeholder="댓글은 사용자의 얼굴입니다" />
+                                    required onChange={(e) => setComment(e.target.value)} placeholder="댓글은 사용자의 얼굴입니다"  style={{border:"none"}}/>
                                 <button className={styles.plusBtn} onClick={insertComment}>추가</button>
                             </div>
                         </form>
@@ -366,7 +367,9 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                                 return (
                                     <div className={styles.commentComment} key={comment.commentNo} onClick={() => commentBox(comment)}>
                                         <div className={styles.commentUp}>
-                                            <p className={styles.commentNick}>{comment.nickName}</p>
+                                            <p className={styles.commentNick}>
+                                                {loginUser.userNo === comment.userNo ? "내가 작성한 댓글" : comment.nickName}
+                                            </p>
                                             <p className={styles.commentDate}>{comment.commentDate}</p>
                                         </div>
                                         <div className={styles.commentDown}>
@@ -397,7 +400,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                         <div className={styles.q}>
                             <p>댓글을 삭제하시겠습니까?</p>
                             <div className={styles.btns}>
-                                <button className={styles.commentDel} onClick={(e)=>{deleteComment(e,comData)}}>예</button>
+                                <button className={styles.commentDel} onClick={(e) => { deleteComment(e, comData) }}>예</button>
                                 <button className={styles.commentDelNo} onClick={() => setShowModal(0)}>아니요</button>
                             </div>
                         </div>
@@ -406,7 +409,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
             )}
             {showModal === 3 && (
                 <div className={styles.otherComment}>
-                    <button className={styles.commentRe}>신고하기</button>
+                    
                 </div>
             )}
 
