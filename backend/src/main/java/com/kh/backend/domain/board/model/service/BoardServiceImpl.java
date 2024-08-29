@@ -108,11 +108,16 @@ public class BoardServiceImpl implements BoardService{
 	public List<Comment> checkComment(int boardNo) {
 		return boardDao.checkComment(boardNo);
 	}
-    
+		
 	@Override
 	public List<Board> petInfoPage() {
 		return boardDao.petInfoPage();
 
+	}
+
+	@Override
+	public List<Board> noticePage() {
+		return boardDao.noticePage();
 	}
 
 }

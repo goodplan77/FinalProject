@@ -36,6 +36,7 @@ import ChatHeaderbar from './components/ChatHeader';
 import PostedPage from './pages/user/PostedPage';
 import LikedList from './pages/user/LikedList';
 import PetInfoPage from './pages/board/PetInfoPage';
+import NoticePage from './pages/board/NoticePage';
 
 
 
@@ -114,6 +115,7 @@ const App = () => {
           <Route path='/postedPage/:userNo' element={<PostedPage setUserNo={setUserNo} />} />
           <Route path='/likedList/:userNo' element={<LikedList setUserNo={setUserNo} />} />
           <Route path='/patInfoPage' element={<PetInfoPage />} />
+          <Route path='/noticePage' element={<NoticePage />} />
         </Routes>
       </div>
 

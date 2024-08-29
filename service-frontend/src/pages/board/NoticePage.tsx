@@ -1,14 +1,13 @@
-import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { RootState } from "../../store/store";
+import { useEffect } from "react";
+import axios from "axios";
+import { selectAllBoard } from "../../features/boardSlice";
 import styles from './styles/PetInfoPage.module.css'
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
-import { useEffect } from 'react';
-import axios from 'axios';
-import { selectAllBoard } from '../../features/boardSlice';
 
-
-export default function PetInfoPage() {
+export default function NoticePage() {
 
     const navi = useNavigate();
 
@@ -21,7 +20,7 @@ export default function PetInfoPage() {
     };
 
     useEffect(() => {
-        axios.get("http://localhost:8013/banju/board/patInfoPage")
+        axios.get("http://localhost:8013/banju/board/noticePage")
             .then((response) => {
                 console.log(response);
                 dispatch(selectAllBoard(response.data));
@@ -39,12 +38,12 @@ export default function PetInfoPage() {
                             {/* 보드 카테고리바 아래에 보드 리스트입니다. */}
                             <div className={styles.classic}>
                                 <div className={styles.classicContent} onClick={() => handleClick(board.boardNo)}>
-                                    <div className={styles.img}></div>
                                     <div className={styles.upAndDown}>
                                         <div className={styles.contentUp}>
                                             <div className={styles.contentTitle}>
                                                 <p>{board.title}</p>
                                             </div>
+                                            <div className={styles.contentE}></div>
                                             <div className={styles.upRight}>
                                                 <div className={styles.contentInfo}>
                                                     <img className={styles.view} src={`${process.env.PUBLIC_URL}/images/view.png`} alt="view" />
