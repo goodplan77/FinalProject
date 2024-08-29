@@ -71,9 +71,9 @@ public class BoardDaoImpl implements BoardDao{
 	@Override
 	public int updateLikeCount(Board board) {
 		return session.update("board.updateLikeCount" , board);
-  }
+    }
   
-  @Override
+    @Override
 	public int increaseCount(int boardNo) {
 		return session.update("board.increaseCount", boardNo);
 	}
@@ -89,10 +89,11 @@ public class BoardDaoImpl implements BoardDao{
 	}
 
 	@Override
-
 	public List<Comment> checkComment(int boardNo) {
 		return session.selectList("board.checkComment", boardNo);
-
+	}
+	
+	@Override
 	public List<Board> petInfoPage() {
 		return session.selectList("board.petInfoPage");
 
