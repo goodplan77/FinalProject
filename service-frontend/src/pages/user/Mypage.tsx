@@ -122,14 +122,13 @@ const MyPage = () => {
                     <div className={styles.additionalProfileFrame}>
                         <div className={styles.additionalProfileSettingFrame}>
                             <div className={styles.additionalProfilePictureFrame}>
-                                <div className={styles.additionalProfilePicture} />
-                            </div>
-                            <div className={styles.additionalNicknameFrame}>
                                 <img src={
                                     loginUser.dogs.length == 0 ?
                                         '/images/icon.png' :
                                         filePath + '/dog/' + (loginUser.dogs[0].imgDog && loginUser.dogs[0].imgDog.changeName)
-                                } alt="개프사" />
+                                } alt="개프사" className={styles.additionalProfilePicture} />
+                            </div>
+                            <div className={styles.additionalNicknameFrame}>
                                 <div className={styles.additionalNickname}>{
                                     loginUser.dogs.length == 0 ?
                                         '등록된 반려견이 없습니다.' :
@@ -166,11 +165,6 @@ const MyPage = () => {
                     <div className={styles.horizontalDivider} />
                     <div className={styles.listItem}>
                         <div className={styles.listItemText}>공지사항</div>
-                        <div className={styles.backIcon} />
-                    </div>
-                    <div className={styles.horizontalDivider} />
-                    <div className={styles.listItem}>
-                        <div className={styles.listItemText}>Q&A</div>
                         <div className={styles.backIcon} />
                     </div>
                     <div className={styles.horizontalDivider} />

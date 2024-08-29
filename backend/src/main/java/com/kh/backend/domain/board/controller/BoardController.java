@@ -87,6 +87,16 @@ public class BoardController {
 
 		return list;
 	}
+	
+	@GetMapping("/petInfoPage")
+	public List<Board> petInfoPage(HttpServletResponse response) {
+
+		List<Board> list = boardService.petInfoPage();
+		log.debug("missingList = {}", list);
+
+		return list;
+	}
+	
 
 	@PostMapping("/insertBoard")
 	public Map<String, Object> insertBoard(

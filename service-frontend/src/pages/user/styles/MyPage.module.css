@@ -1,4 +1,4 @@
-.img{
+.img {
     width: 100px;
     height: 100px;
 }
@@ -86,6 +86,7 @@
     width: 94px;
     height: 26px;
     background: #FFFFFF;
+    margin-left: 20px;
 }
 
 .nickname {
@@ -155,7 +156,8 @@
     gap: 10px;
     position: absolute;
     width: 420px;
-    height: 92px;
+    height: 150px;
+    /* Increased height */
     left: 5px;
     top: 162px;
     background: #FFFFFF;
@@ -209,11 +211,11 @@
 }
 
 .additionalNickname {
-    width: 144px;
+    width: 180px;
     height: 26px;
     font-family: 'Noto Sans KR';
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     font-size: 20px;
     line-height: 26px;
     color: #000000;
@@ -222,40 +224,51 @@
 .petButton {
     display: flex;
     align-items: center;
-    width: 142px;
-    height: 71px;
+    justify-content: center;
+    /* Center the button text */
+    width: 100px;
+    /* Reduced width */
+    height: 35px;
+    /* Reduced height */
     background: #E4FAFF;
-    border-radius: 45px;
+    border-radius: 20px;
+    /* Smaller border radius */
+    font-size: 14px;
+    /* Smaller font size */
 }
 
 .petButtonText {
-    width: 142px;
-    height: 71px;
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
-    line-height: 26px;
-    display: flex;
-    align-items: center;
-    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
     color: #000000;
-    justify-content: center;
+    text-align: center;
 }
 
 .buttonContainer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
+    flex-direction: row;
+    /* Stack buttons vertically */
+    justify-content: center;
+    align-items: flex-end;
+    /* Align to the right */
+    gap: 5px;
+    /* Smaller gap between buttons */
     position: absolute;
-    gap: 10px;
-    width: 420px;
-    height: 100px;
-    left: 5px;
-    top: 264px;
+    width: auto;
+    /* Allow width to adjust automatically */
+    height: auto;
+    /* Allow height to adjust automatically */
+    right: 10px;
+    /* Position to the right */
+    top: 10px;
+    /* Position from top */
     background: #FFFFFF;
+    margin-top: 320px;
 }
+
 
 .buttonFrame1,
 .buttonFrame2,
@@ -294,6 +307,7 @@
     left: 5px;
     top: 374px;
     background: #FFFFFF;
+    margin-top: 80px;
 }
 
 .listItem {
@@ -335,6 +349,7 @@
     left: 5px;
     top: 707px;
     background: #FFFFFF;
+    margin-top: 30px;
 }
 
 .buttonEdit,
@@ -372,12 +387,7 @@
     width: 114px;
     height: 46px;
     background: #FF0000;
-}
-
-.buttonLogin {
-    width: 114px;
-    height: 46px;
-    background: #56488a;
+    margin-right: 10px;
 }
 
 /* Modal Styles */

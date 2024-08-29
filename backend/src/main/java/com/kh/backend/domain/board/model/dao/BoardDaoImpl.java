@@ -88,4 +88,9 @@ public class BoardDaoImpl implements BoardDao{
 		return session.selectList("board.likedList", userNo);
 	}
 
+	@Override
+	public List<Board> petInfoPage() {
+		return session.selectList("board.petInfoPage");
+	}
+
 }

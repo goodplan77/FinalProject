@@ -7,24 +7,24 @@ import { initialBoard } from '../../../type/board';
 export default function InfoBoardInsertPage() {
 
     const navi = useNavigate();
-    const [board , setBoard] = useState(initialBoard);
+    const [board, setBoard] = useState(initialBoard);
 
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-    
-    function handleInputChange(e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
-        let {name , value} = e.target;
+
+    function handleInputChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        let { name, value } = e.target;
         setBoard({
             ...board,
-            [name] : value
+            [name]: value
         })
     }
 
     function handleButtonClick() {
         const fileInput = document.getElementById('fileInput');
-        if(fileInput){
+        if (fileInput) {
             fileInput.click();
-        }else {
+        } else {
             console.error("파일 입력 요소를 찾을 수 없습니다.");
         }
     }
@@ -32,17 +32,17 @@ export default function InfoBoardInsertPage() {
     function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0]; // 파일 입력 필드에서 첫 번째 파일을 가져옴
         if (file) {
-          setSelectedImage(file); // 선택된 파일을 상태에 저장
-      
-          const reader = new FileReader(); // FileReader 객체 생성
-          reader.onloadend = () => {
-            setPreviewUrl(reader.result as string); // 파일이 읽힌 후 미리보기 URL을 상태에 저장
-          }
-          reader.readAsDataURL(file); // 파일을 읽어서 Data URL로 변환
-        }
-      }
+            setSelectedImage(file); // 선택된 파일을 상태에 저장
 
-      const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+            const reader = new FileReader(); // FileReader 객체 생성
+            reader.onloadend = () => {
+                setPreviewUrl(reader.result as string); // 파일이 읽힌 후 미리보기 URL을 상태에 저장
+            }
+            reader.readAsDataURL(file); // 파일을 읽어서 Data URL로 변환
+        }
+    }
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // 폼 제출 방지
 
         // 입력값 검증
@@ -57,18 +57,18 @@ export default function InfoBoardInsertPage() {
         }
 
         const formData = new FormData();
-        
+
         const updatedBoard = {
             ...board,
             boardCode: 'I'
         };
 
         formData.append('boardJson', encodeURIComponent(JSON.stringify(updatedBoard)));
-        if(selectedImage){
-            formData.append('file' , selectedImage);
+        if (selectedImage) {
+            formData.append('file', selectedImage);
         }
 
-        axios.post("http://localhost:8013/banju/admin/board/insertInfoboard" , formData)
+        axios.post("http://localhost:8013/banju/admin/board/insertInfoboard", formData)
             .then((response) => {
                 alert(response.data.msg);
                 navi('../infoBoardManage');
@@ -77,7 +77,7 @@ export default function InfoBoardInsertPage() {
                 console.log(error);
             })
 
-      };
+    };
 
     return (
         <div className={styles.container}>
@@ -92,7 +92,7 @@ export default function InfoBoardInsertPage() {
                                 placeholder="제목을 입력하세요."
                                 className={styles.textInput}
                                 onChange={handleInputChange}
-                                name = "title"
+                                name="title"
                                 value={board.title}
                             />
                         </div>
@@ -102,7 +102,7 @@ export default function InfoBoardInsertPage() {
                                 placeholder="내용을 입력하세요."
                                 className={styles.textArea}
                                 onChange={handleInputChange}
-                                name = "content"
+                                name="content"
                                 value={board.content}
                             />
                         </div>
@@ -123,12 +123,13 @@ export default function InfoBoardInsertPage() {
                                 <div className={styles.uploadText}>사진 파일 업로드</div>
                             </div>
                         )}
+
                         </div>
                     </div>
 
                     <div className={styles.buttonGroup}>
                         <button className={styles.cancelButton} onClick={() => {
-                        navi('../infoBoardManage');
+                            navi('../infoBoardManage');
                         }}>취소</button>
                         <button className={styles.submitButton} type='submit'>게시</button>
                     </div>
