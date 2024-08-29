@@ -138,6 +138,23 @@ public class UserDaoImpl implements UserDao{
 		return session.selectList("user.selectDogs", userNo);
 	}
 
+	@Override
+	public String findUserId(User user) {
+		return session.selectOne("user.findUserId", user);
+	}
+
+	@Override
+	public int findUserPwd(User user) {
+		Integer result = session.selectOne("user.findUserPwd", user);
+		int userNo = (result != null) ? result : 0;
+		return userNo;
+	}
+
+	@Override
+	public int changePassword(User user) {
+		return session.update("user.changePassword", user);
+	}
+
 
 	
 	

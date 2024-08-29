@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -446,6 +447,35 @@ public class UserController {
 		}
 	}
 	
+	
+	@PostMapping("/findUserId")
+	public String findUserId(@RequestBody User user) {
+		String userEmail = service.findUserId(user);
+		if(userEmail != null && !userEmail.isEmpty()) {
+			return userEmail;
+		}
+		return null;
+	}
+	
+	@PostMapping("/findUserPwd")
+	public int findUserPwd(@RequestBody User user) {
+		int result = service.findUserPwd(user);
+		if(result>0) {
+			return result;
+		}
+		return 0;
+	}
+	
+	@PostMapping("/changePassword")
+	public int changePassword(@RequestBody User user) {
+		String encodedPwd = encoder.encode(user.getPwd());
+		user.setPwd(encodedPwd);
+		int result = service.changePassword(user);
+		if(result>0) {
+			return result;
+		}
+		return 0;
+	}
 	
 	
 	
