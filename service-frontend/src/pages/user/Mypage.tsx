@@ -6,9 +6,11 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { logout } from '../../features/userSlice';
+import { selectedAllAlarm } from '../../features/alarmSlice';
 
 const MyPage = () => {
     let loginUser = useSelector((state: RootState) => state.user);
+    let alarms = useSelector((state: RootState) => state.alarm);
     const dispatch = useDispatch();
     const navi = useNavigate();
     const [showModal, setShowModal] = useState(false);
@@ -21,6 +23,7 @@ const MyPage = () => {
     // 로그아웃 함수
     const logoutApp = () => {
         alert("로그아웃합니다.");
+        dispatch(selectedAllAlarm([]));
         dispatch(logout());
         navi('/');
     }

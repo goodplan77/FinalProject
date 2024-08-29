@@ -10,7 +10,7 @@
 			SELECT SEQ_ALARM.NEXTVAL
 			FROM DUAL
 		</selectKey> INSERT INTO
-		ALARM VALUES( #{alarmNo}, #{userNo}, #{fromUserNo}, DEFAULT , DEFAULT ,
+		ALARM VALUES( #{alarmNo}, #{userNo}, #{fromUserNo}, #{content} , DEFAULT ,
 		SYSDATE ,#{typeCode}, #{refNo} ) </insert>
 
 	<update id="updateReadStatus">
@@ -20,9 +20,19 @@
 	</update>
 
 	<select id="unReadList" resultType="alarm">
-		SELECT *
-		FROM ALARM
-		WHERE STATUS = 'N' AND USER_NO = #{userNo}
+		SELECT 
+			A.ALARM_NO,
+			A.USER_NO,
+			A.FROM_USER_NO,
+			A.CONTENT,
+			A.STATUS,
+			A.ALARM_DATE,
+			A.TYPE_CODE,
+			A.REF_NO,
+			U.NICK_NAME AS FROM_USER_NICK_NAME
+		FROM ALARM A
+		JOIN "USER" U ON(A.FROM_USER_NO=U.USER_NO)
+		WHERE A.STATUS = 'N' AND A.USER_NO = #{userNo}
 	</select>
 
 

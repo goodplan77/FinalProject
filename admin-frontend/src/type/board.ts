@@ -19,6 +19,8 @@ export interface Board{
 
     comment : Comment[]
     // 전부다 필수 값이다.
+
+    reportCount: number
 }
 
 // 보드 이미지 타입 지정
@@ -59,7 +61,9 @@ export const initialBoard:Board = {
     nickName : '',
 
     boardImg : [],
-    comment : []
+    comment : [],
+
+    reportCount: 0
 };
 
 // 내보내기

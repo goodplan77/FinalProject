@@ -17,4 +17,7 @@ public class Comment {
 	private String modifyDate; // 일단 String
 	private char status; // Y - 정상 게시 D - 작성자가 삭제 B - 관리자가 블락 / 블라인드
 	private int refNo; // 대댓글이 달린 댓글 번호
+	
+	private String nickName;
+	
 }

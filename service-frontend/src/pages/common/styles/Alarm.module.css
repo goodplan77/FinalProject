@@ -39,3 +39,10 @@
     color: #888888;
     text-align: right;
 }
+
+.noneAlarm{
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 20px;
+}

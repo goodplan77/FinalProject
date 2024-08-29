@@ -52,41 +52,28 @@ public class BoardController {
 	private final AlarmService alarmService;
 	private final ServletContext application;
 	
+	//////////////////////////게시글 목록///////////////////////////////
 	@GetMapping("/boardList")
 	public List<Board> boardList(HttpServletResponse response) {
-
 		List<Board> list = boardService.selectBoards();
-		log.debug("list = {}", list);
-
 		return list;
 	}
-
 	@GetMapping("/usedList")
 	public List<Board> usedList(HttpServletResponse response) {
-
 		List<Board> list = boardService.usedList();
-		log.debug("list = {}", list);
-
 		return list;
 	}
-
 	@GetMapping("/adoptList")
 	public List<Board> adoptList(HttpServletResponse response) {
-
 		List<Board> list = boardService.adoptList();
-		log.debug("list = {}", list);
-
 		return list;
 	}
-
 	@GetMapping("/missingList")
 	public List<Board> missingList(HttpServletResponse response) {
-
 		List<Board> list = boardService.missingList();
-		log.debug("missingList = {}", list);
-
 		return list;
 	}
+
 	
 	@GetMapping("/patInfoPage")
 	public List<Board> petInfoPage(HttpServletResponse response) {
@@ -106,6 +93,7 @@ public class BoardController {
 		return list;
 	}
 	
+
 
 	@PostMapping("/insertBoard")
 	public Map<String, Object> insertBoard(
@@ -319,5 +307,17 @@ public class BoardController {
 		
 		return list;
 	}
+	
+	@GetMapping("/checkComment/{boardNo}")
+	public List<Comment> checkComment(
+			@PathVariable int boardNo
+			){
+		
+		List<Comment> list = boardService.checkComment(boardNo);
+		
+		return list;
+	}
+	
+	
 	
 }
