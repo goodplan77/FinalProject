@@ -160,8 +160,12 @@
 		ORDER BY BOARD_NO DESC
 	</select>
 	
-	
-
+	<select id="noticePage" resultType="Board">
+		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
+		FROM BOARD
+		WHERE BOARD_CODE = 'N' AND STATUS ='Y'
+		ORDER BY BOARD_NO DESC
+	</select>
 	
 	<!-- 게시글 등록 -->
 	<insert id="insertBoard" useGeneratedKeys="true">

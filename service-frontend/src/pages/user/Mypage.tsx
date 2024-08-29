@@ -166,7 +166,7 @@ const MyPage = () => {
                         <div className={styles.backIcon} />
                     </div>
                     <div className={styles.horizontalDivider} />
-                    <div className={styles.listItem}>
+                    <div className={styles.listItem} onClick={() => navi('/noticePage')}>
                         <div className={styles.listItemText}>공지사항</div>
                         <div className={styles.backIcon} />
                     </div>
