@@ -307,6 +307,13 @@ public class AdminBoardController {
 		}
 	}
 	
+	@GetMapping("/comment/board/{boardNo}")
+	public List<Comment> boardCommentList(@PathVariable int boardNo) {
+		List<Comment> list = boardService.boardCommentList(boardNo);
+		return list;
+	}
+	
+	
 	@GetMapping("/comment/{userNo}")
 	public List<Comment> userCommentList(
 			@PathVariable int userNo

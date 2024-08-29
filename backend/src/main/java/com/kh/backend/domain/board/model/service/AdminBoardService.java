@@ -48,5 +48,7 @@ public interface AdminBoardService {
 	List<Comment> userCommentList(int userNo);
 
 	int deleteProduct(Product product);
+
+	List<Comment> boardCommentList(int boardNo);
 	
 }

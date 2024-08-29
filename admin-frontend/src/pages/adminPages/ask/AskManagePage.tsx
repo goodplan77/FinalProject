@@ -118,7 +118,7 @@ export default function InquiryManagePage() {
                         <span className={styles.postTitle}>{ask.nickName}</span>
                         <span className={styles.postAuthor}>{ask.title}</span>
                         <span className={styles.postCreatedDate}>{ask.askDate}</span>
-                        <span className={styles.postModifiedDate}>{ask.status}</span>
+                        <span className={styles.postModifiedDate}>{ask.status == 'Y' ? '✔' : '❌'}</span>
                 </div>
                 )})}
             </div>
