@@ -284,6 +284,29 @@ public class AdminBoardController {
 		}
 	}
 	
+	@PostMapping("/deleteProduct")
+	public ResponseEntity<Map<String, Object>> deleteProduct(@RequestBody Product product) {
+		Map<String, Object> response = new HashMap<>();
+
+		try {
+
+			int result = boardService.deleteProduct(product);
+
+			if (result > 0) {
+				response.put("msg", "상품 비활성화 작업이 정상적으로 완료 되었습니다.");
+				return ResponseEntity.ok(response);
+			} else {
+				response.put("msg", "데이터 처리중 문제가 발생했습니다. : 트랜잭션 처리 문제");
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.put("msg", "에러가 발생했습니다.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+		}
+	}
+	
 	@GetMapping("/comment/{userNo}")
 	public List<Comment> userCommentList(
 			@PathVariable int userNo

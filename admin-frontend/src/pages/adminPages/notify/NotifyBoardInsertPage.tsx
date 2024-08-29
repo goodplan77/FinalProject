@@ -19,6 +19,17 @@ export default function NotifyBoardInsertPage() {
 
     function notifyBoardInsert() {
 
+        // 입력값 검증
+        if (!board.title.trim()) {
+            alert('제목을 입력하세요.');
+            return;
+        }
+
+        if (!board.content.trim()) {
+            alert('내용을 입력하세요.');
+            return;
+        }
+
         const updatedBoard = {
             ...board,
             boardCode: 'N'
@@ -47,6 +58,7 @@ export default function NotifyBoardInsertPage() {
                         onChange={handleInputChange}
                         name = "title"
                         value={board.title}
+                        required
                     />
                 </div>
                 <div className={styles.inputField}>
@@ -57,6 +69,7 @@ export default function NotifyBoardInsertPage() {
                         onChange={handleInputChange}
                         name = "content"
                         value={board.content}
+                        required
                     />
                 </div>
                 <div className={styles.buttonGroup}>

@@ -46,5 +46,7 @@ public interface AdminBoardService {
 	int updateProduct(Product product, MultipartFile file);
 
 	List<Comment> userCommentList(int userNo);
+
+	int deleteProduct(Product product);
 	
 }

@@ -124,6 +124,15 @@ export default function DetailModal({ board, hideModal }: { board: Board | undef
                             </div>
                         )}
                     </div>
+                    {board.comment && 
+                        board.comment.map((item , index) => (
+                            <div className={styles.comment}>
+                                <th>{item.userNo}</th>
+                                <td>{item.commentDate}</td>
+                                <td>{item.content}</td>
+                            </div>
+                        ))
+                    }
                 </>)}
             </div>
         </div>

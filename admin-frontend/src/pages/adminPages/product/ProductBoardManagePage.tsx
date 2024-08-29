@@ -7,6 +7,7 @@ import axios from 'axios';
 import DetailProductModal from '../../../components/DetailProductModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
+import DeleteProductModal from '../../../components/DeleteProductModal';
 
 export default function ProductBoardManagePage() {
 
@@ -23,6 +24,7 @@ export default function ProductBoardManagePage() {
     // 모달 상태 확인용 state 영역
     const [data, setData] = useState<Product | null>();
     const [showDetailModal, setShowDetailModal] = useState(false);
+    const [showDeleteModal , setShowDeleteModal] = useState(false);
 
     const filteredproducts = products.filteredProducts.filter(product =>
         (product.title || '').toLowerCase().includes(filterTerm.toLowerCase()) // 제목에 검색어 포함 여부
@@ -82,7 +84,19 @@ export default function ProductBoardManagePage() {
         }
     };
 
-    // 2. 상세 보기 모달
+    // 2. 삭제 모달
+    const setDeleteModal = (e:React.MouseEvent<HTMLButtonElement> , product:Product) => {
+        e.stopPropagation();
+        const oneProduct = dispatch(selectOneProduct(product));
+        setData((oneProduct.payload));
+        setShowDeleteModal(true);
+    }
+
+    const hideDeleteModal = () => {
+        setShowDeleteModal(false);
+    };
+
+    // 3. 상세 보기 모달
     const setDetailModal = (e: React.MouseEvent<HTMLDivElement>, product: Product) => {
         e.stopPropagation();
         const oneProduct = dispatch(selectOneProduct(product));
@@ -94,7 +108,7 @@ export default function ProductBoardManagePage() {
         setShowDetailModal(false);
     };
 
-    // 3. 페이지네이션 통합 데이터 확인용 기능
+    // 4. 페이지네이션 통합 데이터 확인용 기능
     const totalItems = products.filteredProducts.length;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -119,6 +133,15 @@ export default function ProductBoardManagePage() {
         }
         return pageNumbers;
     };
+
+    //5. 상품 상태 확인용
+    const productStatus = (type:string) => {
+        switch(type){
+            case 'Y': return  '⭕';
+            case 'N': return  '❌';
+            default : return '⁉'
+        }
+    }
 
     return (
         <div className={styles.container}>
@@ -149,7 +172,7 @@ export default function ProductBoardManagePage() {
                             onClick={(e) => setDetailModal(e, product)}
                         >
                             <div className={styles.deleteButtonArea}>
-                                <button className={styles.deleteButton}>X</button>
+                                <button className={styles.deleteButton} onClick={(e) =>setDeleteModal(e,product)}>X</button>
                             </div>
                             <img
                                 src={`http://localhost:8013/banju${productImgUrl[index]}`}
@@ -171,7 +194,7 @@ export default function ProductBoardManagePage() {
                                         🎁<span>{product.qty}</span>
                                     </div>
                                     <div className={styles.footerItem}>
-                                        📆<span>????</span>
+                                        <span>{productStatus(product.status)}</span>
                                     </div>
                                 </div>
                             </div>
@@ -181,6 +204,9 @@ export default function ProductBoardManagePage() {
             </div>
             {
                 showDetailModal && <DetailProductModal product={data} hideModal={hideDetailModal}></DetailProductModal>
+            }
+            {
+                showDeleteModal && <DeleteProductModal product={data} hideModal={hideDeleteModal}></DeleteProductModal>
             }
         </div>
     )

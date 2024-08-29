@@ -25,4 +25,9 @@ public class AdminUserDaoImpl implements AdminUserDao{
 		return session.selectOne("adminUser.selectUserOne" , userNo);
 	}
 
+	@Override
+	public int updateUser(User user) {
+		return session.update("adminUser.updateUser" , user);
+	}
+
 }

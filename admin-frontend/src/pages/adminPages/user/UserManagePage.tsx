@@ -18,11 +18,7 @@ export default function UserManagePage() {
     const [searchTerm, setSearchTerm] = useState(''); // 검색어 상태
     const [filterTerm, setFilterTerm] = useState(''); // 실제 검색에 사용될 필터 상태
     const [itemsPerPage] = useState(10); // 페이지당 항목 수
-    const [checkedList, setCheckedList] = useState<User[]>([]);
-    const [isAllChecked, setIsAllChecked] = useState(false); // 전체 체크박스 상태
 
-    // 모달 상태 확인용 state 영역
-    const [data, setData] = useState<User | null>();
 
     // 페이지 로딩시 초기 데이터 불러오기 (useEffect)
     useEffect(() => {
@@ -51,28 +47,6 @@ export default function UserManagePage() {
         users.nickName.toLowerCase().includes(filterTerm.toLowerCase()) // 사용자 닉네임 검색
     );
 
-    // 2-1. 삭제 기능 관련 , 체크 박스 선택
-    const checkAllHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const checked = e.target.checked;
-        setIsAllChecked(checked);
-
-        if (checked) {
-            // 모든 항목을 체크
-            setCheckedList(currentItems.filter(item => item.status !== 'D'));
-        } else {
-            // 모든 항목 체크 해제
-            setCheckedList([]);
-        }
-    };
-
-    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>, user: User) => {
-        if (e.target.checked) {
-            setCheckedList([...checkedList, user]);
-        } else {
-            setCheckedList(checkedList.filter(check => check.userNo !== user.userNo));
-        }
-    };
-
     // ?. 상세보기 페이지 이동
     const moveDetailUser = (e: React.MouseEvent<HTMLDivElement>, user: User) => {
         e.stopPropagation();
@@ -97,8 +71,6 @@ export default function UserManagePage() {
                     className={`${styles.page} ${currentPage === i ? styles.activePage : ''}`}
                     onClick={() => {
                         setCurrentPage(i)
-                        setIsAllChecked(false);
-                        setCheckedList([]);
                     }}
                 >
                     {i}
@@ -123,13 +95,8 @@ export default function UserManagePage() {
                 />
                 <button className={styles.searchButton} onClick={handleSearch}>검색</button>
             </div>
-            <button className={styles.deleteButton}>삭제</button>
             <div className={styles.memberList}>
                 <div className={styles.memberListHeader}>
-                    <input type="checkbox" className={styles.checkbox}
-                        checked={isAllChecked}
-                        onChange={checkAllHandler}
-                    />
                     <span className={styles.headerItem}>UID</span>
                     <span className={styles.headerItem}>이메일</span>
                     <span className={styles.headerItem}>닉네임</span>
@@ -143,18 +110,12 @@ export default function UserManagePage() {
                         <div key={index} className={styles.memberRow}
                             onClick={(e) => moveDetailUser(e, user)}
                         >
-                            <input type="checkbox" className={styles.checkbox}
-                                checked={checkedList.some(item => (item.userNo === user.userNo) && (user.status !== 'D'))} // some : 조건을 만족하는 요소 검사 메서드
-                                onChange={(e) => handleCheckboxChange(e, user)}
-                                disabled={user.status === 'N'}
-                                onClick={(e) => e.stopPropagation()}
-                            />
                             <span className={styles.memberId}>{user.userNo}</span>
                             <span className={styles.memberEmail}>{user.email}</span>
                             <span className={styles.memberNickname}>{user.nickName}</span>
                             <span className={styles.memberJoinDate}>{user.enrollDate}</span>
                             <span className={styles.memberJoinDate}>{user.lastLoginDate}</span>
-                            <div className={styles.toggleContainer} onClick={(e) => e.stopPropagation()}>
+                            <div className={styles.toggleContainer}>
                                 <label className={styles.switch}>
                                     {user.status === 'Y' ? (
                                         <div>
