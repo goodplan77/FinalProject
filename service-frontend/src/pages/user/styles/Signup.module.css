@@ -1,13 +1,14 @@
 /* 요소 컨테이너 */
-.elem_container{
+.elem_container {
     display: flex;
 
     flex-direction: column;
 
     padding-bottom: 10vh;
 }
+
 /* 버튼 */
-.button{
+.button {
     box-sizing: content-box;
     border-radius: 10px;
     border: none;
@@ -29,47 +30,51 @@
 .label {
     font-weight: bold;
     font-size: 1rem;
-    margin: 20px 0 10px 5px;
+    margin: 10px 0 10px 5px;
 }
 
 /* 이메일 */
-.email_container{
+.email_container {
     display: flex;
     align-items: center;
 }
-.email{
+
+.email {
     flex-basis: 50%;
     height: 3vh;
     border: 3px solid #E4FAFF;
     border-radius: 5px;
 }
-.email:focus{
+
+.email:focus {
     outline: 2px solid #02CCFE;
 }
 
 /* 코드 */
-.code_container{
+.code_container {
     display: flex;
     align-items: center;
 }
-.code{
+
+.code {
     flex-basis: 15%;
     height: 3vh;
     border: 3px solid #E4FAFF;
     border-radius: 5px;
-
     min-width: 15%;
 }
-.code:focus{
+
+.code:focus {
     outline: 2px solid #02CCFE;
 }
 
 /* 이름 */
-.userName_container{
+.userName_container {
     display: flex;
     align-items: center;
 }
-.userName{
+
+.userName {
     flex-basis: 20%;
     height: 3vh;
     border: 3px solid #E4FAFF;
@@ -77,16 +82,18 @@
 
     min-width: 10%;
 }
-.userName:focus{
+
+.userName:focus {
     outline: 2px solid #02CCFE;
 }
 
 /* 닉네임 */
-.nickName_container{
+.nickName_container {
     display: flex;
     align-items: center;
 }
-.nickName{
+
+.nickName {
     flex-basis: 30%;
     height: 3vh;
     border: 3px solid #E4FAFF;
@@ -94,16 +101,18 @@
 
     min-width: 10%;
 }
-.nickName:focus{
+
+.nickName:focus {
     outline: 2px solid #02CCFE;
 }
 
 /* 비밀번호 */
-.pwd_container{
+.pwd_container {
     display: flex;
     align-items: center;
 }
-.pwd{
+
+.pwd {
     flex-basis: 50%;
     height: 3vh;
     border: 3px solid #E4FAFF;
@@ -111,74 +120,85 @@
 
     min-width: 20%;
 }
-.pwd:focus{
+
+.pwd:focus {
     outline: 2px solid #02CCFE;
 }
 
 /* 비밀번호 확인 */
-.pwdCheck_container{
+.pwdCheck_container {
     display: flex;
     align-items: center;
 }
-.pwdCheck{
+
+.pwdCheck {
     flex-basis: 50%;
     height: 3vh;
     border: 3px solid #E4FAFF;
     border-radius: 5px;
 }
-.pwdCheck:focus{
+
+.pwdCheck:focus {
     outline: 2px solid #02CCFE;
 }
 
 /* 휴대폰 번호 */
-.phone_container{
+.phone_container {
     display: flex;
     align-items: center;
 }
-.phone{
+
+.phone {
     flex-basis: 50%;
     height: 3vh;
     border: 3px solid #E4FAFF;
     border-radius: 5px;
 }
-.phone:focus{
+
+.phone:focus {
     outline: 2px solid #02CCFE;
 }
 
 /* 생년월일 */
-.birthday_container{
+.birthday_container {
     display: flex;
     align-items: center;
 }
-.birthday{
+
+.birthday {
     flex-basis: 20%;
     height: 3vh;
     border: 3px solid #E4FAFF;
     border-radius: 5px;
 }
-.birthday:focus{
+
+.birthday:focus {
     outline: 2px solid #02CCFE;
 }
 
 /* 주소 */
-.address_container{
+.address_container {
     display: flex;
     flex-direction: column;
 }
-.postCode_container{
+
+.postCode_container {
     display: flex;
     flex-basis: 33%;
 }
-.postCode{
+
+.postCode {
     flex-basis: 20%;
     height: 3vh;
     border: 3px solid #E4FAFF;
     border-radius: 5px;
 }
-.postCode:focus{
+
+.postCode:focus {
     outline: 2px solid #02CCFE;
 }
-.mainAddress{
+
+.mainAddress {
     height: 3vh;
     border: 3px solid #E4FAFF;
     border-radius: 5px;
@@ -186,10 +206,12 @@
     flex-basis: 33%;
 
 }
-.mainAddress:focus{
+
+.mainAddress:focus {
     outline: 2px solid #02CCFE;
 }
-.detailAddress{
+
+.detailAddress {
     height: 3vh;
     border: 3px solid #E4FAFF;
     border-radius: 5px;
@@ -197,7 +219,8 @@
     flex-basis: 33%;
 
 }
-.detailAddress:focus{
+
+.detailAddress:focus {
     outline: 2px solid #02CCFE;
 }
 
@@ -213,7 +236,7 @@
 }
 
 /* 모달 컨테이너 */
-.modal_container{
+.modal_container {
 
     background: #FFFFFF;
 
@@ -237,7 +260,7 @@
 }
 
 /* 모달 헤더 */
-.modal_header{
+.modal_header {
     display: flex;
     justify-content: space-between;
 
@@ -247,11 +270,12 @@
     padding-right: 10px;
 
     width: 100%;
-    
+
     flex-basis: 10%;
 
     box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
 }
+
 .closeButton {
     cursor: pointer;
     background: none;
@@ -261,7 +285,7 @@
 }
 
 /* 모달 컨텐트 */
-.modal_content{
+.modal_content {
     width: 100%;
     box-sizing: border-box;
 
@@ -278,7 +302,7 @@
 }
 
 .formGroup {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 
@@ -351,9 +375,54 @@
     font-size: 15px;
     font-weight: 700;
     color: #000000;
-    margin: 20px auto 0;
+    margin: 10px auto 0;
     display: block;
     text-align: center;
     margin-bottom: 50px;
 }
 
+/* 성공 및 에러 메시지 스타일 */
+.successMessage,
+.errorMessage {
+    font-size: 0.9rem;
+    /* 폰트 크기 조정 */
+    margin-top: 5px;
+    /* 입력 필드와 메시지 사이의 간격 */
+}
+
+.successMessage {
+    color: green;
+    /* 성공 메시지는 초록색 */
+}
+
+.errorMessage {
+    color: red;
+    /* 에러 메시지는 빨간색 */
+}
+
+/* 기존 스타일 재확인 */
+.pwd_container,
+.pwdCheck_container,
+.code_container {
+    display: flex;
+    flex-direction: column;
+    /* 수직 정렬을 위해 flex-direction을 column으로 설정 */
+    align-items: flex-start;
+    margin-bottom: 0px;
+    /* 각 필드와 하단 메시지 사이에 여백 추가 */
+}
+
+.pwd,
+.pwdCheck,
+.code {
+    width: 70%;
+    height: 3vh;
+    border: 3px solid #E4FAFF;
+    border-radius: 5px;
+}
+
+.pwd:focus,
+.pwdCheck:focus,
+.code:focus {
+    outline: 2px solid #02CCFE;
+}
