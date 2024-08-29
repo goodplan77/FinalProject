@@ -122,11 +122,20 @@
     background-color: white;
     margin-left: 5px;
     margin-top: 4px;
-    border: none;
     outline: none;
     font-size: 20px;
     font-weight: bold;
+    box-shadow: none;
+    border: white;
 }
+.plusBtn:active,
+.plusBtn:focus {
+    background-color: white;
+    color: #02CCFE;
+    outline: none;
+    border: none;
+}
+
 .plusBox::placeholder{
     color: #90EAFF;
 }
@@ -145,6 +154,7 @@
     font-size: 20px;
     outline: none;
     border: none;
+    padding: 0px;
 }
 
 .container {
@@ -347,6 +357,9 @@
     height: 90px;
     border-radius: 10px;
 }
+.q p{
+    margin-bottom: 10px;
+}
 .commentDel{
     width: 70px;
     font-size: 16px;
@@ -355,6 +368,9 @@
     background-color: #90EAFF;
     border: none;
     border-radius: 5px;
+    height: 30px;
+    margin: 0px;
+    padding: 5px;
 }
 .commentDelNo{
     width: 70px;
@@ -364,6 +380,9 @@
     background-color: #90EAFF;
     border: none;
     border-radius: 5px;
+    height: 30px;
+    margin: 0px;
+    padding: 5px;
 }
 
 .btns{
