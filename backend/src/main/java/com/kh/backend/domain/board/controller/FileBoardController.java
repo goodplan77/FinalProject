@@ -46,12 +46,12 @@ public class FileBoardController {
 	            return ResponseEntity.ok(response);
 	        } else {
 	            response.put("msg", "이미지 파일을 찾을 수 없습니다. 상품게시글 번호:" + boardNo);
-	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+	            return ResponseEntity.ok(response);
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        return ResponseEntity.internalServerError().body(response);
-	    }
+	    } 
 	}
 
 }

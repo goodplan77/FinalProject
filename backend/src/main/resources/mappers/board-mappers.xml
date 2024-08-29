@@ -3,39 +3,156 @@
 <mapper namespace="board">
 
 	<!--일반 회원용 -->
-	
 	<!-- 일반 게시판 -->
-	<select id="selectBoards" resultType="Board">
-		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
-		FROM BOARD
-		WHERE BOARD_CODE = 'C' AND STATUS ='Y'
-		ORDER BY BOARD_NO DESC
+	<resultMap id="BoardResultMap" type="board">
+	    <id property="boardNo" column="BOARD_NO"/>
+	    <result property="boardCode" column="BOARD_CODE"/>
+	    <result property="userNo" column="USER_NO"/>
+	    <result property="title" column="TITLE"/>
+	    <result property="views" column="VIEWS"/>
+	    <result property="likes" column="LIKES"/>
+	    <result property="status" column="STATUS"/>
+	    <result property="detailStatus" column="DETAIL_STATUS"/>
+	    <result property="enrollDate" column="ENROLL_DATE"/>
+	    <result property="nickName" column="NICK_NAME"/>
+    
+	    <!-- 컬렉션 수정 -->
+	    <collection property="comment" ofType="comment" column="BOARD_NO">
+	        <id property="commentNo" column="COMMENT_NO"/>
+	        <result property="content" column="CONTENT"/>
+	    </collection>
+	    <collection property="boardImg" ofType="boardImg" column="BOARD_NO">
+	        <id property="imgNo" column="IMG_NO"/>
+	        <result property="changeName" column="CHANGE_NAME"/>
+	    </collection>
+	</resultMap>
+
+	<select id="selectBoards" resultMap="BoardResultMap">
+	    SELECT 
+	        b.BOARD_NO,
+	        b.BOARD_CODE,
+	        b.USER_NO,
+	        b.TITLE,
+	        b.VIEWS, 
+	        b.LIKES,
+	        b.STATUS,
+	        b.DETAIL_STATUS,
+	        TO_CHAR(b.ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE,
+	        U.NICK_NAME,
+	        c.COMMENT_NO,
+	        c.CONTENT,
+	        bi.CHANGE_NAME,
+	        bi.IMG_NO
+	    FROM 
+	        BOARD b
+	    JOIN 
+	        "USER" u ON b.USER_NO = u.USER_NO
+	    LEFT JOIN 
+	        "COMMENT" c ON c.BOARD_NO = b.BOARD_NO
+	    LEFT JOIN
+	    	"BOARD_IMG" bi ON bi.BOARD_NO = b.BOARD_NO
+	    WHERE
+	        b.BOARD_CODE = 'C' AND b.STATUS = 'Y'
+	    ORDER BY
+	        b.BOARD_NO DESC , bi.IMG_NO ASC
 	</select>
+
+
 	
 	<!-- 중고 게시판 -->
-	<select id="usedList" resultType="Board">
-		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
-		FROM BOARD
-		WHERE BOARD_CODE = 'S' AND STATUS ='Y'
-		ORDER BY BOARD_NO DESC
+	<select id="usedList" resultMap="BoardResultMap">
+	    SELECT 
+	        b.BOARD_NO,
+	        b.BOARD_CODE,
+	        b.USER_NO,
+	        b.TITLE,
+	        b.VIEWS, 
+	        b.LIKES,
+	        b.STATUS,
+	        b.DETAIL_STATUS,
+	        TO_CHAR(b.ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE,
+	        U.NICK_NAME,
+	        c.COMMENT_NO,
+	        c.CONTENT,
+	        bi.CHANGE_NAME,
+	        bi.IMG_NO
+	    FROM 
+	        BOARD b
+	    JOIN 
+	        "USER" u ON b.USER_NO = u.USER_NO
+	    LEFT JOIN 
+	        "COMMENT" c ON c.BOARD_NO = b.BOARD_NO
+	    LEFT JOIN
+	    	"BOARD_IMG" bi ON bi.BOARD_NO = b.BOARD_NO
+	    WHERE
+	        b.BOARD_CODE = 'S' AND b.STATUS = 'Y'
+	    ORDER BY
+	        b.BOARD_NO DESC , bi.IMG_NO ASC
 	</select>
-	
+
+
 	<!-- 입양 게시판 -->
-	<select id="adoptList" resultType="Board">
-		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
-		FROM BOARD
-		WHERE BOARD_CODE = 'A' AND STATUS ='Y'
-		ORDER BY BOARD_NO DESC
+	<select id="adoptList" resultMap="BoardResultMap">
+	    SELECT 
+	        b.BOARD_NO,
+	        b.BOARD_CODE,
+	        b.USER_NO,
+	        b.TITLE,
+	        b.VIEWS, 
+	        b.LIKES,
+	        b.STATUS,
+	        b.DETAIL_STATUS,
+	        TO_CHAR(b.ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE,
+	        U.NICK_NAME,
+	        c.COMMENT_NO,
+	        c.CONTENT,
+	        bi.CHANGE_NAME,
+	        bi.IMG_NO
+	    FROM 
+	        BOARD b
+	    JOIN 
+	        "USER" u ON b.USER_NO = u.USER_NO
+	    LEFT JOIN 
+	        "COMMENT" c ON c.BOARD_NO = b.BOARD_NO
+	    LEFT JOIN
+	    	"BOARD_IMG" bi ON bi.BOARD_NO = b.BOARD_NO
+	    WHERE
+	        b.BOARD_CODE = 'A' AND b.STATUS = 'Y'
+	    ORDER BY
+	        b.BOARD_NO DESC , bi.IMG_NO ASC
 	</select>
 	
-	<!-- 실종 게시판 -->
-	<select id="missingList" resultType="Board">
-		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
-		FROM BOARD
-		WHERE BOARD_CODE = 'M' AND STATUS ='Y'
-		ORDER BY BOARD_NO DESC
+	<!-- 실종게시판 -->
+	<select id="missingList" resultMap="BoardResultMap">
+	    SELECT 
+	        b.BOARD_NO,
+	        b.BOARD_CODE,
+	        b.USER_NO,
+	        b.TITLE,
+	        b.VIEWS, 
+	        b.LIKES,
+	        b.STATUS,
+	        b.DETAIL_STATUS,
+	        TO_CHAR(b.ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE,
+	        U.NICK_NAME,
+	        c.COMMENT_NO,
+	        c.CONTENT,
+	        bi.CHANGE_NAME,
+	        bi.IMG_NO
+	    FROM 
+	        BOARD b
+	    JOIN 
+	        "USER" u ON b.USER_NO = u.USER_NO
+	    LEFT JOIN 
+	        "COMMENT" c ON c.BOARD_NO = b.BOARD_NO
+	    LEFT JOIN
+	    	"BOARD_IMG" bi ON bi.BOARD_NO = b.BOARD_NO
+	    WHERE
+	        b.BOARD_CODE = 'M' AND b.STATUS = 'Y'
+	    ORDER BY
+	        b.BOARD_NO DESC , bi.IMG_NO ASC
 	</select>
-	
+
 	<select id="petInfoPage" resultType="Board">
 		SELECT BOARD_NO, USER_NO, TITLE, CONTENT, BOARD_CODE, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE, MODIFY_DATE, VIEWS, STATUS, DETAIL_STATUS, LIKES
 		FROM BOARD
@@ -44,8 +161,7 @@
 	</select>
 	
 	
-	
-	
+
 	
 	<!-- 게시글 등록 -->
 	<insert id="insertBoard" useGeneratedKeys="true">
@@ -201,5 +317,23 @@
 	      )
 	    ORDER BY BOARD_NO DESC
 	</select>
+
+	<select id="checkComment" resultType="Comment">
+		SELECT "CONTENT", TO_CHAR(COMMENT_DATE, 'YYYY-MM-DD') AS COMMENT_DATE, NICK_NAME, C.COMMENT_NO, C.USER_NO
+		FROM "COMMENT" C
+		JOIN "USER" U ON (U.USER_NO=C.USER_NO)
+		WHERE C.BOARD_NO = #{boardNo} AND C.STATUS = 'Y'
+		ORDER BY COMMENT_NO DESC
+	</select>
+
+
+
+
+
+
+
+
+
+
 
 </mapper>
