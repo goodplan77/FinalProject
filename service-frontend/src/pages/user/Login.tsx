@@ -99,28 +99,30 @@ const LoginPage = () => {
             </div>
             <div className={styles.loginInputContainer}>
                 <div className={styles.emailInput}>
-                    <div className={styles.emailPlaceholder}>이메일을 입력하세요.</div>
                     <input
                         type="text"
-                        id='email'
-                        name='email'
-                        placeholder='이메일을 입력하세요.'
+                        id="email"
+                        name="email"
+                        placeholder="이메일을 입력하세요."
                         value={user.email}
                         onChange={setUserChange}
+                        className={styles.inputField}  // 추가된 클래스명
+                        style={{ border: "none", padding: "0px" }}
                     />
                 </div>
                 <div className={styles.passwordInput}>
-                    <div className={styles.passwordPlaceholder}>비밀번호를 입력하세요.</div>
                     <input
                         type="password"
-                        id='pwd'
-                        name='pwd'
-                        placeholder='비밀번호를을 입력하세요.'
+                        id="pwd"
+                        name="pwd"
+                        placeholder="비밀번호를 입력하세요."
                         value={user.pwd}
                         onChange={setUserChange}
+                        className={styles.inputField}  // 추가된 클래스명
                     />
                 </div>
             </div>
+
             <div className={styles.loginSignupButtonContainer}>
                 <div className={styles.loginButton}>
                     <div className={styles.loginText} onClick={login}>로그인</div>

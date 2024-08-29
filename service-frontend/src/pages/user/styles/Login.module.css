@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 0px;
+    padding: 0px 0px;
     gap: 15px;
     isolation: isolate;
     position: relative;
@@ -81,7 +81,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0px 25px;
+    padding: 0px 0px;
     gap: 15px;
     width: 100%;
     max-width: 430px;
@@ -92,35 +92,45 @@
 .passwordInput {
     box-sizing: border-box;
     display: flex;
-    flex-direction: row;
     align-items: center;
-    padding: 0px 10px;
     width: 100%;
     max-width: 380px;
     height: 40px;
     border: 2px solid #02CCFE;
+    padding: 0 10px;
+    background-color: #FFFFFF;
+    border-radius: 5px;
 }
 
-.emailPlaceholder,
-.passwordPlaceholder {
+.inputField {
     width: 100%;
-    height: 18px;
-    font-family: 'Noto Sans KR';
-    font-style: normal;
-    font-weight: 400;
+    height: 100%;
+    border: none;
+    outline: none;
+    font-family: 'Noto Sans KR', sans-serif;
     font-size: 16px;
-    line-height: 18px;
-    display: flex;
-    align-items: center;
-    color: #B1B1B1;
+    line-height: 40px;
+    /* line-height를 height와 동일하게 설정 */
+    color: #000000;
+    background-color: transparent;
+    padding: 0;
+    /* 불필요한 padding 제거 */
+    box-sizing: border-box;
 }
+
+.inputField::placeholder {
+    color: #B1B1B1;
+    font-weight: 400;
+}
+
+
 
 .loginSignupButtonContainer {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0px 20px;
+    padding: 0px 0px;
     gap: 15px;
     width: 100%;
     max-width: 430px;
@@ -152,6 +162,7 @@
     display: flex;
     align-items: center;
     color: #000000;
+    outline: none;
 }
 
 .idPasswordRecovery {

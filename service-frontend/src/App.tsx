@@ -37,6 +37,7 @@ import PostedPage from './pages/user/PostedPage';
 import LikedList from './pages/user/LikedList';
 import PetInfoPage from './pages/board/PetInfoPage';
 import NoticePage from './pages/board/NoticePage';
+import LoginHeader from './components/LoginHeader';
 
 
 
@@ -79,6 +80,8 @@ const App = () => {
           <BoardHeaderbar boardNo={boardNo} />
         ) : currentLocation.pathname.includes('/chatRoom') ? (
           <ChatHeaderbar chatRoomNo={chatRoomNo} />
+        ) : currentLocation.pathname.includes('/login') ? (
+          <LoginHeader />
         ) : (
           <Headerbar />
         )}
