@@ -32,6 +32,7 @@ export default function UserDetailPage() {
         const fetchUserDetail = async () => {
             try{
                 const response = await axios.get(`http://localhost:8013/banju/admin/user/UserDetail/${user.userNo}`)
+                console.log(response.data.user);
                 setUser(response.data.user);
 
                 if(response.data.user){
@@ -147,6 +148,7 @@ export default function UserDetailPage() {
                 <div className={styles.profileImage}>
                     <img src={`http://localhost:8013/banju${userImg}`} alt="프로필 이미지" />
                 </div>
+                <div className={styles.profileValue}>{user.username}ad</div>
                 <div className={styles.profileValue}>{user.nickName}</div>
                 <div className={styles.profileValue}>UID : {user.userNo}</div>
 
@@ -178,6 +180,10 @@ export default function UserDetailPage() {
                                 <span className={styles.slider}></span>
                             </label>
                         </div>
+                    </div>
+                    <div className={styles.infoEditItem}>
+                        <div className={styles.infoEditValue}>최근 수정일</div>
+                        <div className={styles.infoEditValue}>{user.modifyDate ? user.modifyDate : '--'}</div>
                     </div>
                 </div>
             </div>

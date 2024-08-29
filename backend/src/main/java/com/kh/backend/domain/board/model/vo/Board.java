@@ -31,5 +31,7 @@ public class Board {
 	
 	private List<BoardImg> boardImg;
 	private List<Comment> comment;
+	
+	private int reportCount; // 추가된 신고 개수 필드
 
 }

@@ -19,5 +19,7 @@ public class Alarm {
 	private int refNo;
 	
 	private Type type;
+	
+	private String fromUserNickName;
 
 }

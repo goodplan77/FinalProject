@@ -28,6 +28,15 @@ public class AlarmServiceImpl implements AlarmService{
 		alarm.setFromUserNo(likeUser);
 		alarm.setTypeCode(type);
 		alarm.setRefNo(refNo);
+		
+		switch(type) {
+         case 'L' : alarm.setContent("님이 게시글에 좋아요를 눌렀습니다."); break;
+         case 'C' : alarm.setContent("님이 게시글에 댓글을 작성했습니다."); break;
+         case 'M' : alarm.setContent("님이 메세지를 보냈습니다."); break;
+         case 'R' : alarm.setContent("작성하신 문의 답변 결과가 나왔습니다."); break;
+             default: break;
+		}
+		
 		int result = alarmDao.save(alarm);
 
 		// 2. 실시간 알림 전송
