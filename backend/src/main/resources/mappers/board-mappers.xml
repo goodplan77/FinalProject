@@ -73,17 +73,21 @@
 	        TO_CHAR(b.ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE,
 	        U.NICK_NAME,
 	        c.COMMENT_NO,
-	        c.CONTENT
+	        c.CONTENT,
+	        bi.CHANGE_NAME,
+	        bi.IMG_NO
 	    FROM 
 	        BOARD b
 	    JOIN 
 	        "USER" u ON b.USER_NO = u.USER_NO
 	    LEFT JOIN 
 	        "COMMENT" c ON c.BOARD_NO = b.BOARD_NO
-	    WHERE 
+	    LEFT JOIN
+	    	"BOARD_IMG" bi ON bi.BOARD_NO = b.BOARD_NO
+	    WHERE
 	        b.BOARD_CODE = 'S' AND b.STATUS = 'Y'
-	    ORDER BY 
-	        b.BOARD_NO DESC
+	    ORDER BY
+	        b.BOARD_NO DESC , bi.IMG_NO ASC
 	</select>
 
 
@@ -101,17 +105,21 @@
 	        TO_CHAR(b.ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE,
 	        U.NICK_NAME,
 	        c.COMMENT_NO,
-	        c.CONTENT
+	        c.CONTENT,
+	        bi.CHANGE_NAME,
+	        bi.IMG_NO
 	    FROM 
 	        BOARD b
 	    JOIN 
 	        "USER" u ON b.USER_NO = u.USER_NO
 	    LEFT JOIN 
 	        "COMMENT" c ON c.BOARD_NO = b.BOARD_NO
-	    WHERE 
+	    LEFT JOIN
+	    	"BOARD_IMG" bi ON bi.BOARD_NO = b.BOARD_NO
+	    WHERE
 	        b.BOARD_CODE = 'A' AND b.STATUS = 'Y'
-	    ORDER BY 
-	        b.BOARD_NO DESC
+	    ORDER BY
+	        b.BOARD_NO DESC , bi.IMG_NO ASC
 	</select>
 	
 	<!-- 실종게시판 -->
@@ -128,17 +136,21 @@
 	        TO_CHAR(b.ENROLL_DATE, 'YYYY-MM-DD') AS ENROLL_DATE,
 	        U.NICK_NAME,
 	        c.COMMENT_NO,
-	        c.CONTENT
+	        c.CONTENT,
+	        bi.CHANGE_NAME,
+	        bi.IMG_NO
 	    FROM 
 	        BOARD b
 	    JOIN 
 	        "USER" u ON b.USER_NO = u.USER_NO
 	    LEFT JOIN 
 	        "COMMENT" c ON c.BOARD_NO = b.BOARD_NO
-	    WHERE 
+	    LEFT JOIN
+	    	"BOARD_IMG" bi ON bi.BOARD_NO = b.BOARD_NO
+	    WHERE
 	        b.BOARD_CODE = 'M' AND b.STATUS = 'Y'
-	    ORDER BY 
-	        b.BOARD_NO DESC
+	    ORDER BY
+	        b.BOARD_NO DESC , bi.IMG_NO ASC
 	</select>
 	
 	
@@ -298,10 +310,10 @@
 	</select>
 
 	<select id="checkComment" resultType="Comment">
-		SELECT "CONTENT", TO_CHAR(COMMENT_DATE, 'YYYY-MM-DD') AS COMMENT_DATE, NICK_NAME
+		SELECT "CONTENT", TO_CHAR(COMMENT_DATE, 'YYYY-MM-DD') AS COMMENT_DATE, NICK_NAME, C.COMMENT_NO, C.USER_NO
 		FROM "COMMENT" C
 		JOIN "USER" U ON (U.USER_NO=C.USER_NO)
-		WHERE C.BOARD_NO = #{boardNo}
+		WHERE C.BOARD_NO = #{boardNo} AND C.STATUS = 'Y'
 		ORDER BY COMMENT_NO DESC
 	</select>
 

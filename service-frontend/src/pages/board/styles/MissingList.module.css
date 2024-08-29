@@ -134,11 +134,11 @@
     margin-top: 10px;
   }
   
-  .usedContent .usedImg {
+  .usedContent img {
     width: 390px;
     height: 290px;
     margin-left: 10px;
-    background-color: #90EAFF;
+    object-fit: cover;
     border-radius: 10px;
     margin-bottom: 10px;
   }

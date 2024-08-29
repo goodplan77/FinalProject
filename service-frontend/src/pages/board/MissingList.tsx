@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 import { selectAllBoard } from "../../features/boardSlice";
+import { Board } from "../../type/board";
 
 export default function MissingList() {
     const navi = useNavigate();
@@ -16,17 +17,40 @@ export default function MissingList() {
 
     const boards = useSelector((state: RootState) => state.boards);
 
+    const [imageUrls , setImageUrls] = useState<string[]>([]);
+
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        axios.get("http://localhost:8013/banju/board/missingList")
-            .then((response) => {
-                console.log(response);
+        const fetchBoardList = async () => {
+            try{
+                const response = await axios.get("http://localhost:8013/banju/board/missingList")
+                console.log(response.data);
                 dispatch(selectAllBoard(response.data));
-            }).catch((response) => {
-                console.log(response);
-            })
-    }, [])
+
+                if (response.data) {
+                    const imageUrls = await Promise.all(
+                        response.data.map(async (value: Board) => {
+                            return axios.get(`http://localhost:8013/banju/api/board/M/${value.boardNo}`)
+                                .then((response) => {
+                                    return response.data.imageList[0] || ''; // 첫 번째 이미지 URL 또는 빈 문자열 반환
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                    return ''; // 에러 발생 시 빈 문자열 반환
+                                });
+                        })
+                    );
+                    setImageUrls(imageUrls);
+                }
+ 
+            } catch (error) {
+                console.error('에러가 발생했습니다.', error);
+            }
+        }
+       
+        fetchBoardList();
+    }, []);
 
     const toggleModal = () => {
         setShowModal(!showModal);
@@ -77,12 +101,13 @@ export default function MissingList() {
                 </div>
             </div>
             {
-                missings.map((board) => {
+                missings.map((board, index) => {
                     return (
                         <div key={board.boardNo}>
                             <div className={styles.used}>
                                 <div className={styles.usedContent} onClick={() => navi('/BoardDetail/' + board.boardNo)}>
-                                    <img className={styles.usedImg} src="" alt="이미지" />
+                                    {/* 이미지 들어갈 곳 */}
+                                    <img className={styles.img} src={imageUrls[index] ? `http://localhost:8013/banju${imageUrls[index]}` : `${process.env.PUBLIC_URL}/images/logo.png`} alt ="view"></img>
                                     <div className={styles.upAndDown}>
                                         <div className={styles.contentUp}>
                                             <div className={styles.contentTitle}>

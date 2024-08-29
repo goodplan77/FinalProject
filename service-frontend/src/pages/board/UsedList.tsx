@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { selectAllBoard } from '../../features/boardSlice';
+import { Board } from '../../type/board';
 
 export default function UsedList() {
     const navi = useNavigate();
@@ -21,29 +22,42 @@ export default function UsedList() {
 
     const useds = useSelector((state: RootState) => state.boards);
 
-    const ScrollToTop = () => {
-        const { pathname } = useLocation();
-
-        useEffect(() => {
-            window.scrollTo(0, 0);
-        }, [pathname]);
-
-        return null;
-    };
+    const [imageUrls , setImageUrls] = useState<string[]>([]);
 
     const handleClick = (boardNo: number) => {
         navi(`/boardDetail/${boardNo}`);
       };
 
     useEffect(() => {
-        axios.get("http://localhost:8013/banju/board/usedList")
-            .then((response) => {
-                console.log(response);
+        const fetchBoardList = async () => {
+            try{
+                const response = await axios.get("http://localhost:8013/banju/board/usedList")
+                console.log(response.data);
                 dispatch(selectAllBoard(response.data));
-            }).catch((response) => {
-                console.log(response);
-            })
-    }, [])
+
+                if (response.data) {
+                    const imageUrls = await Promise.all(
+                        response.data.map(async (value: Board) => {
+                            return axios.get(`http://localhost:8013/banju/api/board/S/${value.boardNo}`)
+                                .then((response) => {
+                                    return response.data.imageList[0] || ''; // 첫 번째 이미지 URL 또는 빈 문자열 반환
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                    return ''; // 에러 발생 시 빈 문자열 반환
+                                });
+                        })
+                    );
+                    setImageUrls(imageUrls);
+                }
+ 
+            } catch (error) {
+                console.error('에러가 발생했습니다.', error);
+            }
+        }
+       
+        fetchBoardList();
+    }, []);
 
 
     const toggleModal = () => {
@@ -93,13 +107,13 @@ export default function UsedList() {
                 </div>
             </div>
             {
-                useds.map((board) => {
+                useds.map((board, index) => {
                     return (
                         <div key={board.boardNo}>
 
                             <div className={styles.used}>
                                 <div className={styles.usedContent} onClick={() => handleClick(board.boardNo)}>
-                                    <div className={styles.usedImg}></div>
+                                <img className={styles.img} src={imageUrls[index] ? `http://localhost:8013/banju${imageUrls[index]}` : `${process.env.PUBLIC_URL}/images/logo.png`} alt ="view"></img>
                                     <div className={styles.upAndDown}>
                                         <div className={styles.contentUp}>
                                             <div className={styles.contentTitle}>

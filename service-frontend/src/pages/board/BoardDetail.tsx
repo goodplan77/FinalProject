@@ -35,6 +35,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
     const modalRef = useRef<HTMLDivElement | null>(null);
 
     const [board, setBoard] = useState<Board>(initialBoard);
+
     const [boardImgUrl, setBoardImgUrl] = useState<string[]>([]);
 
     const boards = useSelector((state: RootState) => state.boards);
@@ -42,6 +43,8 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
     const loginUser = useSelector((state: RootState) => state.user);
 
     const [comment, setComment] = useState('');
+
+    const [comData, setComData] = useState<Comment>(initialComment);
 
     const nick = (event: React.MouseEvent<HTMLDivElement>) => {
         console.log(loginUser.userNo);
@@ -54,6 +57,23 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
 
         event.stopPropagation(); // 이벤트 전파 중단
         setShowModal(1);
+    };
+
+    const commentBox = (comment: Comment) => {
+        console.log("댓글이 눌렸다.");
+        console.log("로그인 사용자 ID:", loginUser.userNo);
+        console.log("댓글 작성자 ID:", comment.userNo);
+        // 현재 로그인한 사용자가 댓글 작성자인지 확인
+        if (loginUser.userNo === comment.userNo) {
+            console.log("이 댓글은 내가 작성한 댓글입니다.");
+            // 추가적인 동작을 여기에 작성
+            setShowModal(2);
+            setComData(comment);
+        } else { 
+            console.log("이 댓글은 다른 사용자가 작성한 댓글입니다.");
+            // 다른 사용자의 댓글에 대해 수행할 동작 작성
+            setShowModal(3);
+        }
     };
 
     const handleCloseModal = () => {
@@ -199,17 +219,20 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
+            // 모달이 열려있고, 모달 외부를 클릭한 경우
             if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
                 handleCloseModal();
             }
         };
 
+        // 모달이 열려있을 때만 클릭 이벤트를 등록
         if (showModal !== 0) {
             window.addEventListener('click', handleClickOutside);
         } else {
             window.removeEventListener('click', handleClickOutside);
         }
 
+        // 컴포넌트가 언마운트되거나 모달 상태가 변경될 때 이벤트 리스너 제거
         return () => {
             window.removeEventListener('click', handleClickOutside);
         };
@@ -232,6 +255,21 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
             return 1; // 오류 발생 시 false 반환
         }
     };
+
+    const deleteComment = (e:React.MouseEvent<HTMLButtonElement> , commentData: Comment) => {
+
+        axios
+            .post('http://localhost:8013/banju/comment/deleteComment', commentData)
+            .then((res) => {
+                console.log(res.data);
+                console.log("댓글 삭제 성공");
+                setShowModal(0);
+            })
+            .catch((res) => {
+                console.log(res.data);
+                console.log("댓글 삭제를 실패했습니다.");
+            })
+    }
 
     const makeChatRoom = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -299,7 +337,7 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
 
                     {/* 이미지 표시 */}
                     <div className={styles.pictures}>
-                        {boardImgUrl.length > 0 ? (
+                        {boardImgUrl && boardImgUrl.length > 0 ? (
                             boardImgUrl.map((imageUrl, index) => (
                                 <img key={index} src={`http://localhost:8013/banju${imageUrl}`} alt={`Image ${index}`} className={styles.image} />
                             ))
@@ -318,15 +356,15 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
                     <div className={styles.commentBox}>
                         <form id="commentEnrollForm">
                             <div className={styles.commentPlus}>
-                                <input type="text" className={styles.plusBox} name="content" value={comment} 
-                                required onChange={(e) => setComment(e.target.value)} placeholder="댓글은 사용자의 얼굴입니다" />
+                                <input type="text" className={styles.plusBox} name="content" value={comment}
+                                    required onChange={(e) => setComment(e.target.value)} placeholder="댓글은 사용자의 얼굴입니다" />
                                 <button className={styles.plusBtn} onClick={insertComment}>추가</button>
                             </div>
                         </form>
                         {
                             comments.map((comment) => {
                                 return (
-                                    <div className={styles.commentComment} key={comment.commentNo}>
+                                    <div className={styles.commentComment} key={comment.commentNo} onClick={() => commentBox(comment)}>
                                         <div className={styles.commentUp}>
                                             <p className={styles.commentNick}>{comment.nickName}</p>
                                             <p className={styles.commentDate}>{comment.commentDate}</p>
@@ -343,14 +381,32 @@ export default function BoardDetail({ setBoardNo }: BoardDetailProps) {
             </div>
 
             {showModal === 1 && (
-                <div className={styles.modalOverlay}>
+                <div className={styles.modalOverlay} ref={modalRef}>
                     <div className={styles.modalContent}>
-                        <p>{board.nickName} 님과 대화할 채팅방을 만드시겠습니까?</p>
+                        <p>작성자와 대화할 채팅방을 만드시겠습니까?</p>
                         <div className={styles.modalBtns}>
                             <button onClick={makeChatRoom}>예</button>
                             <button onClick={handleCloseModal}>아니요</button>
                         </div>
                     </div>
+                </div>
+            )}
+            {showModal === 2 && (
+                <div className={styles.myComment}>
+                    <div className={styles.qStroke}>
+                        <div className={styles.q}>
+                            <p>댓글을 삭제하시겠습니까?</p>
+                            <div className={styles.btns}>
+                                <button className={styles.commentDel} onClick={(e)=>{deleteComment(e,comData)}}>예</button>
+                                <button className={styles.commentDelNo} onClick={() => setShowModal(0)}>아니요</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {showModal === 3 && (
+                <div className={styles.otherComment}>
+                    <button className={styles.commentRe}>신고하기</button>
                 </div>
             )}
 
