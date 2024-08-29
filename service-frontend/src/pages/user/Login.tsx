@@ -146,13 +146,6 @@ const LoginPage = () => {
                 onSuccess={kakaoOnSucess}
                 onFail={kakaoOnFail}
             />
-
-            <div className={styles.kakaoLoginContainer}>
-                <div className={styles.easyLoginSignup}>
-                    <div className={styles.easyLoginSignupText}>──간편하게 로그인/가입──</div>
-                </div>
-                <div className={styles.kakaoLoginButton} />
-            </div>
         </div>
     );
 };
