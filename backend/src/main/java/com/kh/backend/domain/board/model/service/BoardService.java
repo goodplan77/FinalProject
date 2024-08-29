@@ -38,4 +38,6 @@ public interface BoardService {
 
 	List<Board> likedList(int userNo);
 
+	List<Board> petInfoPage();
+
 }

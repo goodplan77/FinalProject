@@ -38,4 +38,6 @@ public interface BoardDao {
 
 	List<Board> likedList(int userNo);
 
+	List<Board> petInfoPage();
+
 }
