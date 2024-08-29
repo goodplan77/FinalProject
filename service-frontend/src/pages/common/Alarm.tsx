@@ -44,14 +44,14 @@ export default function Alarm() {
     return (
         <>
             <div className={styles.container}>
-                {alarmList.map((alarm, index) => (
+                {alarmList.length>0 ? alarmList.map((alarm, index) => (
                     <div key={index} className={styles.notificationItem} onClick={(e) =>{readAlarm(e,alarm)}}>
                         <div className={styles.notificationText}>
                             <span>{alarm.fromUserNickName}{alarm.content}</span>
                             <span className={styles.date}>{alarm.alaramDate}</span>
                         </div>
                     </div>
-                ))}
+                )) : (<p className={styles.noneAlarm}>받은 알람이 없습니다.</p>)}
             </div>
         </>
     )
