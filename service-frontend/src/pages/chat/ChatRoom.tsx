@@ -157,7 +157,7 @@ export default function ChatRoom({ setChatRoomNo }: ChatRoomNoProps) {
 
     return (
         <>
-            <ChatRoomUser chatRoomUser={chatRoomUser} />
+            
             <div className={styles.chatRoom}>
                 <div className={styles.messages}>
                     <Messages chatMessages={chatMessage} />
