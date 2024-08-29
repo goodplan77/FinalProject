@@ -1,0 +1,94 @@
+/* 전체 테이블 스타일 */
+.dogListTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #F8F9FA;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 테이블 헤더 스타일 */
+.headerItem {
+    background-color: #e0e0e0;
+    font-weight: bold;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+    text-align: center;
+    font-size: 16px;
+}
+
+/* 테이블 데이터 셀 스타일 */
+.dataItem {
+    background-color: #fff;
+    font-size: 15px;
+    line-height: 1.4;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 0;
+    margin-top: 5px;
+}
+
+/* 각 데이터 셀 스타일 */
+.categoryData {
+    text-align: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+    word-break: break-word;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    height: 30px;
+}
+
+/* 셀 너비 설정 */
+.categoryData.isMain {
+    width: 50px;
+    height: 30px;
+}
+
+.categoryData.dogName {
+    width: 150px;
+    height: 30px;
+}
+
+.categoryData.birthday {
+    width: 100px;
+    height: 30px;
+}
+
+.categoryData.breed {
+    width: 120px;
+    height: 30px;
+}
+
+.categoryData.gender {
+    width: 80px;
+    height: 30px;
+}
+
+.categoryData.note {
+    width: 200px;
+    height: 30px;
+}
+
+/* 이름 셀 스타일 */
+.categoryDataTitle {
+    text-align: center;
+    padding: 0 10px;
+    box-sizing: border-box;
+    word-break: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    height: 30px;
+}
+
+/* 이미지 셀 스타일 */
+.dogImage {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
