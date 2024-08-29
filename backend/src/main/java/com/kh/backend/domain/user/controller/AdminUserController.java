@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kh.backend.domain.board.model.vo.Board;
 import com.kh.backend.domain.user.model.service.AdminUserService;
 import com.kh.backend.domain.user.model.service.UserService;
 import com.kh.backend.domain.user.model.vo.User;
@@ -103,5 +104,30 @@ public class AdminUserController {
 
 		return resMap;
 	}
+	
+	@PostMapping("/updateuser")
+	public ResponseEntity<Map<String, Object>> updateuserAdmin(@RequestBody User user) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			int result = userService.updateUser(user);
+			if (result > 0) {
+				response.put("msg", "회원 정보 수정 작업이 완료 되었습니다.");
+				return ResponseEntity.ok(response);
+			} else {
+	        	throw new NullPointerException();
+	        }
+		} catch (NullPointerException e) {
+	    	e.printStackTrace();
+	    	response.put("msg", "회원 정보 수정 작업이 완료 되었습니다.");
+	    	return ResponseEntity.ok(response);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        // 서버 오류가 발생한 경우 500 상태 반환
+	        response.put("msg", "서버 오류가 발생했습니다.");
+	        return ResponseEntity.internalServerError().body(response);
+	    }
+
+	}
+	
 
 }

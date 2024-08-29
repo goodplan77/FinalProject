@@ -124,6 +124,17 @@
         </collection>
         
 	</resultMap>
+	
+	<update id="updateUser">
+		UPDATE "USER" SET 
+			EMAIL = #{email},
+			NICK_NAME = #{nickName},
+			PHONE = #{phone},
+			ADDRESS = #{address},
+			STATUS = #{status},
+			MODIFY_DATE = SYSDATE
+	    WHERE USER_NO = #{userNo}
+	</update>
 
 
 </mapper>

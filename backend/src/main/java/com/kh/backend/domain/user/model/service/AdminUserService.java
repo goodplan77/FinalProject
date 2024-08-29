@@ -10,4 +10,6 @@ public interface AdminUserService {
 
 	User selectUserOne(int userNo);
 
+	int updateUser(User user);
+
 }

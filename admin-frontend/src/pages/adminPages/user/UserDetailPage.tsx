@@ -7,6 +7,8 @@ import { Board, Comment } from '../../../type/board';
 import { report } from '../../../type/report';
 import { Dog } from '../../../type/dog';
 import DetailModal from '../../../components/DetailModal';
+import DetailReportModal from '../../../components/DetailReportModal';
+import UserModifyModal from './UserModifyModal';
 
 type CategoryData = Board[] | Comment[] | report[];
 
@@ -20,8 +22,11 @@ export default function UserDetailPage() {
     const [selectedCategory, setSelectedCategory] = useState('게시글'); // 선택된 카테고리 상태 추가
     const [categoryData, setCategoryData] = useState<CategoryData>([]); // 선택된 카테고리의 데이터 상태
 
-    const [data , setData] = useState<Board|null>();
+    const [board , setBoard] = useState<Board|null>();
+    const [report , setReport] = useState<report|null>();
+    const [showUserModifyModal , setShowUserModifyModal] = useState(false);
     const [showDetailModal , setShowDetailModal] = useState(false);
+    const [showDetailReportModal , setShowDetailReportModal] = useState(false);
 
     useEffect(() => {
         const fetchUserDetail = async () => {
@@ -82,16 +87,39 @@ export default function UserDetailPage() {
             });
     };
 
-    // 4. 상세 보기 모달
+    // 4-1. 상세 보기 모달 (유저 수정)
+    const setUserModifyModal = (e:React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        setShowUserModifyModal(true);
+    };
+
+    const hideUserModifyModal  = () => {
+        setShowUserModifyModal(false);
+    };
+
+    // 4-2. 상세 보기 모달 (게시판)
     const setDetailModal = (e:React.MouseEvent<HTMLDivElement> , board:Board) => {
         e.stopPropagation();
-        setData(board);
+        setBoard(board);
         setShowDetailModal(true);
     };
 
     const hideDetailModal = () => {
         setShowDetailModal(false);
     };
+
+    // 4-3. 상세 보기 모달 (신고)
+    const setReportModal = (e:React.MouseEvent<HTMLDivElement> , report:report) => {
+        e.stopPropagation();
+        setReport(report);
+        setShowDetailReportModal(true);
+    };
+
+    const hideReportModal = () => {
+        setShowDetailReportModal(false);
+    };
+
+    // 5. 타입 변경
 
     const categoryConvert = (type:string) =>{ 
         switch(type){
@@ -102,21 +130,27 @@ export default function UserDetailPage() {
         }
     };
 
+    const reportCategoryConvert = (type:string) =>{ 
+        switch(type){
+            case 'B': return '게시글';
+            case 'C': return '댓글';
+            case 'L': return '좋아요';
+            case 'M': return '채팅방';
+            case 'R': return '문의답변';
+            case 'P': return '상품';
+        }
+    };
+
     return (
         <div className={styles.userProfileContainer}>
             <div className={styles.profileContainer}>
                 <div className={styles.profileImage}>
                     <img src={`http://localhost:8013/banju${userImg}`} alt="프로필 이미지" />
                 </div>
-                <div className={styles.profileText}>{user.nickName}</div>
+                <div className={styles.profileValue}>{user.nickName}</div>
                 <div className={styles.profileValue}>UID : {user.userNo}</div>
-                <div className={styles.profileValue}>e-mail : {user.email}</div>
-                <div className={styles.profileValue}>phone : {user.phone}</div>
-                <div className={styles.profileValue}>상태 : {user.status}</div>
-                <div className={styles.profileValue}>주소 : {user.address}</div>
 
-                <div className={styles.infoEditContainer}>
-                    <div className={styles.infoEditHeader}>정보 수정</div>
+                <div className={styles.infoEditContainer} onClick={(e) => setUserModifyModal(e)}>
                     <div className={styles.infoEditItem}>
                         <div className={styles.infoEditLabel}>닉네임</div>
                         <div className={styles.infoEditValue}>{user.nickName}</div>
@@ -130,13 +164,19 @@ export default function UserDetailPage() {
                         <div className={styles.infoEditValue}>{user.phone}</div>
                     </div>
                     <div className={styles.infoEditItem}>
-                        <div className={styles.infoEditLabel}>상태</div>
-                        <div className={styles.infoEditValue}>{user.status}</div>
+                        <div className={styles.infoEditLabel}>주소</div>
+                        <div className={styles.infoEditValueLong}>{user.address}</div>
                     </div>
                     <div className={styles.infoEditItem}>
                         <div className={styles.infoEditLabel}>활성화 상태</div>
                         <div className={styles.infoEditToggle}>
-                            <input type="checkbox" checked />
+                                <label className={styles.switch}>
+                                <input
+                                    type="checkbox"
+                                    checked={user.status === 'Y'}
+                                />
+                                <span className={styles.slider}></span>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -144,7 +184,7 @@ export default function UserDetailPage() {
 
             <div className={styles.rightContainer}>
                 <div className={styles.dogInfoContainer}>
-                    <div className={styles.dogInfoHeader}>반려견 정보 수정</div>
+                    <div className={styles.dogInfoHeader}>반려견 정보</div>
                     <div className={styles.dogInfoBox}>
                         <span className={styles.dogInfoText}>대표유무</span>
                         <span className={styles.dogInfoText}>사진</span>
@@ -243,12 +283,12 @@ export default function UserDetailPage() {
                             </div>
                             {/* 댓글 데이터 렌더링 */}
                             {(categoryData as Comment[]).map((item, index) => (
-                                <div key={index} className={styles.dataItem}>
+                                <div key={index} className={styles.dataItem} >
                                     <div className={styles.categoryData}>{item.commentNo}</div>
                                     <div className={styles.categoryData}>{item.boardNo}</div>
                                     <div className={styles.categoryDataTitle}>{item.content}</div>
                                     <div className={styles.categoryData}>{item.status}</div>
-                                    <div className={styles.categoryData}>{item.refNo}</div>
+                                    <div className={styles.categoryData}>{item.refNo>0 ? item.refNo : '--'}</div>
                                 </div>
                             ))}
                         </div>
@@ -264,11 +304,11 @@ export default function UserDetailPage() {
                             </div>
                             {/* 신고 데이터 렌더링 */}
                             {(categoryData as report[]).map((item, index) => (
-                                <div key={index} className={styles.dataItem}>
+                                <div key={index} className={styles.dataItem} onClick={(e) => setReportModal(e, item)}>
                                     <div className={styles.categoryData}>{item.reportNo}</div>
                                     <div className={styles.categoryData}>{item.category}</div>
                                     <div className={styles.categoryData}>{item.reportDate}</div>
-                                    <div className={styles.categoryData}>{item.typeCode}</div>
+                                    <div className={styles.categoryData}>{reportCategoryConvert(item.typeCode)}</div>
                                     <div className={styles.categoryData}>{item.refNo}</div>
                                 </div>
                             ))}
@@ -277,7 +317,13 @@ export default function UserDetailPage() {
                 </div>
             </div>
             {
-                showDetailModal && <DetailModal board={data} hideModal={hideDetailModal}></DetailModal>
+                showUserModifyModal && <UserModifyModal user={user} hideModal={hideUserModifyModal}></UserModifyModal>
+            }
+            {
+                showDetailModal && <DetailModal board={board} hideModal={hideDetailModal}></DetailModal>
+            }
+            {
+                showDetailReportModal && <DetailReportModal report={report} hideModal={hideReportModal}></DetailReportModal>
             }
         </div>
         

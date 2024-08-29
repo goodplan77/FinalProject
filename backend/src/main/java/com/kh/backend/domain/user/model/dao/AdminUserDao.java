@@ -10,4 +10,6 @@ public interface AdminUserDao {
 
 	User selectUserOne(int userNo);
 
+	int updateUser(User user);
+
 }
