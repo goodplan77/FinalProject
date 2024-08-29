@@ -40,4 +40,6 @@ public interface BoardDao {
 
 	List<Board> petInfoPage();
 
+	List<Board> noticePage();
+
 }

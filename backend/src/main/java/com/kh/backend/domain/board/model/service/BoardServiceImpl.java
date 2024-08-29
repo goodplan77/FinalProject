@@ -109,4 +109,9 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.petInfoPage();
 	}
 
+	@Override
+	public List<Board> noticePage() {
+		return boardDao.noticePage();
+	}
+
 }

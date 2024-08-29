@@ -93,4 +93,9 @@ public class BoardDaoImpl implements BoardDao{
 		return session.selectList("board.petInfoPage");
 	}
 
+	@Override
+	public List<Board> noticePage() {
+		return session.selectList("board.noticePage");
+	}
+
 }
