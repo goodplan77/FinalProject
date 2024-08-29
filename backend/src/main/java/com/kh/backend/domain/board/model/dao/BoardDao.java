@@ -45,4 +45,6 @@ public interface BoardDao {
 
 	List<Board> noticePage();
 
+	List<Board> eventPage();
+
 }

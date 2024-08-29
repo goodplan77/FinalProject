@@ -44,4 +44,6 @@ public interface BoardService {
 	List<Board> petInfoPage();
 
 	List<Board> noticePage();
+
+	List<Board> eventPage();
 }

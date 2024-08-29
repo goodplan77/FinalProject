@@ -120,4 +120,9 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.noticePage();
 	}
 
+	@Override
+	public List<Board> eventPage() {
+		return boardDao.eventPage();
+	}
+
 }

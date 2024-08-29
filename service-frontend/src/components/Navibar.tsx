@@ -53,10 +53,10 @@ export default function Navibar() {
                         <li onClick={() => navi('usedList')}>중고 거래</li>
                         <li onClick={() => navi('adoptList')}>입양</li>
                         <li onClick={() => navi('missingList')}>실종 신고</li>
-                        <li onClick={() => navi('dogInfo')}>강아지 정보</li>
+                        <li onClick={() => navi('patInfoPage')}>강아지 정보</li>
                         <li onClick={() => navi('weather')}>날씨</li>
                         <li onClick={() => navi('petPlace')}>펫 플레이스</li>
-                        <li onClick={() => navi('event')}>이벤트</li>
+                        <li onClick={() => navi('eventPage')}>이벤트</li>
                     </ul>
                 </div>
             )}

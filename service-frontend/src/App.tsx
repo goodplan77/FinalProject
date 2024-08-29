@@ -38,6 +38,7 @@ import LikedList from './pages/user/LikedList';
 import PetInfoPage from './pages/board/PetInfoPage';
 import NoticePage from './pages/board/NoticePage';
 import LoginHeader from './components/LoginHeader';
+import EventPage from './pages/board/EventPage';
 
 
 
@@ -121,6 +122,7 @@ const App = () => {
           <Route path='/likedList/:userNo' element={<LikedList setUserNo={setUserNo} />} />
           <Route path='/patInfoPage' element={<PetInfoPage />} />
           <Route path='/noticePage' element={<NoticePage />} />
+          <Route path='/eventPage' element={<EventPage />} />
         </Routes>
       </div>
 

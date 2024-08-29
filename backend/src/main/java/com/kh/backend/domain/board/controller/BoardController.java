@@ -77,19 +77,19 @@ public class BoardController {
 	
 	@GetMapping("/patInfoPage")
 	public List<Board> petInfoPage(HttpServletResponse response) {
-
 		List<Board> list = boardService.petInfoPage();
-		log.debug("missingList = {}", list);
-
+		return list;
+	}
+	
+	@GetMapping("/eventPage")
+	public List<Board> eventPage(HttpServletResponse response) {
+		List<Board> list = boardService.eventPage();
 		return list;
 	}
 	
 	@GetMapping("/noticePage")
 	public List<Board> noticePage(HttpServletResponse response) {
-
 		List<Board> list = boardService.noticePage();
-		log.debug("missingList = {}", list);
-
 		return list;
 	}
 	
