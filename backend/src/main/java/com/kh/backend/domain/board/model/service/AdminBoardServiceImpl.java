@@ -242,4 +242,9 @@ public class AdminBoardServiceImpl implements AdminBoardService {
 		return boardDao.userCommentList(userNo);
 	}
 
+	@Override
+	public List<Comment> boardCommentList(int boardNo) {
+		return boardDao.boardCommentList(boardNo);
+	}
+
 }

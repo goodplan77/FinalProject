@@ -310,4 +310,11 @@
 		ORDER BY COMMENT_NO DESC
 	</select>
 	
+	<select id="boardCommentList" resultType="Comment">
+		SELECT COMMENT_NO, BOARD_NO, USER_NO, CONTENT, COMMENT_DATE, MODIFY_DATE, STATUS, REF_NO
+		FROM "COMMENT"
+		WHERE BOARD_NO = #{boardNo}
+		ORDER BY COMMENT_NO DESC
+	</select>
+	
 </mapper>

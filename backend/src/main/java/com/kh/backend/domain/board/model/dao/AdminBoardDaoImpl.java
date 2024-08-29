@@ -113,4 +113,9 @@ public class AdminBoardDaoImpl implements AdminBoardDao{
 		return session.selectList("adminBoard.userCommentList", userNo);
 	}
 
+	@Override
+	public List<Comment> boardCommentList(int boardNo) {
+		return session.selectList("adminBoard.boardCommentList", boardNo);
+	}
+
 }
