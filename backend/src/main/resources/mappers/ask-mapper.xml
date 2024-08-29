@@ -15,7 +15,7 @@
 			#{resContent},
 			DEFAULT,
 			DEFAULT,
-			DEFAULT,
+			NULL,
 			#{title}
 		)
 	</insert>

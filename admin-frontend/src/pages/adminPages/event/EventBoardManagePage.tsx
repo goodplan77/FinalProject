@@ -163,7 +163,7 @@ export default function EventBoardManagePage() {
             <div className={styles.searchBar}>
             <input
                     type="text"
-                    placeholder="정보 게시글 제목 검색"
+                    placeholder="이벤트 게시글 제목 검색"
                     className={styles.searchInput}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}

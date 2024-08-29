@@ -1,0 +1,169 @@
+/* 모달 CSS */
+.modalBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(139, 139, 139, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContainer {
+    background: #FFFFFF;
+    width: 600px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    padding: 20px;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.modalTitle {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.modalBody {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.modalFooter {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.modifyButton {
+    background-color: #2C2C2C;
+    color: #FFF;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.infoEditHeader {
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.infoEditItem {
+    width: 55%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.infoEditLabel {
+    font-family: 'Noto Sans', sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+}
+
+.editInput{
+    width: 50%;
+}
+
+.editInput input{
+    width: 100%;
+    /* 높이를 줄여 전체 컨테이너에 잘 맞도록 조정 */
+    padding: 8px 12px;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    font-size: 14px;
+    /* 텍스트 크기를 줄여 공간 확보 */
+    font-family: 'Inter', sans-serif;
+    color: #2C2C2C;
+    background: #FFFFFF;
+    outline: none;
+    resize: none;
+}
+
+.cancelButton,
+.submitButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.cancelButton {
+    background: #2C2C2C;
+    color: #F5F5F5;
+    margin-right: 10px;
+}
+
+.submitButton {
+    background: #EC221F;
+    color: #FEE9E7;
+}
+
+/* ToggleSwitch.module.css */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:checked+.slider:before {
+    transform: translateX(16px);
+}

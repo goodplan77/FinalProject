@@ -314,9 +314,7 @@ public class UserController {
 			
 			if(user.getImgUser() != null) {
 				result *= service.updateImgUser(iu);
-			}
-			
-			if(user.getImgUser() == null) {
+			} else {
 				result *= service.insertImgUser(iu);
 			}
 			

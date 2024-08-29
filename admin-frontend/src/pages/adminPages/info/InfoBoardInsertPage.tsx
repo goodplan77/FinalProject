@@ -1,5 +1,5 @@
 import axios from 'axios';
-import styles from '../event/styles/EventBoardInsertPage.module.css';
+import styles from './styles/InfoBoardInsertPage.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { initialBoard } from '../../../type/board';
@@ -44,6 +44,18 @@ export default function InfoBoardInsertPage() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // 폼 제출 방지
+
+        // 입력값 검증
+        if (!board.title.trim()) {
+            alert('제목을 입력하세요.');
+            return;
+        }
+
+        if (!board.content.trim()) {
+            alert('내용을 입력하세요.');
+            return;
+        }
+
         const formData = new FormData();
 
         const updatedBoard = {
@@ -99,18 +111,19 @@ export default function InfoBoardInsertPage() {
                 <div className={styles.rightSection}>
                     <div className={styles.uploadSection}>
                         <div className={styles.uploadIcon} onClick={handleButtonClick}>
-                            <input type="file" id='fileInput' accept="image/*" style={{ display: 'none' }} onChange={handleImageChange}></input>
-                            {previewUrl ? (
-                                <div>
-                                    <img src={previewUrl} alt="Selected Preview" style={{ maxWidth: '100%', maxHeight: '300px' }} />
-                                </div>
-                            )
-                                : (
-                                    <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                        <svg width="80" height="80" viewBox="0 0 24 24"><path fill="#000000" d="M5 20v-2h14v2H5m7-14l5 5h-3v6h-4v-6H7l5-5z" /></svg>
-                                        <div className={styles.uploadText}>사진 파일 업로드</div>
-                                    </div>
-                                )}
+                        <input type="file" id='fileInput' accept="image/*" style={{display : 'none'}} onChange={handleImageChange}></input>
+                        {previewUrl ? (
+                            <div>
+                                <img src={previewUrl} alt="Selected Preview" style={{ maxWidth: '100%', maxHeight: '300px' }} />
+                            </div>
+                        )
+                        : (
+                            <div className={styles.initImage}>
+                                <svg width="80" height="80" viewBox="0 0 24 24"><path fill="#000000" d="M5 20v-2h14v2H5m7-14l5 5h-3v6h-4v-6H7l5-5z" /></svg>
+                                <div className={styles.uploadText}>사진 파일 업로드</div>
+                            </div>
+                        )}
+
                         </div>
                     </div>
 

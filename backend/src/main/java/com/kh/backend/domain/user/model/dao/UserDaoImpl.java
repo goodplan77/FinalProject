@@ -65,6 +65,16 @@ public class UserDaoImpl implements UserDao{
 		return session.selectOne("user.selectUser", map);
 	}
 	
+	@Override
+	public ImgUser selectImgUser(int userNo) {
+		return session.selectOne("user.selectImgUser", userNo);
+	}
+	
+	@Override
+	public ImgDog selectImgDog(int dogNo) {
+		return session.selectOne("user.selectImgDog", dogNo);
+	}
+	
 	// 회원 정보 수정 메서드
 	@Override
 	public int updateUser(User user) {
@@ -127,10 +137,7 @@ public class UserDaoImpl implements UserDao{
 	public List<Dog> selectDogs(int userNo) {
 		return session.selectList("user.selectDogs", userNo);
 	}
-	
-	
 
-	
 
 	
 	

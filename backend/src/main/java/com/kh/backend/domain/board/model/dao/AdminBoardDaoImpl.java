@@ -102,11 +102,15 @@ public class AdminBoardDaoImpl implements AdminBoardDao{
 	public int updateProduct(Product product) {
 		return session.update("adminBoard.updateProduct" , product);
 	}
+	
+	@Override
+	public int deleteProduct(Product product) {
+		return session.update("adminBoard.deleteProduct" , product);
+	}
 
 	@Override
 	public List<Comment> userCommentList(int userNo) {
 		return session.selectList("adminBoard.userCommentList", userNo);
 	}
-
 
 }

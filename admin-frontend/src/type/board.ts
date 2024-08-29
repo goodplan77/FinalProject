@@ -35,7 +35,7 @@ export interface Comment{
     boardNo : number,
     userNo : number,
     content : string,
-    commentData : string,
+    commentDate : string,
     modifyDate : string,
     status : string,
     refNo : number

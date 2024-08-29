@@ -298,8 +298,6 @@
 	    WHERE USER_NO = #{userNo}
 	</update>
 	
-	
-	
 	<!-- 미사용 -> 추후 삭제 가능
 	<select id="selectSocialType">
 		SELECT * FROM "USER_SOCIAL"
