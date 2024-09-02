@@ -1,7 +1,8 @@
 import axios from 'axios';
 import styles from './styles/InfoBoardInsertPage.module.css';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { initialBoard } from '../../../type/board';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 
@@ -11,10 +12,19 @@ export default function InfoBoardInsertPage() {
     const cacheBoard = useSelector((state: RootState) => state.boards);
     const [board , setBoard] = useState(cacheBoard.oneBoard);
 
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
-    const cacheImage = `http://localhost:8013/banju/api/board/admin/board/${board.boardCode}/${board.boardNo}`
-    const [previewUrl, setPreviewUrl] = useState<string | null>(cacheImage);
+    useEffect(() => {
+        axios.get(`http://localhost:8013/banju/api/board/admin/board/${board.boardCode}/${board.boardNo}`)
+        .then((response) => {
+          setImageUrl(`http://localhost:8013/banju${response.data.imageList[0]}`);
+        })
+        .catch((error) => {
+          console.error('이미지 로드 중 오류 발생:', error);
+          setImageUrl(`${process.env.PUBLIC_URL}/images/not-found.png`);
+        });
+      }, []);
     
     function handleInputChange(e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         let {name , value} = e.target;
@@ -35,12 +45,20 @@ export default function InfoBoardInsertPage() {
 
     function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0]; // 파일 입력 필드에서 첫 번째 파일을 가져옴
+        const maxLength = 100; // 파일 이름의 최대 길이 제한
+
         if (file) {
+
+            if (file.name.length > maxLength) {
+                alert(`파일 이름이 너무 깁니다. ${maxLength}자 이하로 줄여주세요.`);
+                return;
+            }
+
           setSelectedImage(file); // 선택된 파일을 상태에 저장
       
           const reader = new FileReader(); // FileReader 객체 생성
           reader.onloadend = () => {
-            setPreviewUrl(reader.result as string); // 파일이 읽힌 후 미리보기 URL을 상태에 저장
+            setImageUrl(reader.result as string); // 파일이 읽힌 후 미리보기 URL을 상태에 저장
           }
           reader.readAsDataURL(file); // 파일을 읽어서 Data URL로 변환
         }
@@ -104,17 +122,14 @@ export default function InfoBoardInsertPage() {
                     <div className={styles.uploadSection}>
                         <div className={styles.uploadIcon} onClick={handleButtonClick}>
                         <input type="file" id='fileInput' accept="image/*" style={{display : 'none'}} onChange={handleImageChange}></input>
-                        {previewUrl ? (
-                            <div>
-                                <img src={previewUrl} alt="Selected Preview" style={{ maxWidth: '100%', maxHeight: '300px' }} />
-                            </div>
-                        )
-                        : (
-                            <div className={styles.initImage}>
-                                <svg width="80" height="80" viewBox="0 0 24 24"><path fill="#000000" d="M5 20v-2h14v2H5m7-14l5 5h-3v6h-4v-6H7l5-5z" /></svg>
-                                <div className={styles.uploadText}>사진 파일 업로드</div>
-                            </div>
-                        )}
+                        <img
+                                src={imageUrl || `${process.env.PUBLIC_URL}/images/upload.png`}
+                                alt="게시글 이미지"
+                                style={{ maxWidth: '100%', maxHeight: '300px' }}
+                                onError={(e) => {
+                                e.currentTarget.src = `${process.env.PUBLIC_URL}/images/upload.png`; // 이미지 로드 실패 시 대체 이미지
+                                }}
+                            />
                         </div>
                     </div>
 

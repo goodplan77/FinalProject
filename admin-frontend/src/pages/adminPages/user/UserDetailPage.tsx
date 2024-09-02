@@ -32,25 +32,26 @@ export default function UserDetailPage() {
         const fetchUserDetail = async () => {
             try{
                 const response = await axios.get(`http://localhost:8013/banju/admin/user/UserDetail/${user.userNo}`)
-                console.log(response.data.user);
                 setUser(response.data.user);
 
-                if(response.data.user){
-                    const secondResponse = await axios.get(`http://localhost:8013/banju/api/user/${user.userNo}`);
-                    console.log(secondResponse);
-                    setUserImg(secondResponse.data);
-                }
+                if(response.data.user) {
+                    const promises = [];
 
-                if(response.data.user){
-                    const thirdResponse = await axios.get<Board[]>(`http://localhost:8013/banju/board/postedList/${user.userNo}`)
-                    console.log(thirdResponse);
-                    setCategoryData(thirdResponse.data);
-                }
+                    promises.push(axios.get(`http://localhost:8013/banju/api/user/${user.userNo}`).then(secondResponse => {
+                        setUserImg(secondResponse.data);
+                    }));
 
-                if(response.data.user.dogs){
-                    const fourResponse = await axios.get(`http://localhost:8013/banju/api/user/dog/${user.userNo}`);
-                    console.log(fourResponse);
-                    setDogImgUrl(fourResponse.data.imageList);
+                    promises.push(axios.get<Board[]>(`http://localhost:8013/banju/board/postedList/${user.userNo}`).then(thirdResponse => {
+                        setCategoryData(thirdResponse.data);
+                    }));
+
+                    if(response.data.user.dogs) {
+                        promises.push(axios.get(`http://localhost:8013/banju/board/postedList/${user.userNo}`).then(fourResponse => {
+                            setDogImgUrl(fourResponse.data.imageList);
+                        }));
+                    }
+
+                    await Promise.all(promises);
                 }
  
             } catch (error) {
@@ -146,7 +147,7 @@ export default function UserDetailPage() {
         <div className={styles.userProfileContainer}>
             <div className={styles.profileContainer}>
                 <div className={styles.profileImage}>
-                    <img src={`http://localhost:8013/banju${userImg}`} alt="프로필 이미지" />
+                    <img src={userImg.length>0 ? `http://localhost:8013/banju${userImg}` : `${process.env.PUBLIC_URL}/images/profile_image.webp`} alt="" />
                 </div>
                 <div className={styles.profileValue}>{user.username}ad</div>
                 <div className={styles.profileValue}>{user.nickName}</div>

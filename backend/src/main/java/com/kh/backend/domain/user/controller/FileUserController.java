@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,30 +34,35 @@ public class FileUserController {
 	@GetMapping("/{userNo}")
 	public ResponseEntity<String> serveUserFile(@PathVariable int userNo) {
 	    try {
-	        // 클라이언트가 접근할 수 있는 기본 URI 설정
 	        String baseUri = "/images/user/";
-	        
-	        // 데이터베이스에서 이미지 파일 이름 가져오기
 	        ImgUser imguser = userService.selectImgUser(userNo);
-	        String productImageName = imguser.getChangeName();
 
-	        if (productImageName != null && !productImageName.isEmpty()) {
-	            // 클라이언트가 접근할 수 있는 이미지 경로 생성
-	            String fullImagePath = baseUri + productImageName;
-	            return ResponseEntity.ok(fullImagePath);
-	        } else {
-	        	throw new NullPointerException();
+	        if (imguser == null) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                                 .body("유저 이미지가 존재하지 않습니다. 유저 번호: " + userNo);
 	        }
-	    } catch (NullPointerException e) {
-	    	e.printStackTrace();
-	    	 // 이미지가 없는 경우 404 상태 반환
-        	return ResponseEntity.ok("이미지 파일을 찾을 수 없습니다. 유저 번호:" + userNo);
+
+	        String productImageName = imguser.getChangeName();
+	        if (productImageName == null || productImageName.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                                 .body("이미지 파일명이 잘못되었습니다. 유저 번호: " + userNo);
+	        }
+
+	        String fullImagePath = baseUri + productImageName;
+	        return ResponseEntity.ok(fullImagePath);
+
+	    } catch (DataAccessException e) {
+	        // 데이터베이스 관련 예외 처리
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                             .body("데이터베이스 오류가 발생했습니다.");
 	    } catch (Exception e) {
 	        e.printStackTrace();
-	        // 서버 오류가 발생한 경우 500 상태 반환
-	        return ResponseEntity.internalServerError().body("서버 오류가 발생했습니다.");
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                             .body("서버 오류가 발생했습니다.");
 	    }
 	}
+
 	
 	@GetMapping("/dog/{userNo}")
 	public ResponseEntity<Map<String,Object>> serveUserDogFile(

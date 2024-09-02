@@ -207,7 +207,7 @@ public class AdminBoardController {
 		Map<String, Object> response = new HashMap<>();
 		
 		ObjectMapper objectMapper = new ObjectMapper();
-		Board board = objectMapper.readValue(boardJson, Board.class);
+		Board board = objectMapper.readValue(URLDecoder.decode(boardJson, StandardCharsets.UTF_8.name()), Board.class);
 
 		try {
 

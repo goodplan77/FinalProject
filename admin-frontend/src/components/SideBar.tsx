@@ -6,6 +6,7 @@ import { RootState } from "../store/store";
 import { logout } from "../features/adminSlice";
 import axios from "axios";
 import { incrementAskCount, incrementReportCount, setAskCount, setReportCount } from "../features/alarmSlice";
+import { removeCookie } from "../utils/Cookie";
 
 export default function SideBar() {
     const navi = useNavigate();
@@ -84,6 +85,8 @@ export default function SideBar() {
 
     function adminLogout() {
         alert('로그아웃 합니다.');
+        removeCookie('accessToken');
+        removeCookie('admin');
         dispatch(logout());
         navi('/');
     }
@@ -127,12 +130,6 @@ export default function SideBar() {
                 </Link>
                 <Link to="productBoardManagePage" className={styles.featureLink}>
                     <div className={styles.featureItem}>상품 등록 관리</div>
-                </Link>
-                <Link to="reportManagePage" className={styles.featureLink}>
-                    <div className={styles.featureItem}>신고 관리</div>
-                </Link>
-                <Link to="askManagePage" className={styles.featureLink}>
-                    <div className={styles.featureItem}>문의 관리</div>
                 </Link>
             </div>
 

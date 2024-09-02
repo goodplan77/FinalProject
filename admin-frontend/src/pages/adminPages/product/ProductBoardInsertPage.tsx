@@ -31,7 +31,15 @@ export default function ProductBoardInsertPage() {
 
     function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0]; // 파일 입력 필드에서 첫 번째 파일을 가져옴
+        const maxLength = 100; // 파일 이름의 최대 길이 제한
+
         if (file) {
+            console.log(file.name.length);
+            if (file.name.length > maxLength) {
+                alert(`파일 이름이 너무 깁니다. ${maxLength}자 이하로 줄여주세요.`);
+                return;
+            }
+
           setSelectedImage(file); // 선택된 파일을 상태에 저장
       
           const reader = new FileReader(); // FileReader 객체 생성
@@ -80,6 +88,7 @@ export default function ProductBoardInsertPage() {
                                 onChange={handleInputChange}
                                 name = "title"
                                 value={product.title}
+                                maxLength={100}
                             />
                         </div>
                         <div className={styles.inputField}>
@@ -112,6 +121,7 @@ export default function ProductBoardInsertPage() {
                                 onChange={handleInputChange}
                                 name = "content"
                                 value={product.content}
+                                maxLength={1000}
                             />
                         </div>
                     </div>

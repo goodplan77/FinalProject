@@ -31,16 +31,24 @@ export default function InfoBoardInsertPage() {
 
     function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0]; // 파일 입력 필드에서 첫 번째 파일을 가져옴
-        if (file) {
-            setSelectedImage(file); // 선택된 파일을 상태에 저장
+        const maxLength = 100; // 파일 이름의 최대 길이 제한
 
-            const reader = new FileReader(); // FileReader 객체 생성
-            reader.onloadend = () => {
-                setPreviewUrl(reader.result as string); // 파일이 읽힌 후 미리보기 URL을 상태에 저장
+        if (file) {
+
+            if (file.name.length > maxLength) {
+                alert(`파일 이름이 너무 깁니다. ${maxLength}자 이하로 줄여주세요.`);
+                return;
             }
-            reader.readAsDataURL(file); // 파일을 읽어서 Data URL로 변환
+
+          setSelectedImage(file); // 선택된 파일을 상태에 저장
+      
+          const reader = new FileReader(); // FileReader 객체 생성
+          reader.onloadend = () => {
+            setPreviewUrl(reader.result as string); // 파일이 읽힌 후 미리보기 URL을 상태에 저장
+          }
+          reader.readAsDataURL(file); // 파일을 읽어서 Data URL로 변환
         }
-    }
+      }
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // 폼 제출 방지
@@ -94,6 +102,7 @@ export default function InfoBoardInsertPage() {
                                 onChange={handleInputChange}
                                 name="title"
                                 value={board.title}
+                                maxLength={100}
                             />
                         </div>
                         <div className={styles.inputField}>
@@ -104,6 +113,7 @@ export default function InfoBoardInsertPage() {
                                 onChange={handleInputChange}
                                 name="content"
                                 value={board.content}
+                                maxLength={2000}
                             />
                         </div>
                     </div>
